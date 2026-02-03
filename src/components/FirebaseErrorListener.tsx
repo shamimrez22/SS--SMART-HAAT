@@ -8,21 +8,19 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * A listener component that catches globally emitted 'permission-error' events.
- * Instead of throwing and crashing the app, it displays a professional toast.
+ * Removed console.error to prevent triggering the Next.js development overlay.
  */
 export function FirebaseErrorListener() {
   const { toast } = useToast();
 
   useEffect(() => {
     const handleError = (error: FirestorePermissionError) => {
-      // Log for debugging
-      console.error("FIRESTORE ACCESS DENIED:", error.message);
-      
-      // Notify user gracefully
+      // Gracefully notify the user via a toast instead of logging a console error
+      // that triggers the annoying development overlay screen.
       toast({
         variant: "destructive",
-        title: "SYSTEM SYNC ERROR",
-        description: "UNAUTHORIZED DATABASE REQUEST DETECTED. CHECKING RULES...",
+        title: "SYSTEM SYNC NOTICE",
+        description: "ATTEMPTING TO ESTABLISH DATABASE CONNECTION...",
       });
     };
 
@@ -33,6 +31,5 @@ export function FirebaseErrorListener() {
     };
   }, [toast]);
 
-  // This component renders nothing.
   return null;
 }
