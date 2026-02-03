@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Apple, Play, Truck, Tag, Flame, Loader2 } from 'lucide-react';
+import { ArrowRight, Apple, Play, Truck, Tag, Flame, Loader2, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -13,32 +13,48 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import Autoplay from "embla-carousel-autoplay";
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, where, limit } from 'firebase/firestore';
+import { OrderModal } from '@/components/OrderModal';
 
-const SlideItem = ({ product, priority }: { product: any, priority: boolean }) => (
-  <CarouselItem className="h-full">
-    <div className="relative h-full w-full">
-      <Image
-        src={product.imageUrl}
-        alt={product.name}
-        fill
-        sizes="(max-width: 1024px) 100vw, 50vw"
-        className="object-cover opacity-60"
-        priority={priority}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent flex flex-col justify-center px-8 space-y-3">
-        <div className="text-lg md:text-2xl font-headline font-black text-white leading-tight uppercase tracking-tighter">
-          {product.name}
+const SlideItem = ({ product, priority }: { product: any, priority: boolean }) => {
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
+
+  return (
+    <CarouselItem className="h-full">
+      <div className="relative h-full w-full">
+        <Image
+          src={product.imageUrl}
+          alt={product.name}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover opacity-60"
+          priority={priority}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent flex flex-col justify-center px-8 space-y-3">
+          <div className="text-lg md:text-2xl font-headline font-black text-white leading-tight uppercase tracking-tighter">
+            {product.name}
+          </div>
+          <p className="text-white/90 text-[10px] font-black tracking-[0.2em] uppercase">SPECIAL EDITION | ৳{product.price}</p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            <Button asChild variant="outline" className="border-white/20 text-white h-9 px-4 font-black rounded-none text-[10px] hover:bg-white/10 transition-all uppercase w-fit">
+              <Link href={`/products/${product.id}`}>DETAILS</Link>
+            </Button>
+            <Button onClick={() => setIsOrderOpen(true)} className="bg-orange-600 text-white h-9 px-4 font-black rounded-none text-[10px] hover:bg-orange-700 transition-all uppercase w-fit">
+              <ShoppingCart className="mr-2 h-3.5 w-3.5" /> ORDER NOW
+            </Button>
+          </div>
         </div>
-        <p className="text-white/90 text-[10px] font-black tracking-[0.2em] uppercase">SPECIAL EDITION | ৳{product.price}</p>
-        <Button asChild className="bg-orange-600 text-white h-8 px-4 font-black rounded-none text-[10px] hover:bg-orange-700 transition-all uppercase w-fit mt-2">
-          <Link href={`/products/${product.id}`}>VIEW DETAILS <ArrowRight className="ml-2 h-3 w-3" /></Link>
-        </Button>
       </div>
-    </div>
-  </CarouselItem>
-);
+      <OrderModal 
+        product={product} 
+        isOpen={isOrderOpen} 
+        onClose={() => setIsOrderOpen(false)} 
+      />
+    </CarouselItem>
+  );
+};
 
 const FlashOfferCard = () => {
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
   const db = useFirestore();
   const flashQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
@@ -51,8 +67,8 @@ const FlashOfferCard = () => {
   const offerImage = flashProduct?.imageUrl || "https://images.unsplash.com/photo-1548568974-a4f8811a4bd0?q=80&w=800";
 
   return (
-    <div className="h-[350px] bg-card overflow-hidden relative">
-      <Link href={flashProduct ? `/products/${flashProduct.id}` : "/shop"} className="block h-full w-full group">
+    <div className="h-[350px] bg-card overflow-hidden relative group">
+      <div className="h-full w-full relative">
         <Image 
           src={offerImage} 
           alt="Flash Offer" 
@@ -60,13 +76,37 @@ const FlashOfferCard = () => {
           sizes="400px"
           className="object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
         />
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-500" />
+        
         {flashProduct && (
-          <div className="absolute bottom-4 left-4 bg-orange-600 px-3 py-1 text-[10px] font-black text-white uppercase tracking-widest">
-            FLASH OFFER
-          </div>
+          <>
+            <div className="absolute top-4 left-4 bg-orange-600 px-3 py-1 text-[10px] font-black text-white uppercase tracking-widest z-10">
+              FLASH OFFER
+            </div>
+            
+            <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 p-4 text-center">
+              <h3 className="text-white font-black text-sm uppercase mb-3 tracking-tighter line-clamp-2">{flashProduct.name}</h3>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={() => setIsOrderOpen(true)}
+                  className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[10px] uppercase h-10 px-4 rounded-none shadow-xl shadow-orange-600/20"
+                >
+                  ORDER NOW
+                </Button>
+                <Button asChild variant="outline" className="border-white/40 text-white hover:bg-white hover:text-black font-black text-[10px] uppercase h-10 px-4 rounded-none">
+                  <Link href={`/products/${flashProduct.id}`}>VIEW</Link>
+                </Button>
+              </div>
+            </div>
+
+            <OrderModal 
+              product={flashProduct} 
+              isOpen={isOrderOpen} 
+              onClose={() => setIsOrderOpen(false)} 
+            />
+          </>
         )}
-      </Link>
+      </div>
     </div>
   );
 };
