@@ -24,15 +24,17 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
   return (
     <>
       <Card className={`group overflow-hidden bg-card border-white/5 hover:border-orange-600/50 transition-all duration-500 rounded-none flex flex-col h-full shadow-2xl relative ${isOutOfStock ? 'opacity-70' : ''}`}>
+        {/* Category Tag */}
         <div className="absolute top-2 left-2 z-10 bg-black/60 backdrop-blur-md px-2 py-0.5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <span className="text-[7px] font-black text-white uppercase tracking-widest leading-none">{product.category}</span>
         </div>
 
-        {isOutOfStock && (
-          <div className="absolute top-2 right-2 z-10">
-            <Badge className="bg-red-600 text-white text-[7px] font-black rounded-none uppercase px-2 py-0.5 border-none">OUT OF STOCK</Badge>
-          </div>
-        )}
+        {/* Stock Status Badge */}
+        <div className="absolute top-2 right-2 z-10">
+          <Badge className={`rounded-none text-[7px] font-black uppercase px-2 py-0.5 border-none shadow-lg ${isOutOfStock ? 'bg-red-600 text-white' : 'bg-green-600 text-white'}`}>
+            {isOutOfStock ? 'OUT OF STOCK' : 'IN STOCK'}
+          </Badge>
+        </div>
 
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden bg-white/5">
           <Image
@@ -80,7 +82,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             <Button 
               disabled={isOutOfStock}
               onClick={() => setIsOrderOpen(true)}
-              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/20' : 'bg-orange-600 text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] h-10 rounded-none uppercase px-2 flex items-center justify-center gap-2 group/btn border border-transparent active:scale-95`}
+              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/20 cursor-not-allowed' : 'bg-orange-600 text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] h-10 rounded-none uppercase px-2 flex items-center justify-center gap-2 group/btn border border-transparent active:scale-95`}
             >
               <ShoppingCart className="h-4 w-4 transition-transform group-hover/btn:scale-110" /> 
               <span>{isOutOfStock ? 'SOLD OUT' : 'ORDER NOW'}</span>

@@ -232,13 +232,14 @@ export default function AdminProducts() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Sizes (COMMA SEPARATED)</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase">Sizes (Separate with Comma)</label>
                     <Input 
                       value={sizes} 
                       onChange={(e) => setSizes(e.target.value)} 
                       placeholder="E.G. S, M, L, XL" 
                       className="bg-black/50 border-white/10 rounded-none text-xs uppercase" 
                     />
+                    <p className="text-[8px] text-muted-foreground uppercase">Separate each size with a comma (e.g. S, M, L)</p>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-muted-foreground uppercase">Stock Quantity *</label>
