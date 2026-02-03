@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,7 +36,7 @@
     @apply bg-background text-foreground font-body antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline tracking-tighter;
+    @apply font-headline tracking-tighter uppercase;
   }
 }
 
@@ -48,4 +49,16 @@
 .bg-dark-overlay {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff8c00;
+  border-radius: 10px;
 }
