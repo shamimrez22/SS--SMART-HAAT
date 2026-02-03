@@ -68,7 +68,7 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - 4:5 FIDELITY (PURA ONSHO) */}
+            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO (PURA ONSHO) - LIKED BY USER */}
             <div className="relative aspect-[4/5] rounded-none overflow-hidden bg-white border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 

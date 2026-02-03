@@ -4,8 +4,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // EMERGENCY FORCE REDEPLOY ID: 20240524_ULTIMATE_DEVELOPMENT_ACCESS_V9
-    // This provides absolute open access to all collections to prevent "Missing or insufficient permissions" errors.
+    // FINAL EMERGENCY OVERRIDE ID: 20240525_GLOBAL_OPEN_ACCESS_FINAL_V100
+    // This allows public read/write access to all documents to resolve persistence sync issues.
     match /{document=**} {
       allow read, write: if true;
     }

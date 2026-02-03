@@ -89,7 +89,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
             
-            {/* PRODUCT PREVIEW */}
+            {/* PRODUCT PREVIEW - 4:5 ASPECT RATIO (PURA ONSHO) - LIKED BY USER */}
             <div className="relative w-full md:w-5/12 aspect-[4/5] bg-white border-b md:border-b-0 md:border-r border-white/5">
               <Image 
                 src={product.imageUrl} 
@@ -103,6 +103,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <p className="text-[8px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Selected Item</p>
                 <h2 className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-tight">{product.name}</h2>
                 <div className="flex items-center gap-4">
+                   {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
                    <div className="text-lg md:text-3xl font-black text-white flex items-baseline">
                      <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>
                      {product.price.toLocaleString()}
