@@ -49,13 +49,13 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between mt-auto">
             <div className="flex flex-col">
               <span className="font-black text-lg md:text-2xl text-orange-600 tracking-tighter leading-none flex items-baseline">
-                {/* TINY TAKA SYMBOL AS PER REQUEST */}
-                <span className="text-[8px] md:text-[10px] font-bold mr-0.5 align-baseline">৳</span>
+                {/* TINY TAKA SYMBOL - REDUCED BOLDNESS AS REQUESTED */}
+                <span className="text-[8px] md:text-[10px] font-normal mr-0.5 align-baseline">৳</span>
                 {product.price.toLocaleString()}
               </span>
               {product.originalPrice > product.price && (
                 <span className="text-white/40 line-through text-[8px] md:text-[10px] font-bold mt-1 flex items-baseline">
-                  <span className="text-[6px] md:text-[7px] mr-0.5">৳</span>{product.originalPrice.toLocaleString()}
+                  <span className="text-[6px] md:text-[7px] font-normal mr-0.5">৳</span>{product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>
