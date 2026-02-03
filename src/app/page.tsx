@@ -1,4 +1,6 @@
 
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
 import { ArrowRight, Flame, Star, LayoutGrid, Smartphone, QrCode } from 'lucide-react';
@@ -8,8 +10,13 @@ import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
 import { products } from '@/lib/products';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
+  const plugin = React.useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false })
+  );
+
   const slides = [
     {
       image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600",
@@ -46,7 +53,11 @@ export default function Home() {
         {/* BANNER SECTION */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="lg:col-span-9 relative rounded-none overflow-hidden h-[280px] border border-white/5 bg-card">
-            <Carousel className="w-full h-full" opts={{ loop: true }}>
+            <Carousel 
+              className="w-full h-full" 
+              opts={{ loop: true }}
+              plugins={[plugin.current]}
+            >
               <CarouselContent>
                 {slides.map((slide, index) => (
                   <CarouselItem key={index}>
@@ -119,7 +130,6 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {/* Always show 12 products */}
             {products.concat(products).slice(0, 12).map((product, idx) => (
               <ProductCard key={`${product.id}-${idx}`} product={product} />
             ))}
@@ -177,4 +187,3 @@ export default function Home() {
     </div>
   );
 }
-
