@@ -84,6 +84,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
 
   return (
     <>
+      {/* ORDER FORM POPUP */}
       <Dialog open={isOpen && step === 'FORM'} onOpenChange={(val) => !val && handleClose()}>
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-col md:flex-row h-full">
@@ -177,10 +178,10 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             <CheckCircle2 className="h-10 w-10 text-orange-600" />
           </div>
           <div className="space-y-3">
-            <h2 className="text-3xl font-black text-white uppercase tracking-tighter">THANK YOU FOR YOUR ORDER</h2>
-            <p className="text-sm font-bold text-orange-600 font-headline italic">
+            <DialogTitle className="text-3xl font-black text-white uppercase tracking-tighter">THANK YOU FOR YOUR ORDER</DialogTitle>
+            <DialogDescription className="text-sm font-bold text-orange-600 font-headline italic">
               আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে।
-            </p>
+            </DialogDescription>
           </div>
           <div className="pt-4">
             <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.4em] animate-pulse">
