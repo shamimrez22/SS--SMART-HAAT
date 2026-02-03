@@ -13,8 +13,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Lock, User, Loader2, ShieldAlert } from 'lucide-react';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { doc, increment } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
+import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 
 interface AdminLoginModalProps {
   isOpen: boolean;
@@ -37,12 +38,19 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
     setLoading(true);
     setError('');
 
-    // Default or Saved credentials
     const validUser = settings?.adminUsername || 'ADMIN';
     const validPass = settings?.adminPassword || '4321';
 
     setTimeout(() => {
       if (username === validUser && password === validPass) {
+        // Track Daily Login
+        const today = new Date().toISOString().split('T')[0];
+        const statsRef = doc(db, 'loginStats', today);
+        setDocumentNonBlocking(statsRef, { 
+          count: increment(1),
+          date: today
+        }, { merge: true });
+
         sessionStorage.setItem('is_admin_authenticated', 'true');
         onClose();
         router.push('/admin');
@@ -79,6 +87,8 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="ENTER USERNAME"
+                autoComplete="off"
+                spellCheck={false}
                 className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600"
               />
             </div>
@@ -93,6 +103,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••"
+                autoComplete="new-password"
                 className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600 tracking-widest"
               />
             </div>

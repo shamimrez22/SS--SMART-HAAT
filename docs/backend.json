@@ -123,6 +123,15 @@
         "adminUsername": { "type": "string" },
         "adminPassword": { "type": "string" }
       }
+    },
+    "LoginStats": {
+      "title": "LoginStats",
+      "type": "object",
+      "description": "Daily login tracking statistics.",
+      "properties": {
+        "count": { "type": "number" },
+        "date": { "type": "string" }
+      }
     }
   },
   "auth": {
@@ -155,6 +164,12 @@
         "$ref": "#/backend/entities/SiteSettings"
       },
       "description": "Global site settings document."
+    },
+    "/loginStats/{date}": {
+      "schema": {
+        "$ref": "#/backend/entities/LoginStats"
+      },
+      "description": "Stores daily login counts."
     }
   }
 }

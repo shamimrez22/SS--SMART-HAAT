@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -12,18 +12,15 @@ import {
   Link as LinkIcon, 
   Sparkles, 
   Layers, 
-  TrendingUp, 
   Users, 
-  CreditCard, 
-  Activity,
   ChevronRight,
-  Search,
-  Bell
+  Bell,
+  LogIn
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
-import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, where } from 'firebase/firestore';
+import { useFirestore, useCollection, useDoc, useMemoFirebase } from '@/firebase';
+import { collection, query, where, doc } from 'firebase/firestore';
 import { 
   ChartConfig, 
   ChartContainer, 
@@ -32,7 +29,6 @@ import {
 } from "@/components/ui/chart";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 // Simulated sales data for Bar Chart
 const chartData = [
@@ -55,21 +51,25 @@ const chartConfig = {
 export default function AdminPanel() {
   const db = useFirestore();
   
+  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+  
   const productsRef = useMemoFirebase(() => collection(db, 'products'), [db]);
   const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
   const ordersRef = useMemoFirebase(() => collection(db, 'orders'), [db]);
   const pendingOrdersRef = useMemoFirebase(() => query(collection(db, 'orders'), where('status', '==', 'PENDING')), [db]);
+  const loginStatsRef = useMemoFirebase(() => doc(db, 'loginStats', today), [db, today]);
   
   const { data: products } = useCollection(productsRef);
   const { data: categories } = useCollection(categoriesRef);
   const { data: orders } = useCollection(ordersRef);
   const { data: pendingOrders } = useCollection(pendingOrdersRef);
+  const { data: dailyStats } = useDoc(loginStatsRef);
 
   const stats = [
     { title: "ORDERS", value: orders?.length || 0, change: pendingOrders?.length ? `${pendingOrders.length} PENDING` : "UP TO DATE", icon: ShoppingBag, color: "text-orange-600" },
     { title: "PRODUCTS", value: products?.length || 0, change: "+5", icon: Package, color: "text-blue-500" },
-    { title: "CATEGORIES", value: categories?.length || 0, change: "Active", icon: Layers, color: "text-green-500" },
-    { title: "USERS", value: "8.2K", change: "+1.2K", icon: Users, color: "text-purple-500" }
+    { title: "DAILY LOGINS", value: dailyStats?.count || 0, change: "TODAY", icon: LogIn, color: "text-purple-500" },
+    { title: "CATEGORIES", value: categories?.length || 0, change: "Active", icon: Layers, color: "text-green-500" }
   ];
 
   const quickLinks = [
