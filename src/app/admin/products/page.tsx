@@ -415,7 +415,7 @@ export default function AdminProducts() {
             </CardContent>
           </Card>
 
-          {/* PRODUCT LIST */}
+          {/* PRODUCT LIST (LIST VIEW) */}
           <Card className="bg-card border-white/5 rounded-none lg:col-span-8 shadow-2xl overflow-hidden">
             <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6 flex flex-row items-center justify-between">
               <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">INVENTORY ARCHIVE ({products?.length || 0})</CardTitle>
@@ -428,46 +428,57 @@ export default function AdminProducts() {
                   <p className="text-[10px] font-black uppercase text-orange-600 animate-pulse tracking-widest">Accessing Database...</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div className="flex flex-col gap-2">
                   {products?.map((p) => (
-                    <div key={p.id} className={`flex flex-col bg-white/5 border transition-all group overflow-hidden ${editingId === p.id ? 'border-orange-600 bg-orange-600/5' : 'border-white/5 hover:border-white/20'}`}>
-                      <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-b border-white/5">
-                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
-                        <div className="absolute top-2 left-2 flex gap-1">
-                          {p.showInSlider && <Badge className="bg-blue-600 text-white rounded-none text-[7px] font-black uppercase h-4">SLIDER</Badge>}
-                          {p.showInFlashOffer && <Badge className="bg-red-600 text-white rounded-none text-[7px] font-black uppercase h-4">FLASH</Badge>}
-                        </div>
-                        <div className="absolute bottom-2 right-2">
-                          <Badge className={`rounded-none text-[8px] font-black uppercase h-5 px-3 border-none ${p.stockQuantity > 0 ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
-                            {p.stockQuantity > 0 ? `IN STOCK: ${p.stockQuantity}` : 'OUT OF STOCK'}
-                          </Badge>
-                        </div>
+                    <div key={p.id} className={`flex items-center gap-4 p-4 bg-white/5 border transition-all group ${editingId === p.id ? 'border-orange-600 bg-orange-600/5' : 'border-white/5 hover:border-white/20'}`}>
+                      {/* Image Thumbnail */}
+                      <div className="relative w-20 h-20 shrink-0 bg-black overflow-hidden border border-white/10">
+                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover opacity-80 group-hover:opacity-100" />
                       </div>
                       
-                      <div className="p-4 flex flex-col justify-between flex-grow space-y-3">
-                        <div className="space-y-1">
+                      {/* Product Basic Info */}
+                      <div className="flex-grow min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
                           <p className="text-[8px] font-black text-orange-600 tracking-widest uppercase">{p.category}</p>
-                          <h3 className="text-[13px] font-black text-white uppercase truncate tracking-tighter">{p.name}</h3>
-                          <p className="text-base font-black text-white tracking-tighter">৳{p.price.toLocaleString()}</p>
+                          {p.showInSlider && <Badge className="bg-blue-600 text-white rounded-none text-[6px] font-black uppercase h-3 px-1">SLIDER</Badge>}
+                          {p.showInFlashOffer && <Badge className="bg-red-600 text-white rounded-none text-[6px] font-black uppercase h-3 px-1">FLASH</Badge>}
                         </div>
-
-                        {p.sizeInventory && p.sizeInventory.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-1 pt-2 border-t border-white/5">
-                            {p.sizeInventory.map((si: any, i: number) => (
-                              <span key={i} className="text-[8px] font-black bg-white/10 px-2 py-0.5 text-white/60 border border-white/5 uppercase">
-                                {si.size}: {si.quantity}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="flex justify-end gap-2 pt-3">
-                          <Button onClick={() => handleEdit(p)} variant="outline" className="h-10 w-10 p-0 border-white/10 text-white hover:bg-orange-600 hover:text-white hover:border-orange-600 rounded-none"><Edit2 className="h-4 w-4" /></Button>
-                          <Button onClick={() => confirmDelete(p.id)} variant="outline" className="h-10 w-10 p-0 border-white/10 text-muted-foreground hover:bg-red-600 hover:text-white hover:border-red-600 rounded-none"><Trash2 className="h-4 w-4" /></Button>
+                        <h3 className="text-[12px] font-black text-white uppercase truncate tracking-tighter">{p.name}</h3>
+                        <div className="flex items-center gap-4 mt-1">
+                           <p className="text-sm font-black text-white tracking-tighter">৳{p.price.toLocaleString()}</p>
+                           <Badge className={`rounded-none text-[7px] font-black uppercase h-4 px-2 border-none ${p.stockQuantity > 0 ? 'bg-green-600/20 text-green-500 border border-green-500/30' : 'bg-red-600/20 text-red-500 border border-red-500/30'}`}>
+                              {p.stockQuantity > 0 ? `STOCK: ${p.stockQuantity}` : 'OUT OF STOCK'}
+                           </Badge>
                         </div>
+                      </div>
+
+                      {/* Sizes Summary */}
+                      {p.sizeInventory && p.sizeInventory.length > 0 && (
+                        <div className="hidden md:flex flex-wrap gap-1 max-w-[150px] justify-center">
+                          {p.sizeInventory.map((si: any, i: number) => (
+                            <span key={i} className="text-[7px] font-black bg-white/5 px-1.5 py-0.5 text-white/40 border border-white/5 uppercase">
+                              {si.size}:{si.quantity}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 shrink-0">
+                        <Button onClick={() => handleEdit(p)} variant="outline" size="icon" className="h-10 w-10 border-white/10 text-white hover:bg-orange-600 hover:text-white hover:border-orange-600 rounded-none transition-colors">
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button onClick={() => confirmDelete(p.id)} variant="outline" size="icon" className="h-10 w-10 border-white/10 text-muted-foreground hover:bg-red-600 hover:text-white hover:border-red-600 rounded-none transition-colors">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   ))}
+                  {products?.length === 0 && (
+                    <div className="text-center py-20 bg-white/[0.02] border border-dashed border-white/10">
+                      <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">No products in archive.</p>
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
@@ -503,3 +514,4 @@ export default function AdminProducts() {
     </div>
   );
 }
+
