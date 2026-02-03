@@ -33,7 +33,6 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
   const { data: settings } = useDoc(settingsRef);
 
-  // Reset fields whenever the modal opens to ensure a fresh entry every time
   useEffect(() => {
     if (isOpen) {
       setUsername('');
@@ -52,7 +51,6 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
 
     setTimeout(() => {
       if (username === validUser && password === validPass) {
-        // Track Daily Login in Firestore
         const today = new Date().toISOString().split('T')[0];
         const statsRef = doc(db, 'loginStats', today);
         setDocumentNonBlocking(statsRef, { 
@@ -60,7 +58,6 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
           date: today
         }, { merge: true });
 
-        // Set short-lived session flag
         sessionStorage.setItem('is_admin_authenticated', 'true');
         onClose();
         router.push('/admin');
@@ -73,10 +70,10 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
-      <DialogContent className="max-w-md bg-black border border-orange-600/30 rounded-none p-10 shadow-2xl">
+      <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl">
         <DialogHeader className="space-y-4 text-center">
-          <div className="w-16 h-16 bg-orange-600/10 border border-orange-600/20 rounded-full flex items-center justify-center mx-auto mb-2">
-            <Lock className="h-8 w-8 text-orange-600" />
+          <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto mb-2">
+            <Lock className="h-8 w-8 text-[#01a3a4]" />
           </div>
           <div className="space-y-1">
             <DialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">ADMIN TERMINAL</DialogTitle>
@@ -86,9 +83,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
           </div>
         </DialogHeader>
 
-        {/* Form with aggressive autocomplete prevention techniques */}
         <form onSubmit={handleLogin} className="space-y-6 mt-6" autoComplete="off">
-          {/* Dummy hidden fields to trick some browsers from autofilling the main inputs */}
           <input type="text" style={{ display: 'none' }} name="dummy_username_99" />
           <input type="password" style={{ display: 'none' }} name="dummy_password_99" />
           
@@ -106,8 +101,8 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 placeholder="ENTER USERNAME"
                 autoComplete="off"
                 spellCheck={false}
-                data-lpignore="true" // Ignore LastPass
-                className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600"
+                data-lpignore="true"
+                className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-[#01a3a4]"
               />
             </div>
 
@@ -123,9 +118,9 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••"
-                autoComplete="new-password" // Prevents most browser suggestions
-                data-lpignore="true" // Ignore LastPass
-                className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600 tracking-widest"
+                autoComplete="new-password"
+                data-lpignore="true"
+                className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-[#01a3a4] tracking-widest"
               />
             </div>
           </div>
@@ -140,7 +135,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
           <Button 
             disabled={loading}
             type="submit" 
-            className="w-full bg-orange-600 hover:bg-orange-700 text-white h-14 font-black uppercase tracking-widest rounded-none shadow-xl shadow-orange-600/10"
+            className="w-full bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white h-14 font-black uppercase tracking-widest rounded-none shadow-xl shadow-[#01a3a4]/10"
           >
             {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "GRANT ACCESS"}
           </Button>

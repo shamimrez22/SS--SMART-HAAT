@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Search, ShoppingBag, Menu, X, User } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
@@ -16,20 +16,18 @@ export function Navbar() {
 
   const handleAdminClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Always trigger the modal regardless of previous authentication status
-    // to ensure user must provide credentials on every deliberate click.
     setIsAdminModalOpen(true);
   };
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full bg-orange-600 shadow-lg border-b border-black/10 py-2">
+      <nav className="sticky top-0 z-50 w-full bg-[#01a3a4] shadow-lg border-b border-black/10 py-2">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-6 h-12">
             {/* LEFT: BRANDING */}
             <Link href="/" className="flex items-center gap-3 shrink-0 group">
               <div className="w-9 h-9 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
-                <ShoppingBag className="h-5 w-5 text-orange-600" />
+                <ShoppingBag className="h-5 w-5 text-[#01a3a4]" />
               </div>
               <div className="flex flex-col">
                 <h1 className="text-[16px] font-headline font-black text-white leading-none uppercase tracking-tighter">
@@ -71,7 +69,7 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-none hover:bg-black/10 text-white group">
                   <ShoppingBag className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-[8px] font-black rounded-none flex items-center justify-center border border-orange-600">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-[8px] font-black rounded-none flex items-center justify-center border border-[#01a3a4]">
                     0
                   </span>
                 </Button>
@@ -90,7 +88,7 @@ export function Navbar() {
 
         {/* MOBILE MENU */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-orange-700 border-t border-black/5 p-4 space-y-4">
+          <div className="lg:hidden bg-[#01a3a4] brightness-90 border-t border-black/5 p-4 space-y-4">
             <ul className="flex flex-col gap-4 text-[10px] font-black uppercase tracking-widest text-white">
               <li><Link href="/" onClick={() => setIsMobileMenuOpen(false)}>HOME</Link></li>
               <li><Link href="/shop" onClick={() => setIsMobileMenuOpen(false)}>SHOP</Link></li>
