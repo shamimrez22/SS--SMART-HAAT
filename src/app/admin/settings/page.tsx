@@ -26,7 +26,9 @@ import {
   CloudUpload,
   Zap,
   ExternalLink,
-  Code
+  Code,
+  Terminal,
+  ChevronRight
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -76,6 +78,17 @@ export default function AdminSettings() {
       description: "SITE CONFIGURATION HAS BEEN SUCCESSFULLY SAVED.",
     });
   };
+
+  const CodeBlock = ({ commands }: { commands: string[] }) => (
+    <div className="bg-black/80 border border-white/10 p-4 font-mono text-[11px] text-green-400 space-y-1 mb-4">
+      {commands.map((cmd, i) => (
+        <div key={i} className="flex gap-2">
+          <span className="text-orange-600">$</span>
+          <span>{cmd}</span>
+        </div>
+      ))}
+    </div>
+  );
 
   if (isLoading) {
     return (
@@ -164,65 +177,112 @@ export default function AdminSettings() {
               </CardContent>
             </Card>
 
-            {/* PUBLISHING GUIDELINE SECTION (BENGALI) */}
+            {/* EXPANDED PUBLISHING GUIDELINE SECTION (BENGALI) */}
             <Card className="bg-card border-orange-600/20 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-orange-600/10 border-b border-orange-600/20 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600 flex items-center gap-2">
-                  <Code className="h-4 w-4" /> পাবলিশিং গাইডলাইন (PUBLISHING GUIDELINES)
+                  <Code className="h-4 w-4" /> পাবলিশিং গাইডলাইন (DETAILED PUBLISHING GUIDE)
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-8 space-y-10">
+              <CardContent className="p-8 space-y-12">
+                
+                {/* GITHUB GUIDE */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 bg-white/5 flex items-center justify-center border border-white/10"><Github className="h-4 w-4 text-white" /></div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight">গিটহাব (GITHUB) পাবলিশ</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight">গিটহাব কোড পাবলিশ (GITHUB PUSH)</h3>
                   </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
-                    আপনার কোডটি গিটহাবে আপলোড করতে প্রথমে রিপোজিটরি তৈরি করুন এবং পুশ করুন। গিটহাব থেকে সরাসরি ডাউনলোড বা ম্যানেজ করার জন্য নিচের বাটনে ক্লিক করুন।
-                  </p>
-                  <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10">
-                    <a href="https://github.com/new" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-3.5 w-3.5 text-orange-600" /> রিপোজিটরিতে যান</a>
-                  </Button>
+                  <div className="space-y-4">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
+                      আপনার প্রোজেক্টটি গিটহাবে আপলোড করতে টার্মিনালে নিচের কমান্ডগুলো একে একে লিখুন:
+                    </p>
+                    <CodeBlock commands={[
+                      'git init',
+                      'git add .',
+                      'git commit -m "Initial commit of SS Smart Haat"',
+                      'git branch -M main',
+                      'git remote add origin https://github.com/yourusername/your-repo.git',
+                      'git push -u origin main'
+                    ]} />
+                    <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10 w-full md:w-fit">
+                      <a href="https://github.com/new" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-3.5 w-3.5 text-orange-600" /> নতুন রিপোজিটরি তৈরি করুন</a>
+                    </Button>
+                  </div>
                 </div>
 
-                <div className="space-y-4 pt-6 border-t border-white/5">
+                {/* NETLIFY GUIDE */}
+                <div className="space-y-4 pt-10 border-t border-white/5">
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 bg-white/5 flex items-center justify-center border border-white/10"><CloudUpload className="h-4 w-4 text-white" /></div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight">নেটলিফাই (NETLIFY) ডেপ্লয়</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight">নেটলিফাই হোস্টিং (NETLIFY DEPLOY)</h3>
                   </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
-                    খুব সহজেই আপনার সাইটটি নেটলিফায়ে হোস্ট করতে পারেন। গিটহাব কানেক্ট করে অটোমেটিক পাবলিশ করার জন্য নিচের লিঙ্কটি ব্যবহার করুন।
-                  </p>
-                  <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10">
-                    <a href="https://app.netlify.com/start" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> নেটলিফায়ে পাবলিশ করুন</a>
-                  </Button>
+                  <div className="space-y-4">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
+                      টার্মিনাল থেকে সরাসরি ডেপ্লয় করতে নেটলিফাই সি-এল-আই (CLI) ব্যবহার করুন:
+                    </p>
+                    <CodeBlock commands={[
+                      'npm install netlify-cli -g',
+                      'netlify login',
+                      'npm run build',
+                      'netlify deploy --prod'
+                    ]} />
+                    <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10 w-full md:w-fit">
+                      <a href="https://app.netlify.com/start" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> নেটলিফায়ে ড্যাশবোর্ড</a>
+                    </Button>
+                  </div>
                 </div>
 
-                <div className="space-y-4 pt-6 border-t border-white/5">
+                {/* VERCEL GUIDE */}
+                <div className="space-y-4 pt-10 border-t border-white/5">
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 bg-white/5 flex items-center justify-center border border-white/10"><Zap className="h-4 w-4 text-white" /></div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight">ভার্সেল (VERCEL) হোস্টিং</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight">ভার্সেল ডেপ্লয়মেন্ট (VERCEL DEPLOY)</h3>
                   </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
-                    নেক্সট-জেএস অ্যাপের জন্য ভার্সেল সেরা অপশন। সরাসরি ইমপোর্ট করে এক ক্লিকে লাইভ করতে নিচের বাটনে যান।
-                  </p>
-                  <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10">
-                    <a href="https://vercel.com/new" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> ভার্সেলে ডেপ্লয় করুন</a>
-                  </Button>
+                  <div className="space-y-4">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
+                      নেক্সট-জেএস প্রোজেক্টের জন্য ভার্সেল সবথেকে জনপ্রিয় এবং সহজ মেথড:
+                    </p>
+                    <CodeBlock commands={[
+                      'npm install -g vercel',
+                      'vercel login',
+                      'vercel --prod'
+                    ]} />
+                    <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10 w-full md:w-fit">
+                      <a href="https://vercel.com/new" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> ভার্সেল কনসোল</a>
+                    </Button>
+                  </div>
                 </div>
 
-                <div className="space-y-4 pt-6 border-t border-white/5">
+                {/* FIREBASE GUIDE */}
+                <div className="space-y-4 pt-10 border-t border-white/5">
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 bg-white/5 flex items-center justify-center border border-white/10"><Globe className="h-4 w-4 text-white" /></div>
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight">ফায়ারবেস (FIREBASE) ম্যানুয়াল</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight">ফায়ারবেস ম্যানুয়াল (FIREBASE CLI)</h3>
                   </div>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
-                    ফায়ারবেস হোস্টিং ব্যবহার করে ম্যানুয়ালি ডেপ্লয় করতে ফায়ারবেস সি-এল-আই ব্যবহার করুন। বিস্তারিত গাইড ও কনসোল দেখতে এখানে ক্লিক করুন।
-                  </p>
-                  <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10">
-                    <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> ফায়ারবেস কনসোলে যান</a>
-                  </Button>
+                  <div className="space-y-4">
+                    <p className="text-[11px] text-muted-foreground leading-relaxed uppercase">
+                      ফায়ারবেস হোস্টিংয়ে আপনার সাইটটি লাইভ করতে নিচের কমান্ডগুলো দিন:
+                    </p>
+                    <CodeBlock commands={[
+                      'npm install -g firebase-tools',
+                      'firebase login',
+                      'firebase init hosting',
+                      'npm run build',
+                      'firebase deploy --only hosting'
+                    ]} />
+                    <Button asChild variant="outline" className="border-white/10 text-white hover:bg-white/5 rounded-none uppercase text-[9px] font-black h-10 w-full md:w-fit">
+                      <a href="https://console.firebase.google.com/" target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-3.5 w-3.5 text-orange-600" /> ফায়ারবেস ড্যাশবোর্ড</a>
+                    </Button>
+                  </div>
                 </div>
+
+                <div className="bg-orange-600/5 border border-orange-600/20 p-6 space-y-2">
+                  <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest flex items-center gap-2"><Terminal className="h-3 w-3" /> গুরুত্বপূর্ণ নোট:</p>
+                  <p className="text-[11px] text-white/80 leading-relaxed uppercase">
+                    টার্মিনালে কমান্ডগুলো দেওয়ার সময় নিশ্চিত হোন যে আপনি প্রোজেক্টের রুট ফোল্ডারে (ROOT FOLDER) আছেন। যেকোনো এরর আসলে আপনার ইন্টারনেট কানেকশন চেক করুন এবং পুনরায় চেষ্টা করুন।
+                  </p>
+                </div>
+
               </CardContent>
             </Card>
           </div>
