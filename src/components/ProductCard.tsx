@@ -47,7 +47,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             </h3>
           </Link>
           
-          {/* PRICE ROW */}
+          {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
           <div className="flex items-center justify-between">
             <span className="font-black text-2xl md:text-3xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>

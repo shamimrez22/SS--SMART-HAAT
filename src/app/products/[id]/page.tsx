@@ -92,6 +92,7 @@ export default function ProductDetails() {
                 </div>
                 <h1 className="text-5xl md:text-7xl font-black font-headline text-white leading-none uppercase tracking-tighter">{product.name}</h1>
                 <div className="flex items-center gap-6">
+                  {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
                   <div className="text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
                     <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.2em]">৳</span>
                     {product.price.toLocaleString()}
