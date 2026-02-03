@@ -88,14 +88,14 @@ export default function Home() {
             </Carousel>
           </div>
           
-          {/* DOWNLOAD APP CARD */}
-          <div className="hidden lg:flex lg:col-span-3 bg-card rounded-none border border-white/5 p-6 flex-col justify-between group hover:border-orange-600/20 transition-all">
+          {/* DOWNLOAD APP CARD - FULL BLUE BACKGROUND */}
+          <div className="hidden lg:flex lg:col-span-3 bg-blue-600 rounded-none border border-white/5 p-6 flex-col justify-between group hover:border-white/20 transition-all">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <Smartphone className="h-5 w-5 text-orange-600" />
+                <Smartphone className="h-5 w-5 text-white" />
                 <h3 className="font-black text-[12px] uppercase tracking-wider text-white">DOWNLOAD APP</h3>
               </div>
-              <div className="bg-gradient-to-br from-blue-600/20 to-transparent p-4 rounded-none border border-blue-600/20">
+              <div className="bg-white/10 p-4 rounded-none border border-white/20">
                 <p className="text-[12px] font-black leading-tight uppercase mb-4 text-white">EXCLUSIVE OFFERS</p>
                 <div className="flex flex-col gap-2">
                    <div className="h-10 bg-black rounded-none flex items-center justify-center border border-white/10 text-[10px] font-black text-white uppercase cursor-pointer hover:border-orange-600 transition-colors">APP STORE</div>
@@ -105,7 +105,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3 pt-4 border-t border-white/5">
               <QrCode className="h-8 w-8 text-white" />
-              <p className="text-[10px] font-black text-muted-foreground uppercase leading-relaxed">SCAN TO DOWNLOAD<br/>FOR EXCLUSIVE REWARDS</p>
+              <p className="text-[10px] font-black text-white uppercase leading-relaxed">SCAN TO DOWNLOAD<br/>FOR EXCLUSIVE REWARDS</p>
             </div>
           </div>
         </section>
