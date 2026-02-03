@@ -107,7 +107,8 @@
         "facebookUrl": { "type": "string" },
         "instagramUrl": { "type": "string" },
         "twitterUrl": { "type": "string" },
-        "youtubeUrl": { "type": "string" }
+        "youtubeUrl": { "type": "string" },
+        "whatsappUrl": { "type": "string" }
       }
     }
   },

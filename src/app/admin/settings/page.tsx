@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Save, Globe, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube, Sparkles, Loader2 } from 'lucide-react';
+import { ArrowLeft, Save, Globe, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube, Sparkles, Loader2, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -29,7 +29,8 @@ export default function AdminSettings() {
     facebookUrl: '',
     instagramUrl: '',
     twitterUrl: '',
-    youtubeUrl: ''
+    youtubeUrl: '',
+    whatsappUrl: ''
   });
 
   useEffect(() => {
@@ -42,7 +43,8 @@ export default function AdminSettings() {
         facebookUrl: settings.facebookUrl || '',
         instagramUrl: settings.instagramUrl || '',
         twitterUrl: settings.twitterUrl || '',
-        youtubeUrl: settings.youtubeUrl || ''
+        youtubeUrl: settings.youtubeUrl || '',
+        whatsappUrl: settings.whatsappUrl || ''
       });
     }
   }, [settings]);
@@ -166,6 +168,10 @@ export default function AdminSettings() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2"><Youtube className="h-3 w-3" /> YOUTUBE URL</label>
                   <Input value={formData.youtubeUrl} onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})} className="bg-black/50 border-white/10 rounded-none" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2"><MessageCircle className="h-3 w-3" /> WHATSAPP URL</label>
+                  <Input value={formData.whatsappUrl} onChange={(e) => setFormData({...formData, whatsappUrl: e.target.value})} placeholder="HTTPS://WA.ME/8801XXXXXXXXX" className="bg-black/50 border-white/10 rounded-none" />
                 </div>
               </CardContent>
             </Card>
