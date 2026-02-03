@@ -7,13 +7,12 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Layers, Plus, Trash2, ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, ArrowLeft, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { collection, doc } from 'firebase/firestore';
 import { addDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import Image from 'next/image';
-import { doc } from 'firebase/firestore';
 
 export default function AdminCategories() {
   const db = useFirestore();
