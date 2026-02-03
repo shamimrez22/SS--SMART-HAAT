@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { Star, ImageIcon } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import Image from 'next/image';
@@ -45,21 +45,23 @@ export default function CategoriesPage() {
               <Link 
                 href={`/shop?category=${category.name}`} 
                 key={category.id}
-                className="group relative h-48 border border-white/5 overflow-hidden flex items-center justify-center hover:border-orange-600/50 transition-all bg-card"
+                className="group relative h-64 border border-white/10 overflow-hidden flex items-center justify-center hover:border-orange-600/50 transition-all bg-card"
               >
                 {category.imageUrl && (
                   <Image 
                     src={category.imageUrl} 
                     alt={category.name} 
                     fill 
-                    className="object-cover opacity-40 group-hover:opacity-60 transition-opacity"
+                    className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 scale-100 group-hover:scale-105"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                <div className="relative z-10 text-center space-y-2">
-                  <Star className="h-6 w-6 text-orange-600 mx-auto opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                  <h2 className="text-xl font-black uppercase tracking-widest text-white">{category.name}</h2>
-                  <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.3em]">EXPLORE COLLECTION</p>
+                {/* Fixed gradient overlay - clearer image */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                
+                <div className="relative z-10 text-center space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                  <h2 className="text-2xl font-black uppercase tracking-widest text-white drop-shadow-lg">{category.name}</h2>
+                  <div className="h-1 w-0 bg-orange-600 mx-auto group-hover:w-16 transition-all duration-500" />
+                  <p className="text-[9px] font-bold text-white/80 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity">EXPLORE COLLECTION</p>
                 </div>
               </Link>
             ))}
