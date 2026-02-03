@@ -52,7 +52,7 @@ export default function Home() {
           </Carousel>
         </section>
 
-        {/* Top Product Section (Formerly Flash Sale) */}
+        {/* Top Product Section */}
         <section id="top-products" className="bg-primary/5 rounded-[40px] p-10 border border-primary/10 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -mr-32 -mt-32 transition-all duration-700 group-hover:bg-primary/20" />
           <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
@@ -60,16 +60,6 @@ export default function Home() {
               <h2 className="text-4xl font-bold flex items-center gap-4">
                 <Flame className="h-10 w-10 text-primary fill-current animate-pulse" /> Top Product
               </h2>
-              <div className="flex items-center gap-4 text-sm bg-background/50 backdrop-blur-sm px-6 py-3 rounded-2xl border border-primary/10">
-                <span className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Ending In:</span>
-                <div className="flex gap-3">
-                  <div className="bg-primary text-background px-4 py-2 rounded-xl font-bold text-xl shadow-lg shadow-primary/20">12</div>
-                  <span className="text-2xl font-bold text-primary self-center">:</span>
-                  <div className="bg-primary text-background px-4 py-2 rounded-xl font-bold text-xl shadow-lg shadow-primary/20">45</div>
-                  <span className="text-2xl font-bold text-primary self-center">:</span>
-                  <div className="bg-primary text-background px-4 py-2 rounded-xl font-bold text-xl shadow-lg shadow-primary/20">09</div>
-                </div>
-              </div>
             </div>
             <Button variant="link" className="text-primary font-bold text-xl hover:translate-x-2 transition-transform">
               View All Collection <ArrowRight className="ml-2 h-5 w-5" />
