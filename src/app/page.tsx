@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Apple, Play, Truck, Tag, Flame, Loader2, ShoppingCart } from 'lucide-react';
@@ -55,15 +55,28 @@ const SlideItem = ({ product, priority }: { product: any, priority: boolean }) =
 
 const FlashOfferCard = () => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const db = useFirestore();
+  
   const flashQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
     where('showInFlashOffer', '==', true),
-    limit(1)
+    limit(10)
   ), [db]);
-  const { data: flashProducts } = useCollection(flashQuery);
   
-  const flashProduct = flashProducts?.[0];
+  const { data: flashProducts } = useCollection(flashQuery);
+
+  useEffect(() => {
+    if (!flashProducts || flashProducts.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % flashProducts.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [flashProducts]);
+  
+  const flashProduct = flashProducts?.[currentIndex];
   const offerImage = flashProduct?.imageUrl || "https://images.unsplash.com/photo-1548568974-a4f8811a4bd0?q=80&w=800";
 
   return (
@@ -74,28 +87,32 @@ const FlashOfferCard = () => {
           alt="Flash Offer" 
           fill 
           sizes="400px"
-          className="object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
+          className="object-cover group-hover:scale-110 transition-transform duration-[2000ms] opacity-90 group-hover:opacity-100"
+          key={flashProduct?.id}
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-500" />
         
-        {flashProduct && (
+        {flashProduct ? (
           <>
-            <div className="absolute top-4 left-4 bg-orange-600 px-3 py-1 text-[10px] font-black text-white uppercase tracking-widest z-10">
+            <div className="absolute top-4 left-4 bg-orange-600 px-3 py-1 text-[10px] font-black text-white uppercase tracking-widest z-10 animate-pulse">
               FLASH OFFER
             </div>
             
             <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 p-4 text-center">
-              <h3 className="text-white font-black text-sm uppercase mb-3 tracking-tighter line-clamp-2">{flashProduct.name}</h3>
-              <div className="flex gap-2">
-                <Button 
-                  onClick={() => setIsOrderOpen(true)}
-                  className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[10px] uppercase h-10 px-4 rounded-none shadow-xl shadow-orange-600/20"
-                >
-                  ORDER NOW
-                </Button>
-                <Button asChild variant="outline" className="border-white/40 text-white hover:bg-white hover:text-black font-black text-[10px] uppercase h-10 px-4 rounded-none">
-                  <Link href={`/products/${flashProduct.id}`}>VIEW</Link>
-                </Button>
+              <div className="bg-black/60 backdrop-blur-md p-4 w-full border border-white/10">
+                <h3 className="text-white font-black text-sm uppercase mb-3 tracking-tighter line-clamp-2">{flashProduct.name}</h3>
+                <p className="text-orange-600 font-black text-lg mb-4">৳{flashProduct.price.toLocaleString()}</p>
+                <div className="flex flex-col gap-2">
+                  <Button 
+                    onClick={() => setIsOrderOpen(true)}
+                    className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[10px] uppercase h-10 px-4 rounded-none shadow-xl shadow-orange-600/20 w-full"
+                  >
+                    ORDER NOW
+                  </Button>
+                  <Button asChild variant="outline" className="border-white/40 text-white hover:bg-white hover:text-black font-black text-[10px] uppercase h-10 px-4 rounded-none w-full">
+                    <Link href={`/products/${flashProduct.id}`}>VIEW DETAILS</Link>
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -105,6 +122,10 @@ const FlashOfferCard = () => {
               onClose={() => setIsOrderOpen(false)} 
             />
           </>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">No Flash Offers</p>
+          </div>
         )}
       </div>
     </div>
