@@ -147,7 +147,27 @@ export default function AdminPanel() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {/* ANALYTICS CHART */}
+          {/* QUICK LINKS GRID - NOW ON THE LEFT (TOP FOR USER) */}
+          <div className="grid grid-cols-1 gap-4">
+            {quickLinks.map((link, i) => (
+              <Link key={i} href={link.href}>
+                <div className="bg-card border border-white/5 p-6 hover:border-orange-600/50 transition-all flex items-center justify-between group h-full">
+                  <div className="flex items-center gap-6">
+                    <div className="p-3 bg-white/5 group-hover:bg-orange-600/10 transition-colors">
+                      <link.icon className="h-6 w-6 text-orange-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-black text-white uppercase tracking-tighter">{link.title}</h3>
+                      <p className="text-[9px] text-muted-foreground uppercase font-bold mt-1">{link.sub}</p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-orange-600 transition-colors" />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* ANALYTICS CHART - NOW ON THE RIGHT */}
           <Card className="lg:col-span-2 bg-card border-white/5 rounded-none overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 pb-6">
               <div className="space-y-1">
@@ -186,26 +206,6 @@ export default function AdminPanel() {
               </ChartContainer>
             </CardContent>
           </Card>
-
-          {/* QUICK LINKS GRID */}
-          <div className="grid grid-cols-1 gap-4">
-            {quickLinks.map((link, i) => (
-              <Link key={i} href={link.href}>
-                <div className="bg-card border border-white/5 p-6 hover:border-orange-600/50 transition-all flex items-center justify-between group">
-                  <div className="flex items-center gap-6">
-                    <div className="p-3 bg-white/5 group-hover:bg-orange-600/10 transition-colors">
-                      <link.icon className="h-6 w-6 text-orange-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-black text-white uppercase tracking-tighter">{link.title}</h3>
-                      <p className="text-[9px] text-muted-foreground uppercase font-bold mt-1">{link.sub}</p>
-                    </div>
-                  </div>
-                  <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-orange-600 transition-colors" />
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
