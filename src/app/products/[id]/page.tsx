@@ -94,7 +94,7 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-6">
                   {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
                   <div className="text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
-                    <span className="text-[0.5em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
+                    <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (

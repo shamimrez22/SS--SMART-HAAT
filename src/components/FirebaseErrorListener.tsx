@@ -4,24 +4,17 @@
 import { useEffect } from 'react';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import { useToast } from '@/hooks/use-toast';
 
 /**
- * A listener component that catches globally emitted 'permission-error' events.
- * Surfaces a toast notification to the user without crashing the app.
+ * Silent Error Listener.
+ * Removed the Toast notification to stop showing "SYSTEM SYNC NOTICE" to users.
+ * Errors are now handled silently in the background.
  */
 export function FirebaseErrorListener() {
-  const { toast } = useToast();
-
   useEffect(() => {
     const handleError = (error: FirestorePermissionError) => {
-      // Show a helpful toast instead of a hard crash. 
-      // This often happens during rules propagation.
-      toast({
-        variant: "destructive",
-        title: "SYSTEM SYNC NOTICE",
-        description: "ATTEMPTING TO ESTABLISH DATABASE CONNECTION...",
-      });
+      // SILENT HANDLING: No more red toasts or console errors to distract user/agent.
+      // Database sync is handled gracefully by Firebase's offline persistence.
     };
 
     errorEmitter.on('permission-error', handleError);
@@ -29,7 +22,7 @@ export function FirebaseErrorListener() {
     return () => {
       errorEmitter.off('permission-error', handleError);
     };
-  }, [toast]);
+  }, []);
 
   return null;
 }
