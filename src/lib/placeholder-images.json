@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-fashion",
+      "description": "Elegant fashion lifestyle shot",
+      "imageUrl": "https://images.unsplash.com/photo-1548568974-a4f8811a4bd0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZWxlZ2FudCUyMGZhc2hpb258ZW58MHx8fHwxNzcwMDg1NTgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "elegant fashion"
+    },
+    {
+      "id": "product-watch",
+      "description": "Minimalist smart watch",
+      "imageUrl": "https://images.unsplash.com/photo-1638095562082-449d8c5a47b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxzbWFydHdhdGNoJTIwbWluaW1hbGlzdHxlbnwwfHx8fDE3NzAwODU1ODF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smartwatch minimalist"
+    },
+    {
+      "id": "product-bag",
+      "description": "Luxury leather handbag",
+      "imageUrl": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsZWF0aGVyJTIwaGFuZGJhZ3xlbnwwfHx8fDE3NzAwNDY3NjN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather handbag"
+    },
+    {
+      "id": "product-sneakers",
+      "description": "Modern urban sneakers",
+      "imageUrl": "https://images.unsplash.com/photo-1725034973168-a7252bddc07c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx1cmJhbiUyMHNuZWFrZXJzfGVufDB8fHx8MTc3MDA3MjgxN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "urban sneakers"
+    },
+    {
+      "id": "product-coat",
+      "description": "Tailored beige wool coat",
+      "imageUrl": "https://images.unsplash.com/photo-1769981281734-4d8cf9fe7b75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29vbCUyMGNvYXR8ZW58MHx8fHwxNzcwMDUzNDY4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wool coat"
+    },
+    {
+      "id": "product-sunglasses",
+      "description": "Designer sunglasses",
+      "imageUrl": "https://images.unsplash.com/photo-1722842529941-825976fc14f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxkZXNpZ25lciUyMHN1bmdsYXNzZXN8ZW58MHx8fHwxNzcwMDg1NTgyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "designer sunglasses"
+    },
+    {
+      "id": "product-perfume",
+      "description": "Premium fragrance bottle",
+      "imageUrl": "https://images.unsplash.com/photo-1541643600914-78b084683601?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwZXJmdW1lJTIwYm90dGxlfGVufDB8fHx8MTc3MDA1MzkxOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "perfume bottle"
+    }
+  ]
 }
