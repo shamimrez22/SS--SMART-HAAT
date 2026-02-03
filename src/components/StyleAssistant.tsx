@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useState } from 'react';
-import { Send, Sparkles, Loader2 } from 'lucide-react';
+import { Send, Sparkles, Loader2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getStyleAdvice, type StyleAssistantOutput } from '@/ai/flows/style-assistant-flow';
@@ -27,54 +26,66 @@ export function StyleAssistant() {
   };
 
   return (
-    <div className="flex flex-col h-[400px] bg-background/50 backdrop-blur-md">
-      <div className="p-6 border-b border-white/10 flex items-center justify-between">
-        <h4 className="font-bold flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-primary" /> HAAT STYLIST AI
+    <div className="flex flex-col h-[500px] bg-card border-none">
+      <div className="p-6 bg-gradient-to-r from-primary to-primary/80 flex items-center justify-between">
+        <h4 className="font-bold flex items-center gap-2 text-background">
+          <Sparkles className="h-4 w-4 text-background animate-pulse" /> স্মার্ট হাট স্টাইলিস্ট
         </h4>
-        <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Premium Access</span>
+        <div className="h-6 w-6 rounded-full border border-background/30 flex items-center justify-center">
+          <Info className="h-3 w-3 text-background/70" />
+        </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto p-6 space-y-6">
+      <div className="flex-grow overflow-y-auto p-6 space-y-6 bg-background/50">
         {!result && !loading && (
-          <p className="text-muted-foreground text-center mt-12 italic font-light">
-            "Ask me anything about your fashion journey..."
-          </p>
+          <div className="text-center mt-12 space-y-4">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+              <Sparkles className="h-8 w-8 text-primary/40" />
+            </div>
+            <p className="text-muted-foreground italic font-light px-4">
+              "আমি আপনাকে আপনার শপিং যাত্রায় সেরা ফ্যাশন পরামর্শ দিতে পারি..."
+            </p>
+          </div>
         )}
 
         {loading && (
           <div className="flex flex-col items-center justify-center mt-12 gap-4">
-            <Loader2 className="h-8 w-8 text-primary animate-spin" />
-            <p className="text-xs uppercase tracking-widest text-primary animate-pulse">Curating your style...</p>
+            <Loader2 className="h-10 w-10 text-primary animate-spin" />
+            <p className="text-xs uppercase tracking-[0.2em] text-primary animate-pulse font-bold">পরামর্শ তৈরি হচ্ছে...</p>
           </div>
         )}
 
         {result && (
-          <div className="animate-fade-in-up space-y-4">
-            <div className="p-4 bg-primary/5 border-l-2 border-primary">
-              <p className="text-sm leading-relaxed">{result.advice}</p>
+          <div className="animate-fade-in-up space-y-6">
+            <div className="p-5 bg-primary/10 rounded-2xl border-l-4 border-primary shadow-sm">
+              <p className="text-sm leading-relaxed text-foreground/90 italic font-medium">"{result.advice}"</p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {result.suggestedColors.map((color, i) => (
-                <span key={i} className="text-[10px] px-2 py-1 bg-white/5 rounded-none border border-white/10 uppercase tracking-tighter">
-                  {color}
-                </span>
-              ))}
+            <div className="space-y-3">
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">পছন্দসই রঙসমূহ</p>
+              <div className="flex flex-wrap gap-2">
+                {result.suggestedColors.map((color, i) => (
+                  <span key={i} className="text-[10px] px-3 py-1.5 bg-background rounded-full border border-primary/20 shadow-sm uppercase tracking-tighter font-bold">
+                    {color}
+                  </span>
+                ))}
+              </div>
             </div>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Vibe: {result.vibe}</p>
+            <div className="pt-4 border-t border-primary/10">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">ভাইব: <span className="text-foreground">{result.vibe}</span></p>
+            </div>
           </div>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 border-t border-white/10 flex gap-2">
+      <form onSubmit={handleSubmit} className="p-4 bg-card border-t border-primary/10 flex gap-2">
         <Input 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="e.g., Summer party-te ki porbo?" 
-          className="bg-transparent border-white/10 focus:ring-primary h-12 rounded-none"
+          placeholder="যেমন: বিয়ের দাওয়াতের জন্য কী পরব?" 
+          className="bg-background/80 border-primary/20 focus:ring-primary h-12 rounded-xl text-sm"
         />
-        <Button disabled={loading} size="icon" className="h-12 w-12 rounded-none bg-primary hover:bg-primary/90">
-          <Send className="h-5 w-5" />
+        <Button disabled={loading} size="icon" className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
+          <Send className="h-5 w-5 text-background" />
         </Button>
       </form>
     </div>
