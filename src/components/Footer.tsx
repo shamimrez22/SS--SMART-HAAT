@@ -1,8 +1,31 @@
+
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
-import { Facebook, Instagram, Twitter, Youtube, ShoppingBag, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube, ShoppingBag, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
+import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
 export function Footer() {
+  const db = useFirestore();
+  const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
+  const { data: settings } = useDoc(settingsRef);
+
+  // Fallback data if settings aren't loaded or set
+  const contact = {
+    email: settings?.email || 'INFO@SSSMARTHAAT.COM',
+    phone: settings?.phone || '+880 1XXX XXXXXX',
+    address: settings?.address || 'BANANI, DHAKA, BANGLADESH',
+    description: settings?.descriptionBengali || 'এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে। আমাদের লক্ষ্য হচ্ছে উন্নত মানের পণ্য আপনার দোরগোড়ায় পৌঁছে দেওয়া।',
+    social: {
+      facebook: settings?.facebookUrl || '#',
+      instagram: settings?.instagramUrl || '#',
+      twitter: settings?.twitterUrl || '#',
+      youtube: settings?.youtubeUrl || '#',
+    }
+  };
+
   return (
     <footer className="bg-black pt-24 pb-12 border-t border-white/5">
       <div className="container mx-auto px-4">
@@ -26,17 +49,16 @@ export function Footer() {
               </p>
               <div className="pt-2 border-l-2 border-orange-600 pl-4">
                 <p className="text-[13px] font-bold text-white/90 font-headline leading-relaxed">
-                  এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে। আমাদের লক্ষ্য হচ্ছে উন্নত মানের পণ্য আপনার দোরগোড়ায় পৌঁছে দেওয়া।
+                  {contact.description}
                 </p>
               </div>
             </div>
 
             <div className="flex gap-4">
-              {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-                <Link key={i} href="#" className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all duration-500 border border-white/5">
-                  <Icon className="h-4 w-4" />
-                </Link>
-              ))}
+              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all duration-500 border border-white/5"><Facebook className="h-4 w-4" /></Link>
+              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all duration-500 border border-white/5"><Instagram className="h-4 w-4" /></Link>
+              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all duration-500 border border-white/5"><Twitter className="h-4 w-4" /></Link>
+              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-orange-600 hover:text-white transition-all duration-500 border border-white/5"><Youtube className="h-4 w-4" /></Link>
             </div>
           </div>
           
@@ -71,7 +93,7 @@ export function Footer() {
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Email Address</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">info@sssmarthaat.com</p>
+                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.email}</p>
                 </div>
               </div>
 
@@ -81,7 +103,7 @@ export function Footer() {
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Phone Helpline</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">+880 1XXX XXXXXX</p>
+                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.phone}</p>
                 </div>
               </div>
 
@@ -91,7 +113,7 @@ export function Footer() {
                 </div>
                 <div>
                   <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1">Official Location</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">BANANI, DHAKA, BANGLADESH</p>
+                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.address}</p>
                 </div>
               </div>
             </div>

@@ -89,10 +89,26 @@
         "productId": { "type": "string" },
         "productName": { "type": "string" },
         "productPrice": { "type": "number" },
+        "deliveryCharge": { "type": "number" },
         "status": { "type": "string", "enum": ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] },
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["customerName", "customerPhone", "customerAddress", "productId", "status"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "type": "object",
+      "description": "Global site settings including contact info and footer content.",
+      "properties": {
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "descriptionBengali": { "type": "string" },
+        "facebookUrl": { "type": "string" },
+        "instagramUrl": { "type": "string" },
+        "twitterUrl": { "type": "string" },
+        "youtubeUrl": { "type": "string" }
+      }
     }
   },
   "auth": {
@@ -119,6 +135,12 @@
         "$ref": "#/backend/entities/Order"
       },
       "description": "Stores customer orders."
+    },
+    "/settings/{settingId}": {
+      "schema": {
+        "$ref": "#/backend/entities/SiteSettings"
+      },
+      "description": "Global site settings document."
     }
   }
 }

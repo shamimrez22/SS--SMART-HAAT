@@ -19,6 +19,11 @@ service cloud.firestore {
       allow read, update, delete: if true; 
     }
 
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
     match /{path=**} {
       allow read, write: if false;
     }
