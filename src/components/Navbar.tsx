@@ -3,21 +3,15 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Search, ShoppingBag } from 'lucide-react';
+import { Search, ShoppingBag, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full bg-orange-600 shadow-lg border-b border-black/10">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-14 gap-4">
+        <div className="flex items-center justify-between h-12 gap-4">
           {/* LEFT: BRANDING */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group">
             <div className="w-8 h-8 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
@@ -44,31 +38,22 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* RIGHT: NAVIGATION LINKS & CART */}
+          {/* RIGHT: NAVIGATION LINKS */}
           <div className="flex items-center gap-4 shrink-0">
             <ul className="hidden lg:flex items-center gap-4 text-[9px] font-black uppercase tracking-widest text-white">
               <li><Link href="/" className="hover:text-black transition-colors">HOME</Link></li>
-              <li><Link href="#" className="hover:text-black transition-colors">SHOP</Link></li>
-              <li><Link href="#" className="hover:text-black transition-colors">CATEGORY</Link></li>
-              <li><Link href="#" className="hover:text-black transition-colors">SIGN UP</Link></li>
+              <li><Link href="/shop" className="hover:text-black transition-colors">SHOP</Link></li>
+              <li><Link href="/categories" className="hover:text-black transition-colors">CATEGORY</Link></li>
+              <li><Link href="/admin" className="hover:text-black transition-colors flex items-center gap-1"><LayoutDashboard className="h-3 w-3"/> ADMIN</Link></li>
             </ul>
 
             <div className="flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-none hover:bg-black/10 text-white group">
-                    <ShoppingBag className="h-4 w-4 transition-transform group-hover:scale-110" />
-                    <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-black text-white text-[7px] font-black rounded-none flex items-center justify-center border border-orange-600">
-                      0
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-40 bg-black border-white/10 text-white p-2 rounded-none shadow-2xl">
-                  <DropdownMenuItem className="h-8 focus:bg-orange-600 focus:text-white cursor-pointer rounded-none font-black text-[9px] uppercase tracking-widest px-4">
-                    <Link href="#" className="w-full text-center">CART</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-none hover:bg-black/10 text-white group">
+                <ShoppingBag className="h-4 w-4 transition-transform group-hover:scale-110" />
+                <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-black text-white text-[7px] font-black rounded-none flex items-center justify-center border border-orange-600">
+                  0
+                </span>
+              </Button>
             </div>
           </div>
         </div>
