@@ -66,7 +66,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
           {/* ORIGINAL PRICE - LARGE STRIKETHROUGH */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
-              <span className="text-white/40 line-through text-[16px] md:text-[18px] font-bold flex items-baseline">
+              <span className="text-white/40 line-through text-[16px] md:text-[20px] font-bold flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-1px]">৳</span>
                 {product.originalPrice.toLocaleString()}
               </span>

@@ -4,33 +4,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // FINAL EMERGENCY OVERRIDE ID: 20240523_FORCE_GLOBAL_ACCESS_V999
-    // This rule is designed to force universal read/write access and resolve all persistent permission errors.
-
-    // GLOBAL ACCESS: Explicitly allowing all read and write operations for development.
+    // FINAL EMERGENCY OVERRIDE ID: 20240523_FORCE_GLOBAL_ACCESS_V1000
+    // Universal access granted to resolve persistent permission errors during development.
     match /{document=**} {
       allow read, write: if true;
-    }
-    
-    // Explicit collection overrides to prevent any local inheritance issues.
-    match /products/{productId} {
-      allow get, list, create, update, delete: if true;
-    }
-    
-    match /categories/{categoryId} {
-      allow get, list, create, update, delete: if true;
-    }
-    
-    match /orders/{orderId} {
-      allow get, list, create, update, delete: if true;
-    }
-    
-    match /settings/{settingId} {
-      allow get, list, create, update, delete: if true;
-    }
-    
-    match /loginStats/{date} {
-      allow get, list, create, update, delete: if true;
     }
   }
 }
