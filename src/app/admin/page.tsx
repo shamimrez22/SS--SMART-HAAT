@@ -83,14 +83,14 @@ export default function AdminPanel() {
         {/* TOP STATS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
-            <Card key={i} className="bg-card border-white/5 rounded-none p-4 hover:border-orange-600/30 transition-all">
-              <div className="flex justify-between items-start mb-2">
-                <p className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{stat.title}</p>
-                <stat.icon className={`h-4 w-4 ${stat.color} opacity-50`} />
+            <Card key={i} className="bg-card border-white/5 rounded-none p-6 hover:border-orange-600/30 transition-all">
+              <div className="flex justify-between items-start mb-4">
+                <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">{stat.title}</p>
+                <stat.icon className={`h-4 w-4 ${stat.color} opacity-70`} />
               </div>
               <div className="flex items-baseline gap-2">
-                <h3 className="text-xl font-black text-white">{stat.value}</h3>
-                <span className="text-[8px] font-black text-green-500">{stat.change}</span>
+                <h3 className="text-3xl font-black text-white font-headline tracking-tighter">{stat.value}</h3>
+                <span className="text-[9px] font-black text-green-500 uppercase">{stat.change}</span>
               </div>
             </Card>
           ))}
@@ -127,7 +127,7 @@ export default function AdminPanel() {
                   <Sparkles className="h-3 w-3 text-orange-600" />
                 </div>
               </CardHeader>
-              <div className="scale-90 origin-top">
+              <div className="scale-100 origin-top">
                 <StyleAssistant />
               </div>
             </Card>

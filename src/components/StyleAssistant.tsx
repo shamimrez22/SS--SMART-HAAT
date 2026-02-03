@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -26,66 +27,70 @@ export function StyleAssistant() {
   };
 
   return (
-    <div className="flex flex-col h-[500px] bg-card border-none">
-      <div className="p-6 bg-gradient-to-r from-primary to-primary/80 flex items-center justify-between">
-        <h4 className="font-bold flex items-center gap-2 text-background">
-          <Sparkles className="h-4 w-4 text-background animate-pulse" /> AI Style Assistant
+    <div className="flex flex-col h-[550px] bg-card border-none">
+      <div className="p-6 bg-gradient-to-r from-orange-600 to-orange-500 flex items-center justify-between">
+        <h4 className="font-black flex items-center gap-2 text-white uppercase tracking-widest text-xs">
+          <Sparkles className="h-4 w-4 text-white animate-pulse" /> AI STYLE CONSULTANT
         </h4>
-        <div className="h-6 w-6 rounded-full border border-background/30 flex items-center justify-center">
-          <Info className="h-3 w-3 text-background/70" />
+        <div className="h-6 w-6 rounded-none border border-white/30 flex items-center justify-center">
+          <Info className="h-3 w-3 text-white/70" />
         </div>
       </div>
 
-      <div className="flex-grow overflow-y-auto p-6 space-y-6 bg-background/50">
+      <div className="flex-grow overflow-y-auto p-6 space-y-6 bg-black/40">
         {!result && !loading && (
           <div className="text-center mt-12 space-y-4">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Sparkles className="h-8 w-8 text-primary/40" />
+            <div className="w-16 h-16 bg-orange-600/10 flex items-center justify-center mx-auto">
+              <Sparkles className="h-8 w-8 text-orange-600/40" />
             </div>
-            <p className="text-muted-foreground italic font-light px-4">
-              "I can help you find the perfect outfit for any occasion..."
+            <p className="text-muted-foreground italic font-black uppercase text-[10px] tracking-widest px-4 leading-relaxed">
+              "EXECUTIVE STYLING ADVICE FOR THE DHAKA ELITE..."
             </p>
           </div>
         )}
 
         {loading && (
           <div className="flex flex-col items-center justify-center mt-12 gap-4">
-            <Loader2 className="h-10 w-10 text-primary animate-spin" />
-            <p className="text-xs uppercase tracking-[0.2em] text-primary animate-pulse font-bold">Generating Advice...</p>
+            <Loader2 className="h-10 w-10 text-orange-600 animate-spin" />
+            <p className="text-[10px] uppercase tracking-[0.2em] text-orange-600 animate-pulse font-black">Generating Advice...</p>
           </div>
         )}
 
         {result && (
-          <div className="animate-fade-in-up space-y-6">
-            <div className="p-5 bg-primary/10 rounded-2xl border-l-4 border-primary shadow-sm">
-              <p className="text-sm leading-relaxed text-foreground/90 italic font-medium">"{result.advice}"</p>
+          <div className="animate-fade-in-up space-y-8">
+            <div className="p-6 bg-orange-600/5 border-l-2 border-orange-600 shadow-xl">
+              <p className="text-lg leading-relaxed text-white italic font-headline">"{result.advice}"</p>
             </div>
-            <div className="space-y-3">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Suggested Colors</p>
+            
+            <div className="space-y-4">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-orange-600 font-black">PALETTE RECOMMENDATION</p>
               <div className="flex flex-wrap gap-2">
                 {result.suggestedColors.map((color, i) => (
-                  <span key={i} className="text-[10px] px-3 py-1.5 bg-background rounded-full border border-primary/20 shadow-sm uppercase tracking-tighter font-bold">
+                  <span key={i} className="text-[10px] px-4 py-2 bg-white/5 border border-white/10 uppercase tracking-tighter font-black text-white">
                     {color}
                   </span>
                 ))}
               </div>
             </div>
-            <div className="pt-4 border-t border-primary/10">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Vibe: <span className="text-foreground">{result.vibe}</span></p>
+            
+            <div className="pt-6 border-t border-white/5">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-orange-600 font-black">
+                ESTABLISHED VIBE: <span className="text-white font-headline normal-case ml-2 text-xl">{result.vibe}</span>
+              </p>
             </div>
           </div>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 bg-card border-t border-primary/10 flex gap-2">
+      <form onSubmit={handleSubmit} className="p-4 bg-black border-t border-white/10 flex gap-2">
         <Input 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Ask me: What should I wear to a wedding?" 
-          className="bg-background/80 border-primary/20 focus:ring-primary h-12 rounded-xl text-sm"
+          placeholder="E.G. WHAT TO WEAR FOR A GALA?" 
+          className="bg-white/5 border-white/10 focus:ring-orange-600 h-12 rounded-none text-[10px] font-black uppercase placeholder:text-white/20"
         />
-        <Button disabled={loading} size="icon" className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-          <Send className="h-5 w-5 text-background" />
+        <Button disabled={loading} size="icon" className="h-12 w-12 rounded-none bg-orange-600 hover:bg-orange-700 shadow-lg shadow-orange-600/20">
+          <Send className="h-5 w-5 text-white" />
         </Button>
       </form>
     </div>
