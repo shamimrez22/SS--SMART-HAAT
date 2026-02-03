@@ -17,12 +17,13 @@ import {
   CreditCard, 
   Activity,
   ChevronRight,
-  Search
+  Search,
+  Bell
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { collection, query, where } from 'firebase/firestore';
 import { 
   ChartConfig, 
   ChartContainer, 
@@ -56,19 +57,23 @@ export default function AdminPanel() {
   
   const productsRef = useMemoFirebase(() => collection(db, 'products'), [db]);
   const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
+  const ordersRef = useMemoFirebase(() => collection(db, 'orders'), [db]);
+  const pendingOrdersRef = useMemoFirebase(() => query(collection(db, 'orders'), where('status', '==', 'PENDING')), [db]);
   
   const { data: products } = useCollection(productsRef);
   const { data: categories } = useCollection(categoriesRef);
+  const { data: orders } = useCollection(ordersRef);
+  const { data: pendingOrders } = useCollection(pendingOrdersRef);
 
   const stats = [
-    { title: "REVENUE", value: "৳2.4M", change: "+24%", icon: CreditCard, color: "text-orange-600" },
+    { title: "ORDERS", value: orders?.length || 0, change: pendingOrders?.length ? `${pendingOrders.length} PENDING` : "UP TO DATE", icon: ShoppingBag, color: "text-orange-600" },
     { title: "PRODUCTS", value: products?.length || 0, change: "+5", icon: Package, color: "text-blue-500" },
     { title: "CATEGORIES", value: categories?.length || 0, change: "Active", icon: Layers, color: "text-green-500" },
     { title: "USERS", value: "8.2K", change: "+1.2K", icon: Users, color: "text-purple-500" }
   ];
 
   const quickLinks = [
-    { title: "ORDERS", icon: ShoppingBag, href: "/admin/orders" },
+    { title: "ORDERS", icon: ShoppingBag, href: "/admin/orders", badge: pendingOrders?.length },
     { title: "INVENTORY", icon: Package, href: "/admin/products" },
     { title: "STRUCTURE", icon: Layers, href: "/admin/categories" },
     { title: "OTHERS", icon: LinkIcon, href: "/admin/others" },
@@ -90,7 +95,9 @@ export default function AdminPanel() {
               </div>
               <div className="flex items-baseline gap-2">
                 <h3 className="text-3xl font-black text-white font-headline tracking-tighter">{stat.value}</h3>
-                <span className="text-[9px] font-black text-green-500 uppercase">{stat.change}</span>
+                <span className={`text-[9px] font-black uppercase ${stat.change.includes('PENDING') ? 'text-orange-600 animate-pulse' : 'text-green-500'}`}>
+                  {stat.change}
+                </span>
               </div>
             </Card>
           ))}
@@ -111,6 +118,9 @@ export default function AdminPanel() {
                         <div className="flex items-center gap-3">
                           <link.icon className="h-4 w-4 text-orange-600" />
                           <span className="text-[10px] font-black text-white uppercase tracking-wider">{link.title}</span>
+                          {link.badge ? (
+                            <Badge className="bg-orange-600 text-white text-[7px] font-black h-4 px-1 rounded-none">{link.badge}</Badge>
+                          ) : null}
                         </div>
                         <ChevronRight className="h-3 w-3 text-muted-foreground group-hover:text-orange-600 transition-all" />
                       </div>
@@ -135,7 +145,7 @@ export default function AdminPanel() {
 
           {/* RIGHT COLUMN: PROFESSIONAL BAR CHART */}
           <div className="lg:col-span-8">
-            <Card className="bg-card border-white/5 rounded-none h-full">
+            <Card className="bg-card border-white/5 rounded-none h-full shadow-2xl">
               <CardHeader className="flex flex-row items-center justify-between border-b border-white/5 p-6">
                 <div className="space-y-1">
                   <p className="text-[8px] font-black text-orange-600 uppercase tracking-widest">Business Intelligence</p>
@@ -183,20 +193,20 @@ export default function AdminPanel() {
             <h2 className="text-xs font-black uppercase tracking-widest text-white">SYSTEM LOGS</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[
-              { time: "10:24", action: "NEW PRODUCT ADDED", status: "DB_SYNC", color: "bg-blue-500" },
-              { time: "09:55", action: "CATEGORY UPDATED", status: "ADMIN", color: "bg-orange-600" },
-              { time: "09:12", action: "VISITOR CONVERSION", status: "LIVE", color: "bg-green-500" },
-              { time: "08:40", action: "BACKUP COMPLETED", status: "SYSTEM", color: "bg-purple-500" }
-            ].map((log, i) => (
-              <div key={i} className="bg-card border border-white/5 p-4 flex flex-col gap-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-[8px] font-mono text-muted-foreground">{log.time}</span>
-                  <Badge className={`rounded-none ${log.color} text-white text-[7px] border-none font-black h-4`}>{log.status}</Badge>
+            {pendingOrders?.slice(0, 4).map((order, i) => (
+              <div key={i} className="bg-card border border-orange-600/20 p-4 flex flex-col gap-2 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-1 bg-orange-600">
+                  <Bell className="h-2 w-2 text-white animate-bounce" />
                 </div>
-                <p className="text-[9px] font-black text-white uppercase tracking-tight">{log.action}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-[8px] font-mono text-muted-foreground">{new Date(order.createdAt).toLocaleTimeString()}</span>
+                  <Badge className="rounded-none bg-orange-600 text-white text-[7px] border-none font-black h-4">NEW ORDER</Badge>
+                </div>
+                <p className="text-[9px] font-black text-white uppercase tracking-tight line-clamp-1">{order.customerName} ordered {order.productName}</p>
               </div>
-            ))}
+            )) || (
+              <p className="text-[10px] text-muted-foreground uppercase font-black">NO RECENT ACTIVITY</p>
+            )}
           </div>
         </div>
       </main>

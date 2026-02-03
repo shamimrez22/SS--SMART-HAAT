@@ -77,6 +77,22 @@
         }
       },
       "required": ["name", "imageUrl"]
+    },
+    "Order": {
+      "title": "Order",
+      "type": "object",
+      "description": "Customer purchase order information.",
+      "properties": {
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "customerAddress": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "productPrice": { "type": "number" },
+        "status": { "type": "string", "enum": ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerName", "customerPhone", "customerAddress", "productId", "status"]
     }
   },
   "auth": {
@@ -97,6 +113,12 @@
         "$ref": "#/backend/entities/Category"
       },
       "description": "Stores product categories."
+    },
+    "/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Order"
+      },
+      "description": "Stores customer orders."
     }
   }
 }

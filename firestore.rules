@@ -1,24 +1,22 @@
 
 rules_version = '2';
 
-/**
- * FIRESTORE SECURITY RULES - SS SMART HAAT
- */
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Allow public read access to products and categories
     match /products/{productId} {
       allow read: if true;
-      // Allow create, update, delete for prototyping in admin panel
       allow create, update, delete: if true;
     }
 
     match /categories/{categoryId} {
       allow read: if true;
-      // For prototyping, allow anyone to create/delete in categories
       allow create, update, delete: if true;
+    }
+
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update, delete: if true; 
     }
 
     match /{path=**} {
