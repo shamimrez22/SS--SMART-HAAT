@@ -52,25 +52,7 @@ export default function Home() {
           </Carousel>
         </section>
 
-        {/* Value Propositions */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {[
-            { icon: ShieldCheck, title: "100% Authentic", desc: "Original Products" },
-            { icon: Truck, title: "Swift Delivery", desc: "Nationwide Express" },
-            { icon: RotateCcw, title: "Easy Returns", desc: "7 Days Guarantee" },
-            { icon: Star, title: "Elite Service", desc: "24/7 Support" }
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-5 p-8 bg-card rounded-3xl border border-primary/10 shadow-sm hover:border-primary/40 transition-all duration-500 hover:-translate-y-1">
-              <div className="p-4 bg-primary/10 rounded-2xl">
-                <item.icon className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-                <p className="font-bold text-base uppercase tracking-tighter">{item.title}</p>
-                <p className="text-xs text-muted-foreground font-medium">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </section>
+        {/* Value Propositions REMOVED as per user image instruction */}
 
         {/* Flash Sale Section */}
         <section id="flash-sale" className="bg-primary/5 rounded-[40px] p-10 border border-primary/10 relative overflow-hidden group">
