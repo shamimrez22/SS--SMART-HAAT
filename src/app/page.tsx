@@ -198,26 +198,28 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {categoriesLoading ? (
               [1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="h-28 bg-white/5 animate-pulse border border-white/5" />
+                <div key={i} className="aspect-square bg-white/5 animate-pulse border border-white/5" />
               ))
             ) : categories && categories.length > 0 ? (
               categories.map((cat) => (
                 <Link 
                   href={`/shop?category=${cat.name}`} 
                   key={cat.id} 
-                  className="group relative h-32 overflow-hidden border border-white/5 hover:border-orange-600/50 transition-all bg-card"
+                  className="group relative aspect-square overflow-hidden border border-white/5 hover:border-orange-600/50 transition-all bg-card"
                 >
                   {cat.imageUrl && (
-                    <Image 
-                      src={cat.imageUrl} 
-                      alt={cat.name} 
-                      fill 
-                      className="object-cover transition-all duration-500"
-                    />
+                    <div className="absolute inset-0 w-full h-full">
+                      <Image 
+                        src={cat.imageUrl} 
+                        alt={cat.name} 
+                        fill 
+                        className="object-cover transition-all duration-500"
+                      />
+                    </div>
                   )}
-                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors" />
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <p className="relative z-10 text-[10px] font-black uppercase tracking-widest text-white leading-tight px-2 text-center drop-shadow-md">
+                    <p className="relative z-10 text-[12px] font-black uppercase tracking-widest text-white leading-tight px-2 text-center drop-shadow-lg">
                       {cat.name}
                     </p>
                   </div>
