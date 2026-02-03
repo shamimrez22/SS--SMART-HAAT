@@ -12,6 +12,7 @@ import Image from 'next/image';
 
 /**
  * CategoriesPage - Fetches and displays categories directly from Firestore.
+ * Updated to ensure images fill the container perfectly.
  */
 export default function CategoriesPage() {
   const db = useFirestore();
@@ -31,7 +32,7 @@ export default function CategoriesPage() {
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-white/5 animate-pulse border border-white/5" />
+              <div key={i} className="h-64 bg-white/5 animate-pulse border border-white/5" />
             ))}
           </div>
         ) : !categories || categories.length === 0 ? (
@@ -45,23 +46,23 @@ export default function CategoriesPage() {
               <Link 
                 href={`/shop?category=${category.name}`} 
                 key={category.id}
-                className="group relative h-64 border border-white/10 overflow-hidden flex items-center justify-center hover:border-orange-600/50 transition-all bg-card"
+                className="group relative h-80 border border-white/10 overflow-hidden hover:border-orange-600/50 transition-all bg-card"
               >
                 {category.imageUrl && (
                   <Image 
                     src={category.imageUrl} 
                     alt={category.name} 
                     fill 
-                    className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-500 scale-100 group-hover:scale-105"
+                    className="object-cover transition-all duration-700 scale-100 group-hover:scale-110"
                   />
                 )}
-                {/* Fixed gradient overlay - clearer image */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                {/* Clean gradient overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity group-hover:opacity-70" />
                 
-                <div className="relative z-10 text-center space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <h2 className="text-2xl font-black uppercase tracking-widest text-white drop-shadow-lg">{category.name}</h2>
-                  <div className="h-1 w-0 bg-orange-600 mx-auto group-hover:w-16 transition-all duration-500" />
-                  <p className="text-[9px] font-bold text-white/80 uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity">EXPLORE COLLECTION</p>
+                <div className="absolute inset-0 flex flex-col items-center justify-center z-10 text-center space-y-3 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                  <h2 className="text-3xl font-black uppercase tracking-[0.2em] text-white drop-shadow-2xl">{category.name}</h2>
+                  <div className="h-1 w-0 bg-orange-600 mx-auto group-hover:w-20 transition-all duration-500" />
+                  <p className="text-[10px] font-black text-white/90 uppercase tracking-[0.4em] opacity-0 group-hover:opacity-100 transition-all duration-500">EXPLORE COLLECTION</p>
                 </div>
               </Link>
             ))}
