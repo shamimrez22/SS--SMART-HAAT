@@ -76,19 +76,27 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleLogin} className="space-y-6 mt-6">
+        {/* Form with aggressive autocomplete prevention */}
+        <form onSubmit={handleLogin} className="space-y-6 mt-6" autoComplete="off">
+          {/* Dummy hidden fields to fool browser autofill */}
+          <input type="text" style={{ display: 'none' }} name="fake_user" />
+          <input type="password" style={{ display: 'none' }} name="fake_pass" />
+          
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
                 <User className="h-3 w-3" /> USERNAME
               </label>
               <Input 
+                id="adm_u_input_99"
+                name="adm_u_input_99"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="ENTER USERNAME"
                 autoComplete="off"
                 spellCheck={false}
+                data-lpignore="true"
                 className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600"
               />
             </div>
@@ -98,12 +106,15 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 <Lock className="h-3 w-3" /> ACCESS KEY
               </label>
               <Input 
+                id="adm_p_input_99"
+                name="adm_p_input_99"
                 required
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••"
                 autoComplete="new-password"
+                data-lpignore="true"
                 className="bg-white/5 border-white/10 rounded-none h-12 text-xs uppercase focus:ring-orange-600 tracking-widest"
               />
             </div>

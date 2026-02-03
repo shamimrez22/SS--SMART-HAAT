@@ -51,6 +51,7 @@ const chartConfig = {
 export default function AdminPanel() {
   const db = useFirestore();
   
+  // Stabilize today's date for reference
   const today = useMemo(() => new Date().toISOString().split('T')[0], []);
   
   const productsRef = useMemoFirebase(() => collection(db, 'products'), [db]);
@@ -67,9 +68,9 @@ export default function AdminPanel() {
 
   const stats = [
     { title: "ORDERS", value: orders?.length || 0, change: pendingOrders?.length ? `${pendingOrders.length} PENDING` : "UP TO DATE", icon: ShoppingBag, color: "text-orange-600" },
-    { title: "PRODUCTS", value: products?.length || 0, change: "+5", icon: Package, color: "text-blue-500" },
+    { title: "PRODUCTS", value: products?.length || 0, change: "ACTIVE", icon: Package, color: "text-blue-500" },
     { title: "DAILY LOGINS", value: dailyStats?.count || 0, change: "TODAY", icon: LogIn, color: "text-purple-500" },
-    { title: "CATEGORIES", value: categories?.length || 0, change: "Active", icon: Layers, color: "text-green-500" }
+    { title: "CATEGORIES", value: categories?.length || 0, change: "SYNCED", icon: Layers, color: "text-green-500" }
   ];
 
   const quickLinks = [
