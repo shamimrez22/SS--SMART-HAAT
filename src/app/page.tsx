@@ -77,19 +77,21 @@ const FlashOfferCard = () => {
   }, [flashProducts]);
   
   const flashProduct = flashProducts?.[currentIndex];
-  const offerImage = flashProduct?.imageUrl || "https://images.unsplash.com/photo-1548568974-a4f8811a4bd0?q=80&w=800";
+  const offerImage = flashProduct?.imageUrl;
 
   return (
-    <div className="h-[350px] bg-card overflow-hidden relative group">
-      <div className="h-full w-full relative">
-        <Image 
-          src={offerImage} 
-          alt="Flash Offer" 
-          fill 
-          sizes="400px"
-          className="object-cover group-hover:scale-110 transition-transform duration-[2000ms] opacity-90 group-hover:opacity-100"
-          key={flashProduct?.id}
-        />
+    <div className="h-[350px] bg-card overflow-hidden relative group border border-white/5">
+      <div className="h-full w-full relative bg-black/20">
+        {offerImage && (
+          <Image 
+            src={offerImage} 
+            alt="Flash Offer" 
+            fill 
+            sizes="400px"
+            className="object-cover group-hover:scale-110 transition-transform duration-[2000ms] opacity-90 group-hover:opacity-100"
+            key={flashProduct?.id}
+          />
+        )}
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-500" />
         
         {flashProduct ? (
