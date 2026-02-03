@@ -71,7 +71,7 @@ export default function Home() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent flex flex-col justify-center px-12 space-y-3">
                         <div 
-                          className="text-xl md:text-2xl font-headline font-black text-white leading-tight uppercase tracking-tighter"
+                          className="text-lg md:text-xl font-headline font-black text-white leading-tight uppercase tracking-tighter"
                           dangerouslySetInnerHTML={{ __html: slide.title }}
                         />
                         <p className="text-white/90 text-[10px] font-black tracking-[0.2em] uppercase">{slide.subtitle}</p>
@@ -88,8 +88,8 @@ export default function Home() {
             </Carousel>
           </div>
           
-          {/* DOWNLOAD APP CARD - FULL BLUE BACKGROUND */}
-          <div className="hidden lg:flex lg:col-span-3 bg-blue-600 rounded-none border border-white/5 p-6 flex-col justify-between group hover:border-white/20 transition-all">
+          {/* DOWNLOAD APP CARD - FULL ORANGE BACKGROUND */}
+          <div className="hidden lg:flex lg:col-span-3 bg-orange-600 rounded-none border border-white/5 p-6 flex-col justify-between group hover:border-white/20 transition-all">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Smartphone className="h-5 w-5 text-white" />
