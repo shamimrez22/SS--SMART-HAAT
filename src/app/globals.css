@@ -16,7 +16,7 @@
     --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 90%; /* LIGHT WHITE INSTEAD OF GRAY */
     --accent: 30 100% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
