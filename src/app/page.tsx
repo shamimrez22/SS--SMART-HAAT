@@ -195,9 +195,10 @@ export default function Home() {
               </div>
             </div>
             <div className="shrink-0 flex items-center gap-3 px-1 mt-auto">
-              <div className="bg-white p-1.5 w-20 h-20 shrink-0 border border-white/5 flex items-center justify-center">
+              {/* UPDATED ADVANCED QR CODE SVG */}
+              <div className="bg-white p-1.5 w-20 h-20 shrink-0 border border-white/5 flex items-center justify-center group/qr">
                 <svg viewBox="0 0 100 100" className="w-full h-full text-black">
-                  <path fill="currentColor" d="M0 0h35v35H0V0zm5 5v25h25V5H5zm5 5h15v15H10V10zM65 0h35v35H65V0zm5 5v25h25V5H70zm5 5h15v15H75V10zM0 65h35v35H0V65zm5 5v25h25V70H5zm5 5h15v15H10V75zM45 0h10v10H45V0zm0 25h10v10H45V25zm20 45h10v10H65V70zm20 0h10v10H85V70zm-20 20h10v10H65V90zm0-45h10v10H65V45zm20 0h10v10H85V45zm-40 25h10v10H45V70zm0 20h10v10H45V90zm20-65h10v10H65V25zm-20 20h10v10H45V45zM0 45h10v10H0V45zm25 0h10v10H25V45z" />
+                  <path fill="currentColor" d="M0 0h32v32H0V0zm4 4v24h24V4H4zm4 4h16v16H8V8zm60-8h32v32H68V0zm4 4v24h24V4H72zm4 4h16v16H76V8zM0 68h32v32H0V68zm4 4v24h24V72H4zm4 4h16v16H8V76zm36-76h8v8h-8V0zm0 12h8v8h-8v-8zm12 0h8v8h-8v-8zm12 40h8v8h-8v-8zm-12 12h8v8h-8v-8zm12 12h8v8h-8v-8zm-24 12h8v8h-8v-8zm12 12h8v8h-8v-8zm12 0h8v8h-8v-8zm-48-24h8v8h-8v-8zm0 12h8v8h-8v-8zm12 0h8v8h-8v-8zm36-36h8v8h-8v-8zm0 12h8v8h-8v-8zm-12 0h8v8h-8v-8zm24 0h8v8h-8v-8zM44 44h8v8h-8v-8zm12 0h8v8h-8v-8zm0 12h8v8h-8v-8zm-12 12h8v8h-8v-8z" />
                 </svg>
               </div>
               <div className="flex flex-col gap-2 flex-grow">
