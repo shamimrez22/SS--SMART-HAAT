@@ -3,7 +3,7 @@
 
 import React, { useRef } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Flame, Star, QrCode, Apple, Play, Truck, Tag } from 'lucide-react';
+import { ArrowRight, Flame, Star, Apple, Play, Truck, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -88,11 +88,10 @@ export default function Home() {
             </Carousel>
           </div>
           
-          {/* DOWNLOAD APP CARD - NEW STYLE MATCHING IMAGE */}
+          {/* DOWNLOAD APP CARD - UNIQUE STYLE */}
           <div className="hidden lg:flex lg:col-span-3 flex-col gap-4">
             {/* Top Gradient Card */}
             <div className="relative bg-gradient-to-br from-[#ff5f00] via-[#ff4b2b] to-[#ff0080] p-6 pt-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10 h-[280px] flex flex-col">
-              {/* Badge */}
               <div className="absolute top-0 left-0 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-br-2xl flex items-center gap-1 border-b border-r border-white/30">
                 <Star className="h-3 w-3 fill-orange-400 text-orange-400" />
                 <span className="text-[10px] font-black text-white uppercase tracking-tighter">4.8 Rated</span>
@@ -125,10 +124,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Bottom QR Area */}
+            {/* Bottom QR Area with UNIQUE QR Code */}
             <div className="flex items-center gap-4 px-2">
-              <div className="bg-white p-2 w-24 h-24 shrink-0 rounded-xl shadow-xl border border-white/5">
-                <QrCode className="h-full w-full text-black" />
+              <div className="bg-white p-2 w-24 h-24 shrink-0 rounded-xl shadow-xl border border-white/5 flex items-center justify-center">
+                {/* UNIQUE CUSTOM QR CODE SVG */}
+                <svg viewBox="0 0 100 100" className="w-full h-full text-black">
+                  <path fill="currentColor" d="M0 0h35v35H0V0zm5 5v25h25V5H5zm5 5h15v15H10V10zM65 0h35v35H65V0zm5 5v25h25V5H70zm5 5h15v15H75V10zM0 65h35v35H0V65zm5 5v25h25V70H5zm5 5h15v15H10V75zM45 0h10v10H45V0zm0 25h10v10H45V25zm20 45h10v10H65V70zm20 0h10v10H85V70zm-20 20h10v10H65V90zm0-45h10v10H65V45zm20 0h10v10H85V45zm-40 25h10v10H45V70zm0 20h10v10H45V90zm20-65h10v10H65V25zm-20 20h10v10H45V45zM0 45h10v10H0V45zm25 0h10v10H25V45z" />
+                  <rect x="42" y="42" width="16" height="16" fill="white" />
+                  <path fill="#ea580c" d="M44 44h12v12H44z" />
+                  <text x="50" y="52" fontSize="6" fontWeight="900" textAnchor="middle" fill="white" className="font-sans">SS</text>
+                </svg>
               </div>
               <div className="flex flex-col gap-2 flex-grow">
                 <div className="bg-white border border-white/10 h-10 px-4 flex items-center gap-3 rounded-xl cursor-pointer hover:bg-gray-100 transition-all shadow-md group">
