@@ -90,7 +90,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
           <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
             
             {/* PRODUCT PREVIEW - 4:5 ASPECT RATIO - COVER MODE */}
-            <div className="relative w-full md:w-5/12 aspect-[4/5] bg-zinc-900 border-b md:border-b-0 md:border-r border-white/5">
+            <div className="relative w-full md:w-5/12 aspect-[4/5] bg-black border-b md:border-b-0 md:border-r border-white/5">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
@@ -105,7 +105,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <div className="flex items-center gap-4">
                    {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
                    <div className="text-lg md:text-3xl font-black text-white flex items-baseline">
-                     <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>
+                     <span className="text-[0.5em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
                      {product.price.toLocaleString()}
                    </div>
                 </div>
@@ -113,7 +113,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             </div>
 
             {/* FORM AREA */}
-            <div className="w-full md:w-7/12 p-6 md:p-12 space-y-6 md:space-y-10 bg-card overflow-y-auto">
+            <div className="w-full md:w-7/12 p-6 md:p-12 space-y-6 md:space-y-10 bg-black overflow-y-auto">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
                   <div className="h-5 md:h-8 w-1.5 bg-[#01a3a4]" />

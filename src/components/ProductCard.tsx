@@ -21,8 +21,8 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE TO REMOVE BACKGROUND GAPS */}
-        <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5 bg-zinc-900">
+        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE (NO BACKGROUND GAPS) */}
+        <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -50,7 +50,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
           {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
           <div className="flex items-center justify-between">
             <span className="font-black text-2xl md:text-3xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
-              <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>
+              <span className="text-[0.5em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
             </span>
             

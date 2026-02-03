@@ -68,8 +68,8 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - COVER MODE TO REMOVE BACKGROUND GAPS */}
-            <div className="relative aspect-[4/5] rounded-none overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl group">
+            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - COVER MODE (FULL VIEW) */}
+            <div className="relative aspect-[4/5] rounded-none overflow-hidden border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
@@ -94,7 +94,7 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-6">
                   {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
                   <div className="text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
-                    <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.2em]">৳</span>
+                    <span className="text-[0.5em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (
