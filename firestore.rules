@@ -3,11 +3,32 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // CRITICAL EMERGENCY REDEPLOY: 20240523_FORCED_GLOBAL_ACCESS_V100
+    // This comment ensures the rules are re-evaluated and applied immediately.
 
-    // FORCE REDEPLOY IDENTIFIER: 20240522_CRITICAL_PERMISSIVE_V9
-    // This comment ensures the rules are re-evaluated and applied immediately across all nodes.
-
+    // Explicitly allow all operations on all collections for unauthenticated and authenticated users.
     match /{path=**} {
+      allow read, write: if true;
+    }
+    
+    match /orders/{orderId} {
+      allow read, write: if true;
+    }
+    
+    match /products/{productId} {
+      allow read, write: if true;
+    }
+
+    match /categories/{categoryId} {
+      allow read, write: if true;
+    }
+
+    match /settings/{settingId} {
+      allow read, write: if true;
+    }
+
+    match /loginStats/{date} {
       allow read, write: if true;
     }
   }
