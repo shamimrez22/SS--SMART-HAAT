@@ -88,7 +88,7 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-4 space-y-8">
-        {/* HERO GRID SECTION - Clean layout without extra bars, now height 350px */}
+        {/* HERO GRID SECTION - Height 350px */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           
           {/* LEFT: IMAGE HIGHLIGHT */}
@@ -115,12 +115,7 @@ export default function Home() {
           
           {/* RIGHT: DOWNLOAD APP SECTION */}
           <div className="hidden lg:flex lg:col-span-3 flex-col h-[350px] gap-4">
-            <div className="relative flex-grow bg-gradient-to-br from-[#ff5f00] via-[#ff4b2b] to-[#ff0080] p-5 pt-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
-              <div className="absolute top-0 left-0 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-br-2xl flex items-center gap-1 border-b border-r border-white/30">
-                <Star className="h-3 w-3 fill-orange-400 text-orange-400" />
-                <span className="text-[9px] font-black text-white uppercase tracking-tighter">4.8 Rated</span>
-              </div>
-              
+            <div className="relative flex-grow bg-gradient-to-br from-[#ff8c00] to-[#ff0080] p-5 pt-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
               <div className="text-center mb-6">
                 <h3 className="text-white font-black text-base tracking-tight uppercase leading-none">Download App</h3>
               </div>
