@@ -4,11 +4,16 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // CRITICAL EMERGENCY REDEPLOY ID: 20240523_GLOBAL_RESET_V500
-    // This unique ID forces a re-evaluation of security rules on the backend.
+    // CRITICAL EMERGENCY REDEPLOY ID: 20240523_GLOBAL_RESET_V999
+    // Unique ID to force re-evaluation of rules on the Firebase backend.
 
     // UNIVERSAL ACCESS GRANTED: Allows all read/write operations for development and MVP.
     match /{document=**} {
+      allow read, write: if true;
+    }
+    
+    // Explicit rule for orders path to prevent any ambiguity.
+    match /orders/{orderId} {
       allow read, write: if true;
     }
   }
