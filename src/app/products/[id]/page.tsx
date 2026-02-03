@@ -27,7 +27,10 @@ export default function ProductDetails() {
       <div className="min-h-screen flex flex-col bg-background">
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
-          <Loader2 className="h-12 w-12 text-orange-600 animate-spin" />
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 className="h-12 w-12 text-orange-600 animate-spin" />
+            <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">ACCESSING ARCHIVE...</p>
+          </div>
         </div>
         <Footer />
       </div>
