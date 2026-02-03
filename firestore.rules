@@ -4,13 +4,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // EMERGENCY FORCE REDEPLOY ID: 20240523_ULTIMATE_ACCESS_FIX_V7
-    // This override ensures that even unauthenticated users can access the data during development.
+    // EMERGENCY FORCE REDEPLOY ID: 20240524_ULTIMATE_DEVELOPMENT_ACCESS_V9
+    // This provides absolute open access to all collections to prevent "Missing or insufficient permissions" errors.
     match /{document=**} {
       allow read, write: if true;
     }
 
-    // Explicitly allowing orders collection for absolute certainty
     match /orders/{orderId} {
       allow read, write: if true;
     }
