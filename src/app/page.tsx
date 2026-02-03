@@ -3,6 +3,7 @@
 
 import React, { useRef, memo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, Flame, Star, Apple, Play, Truck, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
@@ -30,8 +31,8 @@ const SlideItem = memo(({ slide, priority }: { slide: any, priority: boolean }) 
           dangerouslySetInnerHTML={{ __html: slide.title }}
         />
         <p className="text-white/90 text-[10px] font-black tracking-[0.2em] uppercase">{slide.subtitle}</p>
-        <Button className="bg-orange-600 text-white h-8 px-4 font-black rounded-none text-[10px] hover:bg-orange-700 transition-all uppercase w-fit mt-2">
-          SHOP NOW <ArrowRight className="ml-2 h-3 w-3" />
+        <Button asChild className="bg-orange-600 text-white h-8 px-4 font-black rounded-none text-[10px] hover:bg-orange-700 transition-all uppercase w-fit mt-2">
+          <Link href="/shop">SHOP NOW <ArrowRight className="ml-2 h-3 w-3" /></Link>
         </Button>
       </div>
     </div>
@@ -162,14 +163,20 @@ export default function Home() {
             <h2 className="text-xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
               <Flame className="h-5 w-5 text-orange-600 fill-current" /> TOP PRODUCT
             </h2>
-            <Button variant="link" className="text-orange-600 font-black text-[12px] uppercase p-0 h-auto">
-              VIEW ALL <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {products.concat(products).slice(0, 12).map((product, idx) => (
               <ProductCard key={`${product.id}-${idx}`} product={product} />
             ))}
+          </div>
+          
+          {/* MORE PRODUCT BUTTON */}
+          <div className="flex justify-center mt-12">
+            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[12px] uppercase h-12 px-10 rounded-none shadow-xl transition-all hover:scale-105 active:scale-95">
+              <Link href="/shop">
+                MORE PRODUCT <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </section>
 
