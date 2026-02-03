@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, ShoppingCart, Heart, Share2, Truck, ShieldCheck, Loader2, Package, Ruler } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Share2, Loader2, Package, Ruler } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -68,17 +68,16 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - FILL FRAME */}
-            <div className="relative aspect-square rounded-none overflow-hidden bg-black border border-white/5 shadow-2xl group">
+            {/* PRODUCT IMAGE - SQUARE FIDELITY */}
+            <div className="relative aspect-square rounded-none overflow-hidden bg-white border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
                 fill 
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority 
-                className="object-cover transition-transform duration-[2000ms] group-hover:scale-110" 
+                className="object-contain transition-transform duration-[2000ms] group-hover:scale-105 p-4" 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
               {isOutOfStock && (
                 <div className="absolute inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-10">
                   <p className="text-3xl font-black text-white border-4 border-white px-10 py-5 uppercase tracking-[0.5em] animate-pulse">ARCHIVE ONLY</p>

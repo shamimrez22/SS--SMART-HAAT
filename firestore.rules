@@ -4,33 +4,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // FORCE GLOBAL DEPLOYMENT IDENTIFIER: 20240520_FORCE_ALLOW_ALL
-    // This comment ensures the file watcher triggers a re-deployment of rules.
+    // FORCE GLOBAL DEPLOYMENT IDENTIFIER: 20240520_FORCE_ALLOW_ALL_FINAL
+    // Ensuring rules are re-deployed with absolute permissive access.
 
-    // GLOBAL ACCESS OVERRIDE
-    // Allows all read/write operations regardless of authentication or path.
     match /{path=**} {
-      allow read, write: if true;
-    }
-
-    // Explicitly defined matches to reinforce permissions for critical collections.
-    match /products/{productId} {
-      allow read, write: if true;
-    }
-
-    match /categories/{categoryId} {
-      allow read, write: if true;
-    }
-
-    match /orders/{orderId} {
-      allow read, write: if true;
-    }
-
-    match /settings/{settingId} {
-      allow read, write: if true;
-    }
-
-    match /loginStats/{date} {
       allow read, write: if true;
     }
   }

@@ -21,15 +21,15 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - FULL SIZE COVER */}
-        <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden border border-white/5 bg-black">
+        {/* IMAGE CONTAINER - SQUARE LOCKED WITH WHITE BG FOR FIDELITY */}
+        <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden border border-white/5 bg-white">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
             loading="lazy"
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            className="object-contain transition-transform duration-1000 group-hover:scale-105 p-1"
           />
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -63,7 +63,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             )}
           </div>
 
-          {/* ORIGINAL PRICE - LARGE STRIKETHROUGH (AS REQUESTED) */}
+          {/* ORIGINAL PRICE - LARGE STRIKETHROUGH */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
               <span className="text-white/40 line-through text-[16px] font-bold flex items-baseline">
