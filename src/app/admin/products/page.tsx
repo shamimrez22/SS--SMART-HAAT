@@ -1,14 +1,14 @@
 
 "use client";
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2, ArrowLeft, Package, Upload, X, Loader2, Edit2, Save, CheckCircle2, AlertTriangle, Layers, Ruler } from 'lucide-react';
+import { Plus, Trash2, ArrowLeft, Package, Upload, X, Loader2, Edit2, Save, AlertTriangle, Ruler, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, doc, query, orderBy } from 'firebase/firestore';
@@ -43,7 +43,7 @@ export default function AdminProducts() {
   const [originalPrice, setOriginalPrice] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState('0');
   const [category, setCategory] = useState('');
-  const [stockQuantity, setStockQuantity] = useState('');
+  const [manualStockQuantity, setManualStockQuantity] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showInSlider, setShowInSlider] = useState(false);
   const [showInFlashOffer, setShowInFlashOffer] = useState(false);
@@ -63,12 +63,9 @@ export default function AdminProducts() {
   const { data: categories } = useCollection(categoriesRef);
 
   // Auto-calculate total stock if sizes are present
-  useEffect(() => {
-    if (sizeEntries.length > 0) {
-      const total = sizeEntries.reduce((acc, curr) => acc + (curr.quantity || 0), 0);
-      setStockQuantity(total.toString());
-    }
-  }, [sizeEntries]);
+  const calculatedTotalStock = sizeEntries.length > 0 
+    ? sizeEntries.reduce((acc, curr) => acc + (curr.quantity || 0), 0)
+    : parseInt(manualStockQuantity) || 0;
 
   // Auto-calculate discount
   useEffect(() => {
@@ -99,7 +96,7 @@ export default function AdminProducts() {
   };
 
   const addSizeEntry = () => {
-    setSizeEntries([...sizeEntries, { size: '', quantity: 0 }]);
+    setSizeEntries([...sizeEntries, { size: '', quantity: 1 }]);
   };
 
   const removeSizeEntry = (index: number) => {
@@ -119,10 +116,14 @@ export default function AdminProducts() {
 
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !price || !imagePreview || !category || !stockQuantity) {
+    if (!name || !price || !imagePreview || !category) {
       alert("PLEASE FILL ALL REQUIRED FIELDS.");
       return;
     }
+
+    const finalStock = sizeEntries.length > 0 
+      ? sizeEntries.reduce((acc, curr) => acc + (curr.quantity || 0), 0)
+      : parseInt(manualStockQuantity) || 0;
 
     const productData = {
       name: name.toUpperCase(),
@@ -131,11 +132,9 @@ export default function AdminProducts() {
       originalPrice: parseFloat(originalPrice) || parseFloat(price),
       discountPercentage: parseInt(discountPercentage) || 0,
       category: category.toUpperCase(),
-      // Store sizes as formatted strings for the frontend
       sizes: sizeEntries.length > 0 ? sizeEntries.map(s => s.size) : [],
-      // Keep a structured version for inventory tracking if needed
       sizeInventory: sizeEntries,
-      stockQuantity: parseInt(stockQuantity),
+      stockQuantity: finalStock,
       imageUrl: imagePreview,
       showInSlider,
       showInFlashOffer,
@@ -162,7 +161,7 @@ export default function AdminProducts() {
     setOriginalPrice('');
     setDiscountPercentage('0');
     setCategory('');
-    setStockQuantity('');
+    setManualStockQuantity('');
     setSizeEntries([]);
     setImagePreview(null);
     setShowInSlider(false);
@@ -179,7 +178,11 @@ export default function AdminProducts() {
     setDiscountPercentage(product.discountPercentage?.toString() || '0');
     setCategory(product.category);
     setSizeEntries(product.sizeInventory || []);
-    setStockQuantity(product.stockQuantity?.toString() || '');
+    if (!product.sizeInventory || product.sizeInventory.length === 0) {
+      setManualStockQuantity(product.stockQuantity?.toString() || '');
+    } else {
+      setManualStockQuantity('');
+    }
     setImagePreview(product.imageUrl);
     setShowInSlider(!!product.showInSlider);
     setShowInFlashOffer(!!product.showInFlashOffer);
@@ -200,36 +203,39 @@ export default function AdminProducts() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-orange-600/30">
       <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-12">
-        <div className="flex items-center gap-4 mb-8">
-          <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2">
-            <Link href="/admin"><ArrowLeft className="h-5 w-5" /></Link>
+        <div className="flex items-center gap-4 mb-12">
+          <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10">
+            <Link href="/admin"><ArrowLeft className="h-6 w-6" /></Link>
           </Button>
-          <h1 className="text-3xl font-black uppercase tracking-tighter text-white">
-            {editingId ? 'EDIT PRODUCT' : 'MANAGE PRODUCTS'}
-          </h1>
+          <div className="space-y-1">
+            <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Inventory Management</p>
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-white">
+              {editingId ? 'EDITING PRODUCT' : 'PRODUCT CONTROL'}
+            </h1>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* PRODUCT FORM */}
-          <Card className="bg-card border-white/5 rounded-none lg:col-span-1 h-fit sticky top-24 max-h-[85vh] overflow-y-auto">
-            <CardHeader>
-              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">
-                {editingId ? 'UPDATE PRODUCT DETAILS' : 'ADD NEW PRODUCT'}
+          <Card className="bg-card border-white/5 rounded-none lg:col-span-4 h-fit sticky top-24 max-h-[85vh] overflow-y-auto shadow-2xl">
+            <CardHeader className="border-b border-white/5 p-6">
+              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600 flex items-center gap-2">
+                <ShoppingBag className="h-4 w-4" /> {editingId ? 'UPDATE RECORD' : 'REGISTER NEW ITEM'}
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <form onSubmit={handleSaveProduct} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Name *</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Identity *</label>
                   <Input 
                     value={name} 
                     onChange={(e) => setName(e.target.value)} 
-                    placeholder="E.G. PREMIUM JAMDANI SAREE" 
-                    className="bg-black/50 border-white/10 rounded-none text-xs uppercase"
+                    placeholder="E.G. PREMIUM POLO SHIRT" 
+                    className="bg-black/50 border-white/10 rounded-none h-12 text-xs uppercase font-bold"
                     required
                   />
                 </div>
@@ -239,105 +245,113 @@ export default function AdminProducts() {
                   <Textarea 
                     value={description} 
                     onChange={(e) => setDescription(e.target.value)} 
-                    placeholder="PRODUCT SPECIFICATIONS..." 
-                    className="bg-black/50 border-white/10 rounded-none text-xs min-h-[80px]" 
+                    placeholder="ENTER SPECIFICATIONS..." 
+                    className="bg-black/50 border-white/10 rounded-none text-xs min-h-[100px] leading-relaxed" 
                   />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Original Price (৳)</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase">MSRP (৳)</label>
                     <Input 
                       type="number" 
                       value={originalPrice} 
                       onChange={(e) => setOriginalPrice(e.target.value)} 
                       placeholder="0.00" 
-                      className="bg-black/50 border-white/10 rounded-none text-xs" 
+                      className="bg-black/50 border-white/10 rounded-none h-12 text-xs" 
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Selling Price (৳) *</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase">Sales Price (৳) *</label>
                     <Input 
                       type="number" 
                       value={price} 
                       onChange={(e) => setPrice(e.target.value)} 
                       placeholder="0.00" 
-                      className="bg-black/50 border-white/10 rounded-none text-xs"
+                      className="bg-black/50 border-white/10 rounded-none h-12 text-xs text-orange-600 font-black"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-white/5">
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-[10px] font-black text-orange-600 uppercase flex items-center gap-2">
-                      <Ruler className="h-3 w-3" /> SIZE SPECIFIC INVENTORY
+                {/* SIZE & INVENTORY SYSTEM */}
+                <div className="space-y-4 pt-6 border-t border-white/5">
+                  <div className="flex items-center justify-between mb-4">
+                    <label className="text-[10px] font-black text-white uppercase flex items-center gap-2">
+                      <Ruler className="h-3 w-3 text-orange-600" /> SIZE SPECIFIC STOCK
                     </label>
-                    <Button type="button" onClick={addSizeEntry} variant="outline" className="h-8 rounded-none border-orange-600/30 text-orange-600 hover:bg-orange-600 hover:text-white text-[9px] font-black uppercase">
-                      ADD SIZE
+                    <Button 
+                      type="button" 
+                      onClick={addSizeEntry} 
+                      variant="outline" 
+                      className="h-8 rounded-none border-orange-600/30 text-orange-600 hover:bg-orange-600 hover:text-white text-[9px] font-black uppercase tracking-widest"
+                    >
+                      + ADD SIZE
                     </Button>
                   </div>
 
                   {sizeEntries.map((entry, index) => (
-                    <div key={index} className="flex gap-2 items-end group">
+                    <div key={index} className="flex gap-2 items-end animate-in fade-in slide-in-from-top-2 duration-300">
                       <div className="flex-1 space-y-1">
-                         <label className="text-[8px] font-black text-muted-foreground uppercase">SIZE</label>
+                         <label className="text-[8px] font-black text-muted-foreground uppercase">SIZE NAME</label>
                          <Input 
                             value={entry.size} 
                             onChange={(e) => updateSizeEntry(index, 'size', e.target.value)}
-                            placeholder="XL"
-                            className="bg-black/50 border-white/10 rounded-none h-10 text-[10px]"
+                            placeholder="E.G. XL"
+                            className="bg-black/50 border-white/10 rounded-none h-10 text-[10px] font-black"
                          />
                       </div>
                       <div className="w-24 space-y-1">
-                         <label className="text-[8px] font-black text-muted-foreground uppercase">QTY</label>
+                         <label className="text-[8px] font-black text-muted-foreground uppercase">QTY (PCS)</label>
                          <Input 
                             type="number"
                             value={entry.quantity} 
                             onChange={(e) => updateSizeEntry(index, 'quantity', e.target.value)}
                             placeholder="1"
-                            className="bg-black/50 border-white/10 rounded-none h-10 text-[10px]"
+                            className="bg-black/50 border-white/10 rounded-none h-10 text-[10px] font-black text-orange-600"
                          />
                       </div>
-                      <Button type="button" onClick={() => removeSizeEntry(index)} variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-red-500">
+                      <Button type="button" onClick={() => removeSizeEntry(index)} variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground hover:text-red-500 hover:bg-red-600/5">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}
 
                   {sizeEntries.length === 0 && (
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase">Total Stock Quantity *</label>
+                    <div className="space-y-2 p-4 bg-white/[0.02] border border-dashed border-white/10">
+                      <label className="text-[10px] font-black text-muted-foreground uppercase">Manual Total Stock *</label>
                       <Input 
                         type="number" 
-                        value={stockQuantity} 
-                        onChange={(e) => setStockQuantity(e.target.value)} 
-                        placeholder="E.G. 100" 
-                        className="bg-black/50 border-white/10 rounded-none text-xs"
-                        required
+                        value={manualStockQuantity} 
+                        onChange={(e) => setManualStockQuantity(e.target.value)} 
+                        placeholder="TOTAL UNITS" 
+                        className="bg-black/50 border-white/10 rounded-none h-12 text-xs font-black"
+                        required={sizeEntries.length === 0}
                       />
-                      <p className="text-[8px] text-muted-foreground italic uppercase">USE THIS IF PRODUCT HAS NO SPECIFIC SIZES.</p>
+                      <p className="text-[8px] text-orange-600/70 italic uppercase tracking-wider font-bold">
+                        * Use this if product has no specific sizes.
+                      </p>
                     </div>
                   )}
 
                   {sizeEntries.length > 0 && (
-                    <div className="p-3 bg-orange-600/5 border border-orange-600/10">
-                      <p className="text-[9px] font-black text-orange-600 uppercase tracking-widest">
-                        TOTAL CALCULATED STOCK: {stockQuantity} PCS
+                    <div className="p-4 bg-orange-600/10 border border-orange-600/20">
+                      <p className="text-[10px] font-black text-orange-600 uppercase tracking-[0.2em] text-center">
+                        TOTAL CALCULATED STOCK: {calculatedTotalStock} PCS
                       </p>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Category *</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase">Classification *</label>
                   <Select value={category} onValueChange={setCategory}>
-                    <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-10 uppercase">
+                    <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-12 uppercase font-black">
                       <SelectValue placeholder="SELECT CATEGORY" />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-white/10 rounded-none">
                       {categories?.map((cat) => (
-                        <SelectItem key={cat.id} value={cat.name} className="uppercase text-[10px] focus:bg-orange-600 focus:text-white">
+                        <SelectItem key={cat.id} value={cat.name} className="uppercase text-[10px] font-black focus:bg-orange-600 focus:text-white py-3">
                           {cat.name}
                         </SelectItem>
                       ))}
@@ -345,52 +359,56 @@ export default function AdminProducts() {
                   </Select>
                 </div>
 
-                <div className="space-y-4 pt-2 border-t border-white/5 mt-4">
-                  <div className="flex items-center space-x-2">
+                <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/5 mt-4">
+                  <div className="flex items-center space-x-3 p-3 bg-white/[0.02] border border-white/5">
                     <Checkbox 
                       id="slider" 
                       checked={showInSlider} 
                       onCheckedChange={(checked) => setShowInSlider(!!checked)} 
                       className="border-white/20 data-[state=checked]:bg-orange-600" 
                     />
-                    <Label htmlFor="slider" className="text-[10px] font-black uppercase text-white cursor-pointer">Show in Home Slider</Label>
+                    <Label htmlFor="slider" className="text-[9px] font-black uppercase text-white cursor-pointer tracking-widest leading-none">Slider</Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3 p-3 bg-white/[0.02] border border-white/5">
                     <Checkbox 
                       id="flash" 
                       checked={showInFlashOffer} 
                       onCheckedChange={(checked) => setShowInFlashOffer(!!checked)} 
                       className="border-white/20 data-[state=checked]:bg-orange-600" 
                     />
-                    <Label htmlFor="flash" className="text-[10px] font-black uppercase text-white cursor-pointer">Show in Flash Offer Section</Label>
+                    <Label htmlFor="flash" className="text-[9px] font-black uppercase text-white cursor-pointer tracking-widest leading-none">Flash Offer</Label>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Image *</label>
+                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Visualization *</label>
                   <div 
                     onClick={() => fileInputRef.current?.click()} 
-                    className="border-2 border-dashed border-white/10 p-4 text-center cursor-pointer hover:border-orange-600 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[150px] relative group"
+                    className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer hover:border-orange-600 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[200px] relative group overflow-hidden"
                   >
                     {imagePreview ? (
-                      <div className="relative w-full aspect-square">
+                      <div className="relative w-full aspect-square animate-in zoom-in duration-300">
                         <Image src={imagePreview} alt="Preview" fill className="object-cover" />
-                        <button type="button" onClick={(e) => { e.stopPropagation(); setImagePreview(null); }} className="absolute -top-2 -right-2 bg-orange-600 p-1.5 text-white z-10"><X className="h-4 w-4" /></button>
+                        <button type="button" onClick={(e) => { e.stopPropagation(); setImagePreview(null); }} className="absolute top-2 right-2 bg-red-600 p-2 text-white z-10 shadow-xl"><X className="h-5 w-5" /></button>
                       </div>
                     ) : (
-                      <div className="space-y-2">
-                        <Upload className="h-6 w-6 text-orange-600 mx-auto" />
-                        <p className="text-[10px] font-black text-white uppercase">UPLOAD PHOTO</p>
+                      <div className="space-y-3 group-hover:scale-110 transition-transform">
+                        <Upload className="h-10 w-10 text-orange-600 mx-auto opacity-50" />
+                        <p className="text-[10px] font-black text-white uppercase tracking-widest">UPLOAD MASTER IMAGE</p>
                       </div>
                     )}
                     <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  {editingId && <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/10 rounded-none uppercase text-[10px] h-12">CANCEL</Button>}
-                  <Button type="submit" className="flex-grow bg-orange-600 hover:bg-orange-700 text-white font-black rounded-none uppercase text-[10px] h-12">
-                    {editingId ? <><Save className="mr-2 h-4 w-4" /> UPDATE</> : <><Plus className="mr-2 h-4 w-4" /> SAVE</>}
+                <div className="flex gap-3 pt-4">
+                  {editingId && (
+                    <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/10 rounded-none uppercase text-[10px] font-black h-14 hover:bg-white/5">
+                      DISCARD
+                    </Button>
+                  )}
+                  <Button type="submit" className="flex-grow bg-orange-600 hover:bg-orange-700 text-white font-black rounded-none uppercase text-[10px] h-14 tracking-[0.2em] shadow-2xl shadow-orange-600/10">
+                    {editingId ? <><Save className="mr-2 h-4 w-4" /> UPDATE RECORD</> : <><Plus className="mr-2 h-4 w-4" /> SAVE PRODUCT</>}
                   </Button>
                 </div>
               </form>
@@ -398,42 +416,54 @@ export default function AdminProducts() {
           </Card>
 
           {/* PRODUCT LIST */}
-          <Card className="bg-card border-white/5 rounded-none lg:col-span-2">
-            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">INVENTORY LIST ({products?.length || 0})</CardTitle></CardHeader>
-            <CardContent>
+          <Card className="bg-card border-white/5 rounded-none lg:col-span-8 shadow-2xl overflow-hidden">
+            <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6 flex flex-row items-center justify-between">
+              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">INVENTORY ARCHIVE ({products?.length || 0})</CardTitle>
+              <Badge className="bg-orange-600 text-white font-black text-[9px] rounded-none px-4 py-1">REAL-TIME SYNCED</Badge>
+            </CardHeader>
+            <CardContent className="p-6">
               {productsLoading ? (
-                <div className="flex flex-col items-center justify-center py-20"><Loader2 className="h-8 w-8 text-orange-600 animate-spin" /></div>
+                <div className="flex flex-col items-center justify-center py-40 gap-4">
+                  <Loader2 className="h-12 w-12 text-orange-600 animate-spin" />
+                  <p className="text-[10px] font-black uppercase text-orange-600 animate-pulse tracking-widest">Accessing Database...</p>
+                </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {products?.map((p) => (
-                    <div key={p.id} className={`flex gap-4 p-4 bg-white/5 border transition-all ${editingId === p.id ? 'border-orange-600 bg-orange-600/5' : 'border-white/5'} group relative`}>
-                      <div className="relative w-24 h-24 shrink-0 border border-white/10 overflow-hidden bg-black">
-                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
-                      </div>
-                      <div className="flex-grow flex flex-col justify-between overflow-hidden">
-                        <div className="space-y-1">
-                          <div className="flex justify-between items-start">
-                             <p className="text-[8px] font-black text-orange-600 tracking-widest uppercase">{p.category}</p>
-                             <Badge className={`rounded-none text-[7px] h-4 ${p.stockQuantity > 0 ? 'bg-green-600' : 'bg-red-600'}`}>
-                               {p.stockQuantity > 0 ? 'IN STOCK' : 'OUT OF STOCK'}
-                             </Badge>
-                          </div>
-                          <h3 className="text-sm font-black text-white uppercase truncate mt-1">{p.name}</h3>
-                          <div className="flex items-center gap-3">
-                            <span className="text-[12px] font-black text-white">৳{p.price}</span>
-                            <span className="text-[9px] font-black text-muted-foreground uppercase">TOTAL: {p.stockQuantity}</span>
-                          </div>
-                          {p.sizeInventory && p.sizeInventory.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {p.sizeInventory.map((si: any, i: number) => (
-                                <span key={i} className="text-[7px] font-bold bg-white/10 px-1 text-white/70">{si.size}: {si.quantity}</span>
-                              ))}
-                            </div>
-                          )}
+                    <div key={p.id} className={`flex flex-col bg-white/5 border transition-all group overflow-hidden ${editingId === p.id ? 'border-orange-600 bg-orange-600/5' : 'border-white/5 hover:border-white/20'}`}>
+                      <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-b border-white/5">
+                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100" />
+                        <div className="absolute top-2 left-2 flex gap-1">
+                          {p.showInSlider && <Badge className="bg-blue-600 text-white rounded-none text-[7px] font-black uppercase h-4">SLIDER</Badge>}
+                          {p.showInFlashOffer && <Badge className="bg-red-600 text-white rounded-none text-[7px] font-black uppercase h-4">FLASH</Badge>}
                         </div>
-                        <div className="flex justify-end gap-2 mt-2">
-                          <Button onClick={() => handleEdit(p)} variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-orange-600"><Edit2 className="h-4 w-4" /></Button>
-                          <Button onClick={() => confirmDelete(p.id)} variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-red-500"><Trash2 className="h-4 w-4" /></Button>
+                        <div className="absolute bottom-2 right-2">
+                          <Badge className={`rounded-none text-[8px] font-black uppercase h-5 px-3 border-none ${p.stockQuantity > 0 ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}>
+                            {p.stockQuantity > 0 ? `IN STOCK: ${p.stockQuantity}` : 'OUT OF STOCK'}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="p-4 flex flex-col justify-between flex-grow space-y-3">
+                        <div className="space-y-1">
+                          <p className="text-[8px] font-black text-orange-600 tracking-widest uppercase">{p.category}</p>
+                          <h3 className="text-[13px] font-black text-white uppercase truncate tracking-tighter">{p.name}</h3>
+                          <p className="text-base font-black text-white tracking-tighter">৳{p.price.toLocaleString()}</p>
+                        </div>
+
+                        {p.sizeInventory && p.sizeInventory.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1 pt-2 border-t border-white/5">
+                            {p.sizeInventory.map((si: any, i: number) => (
+                              <span key={i} className="text-[8px] font-black bg-white/10 px-2 py-0.5 text-white/60 border border-white/5 uppercase">
+                                {si.size}: {si.quantity}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="flex justify-end gap-2 pt-3">
+                          <Button onClick={() => handleEdit(p)} variant="outline" className="h-10 w-10 p-0 border-white/10 text-white hover:bg-orange-600 hover:text-white hover:border-orange-600 rounded-none"><Edit2 className="h-4 w-4" /></Button>
+                          <Button onClick={() => confirmDelete(p.id)} variant="outline" className="h-10 w-10 p-0 border-white/10 text-muted-foreground hover:bg-red-600 hover:text-white hover:border-red-600 rounded-none"><Trash2 className="h-4 w-4" /></Button>
                         </div>
                       </div>
                     </div>
@@ -447,19 +477,24 @@ export default function AdminProducts() {
 
       {/* PROFESSIONAL DELETE ALERT */}
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-black border-orange-600/30 rounded-none p-8 max-w-md">
-          <AlertDialogHeader className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20"><AlertTriangle className="h-6 w-6 text-red-600" /></div>
-              <AlertDialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">DELETE PRODUCT?</AlertDialogTitle>
+        <AlertDialogContent className="bg-black border-orange-600/30 rounded-none p-10 max-w-md">
+          <AlertDialogHeader className="space-y-6">
+            <div className="flex items-center gap-4">
+              <div className="h-14 w-14 bg-red-600/10 flex items-center justify-center border border-red-600/20 rounded-full">
+                <AlertTriangle className="h-8 w-8 text-red-600" />
+              </div>
+              <div>
+                <AlertDialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">DELETE PRODUCT?</AlertDialogTitle>
+                <p className="text-[10px] font-black text-red-600 uppercase tracking-widest mt-1">Irreversible System Action</p>
+              </div>
             </div>
-            <AlertDialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-widest leading-relaxed">
-              THIS ACTION WILL PERMANENTLY REMOVE THIS PRODUCT FROM YOUR INVENTORY. THIS CANNOT BE UNDONE.
+            <AlertDialogDescription className="text-[11px] text-muted-foreground uppercase font-black tracking-widest leading-relaxed">
+              THIS ACTION WILL PERMANENTLY REMOVE THIS RECORD FROM THE INVENTORY ARCHIVE. IT CANNOT BE RECOVERED.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="mt-8 gap-2 sm:gap-0">
-            <AlertDialogCancel className="flex-1 rounded-none border-white/10 text-white font-black uppercase text-[10px] h-12 hover:bg-white/5">CANCEL</AlertDialogCancel>
-            <AlertDialogAction onClick={handleFinalDelete} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase text-[10px] rounded-none h-12 shadow-xl shadow-red-600/10">DELETE FOREVER</AlertDialogAction>
+          <AlertDialogFooter className="mt-10 gap-3">
+            <AlertDialogCancel className="flex-1 rounded-none border-white/10 text-white font-black uppercase text-[10px] h-14 hover:bg-white/5">CANCEL</AlertDialogCancel>
+            <AlertDialogAction onClick={handleFinalDelete} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase text-[10px] rounded-none h-14 shadow-2xl shadow-red-600/20">CONFIRM DELETE</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
