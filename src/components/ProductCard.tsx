@@ -25,10 +25,10 @@ export function ProductCard({ product }: ProductCardProps) {
         />
       </Link>
       
-      <CardContent className="p-3 flex flex-col flex-grow space-y-2">
+      <CardContent className="p-2 flex flex-col flex-grow space-y-2">
         <div className="space-y-1">
           <Link href={`/products/${product.id}`} className="block">
-            <h3 className="font-bold text-[9px] line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors h-7 text-white uppercase tracking-tight">
+            <h3 className="font-bold text-[8px] line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors h-6 text-white uppercase tracking-tight">
               {product.name}
             </h3>
           </Link>
@@ -36,25 +36,25 @@ export function ProductCard({ product }: ProductCardProps) {
             <div className="flex text-orange-600">
               <Star className="h-2 w-2 fill-current" />
             </div>
-            <span className="text-[7px] text-muted-foreground font-bold uppercase">(4.9 RATING)</span>
+            <span className="text-[6px] text-muted-foreground font-bold uppercase">(4.9 RATING)</span>
           </div>
         </div>
         
-        <div className="pt-2 border-t border-white/5 space-y-1.5 mt-auto">
+        <div className="pt-1.5 border-t border-white/5 space-y-1 mt-auto">
           <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-black text-xs text-orange-600 tracking-tighter">৳{product.price.toFixed(2)}</span>
-              <span className="text-[7px] text-muted-foreground line-through font-bold">৳{product.originalPrice.toFixed(2)}</span>
+            <div className="flex items-center gap-1.5">
+              <span className="font-black text-[10px] text-orange-600 tracking-tighter">৳{product.price.toFixed(2)}</span>
+              <span className="text-[6px] text-muted-foreground line-through font-bold">৳{product.originalPrice.toFixed(2)}</span>
             </div>
             {product.discountPercentage > 0 && (
-              <span className="text-orange-500 text-[8px] font-black uppercase tracking-tight">
+              <span className="text-orange-500 text-[7px] font-black uppercase tracking-tight mt-0.5">
                 {product.discountPercentage}% OFF TODAY
               </span>
             )}
           </div>
           
-          <Button className="w-full bg-orange-600 text-white hover:bg-white hover:text-black transition-all font-black text-[7px] h-7 rounded-none uppercase px-2">
-            <ShoppingCart className="mr-1 h-2.5 w-2.5" /> ORDER NOW
+          <Button className="w-full bg-orange-600 text-white hover:bg-white hover:text-black transition-all font-black text-[6px] h-6 rounded-none uppercase px-1">
+            <ShoppingCart className="mr-1 h-2 w-2" /> ORDER NOW
           </Button>
         </div>
       </CardContent>

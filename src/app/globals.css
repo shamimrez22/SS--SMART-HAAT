@@ -11,7 +11,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 98%;
-    --primary: 30 100% 50%; /* ORANGE FOR ACCENTS */
+    --primary: 30 100% 50%; /* ORANGE */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 98%;
@@ -40,20 +40,13 @@
   }
 }
 
-.gold-gradient {
-  background: linear-gradient(90deg, #BF953F, #B38728, #AA771C);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #000;
 }
 ::-webkit-scrollbar-thumb {
   background: #ff8c00;
-  border-radius: 0px;
 }
