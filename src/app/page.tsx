@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight, Zap, Star, ShieldCheck, Truck, RotateCcw, LayoutGrid, Flame } from 'lucide-react';
+import { ArrowRight, Flame, Star, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -52,15 +52,13 @@ export default function Home() {
           </Carousel>
         </section>
 
-        {/* Value Propositions REMOVED as per user image instruction */}
-
-        {/* Flash Sale Section */}
-        <section id="flash-sale" className="bg-primary/5 rounded-[40px] p-10 border border-primary/10 relative overflow-hidden group">
+        {/* Top Product Section (Formerly Flash Sale) */}
+        <section id="top-products" className="bg-primary/5 rounded-[40px] p-10 border border-primary/10 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -mr-32 -mt-32 transition-all duration-700 group-hover:bg-primary/20" />
           <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
             <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
               <h2 className="text-4xl font-bold flex items-center gap-4">
-                <Zap className="h-10 w-10 text-primary fill-current animate-pulse" /> Flash Sale
+                <Flame className="h-10 w-10 text-primary fill-current animate-pulse" /> Top Product
               </h2>
               <div className="flex items-center gap-4 text-sm bg-background/50 backdrop-blur-sm px-6 py-3 rounded-2xl border border-primary/10">
                 <span className="text-muted-foreground font-bold uppercase tracking-widest text-[10px]">Ending In:</span>
@@ -77,9 +75,10 @@ export default function Home() {
               View All Collection <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
+          {/* Always showing 12 products by doubling the mock data */}
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {products.concat(products).slice(0, 12).map((product, idx) => (
+              <ProductCard key={`${product.id}-${idx}`} product={product} />
             ))}
           </div>
         </section>
