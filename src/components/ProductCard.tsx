@@ -21,7 +21,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - SQUARE AS PER SCREENSHOT */}
+        {/* IMAGE CONTAINER - SQUARE WHITE BACKGROUND */}
         <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden bg-white border border-white/5">
           <Image
             src={product.imageUrl}
@@ -50,7 +50,7 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
           {/* PRICE ROW: Main Price and Discount Box */}
           <div className="flex items-center justify-between">
             <span className="font-black text-2xl md:text-3xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
-              <span className="text-[9px] font-normal mr-0.5 translate-y-[-2px]">৳</span>
+              <span className="text-[10px] font-normal mr-0.5 translate-y-[-2px]">৳</span>
               {product.price.toLocaleString()}
             </span>
             
@@ -63,11 +63,11 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             )}
           </div>
 
-          {/* ORIGINAL PRICE - BELOW MAIN PRICE AS PER SCREENSHOT */}
+          {/* ORIGINAL PRICE - BIGGER STRIKETHROUGH AS REQUESTED */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
-              <span className="text-white/40 line-through text-[14px] font-bold flex items-baseline">
-                <span className="text-[9px] font-normal mr-0.5 translate-y-[-1px]">৳</span>
+              <span className="text-white/40 line-through text-[16px] font-bold flex items-baseline">
+                <span className="text-[10px] font-normal mr-0.5 translate-y-[-1px]">৳</span>
                 {product.originalPrice.toLocaleString()}
               </span>
             </div>

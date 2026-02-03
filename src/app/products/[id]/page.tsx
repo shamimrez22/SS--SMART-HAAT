@@ -68,7 +68,7 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* LOCKED ASPECT RATIO 4/5 FOR PRODUCT DETAILS */}
+            {/* VERTICAL LOCKED ASPECT RATIO 4/5 FOR DETAILS */}
             <div className="relative aspect-[4/5] rounded-none overflow-hidden bg-white border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 
@@ -98,7 +98,7 @@ export default function ProductDetails() {
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (
-                    <p className="text-2xl text-white/60 line-through font-bold flex items-baseline">
+                    <p className="text-[20px] text-white/60 line-through font-bold flex items-baseline">
                       <span className="text-[10px] font-normal mr-0.5 translate-y-[-2px]">৳</span>{product.originalPrice.toLocaleString()}
                     </p>
                   )}

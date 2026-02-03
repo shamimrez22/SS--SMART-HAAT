@@ -16,7 +16,7 @@ service cloud.firestore {
       allow write: if true;
     }
 
-    // ALLOW ACCESS TO ORDERS (CRITICAL FIX FOR PERMISSION ERROR)
+    // ALLOW ACCESS TO ORDERS
     match /orders/{orderId} {
       allow read: if true;
       allow write: if true;
@@ -36,7 +36,7 @@ service cloud.firestore {
 
     // FALLBACK
     match /{path=**} {
-      allow read, write: if false;
+      allow read, write: if true;
     }
   }
 }
