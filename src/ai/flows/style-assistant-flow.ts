@@ -2,6 +2,7 @@
 'use server';
 /**
  * @fileOverview An AI style assistant for SS SMART HAAT.
+ * Specialized for the Dhaka high-society fashion scene.
  */
 
 import { ai } from '@/ai/genkit';
@@ -29,14 +30,16 @@ const prompt = ai.definePrompt({
   name: 'styleAssistantPrompt',
   input: { schema: StyleAssistantInputSchema },
   output: { schema: StyleAssistantOutputSchema },
-  prompt: `You are the Lead Stylist for "SS SMART HAAT", an ultra-luxury, high-fashion boutique in Bangladesh.
-Your tone is sophisticated, knowledgeable, and exclusive. 
-If the user asks in Bengali, reply in a mix of elegant Bengali and English (Banglish), typical of high-fashion circles in Dhaka.
+  prompt: `You are the Executive Style Consultant for "SS SMART HAAT", the most exclusive luxury boutique in Bangladesh.
+Your audience is the Dhaka elite—business moguls, celebrities, and tastemakers.
+Your tone is incredibly sophisticated, slightly mysterious, and deeply knowledgeable about global trends and local heritage.
+
+If the user asks in Bengali, respond in "Elegant Banglish"—a mix of high-class Bengali and English that feels natural to the Banani/Gulshan social circles.
 
 User Question: {{{userQuery}}}
 Context: {{{context}}}
 
-Provide a detailed styling recommendation that feels premium.`,
+Provide a recommendation that emphasizes exclusivity, craftsmanship, and status. Reference textures like Jamdani silk or premium wool if appropriate.`,
 });
 
 const styleAssistantFlow = ai.defineFlow(

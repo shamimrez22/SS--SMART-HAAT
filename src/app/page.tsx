@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { ArrowRight, Sparkles, Diamond, Crown, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, Diamond, Crown, Zap, ShieldCheck, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -15,102 +15,115 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow">
-        {/* Unique Hero Section */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Hero Section - High Fashion Asymmetric */}
+        <section className="relative h-[90vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image
-              src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=2000"
-              alt="Luxury Fashion"
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2000"
+              alt="Luxury Fashion Concept"
               fill
-              className="object-cover opacity-60 scale-105 transition-transform duration-[10s] hover:scale-100"
+              className="object-cover opacity-40 scale-105"
               priority
+              data-ai-hint="luxury fashion"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
           </div>
           
-          <div className="container mx-auto px-4 relative z-10 text-center">
-            <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
-              <div className="flex justify-center mb-6">
-                <span className="flex items-center gap-2 px-6 py-2 border border-primary/50 text-primary text-xs font-bold tracking-[0.4em] uppercase rounded-none glass-card">
-                  <Crown className="h-4 w-4" /> Royal Collection 2024
-                </span>
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-2xl space-y-6 animate-fade-in-up">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-px w-12 bg-primary"></span>
+                <span className="text-primary text-xs font-bold tracking-[0.5em] uppercase">Est. 2024 | Dhaka</span>
               </div>
-              <h1 className="text-6xl md:text-9xl font-headline leading-[0.9] gold-gradient">
-                The Art of <br /> Distinction
+              <h1 className="text-7xl md:text-9xl font-headline leading-[0.85] gold-gradient drop-shadow-2xl">
+                Couture <br /> <span className="italic font-light">Heritage</span>
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground font-light max-w-2xl mx-auto italic">
-                Defined by rarity. Crafted for those who move the world.
+              <p className="text-lg md:text-xl text-muted-foreground font-light max-w-lg leading-relaxed">
+                Experience a realm where tradition meets technology. Curated for the few, desired by the many.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8">
-                <Button size="lg" className="h-16 rounded-none px-12 bg-primary text-background hover:bg-primary/90 text-lg uppercase tracking-widest font-bold">
-                  Enter The Atelier <ArrowRight className="ml-2 h-5 w-5" />
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button size="lg" className="h-14 rounded-none px-10 bg-primary text-background hover:bg-primary/90 text-sm uppercase tracking-widest font-bold transition-all hover:gap-4">
+                  Explore Collection <ArrowRight className="h-4 w-4" />
                 </Button>
-                <Button size="lg" variant="outline" className="h-16 rounded-none px-12 border-primary/50 text-primary hover:bg-primary/10 text-lg uppercase tracking-widest">
-                  View Lookbook
+                <Button size="lg" variant="outline" className="h-14 rounded-none px-10 border-white/20 hover:border-primary/50 text-white text-sm uppercase tracking-widest">
+                  The Lookbook
                 </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* AI Style Assistant Component */}
-        <section className="py-24 border-y border-white/5 bg-white/[0.02]">
+        {/* Brand Philosophy - "Bespoke Heritage" */}
+        <section className="py-24 border-y border-white/5 bg-card/10">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-6">
-                <h2 className="text-4xl md:text-6xl font-headline">Meet Your <br /><span className="text-primary italic">AI Stylist</span></h2>
-                <p className="text-muted-foreground text-lg font-light leading-relaxed">
-                  Apnar fashion niye kono proshno ache? Amader AI assistant apnake luxury styling advice dibe. 
-                  (Have a fashion question? Our AI stylist provides premium advice.)
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+              <div className="space-y-4">
+                <Diamond className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-headline">Peerless Quality</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">Each thread is selected from the finest sources globally, ensuring that your investment stands the test of time.</p>
+              </div>
+              <div className="space-y-4">
+                <MapPin className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-headline">Dhaka Roots</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">Rooted in the rich textile history of Bengal, we bring a modern interpretation to classic craftsmanship.</p>
+              </div>
+              <div className="space-y-4">
+                <ShieldCheck className="h-8 w-8 text-primary" />
+                <h3 className="text-2xl font-headline">Authenticated Exclusivity</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">Every piece comes with a digital certificate of authenticity, guaranteeing its place in our limited collections.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* AI Style Assistant - High Tech Integration */}
+        <section className="py-32 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 -skew-x-12 translate-x-1/4" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <div className="glass-card p-1 shadow-2xl">
+                <StyleAssistant />
+              </div>
+              <div className="space-y-8">
+                <div className="inline-block px-4 py-1 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-widest uppercase mb-4">
+                  GenAI Powered
+                </div>
+                <h2 className="text-5xl md:text-7xl font-headline leading-tight">
+                  Your Private <br /><span className="text-primary italic">Atelier AI</span>
+                </h2>
+                <p className="text-muted-foreground text-lg font-light leading-relaxed max-w-md">
+                  Amader AI assistant apnar personal style preference analyze kore ekdom perfect outfit recommend korbe. 
+                  Luxury fashion-er bishoye kono proshno thakle ekhoni korun.
                 </p>
-                <div className="flex gap-4">
-                  <div className="flex items-center gap-2 text-primary font-bold">
-                    <Zap className="h-5 w-5" /> Real-time Advice
+                <div className="grid grid-cols-2 gap-6 pt-4">
+                  <div className="space-y-2">
+                    <p className="text-primary font-bold">01. Bespoke</p>
+                    <p className="text-xs text-muted-foreground">Tailored recommendations based on your unique silhouette.</p>
                   </div>
-                  <div className="flex items-center gap-2 text-primary font-bold">
-                    <Sparkles className="h-5 w-5" /> Trend Analysis
+                  <div className="space-y-2">
+                    <p className="text-primary font-bold">02. Exclusive</p>
+                    <p className="text-xs text-muted-foreground">Access to limited style guides and trend predictions.</p>
                   </div>
                 </div>
               </div>
-              <div className="glass-card p-1">
-                <StyleAssistant />
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Unique Feature Grid */}
-        <section className="py-24">
+        {/* Curated Catalog */}
+        <section id="shop" className="py-24 bg-background">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="group space-y-4 text-center p-8 border border-white/5 hover:border-primary/30 transition-all">
-                <Diamond className="h-10 w-10 mx-auto text-primary" />
-                <h3 className="text-xl font-bold">Rarity Guaranteed</h3>
-                <p className="text-muted-foreground font-light">Limited edition pieces that are never mass-produced.</p>
+            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+              <div className="space-y-4">
+                <span className="text-primary text-xs font-bold tracking-[0.5em] uppercase">The Selection</span>
+                <h2 className="text-5xl md:text-7xl font-headline">Latest Icons</h2>
               </div>
-              <div className="group space-y-4 text-center p-8 border border-white/5 hover:border-primary/30 transition-all bg-primary/[0.03]">
-                <Crown className="h-10 w-10 mx-auto text-primary" />
-                <h3 className="text-xl font-bold">Bespoke Experience</h3>
-                <p className="text-muted-foreground font-light">Personalized concierge service for our elite members.</p>
-              </div>
-              <div className="group space-y-4 text-center p-8 border border-white/5 hover:border-primary/30 transition-all">
-                <Zap className="h-10 w-10 mx-auto text-primary" />
-                <h3 className="text-xl font-bold">Swift Legacy</h3>
-                <p className="text-muted-foreground font-light">Global priority shipping for your timeless investments.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Product Grid - Redesigned */}
-        <section id="shop" className="py-24 bg-card/20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-20">
-              <span className="text-primary text-xs font-bold tracking-[0.5em] uppercase">The Catalog</span>
-              <h2 className="text-5xl md:text-7xl font-headline mt-4">Curated Excellence</h2>
+              <Button variant="link" className="text-primary uppercase tracking-widest font-bold hover:no-underline group">
+                View Entire Collection <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2" />
+              </Button>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
