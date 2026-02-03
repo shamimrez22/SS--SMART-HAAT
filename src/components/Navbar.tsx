@@ -1,84 +1,44 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
-import { ShoppingBag, Search, Menu, User, Diamond } from 'lucide-react';
+import { Search, ShoppingBag, User, SidebarTrigger as SidebarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Input } from '@/components/ui/input';
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function Navbar() {
-  const navItems = [
-    { name: 'Collection', path: '#shop' },
-    { name: 'Bespoke', path: '#' },
-    { name: 'Heritage', path: '#' },
-    { name: 'Private Room', path: '#' },
-  ];
-
   return (
-    <nav className="fixed top-0 z-[100] w-full border-b border-white/10 bg-background/60 backdrop-blur-2xl">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-12">
-          <Link href="/" className="flex items-center gap-3">
-            <Diamond className="h-5 w-5 text-primary" />
-            <span className="text-xl font-headline tracking-[0.3em] font-black gold-gradient">SS SMART HAAT</span>
-          </Link>
-          
-          <div className="hidden lg:flex items-center gap-10">
-            {navItems.map((item) => (
-              <Link 
-                key={item.name} 
-                href={item.path}
-                className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <SidebarTrigger />
+          <div className="hidden lg:block">
+            <h1 className="text-xl font-headline font-bold gold-gradient whitespace-nowrap">SS SMART HAAT</h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2 pr-4 border-r border-white/10 mr-2">
-            <Button variant="ghost" size="icon" className="hover:text-primary">
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="hover:text-primary">
-              <User className="h-5 w-5" />
-            </Button>
-          </div>
-          
-          <Button variant="ghost" size="icon" className="relative group hover:text-primary">
-            <ShoppingBag className="h-5 w-5" />
-            <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-primary rounded-full group-hover:animate-ping" />
+        <div className="flex-grow max-w-2xl relative">
+          <Input 
+            type="search" 
+            placeholder="Search in Smart Haat..." 
+            className="w-full bg-secondary border-none h-10 pl-10 focus-visible:ring-primary"
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Button className="absolute right-0 top-0 h-10 rounded-l-none bg-primary text-background hover:bg-primary/90">
+            Search
           </Button>
-          
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] bg-background border-l border-white/10 p-0">
-                <div className="flex flex-col gap-8 p-12 pt-24">
-                  {navItems.map((item) => (
-                    <Link 
-                      key={item.name} 
-                      href={item.path}
-                      className="text-xl font-headline tracking-widest hover:text-primary transition-colors uppercase"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                  <div className="h-px bg-white/10 my-4" />
-                  <Button className="w-full h-14 rounded-none bg-primary text-background font-black uppercase tracking-[0.3em]">Sign In</Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" className="hidden md:flex">
+            <User className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" size="icon" className="relative">
+            <ShoppingBag className="h-5 w-5" />
+            <span className="absolute top-1 right-1 w-4 h-4 bg-primary text-background text-[10px] font-bold rounded-full flex items-center justify-center">
+              2
+            </span>
+          </Button>
         </div>
       </div>
     </nav>

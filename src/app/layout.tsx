@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Playfair_Display, Inter } from 'next/font/google';
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'],
@@ -13,8 +15,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'SS SMART HAAT | Exclusive Luxury',
-  description: 'Uniquely curated fashion for the modern elite.',
+  title: 'SS SMART HAAT | Premium Marketplace',
+  description: 'Uniquely curated fashion and essentials for the modern elite.',
 };
 
 export default function RootLayout({
@@ -24,12 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
       <body className="font-body bg-background text-foreground antialiased selection:bg-primary/30">
-        {children}
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            {children}
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
   );
