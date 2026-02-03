@@ -7,7 +7,6 @@ import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
 import { products } from '@/lib/products';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { StyleAssistant } from '@/components/StyleAssistant';
 
 export default function Home() {
   return (
@@ -93,95 +92,78 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Main Content Areas */}
-          <div className="lg:col-span-9 space-y-12">
-            
-            {/* Flash Sale Section */}
-            <section id="flash-sale" className="bg-primary/5 rounded-3xl p-8 border border-primary/10">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-6">
-                  <h2 className="text-3xl font-bold flex items-center gap-3">
-                    <Zap className="h-8 w-8 text-primary fill-current" /> Flash Sale
-                  </h2>
-                  <div className="flex items-center gap-3 text-sm">
-                    <span className="text-muted-foreground font-medium uppercase tracking-widest">Time Left:</span>
-                    <div className="flex gap-2">
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">12</div>
-                      <span className="text-2xl font-bold text-primary">:</span>
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">45</div>
-                      <span className="text-2xl font-bold text-primary">:</span>
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">09</div>
-                    </div>
+        <div className="space-y-12">
+          {/* Flash Sale Section */}
+          <section id="flash-sale" className="bg-primary/5 rounded-3xl p-8 border border-primary/10">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-6">
+                <h2 className="text-3xl font-bold flex items-center gap-3">
+                  <Zap className="h-8 w-8 text-primary fill-current" /> Flash Sale
+                </h2>
+                <div className="flex items-center gap-3 text-sm hidden md:flex">
+                  <span className="text-muted-foreground font-medium uppercase tracking-widest">Time Left:</span>
+                  <div className="flex gap-2">
+                    <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">12</div>
+                    <span className="text-2xl font-bold text-primary">:</span>
+                    <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">45</div>
+                    <span className="text-2xl font-bold text-primary">:</span>
+                    <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">09</div>
                   </div>
                 </div>
-                <Button variant="link" className="text-primary font-bold text-lg">View All <ArrowRight className="ml-1 h-4 w-4" /></Button>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {products.slice(0, 4).map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </section>
+              <Button variant="link" className="text-primary font-bold text-lg">View All <ArrowRight className="ml-1 h-4 w-4" /></Button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </section>
 
-            {/* Top Categories */}
-            <section className="space-y-8">
-              <div className="flex items-center gap-3">
-                <LayoutGrid className="h-7 w-7 text-primary" />
-                <h2 className="text-3xl font-bold">Top Categories</h2>
-              </div>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
-                {[
-                  { name: 'Smartphones', color: 'bg-blue-500/10 text-blue-500' },
-                  { name: 'Fashion', color: 'bg-pink-500/10 text-pink-500' },
-                  { name: 'Watches', color: 'bg-amber-500/10 text-amber-500' },
-                  { name: 'Beauty', color: 'bg-purple-500/10 text-purple-500' },
-                  { name: 'Laptops', color: 'bg-emerald-500/10 text-emerald-500' },
-                  { name: 'Footwear', color: 'bg-rose-500/10 text-rose-500' }
-                ].map((cat) => (
-                  <div key={cat.name} className="group cursor-pointer text-center space-y-3 p-4 hover:bg-card rounded-2xl transition-all border border-transparent hover:border-primary/10">
-                    <div className={`aspect-square ${cat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner`}>
-                      <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center">
-                        <Star className="h-8 w-8 text-primary/40" />
-                      </div>
+          {/* Top Categories */}
+          <section className="space-y-8">
+            <div className="flex items-center gap-3">
+              <LayoutGrid className="h-7 w-7 text-primary" />
+              <h2 className="text-3xl font-bold">Top Categories</h2>
+            </div>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
+              {[
+                { name: 'Smartphones', color: 'bg-blue-500/10 text-blue-500' },
+                { name: 'Fashion', color: 'bg-pink-500/10 text-pink-500' },
+                { name: 'Watches', color: 'bg-amber-500/10 text-amber-500' },
+                { name: 'Beauty', color: 'bg-purple-500/10 text-purple-500' },
+                { name: 'Laptops', color: 'bg-emerald-500/10 text-emerald-500' },
+                { name: 'Footwear', color: 'bg-rose-500/10 text-rose-500' }
+              ].map((cat) => (
+                <div key={cat.name} className="group cursor-pointer text-center space-y-3 p-4 hover:bg-card rounded-2xl transition-all border border-transparent hover:border-primary/10">
+                  <div className={`aspect-square ${cat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner`}>
+                    <div className="w-16 h-16 bg-white rounded-full shadow-sm flex items-center justify-center">
+                      <Star className="h-8 w-8 text-primary/40" />
                     </div>
-                    <p className="text-sm font-bold uppercase tracking-tighter">{cat.name}</p>
                   </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Just For You */}
-            <section className="space-y-8">
-              <div className="flex items-center gap-3">
-                <Flame className="h-7 w-7 text-primary" />
-                <h2 className="text-3xl font-bold">Just For You</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-              <div className="flex justify-center pt-12">
-                <Button variant="outline" size="lg" className="w-full max-w-sm h-14 border-primary text-primary hover:bg-primary hover:text-background rounded-full text-lg font-bold shadow-lg hover:shadow-primary/20 transition-all">
-                  Load More Products
-                </Button>
-              </div>
-            </section>
-          </div>
-
-          {/* Right Sidebar - AI Stylist */}
-          <aside className="lg:col-span-3 sticky top-24 space-y-6">
-            <div className="rounded-3xl overflow-hidden border border-primary/20 shadow-xl">
-              <StyleAssistant />
+                  <p className="text-sm font-bold uppercase tracking-tighter">{cat.name}</p>
+                </div>
+              ))}
             </div>
-            
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 rounded-3xl border border-primary/10 space-y-6">
-              <h4 className="text-xl font-bold leading-tight">Get Membership Benefits!</h4>
-              <p className="text-sm text-muted-foreground">Join our loyalty program to get exclusive discounts and faster delivery options.</p>
-              <Button className="w-full bg-primary text-background font-bold h-12 rounded-xl">Join Now</Button>
+          </section>
+
+          {/* Just For You */}
+          <section className="space-y-8">
+            <div className="flex items-center gap-3">
+              <Flame className="h-7 w-7 text-primary" />
+              <h2 className="text-3xl font-bold">Just For You</h2>
             </div>
-          </aside>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+              {products.concat(products).map((product, idx) => (
+                <ProductCard key={`${product.id}-${idx}`} product={product} />
+              ))}
+            </div>
+            <div className="flex justify-center pt-12">
+              <Button variant="outline" size="lg" className="w-full max-w-sm h-14 border-primary text-primary hover:bg-primary hover:text-background rounded-full text-lg font-bold shadow-lg hover:shadow-primary/20 transition-all">
+                Load More Products
+              </Button>
+            </div>
+          </section>
         </div>
       </main>
       
