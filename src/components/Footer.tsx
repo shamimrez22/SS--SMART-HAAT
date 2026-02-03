@@ -25,8 +25,8 @@ export function Footer() {
                 YOUR CURATED DESTINATION FOR SMART FASHION AND MODERN MARKETPLACE ESSENTIALS. REDEFINING ELEGANCE THROUGH SIMPLICITY AND LUXURY.
               </p>
               <div className="pt-2 border-l-2 border-orange-600 pl-4">
-                <p className="text-[13px] font-bold text-white/90 font-headline italic leading-relaxed">
-                  এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে।
+                <p className="text-[13px] font-bold text-white/90 font-headline leading-relaxed">
+                  এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে। আমাদের লক্ষ্য হচ্ছে উন্নত মানের পণ্য আপনার দোরগোড়ায় পৌঁছে দেওয়া।
                 </p>
               </div>
             </div>

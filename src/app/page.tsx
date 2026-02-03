@@ -148,7 +148,7 @@ export default function Home() {
         <section className="bg-card/30 rounded-none p-6 border border-white/5">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
-              <Flame className="h-5 w-5 text-orange-600 fill-current" /> TOP PRODUCT
+              <Flame className="h-5 w-5 text-orange-600 fill-current" /> TOP PRODUCTS
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -160,7 +160,7 @@ export default function Home() {
           </div>
           <div className="flex justify-center mt-12">
             <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[12px] uppercase h-12 px-10 rounded-none">
-              <Link href="/shop">MORE PRODUCT <ArrowRight className="ml-2 h-5 w-5" /></Link>
+              <Link href="/shop">LOAD MORE PRODUCTS <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
           </div>
         </section>
@@ -170,16 +170,16 @@ export default function Home() {
             <div className="h-6 w-1.5 bg-orange-600" />
             <h2 className="text-xl font-black uppercase tracking-tighter text-white">SHOP BY CATEGORY</h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {categoriesLoading ? (
-              Array.from({length: 6}).map((_, i) => <div key={i} className="aspect-square bg-white/5 animate-pulse" />)
+              Array.from({length: 8}).map((_, i) => <div key={i} className="aspect-square bg-white/5 animate-pulse" />)
             ) : categories?.map((cat) => (
-              <Link href={`/shop?category=${cat.name}`} key={cat.id} className="group relative aspect-square overflow-hidden border border-white/5 hover:border-orange-600 transition-all bg-card">
-                {cat.imageUrl && <Image src={cat.imageUrl} alt={cat.name} fill className="object-cover" />}
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p className="relative z-10 text-[12px] font-black uppercase tracking-widest text-white text-center px-2">{cat.name}</p>
+              <Link href={`/shop?category=${cat.name}`} key={cat.id} className="group flex flex-col items-center space-y-2">
+                <div className="relative w-full aspect-square overflow-hidden border border-white/5 group-hover:border-orange-600 transition-all bg-card">
+                  {cat.imageUrl && <Image src={cat.imageUrl} alt={cat.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />}
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                 </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-white text-center group-hover:text-orange-600 transition-colors">{cat.name}</p>
               </Link>
             ))}
           </div>
