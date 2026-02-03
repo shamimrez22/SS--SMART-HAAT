@@ -4,7 +4,7 @@
 import React from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { LayoutDashboard, ShoppingBag, Package, Settings, Link as LinkIcon, Sparkles, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, Settings, Link as LinkIcon, Sparkles, ShieldCheck, Layers } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
 
@@ -13,6 +13,7 @@ export default function AdminPanel() {
     { title: "DASHBOARD", icon: LayoutDashboard },
     { title: "ORDER", icon: ShoppingBag },
     { title: "PRODUCT", icon: Package },
+    { title: "CATEGORY", icon: Layers },
     { title: "SETTING", icon: Settings },
     { title: "OTHER LINK", icon: LinkIcon }
   ];
@@ -38,8 +39,8 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* PRIMARY 5 OPTIONS GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+        {/* PRIMARY OPTIONS GRID - UPDATED TO 6 COLS ON LARGE SCREENS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
           {adminOptions.map((option, i) => (
             <Card key={i} className="bg-card border-white/5 rounded-none hover:border-orange-600/50 transition-all group cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between pb-4 space-y-0">
