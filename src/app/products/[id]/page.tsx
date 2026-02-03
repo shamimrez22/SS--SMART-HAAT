@@ -68,7 +68,7 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* LOCKED SQUARE IMAGE CONTAINER */}
+            {/* PRODUCT IMAGE - FILL FRAME */}
             <div className="relative aspect-square rounded-none overflow-hidden bg-black border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 
@@ -131,7 +131,7 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-4">
                   <div className={`h-3 w-3 rounded-none animate-pulse ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'}`} />
                   <span className={`text-[11px] font-black uppercase tracking-[0.3em] ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
-                    {isOutOfStock ? 'OUT OF STOCK - ARCHIVE ACCESS ONLY' : `IN STOCK - ${product.stockQuantity} UNITS REGISTERED`}
+                    {isOutOfStock ? 'OUT OF STOCK' : `IN STOCK - ${product.stockQuantity} UNITS REGISTERED`}
                   </span>
                 </div>
 
@@ -147,19 +147,6 @@ export default function ProductDetails() {
                   <div className="flex gap-3">
                     <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Heart className="h-6 w-6" /></Button>
                     <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Share2 className="h-6 w-6" /></Button>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="pt-10 border-t border-white/5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] font-black uppercase tracking-[0.3em] text-white/60">
-                  <div className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/5 group hover:border-[#01a3a4]/30 transition-all">
-                    <Truck className="h-5 w-5 text-[#01a3a4]" />
-                    <span className="group-hover:text-white transition-colors">ELITE DELIVERY SERVICE</span>
-                  </div>
-                  <div className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/5 group hover:border-[#01a3a4]/30 transition-all">
-                    <ShieldCheck className="h-5 w-5 text-[#01a3a4]" />
-                    <span className="group-hover:text-white transition-colors">AUTHENTICITY GUARANTEED</span>
                   </div>
                 </div>
               </div>

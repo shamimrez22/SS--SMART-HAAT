@@ -60,7 +60,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.address) return;
-    if (product?.sizes?.length > 0 && !formData.selectedSize) return;
 
     setLoading(true);
 
@@ -105,7 +104,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <h2 className="text-sm md:text-2xl font-black text-white uppercase tracking-tighter leading-tight">{product.name}</h2>
                 <div className="flex items-center gap-4">
                    <div className="text-lg md:text-3xl font-black text-white flex items-baseline">
-                     <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>
+                     <span className="text-[0.5em] font-normal mr-0.5 translate-y-[-0.2em]">৳</span>
                      {product.price.toLocaleString()}
                    </div>
                 </div>
@@ -214,11 +213,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             <DialogDescription className="text-[10px] font-bold text-[#01a3a4] uppercase tracking-widest italic">
               OUR REPRESENTATIVE WILL CALL YOU SHORTLY TO CONFIRM.
             </DialogDescription>
-          </div>
-          <div className="pt-4 border-t border-white/5">
-            <p className="text-[8px] font-black text-white/40 uppercase tracking-[0.4em]">
-              AUTO-CLOSING TERMINAL...
-            </p>
           </div>
         </DialogContent>
       </Dialog>
