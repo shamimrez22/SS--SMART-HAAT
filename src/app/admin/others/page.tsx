@@ -22,7 +22,9 @@ import {
   Sparkles, 
   Loader2, 
   MessageCircle,
-  Zap
+  ShieldCheck,
+  Lock,
+  User
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -45,7 +47,9 @@ export default function AdminOthers() {
     instagramUrl: '',
     twitterUrl: '',
     youtubeUrl: '',
-    whatsappUrl: ''
+    whatsappUrl: '',
+    adminUsername: '',
+    adminPassword: ''
   });
 
   useEffect(() => {
@@ -59,7 +63,9 @@ export default function AdminOthers() {
         instagramUrl: settings.instagramUrl || '',
         twitterUrl: settings.twitterUrl || '',
         youtubeUrl: settings.youtubeUrl || '',
-        whatsappUrl: settings.whatsappUrl || ''
+        whatsappUrl: settings.whatsappUrl || '',
+        adminUsername: settings.adminUsername || 'ADMIN',
+        adminPassword: settings.adminPassword || '4321'
       });
     }
   }, [settings]);
@@ -68,8 +74,8 @@ export default function AdminOthers() {
     e.preventDefault();
     setDocumentNonBlocking(settingsRef, formData, { merge: true });
     toast({
-      title: "INFORMATION UPDATED",
-      description: "BRAND AND CONTACT DETAILS HAVE BEEN SUCCESSFULLY SAVED.",
+      title: "CONFIGURATION UPDATED",
+      description: "SECURITY AND BRAND DETAILS HAVE BEEN SUCCESSFULLY SYNCED.",
     });
   };
 
@@ -102,6 +108,46 @@ export default function AdminOthers() {
 
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSave} className="space-y-8">
+            {/* SECURITY CONFIGURATION */}
+            <Card className="bg-card border-orange-600/20 rounded-none shadow-2xl overflow-hidden">
+              <CardHeader className="bg-orange-600/5 border-b border-white/5 p-6">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600 flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4" /> ADMIN ACCESS CONFIGURATION
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-8 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                      <User className="h-3 w-3" /> ADMIN USERNAME
+                    </label>
+                    <Input 
+                      value={formData.adminUsername}
+                      onChange={(e) => setFormData({...formData, adminUsername: e.target.value})}
+                      placeholder="E.G. ADMIN"
+                      className="bg-black/50 border-white/10 rounded-none h-14 text-sm font-black text-white"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                      <Lock className="h-3 w-3" /> ADMIN PASSWORD
+                    </label>
+                    <Input 
+                      type="text"
+                      value={formData.adminPassword}
+                      onChange={(e) => setFormData({...formData, adminPassword: e.target.value})}
+                      placeholder="E.G. 4321"
+                      className="bg-black/50 border-white/10 rounded-none h-14 text-sm font-black text-white"
+                    />
+                  </div>
+                </div>
+                <p className="text-[8px] text-orange-600 font-black uppercase tracking-[0.2em] italic">
+                  * এই ইউজারনেম এবং পাসওয়ার্ড দিয়ে ভবিষ্যতে এডমিন প্যানেলে প্রবেশ করতে হবে।
+                </p>
+              </CardContent>
+            </Card>
+
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600 flex items-center gap-2">

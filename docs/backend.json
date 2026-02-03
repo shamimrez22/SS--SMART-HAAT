@@ -119,7 +119,9 @@
         "instagramUrl": { "type": "string" },
         "twitterUrl": { "type": "string" },
         "youtubeUrl": { "type": "string" },
-        "whatsappUrl": { "type": "string" }
+        "whatsappUrl": { "type": "string" },
+        "adminUsername": { "type": "string" },
+        "adminPassword": { "type": "string" }
       }
     }
   },
