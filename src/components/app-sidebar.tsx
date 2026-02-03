@@ -7,7 +7,6 @@ import {
   Heart,
   User,
   Settings,
-  HelpCircle,
   Smartphone,
   Watch,
   Shirt,
@@ -17,6 +16,7 @@ import {
   Truck,
   CreditCard,
   MessageSquare,
+  ChevronDown
 } from "lucide-react";
 
 import {
@@ -58,32 +58,32 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" className="border-r border-primary/10 bg-card/50 backdrop-blur-xl" {...props}>
-      <SidebarHeader className="h-20 flex items-center justify-center border-b border-primary/10 px-6">
+    <Sidebar collapsible="icon" className="border-r border-primary/10 bg-card/80 backdrop-blur-xl" {...props}>
+      <SidebarHeader className="h-24 flex flex-col items-center justify-center border-b border-primary/5 px-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-            <ShoppingBag className="h-6 w-6 text-background" />
+          <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-xl shadow-primary/20">
+            <ShoppingBag className="h-7 w-7 text-background" />
           </div>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="font-headline font-bold text-lg leading-none tracking-tight gold-gradient">
+            <span className="font-headline font-bold text-xl leading-none tracking-tight gold-gradient">
               SS SMART HAAT
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">Premium Store</span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1.5 font-bold">Premium Store</span>
           </div>
         </div>
       </SidebarHeader>
       
-      <SidebarContent>
+      <SidebarContent className="px-2 pt-4">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Menu</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary font-bold uppercase tracking-widest text-[10px] mb-2 px-4">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {data.navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/10 hover:text-primary transition-all">
+                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/10 hover:text-primary py-6 rounded-xl transition-all duration-300">
                     <a href={item.url}>
                       <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
+                      <span className="font-semibold text-sm">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,16 +92,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Categories</SidebarGroupLabel>
+        <SidebarGroup className="mt-4">
+          <SidebarGroupLabel className="text-primary font-bold uppercase tracking-widest text-[10px] mb-2 px-4">Categories</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {data.categories.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/10 hover:text-primary transition-all">
+                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/10 hover:text-primary py-6 rounded-xl transition-all duration-300">
                     <a href={item.url}>
                       <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
+                      <span className="font-semibold text-sm">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -110,34 +110,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Account</SidebarGroupLabel>
+        <SidebarGroup className="mt-4">
+          <SidebarGroupLabel className="text-primary font-bold uppercase tracking-widest text-[10px] mb-2 px-4">Account</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.account.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/10 hover:text-primary transition-all">
-                    <a href={item.url}>
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton className="hover:bg-primary/10 hover:text-primary py-6 rounded-xl transition-all duration-300">
+                  <User className="h-5 w-5" />
+                  <span className="font-semibold text-sm">My Profile</span>
+                  <ChevronDown className="ml-auto h-4 w-4 opacity-50" />
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-primary/10 p-4">
-        <div className="flex items-center gap-3 group-data-[collapsible=icon]:justify-center">
-          <Avatar className="h-9 w-9 border border-primary/20">
-            <AvatarImage src="https://picsum.photos/seed/user1/40/40" />
-            <AvatarFallback>JD</AvatarFallback>
+      <SidebarFooter className="border-t border-primary/5 p-6">
+        <div className="flex items-center gap-4 group-data-[collapsible=icon]:justify-center bg-primary/5 p-3 rounded-2xl border border-primary/10">
+          <Avatar className="h-12 w-12 border-2 border-primary/20 shadow-lg">
+            <AvatarImage src="https://picsum.photos/seed/user1/60/60" />
+            <AvatarFallback className="bg-primary text-background font-bold">ZR</AvatarFallback>
           </Avatar>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-bold truncate">Zubair Rahman</span>
-            <span className="text-[10px] text-muted-foreground truncate">Premium Member</span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Premium Member</span>
           </div>
         </div>
       </SidebarFooter>
