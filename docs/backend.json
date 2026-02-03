@@ -40,6 +40,15 @@
           "type": "string",
           "description": "Category the product belongs to."
         },
+        "sizes": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Available sizes for the product (e.g., S, M, L, XL)."
+        },
+        "stockQuantity": {
+          "type": "number",
+          "description": "Number of items available in stock."
+        },
         "showInSlider": {
           "type": "boolean",
           "description": "Whether to display this product in the home slider."
@@ -58,7 +67,8 @@
         "description",
         "price",
         "imageUrl",
-        "category"
+        "category",
+        "stockQuantity"
       ]
     },
     "Category": {
@@ -89,6 +99,7 @@
         "productId": { "type": "string" },
         "productName": { "type": "string" },
         "productPrice": { "type": "number" },
+        "selectedSize": { "type": "string" },
         "deliveryCharge": { "type": "number" },
         "status": { "type": "string", "enum": ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] },
         "createdAt": { "type": "string", "format": "date-time" }

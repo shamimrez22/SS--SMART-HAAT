@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2, ArrowLeft, Package, Upload, X, Loader2, Edit2, Save, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, ArrowLeft, Package, Upload, X, Loader2, Edit2, Save, CheckCircle2, AlertTriangle, Layers } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, doc, query, orderBy } from 'firebase/firestore';
@@ -17,6 +17,7 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,6 +38,8 @@ export default function AdminProducts() {
   const [originalPrice, setOriginalPrice] = useState('');
   const [discountPercentage, setDiscountPercentage] = useState('0');
   const [category, setCategory] = useState('');
+  const [sizes, setSizes] = useState('');
+  const [stockQuantity, setStockQuantity] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showInSlider, setShowInSlider] = useState(false);
   const [showInFlashOffer, setShowInFlashOffer] = useState(false);
@@ -81,7 +84,7 @@ export default function AdminProducts() {
 
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !price || !imagePreview || !category) {
+    if (!name || !price || !imagePreview || !category || !stockQuantity) {
       alert("PLEASE FILL ALL REQUIRED FIELDS.");
       return;
     }
@@ -93,6 +96,8 @@ export default function AdminProducts() {
       originalPrice: parseFloat(originalPrice) || parseFloat(price),
       discountPercentage: parseInt(discountPercentage) || 0,
       category: category.toUpperCase(),
+      sizes: sizes.split(',').map(s => s.trim()).filter(s => s !== ''),
+      stockQuantity: parseInt(stockQuantity),
       imageUrl: imagePreview,
       showInSlider,
       showInFlashOffer,
@@ -119,6 +124,8 @@ export default function AdminProducts() {
     setOriginalPrice('');
     setDiscountPercentage('0');
     setCategory('');
+    setSizes('');
+    setStockQuantity('');
     setImagePreview(null);
     setShowInSlider(false);
     setShowInFlashOffer(false);
@@ -133,6 +140,8 @@ export default function AdminProducts() {
     setOriginalPrice(product.originalPrice?.toString() || product.price.toString());
     setDiscountPercentage(product.discountPercentage?.toString() || '0');
     setCategory(product.category);
+    setSizes(product.sizes?.join(', ') || '');
+    setStockQuantity(product.stockQuantity?.toString() || '');
     setImagePreview(product.imageUrl);
     setShowInSlider(!!product.showInSlider);
     setShowInFlashOffer(!!product.showInFlashOffer);
@@ -223,29 +232,41 @@ export default function AdminProducts() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Discount (%)</label>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase">Sizes (COMMA SEPARATED)</label>
                     <Input 
-                      type="number" 
-                      value={discountPercentage} 
-                      onChange={(e) => setDiscountPercentage(e.target.value)} 
-                      className="bg-black/50 border-white/10 rounded-none text-xs" 
+                      value={sizes} 
+                      onChange={(e) => setSizes(e.target.value)} 
+                      placeholder="E.G. S, M, L, XL" 
+                      className="bg-black/50 border-white/10 rounded-none text-xs uppercase" 
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Category *</label>
-                    <Select value={category} onValueChange={setCategory}>
-                      <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-10 uppercase">
-                        <SelectValue placeholder="SELECT CATEGORY" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-card border-white/10 rounded-none">
-                        {categories?.map((cat) => (
-                          <SelectItem key={cat.id} value={cat.name} className="uppercase text-[10px] focus:bg-orange-600 focus:text-white">
-                            {cat.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <label className="text-[10px] font-black text-muted-foreground uppercase">Stock Quantity *</label>
+                    <Input 
+                      type="number" 
+                      value={stockQuantity} 
+                      onChange={(e) => setStockQuantity(e.target.value)} 
+                      placeholder="0" 
+                      className="bg-black/50 border-white/10 rounded-none text-xs"
+                      required
+                    />
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted-foreground uppercase">Category *</label>
+                  <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-10 uppercase">
+                      <SelectValue placeholder="SELECT CATEGORY" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-white/10 rounded-none">
+                      {categories?.map((cat) => (
+                        <SelectItem key={cat.id} value={cat.name} className="uppercase text-[10px] focus:bg-orange-600 focus:text-white">
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-4 pt-2 border-t border-white/5 mt-4">
@@ -314,10 +335,18 @@ export default function AdminProducts() {
                         <Image src={p.imageUrl} alt={p.name} fill className="object-cover" />
                       </div>
                       <div className="flex-grow flex flex-col justify-between overflow-hidden">
-                        <div>
-                          <p className="text-[8px] font-black text-orange-600 tracking-widest uppercase">{p.category}</p>
+                        <div className="space-y-1">
+                          <div className="flex justify-between items-start">
+                             <p className="text-[8px] font-black text-orange-600 tracking-widest uppercase">{p.category}</p>
+                             <Badge className={`rounded-none text-[7px] h-4 ${p.stockQuantity > 0 ? 'bg-green-600' : 'bg-red-600'}`}>
+                               {p.stockQuantity > 0 ? 'IN STOCK' : 'OUT OF STOCK'}
+                             </Badge>
+                          </div>
                           <h3 className="text-sm font-black text-white uppercase truncate mt-1">{p.name}</h3>
-                          <span className="text-[12px] font-black text-white">৳{p.price}</span>
+                          <div className="flex items-center gap-3">
+                            <span className="text-[12px] font-black text-white">৳{p.price}</span>
+                            <span className="text-[9px] font-black text-muted-foreground uppercase">STOCK: {p.stockQuantity}</span>
+                          </div>
                         </div>
                         <div className="flex justify-end gap-2 mt-2">
                           <Button onClick={() => handleEdit(p)} variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-orange-600"><Edit2 className="h-4 w-4" /></Button>

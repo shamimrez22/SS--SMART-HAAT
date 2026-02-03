@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ShoppingBag, CheckCircle2, Loader2, Phone, MapPin, User } from 'lucide-react';
+import { ShoppingBag, CheckCircle2, Loader2, Phone, MapPin, User, Ruler } from 'lucide-react';
 import { useFirestore } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
@@ -25,8 +25,7 @@ interface OrderModalProps {
 }
 
 /**
- * OrderModal - A professional order popup with dual steps (Form and Success).
- * Success popup auto-closes after 3 seconds as requested.
+ * OrderModal - Professional order popup with Size selection and Stock handling.
  */
 export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
   const db = useFirestore();
@@ -35,8 +34,16 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    address: ''
+    address: '',
+    selectedSize: ''
   });
+
+  // Default selection for size if available
+  useEffect(() => {
+    if (product?.sizes?.length > 0 && !formData.selectedSize) {
+      setFormData(prev => ({ ...prev, selectedSize: product.sizes[0] }));
+    }
+  }, [product, isOpen]);
 
   // Handle Success auto-close
   useEffect(() => {
@@ -51,13 +58,14 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
 
   const handleClose = () => {
     setStep('FORM');
-    setFormData({ name: '', phone: '', address: '' });
+    setFormData({ name: '', phone: '', address: '', selectedSize: '' });
     onClose();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.phone || !formData.address) return;
+    if (product?.sizes?.length > 0 && !formData.selectedSize) return;
 
     setLoading(true);
 
@@ -65,6 +73,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
       customerName: formData.name,
       customerPhone: formData.phone,
       customerAddress: formData.address,
+      selectedSize: formData.selectedSize,
       productId: product.id,
       productName: product.name,
       productPrice: product.price,
@@ -101,12 +110,15 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
               <div className="absolute bottom-6 left-6 right-6 space-y-2">
                 <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Selected Item</p>
                 <h2 className="text-xl font-black text-white uppercase tracking-tighter leading-tight">{product.name}</h2>
-                <p className="text-2xl font-black text-white">৳{product.price.toLocaleString()}</p>
+                <div className="flex items-center gap-4">
+                   <p className="text-2xl font-black text-white">৳{product.price.toLocaleString()}</p>
+                   <span className="text-[10px] font-black text-green-500 uppercase">IN STOCK</span>
+                </div>
               </div>
             </div>
 
             {/* RIGHT SIDE: ORDER FORM */}
-            <div className="w-full md:w-7/12 p-8 md:p-12 space-y-8 bg-card">
+            <div className="w-full md:w-7/12 p-8 md:p-12 space-y-8 bg-card max-h-[90vh] overflow-y-auto">
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
                   <div className="h-6 w-1.5 bg-orange-600" />
@@ -118,6 +130,31 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* SIZE SELECTION */}
+                {product?.sizes && product.sizes.length > 0 && (
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                      <Ruler className="h-3 w-3" /> SELECT SIZE
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {product.sizes.map((size: string) => (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => setFormData({...formData, selectedSize: size})}
+                          className={`px-4 py-2 border text-[10px] font-black uppercase transition-all ${
+                            formData.selectedSize === size 
+                              ? 'bg-orange-600 border-orange-600 text-white' 
+                              : 'bg-white/5 border-white/10 text-white hover:border-orange-600/50'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
                     <User className="h-3 w-3" /> FULL NAME

@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, ShoppingCart, Heart, Share2, Truck, ShieldCheck, Loader2 } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Share2, Truck, ShieldCheck, Loader2, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -49,6 +49,8 @@ export default function ProductDetails() {
     );
   }
 
+  const isOutOfStock = product.stockQuantity <= 0;
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
@@ -61,11 +63,21 @@ export default function ProductDetails() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="relative aspect-square rounded-none overflow-hidden bg-card border border-white/5 shadow-2xl">
               <Image src={product.imageUrl} alt={product.name} fill sizes="(max-width: 1024px) 100vw, 50vw" priority className="object-cover" />
+              {isOutOfStock && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+                  <p className="text-2xl font-black text-white border-2 border-white px-8 py-4 uppercase tracking-[0.5em]">SOLD OUT</p>
+                </div>
+              )}
             </div>
             
             <div className="space-y-8">
               <div className="space-y-4">
-                <Badge variant="secondary" className="rounded-none uppercase tracking-widest text-[10px] bg-orange-600/10 text-orange-600 border-none">{product.category}</Badge>
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary" className="rounded-none uppercase tracking-widest text-[10px] bg-orange-600/10 text-orange-600 border-none">{product.category}</Badge>
+                  <Badge className={`rounded-none text-[9px] h-6 font-black uppercase ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'}`}>
+                    {isOutOfStock ? 'OUT OF STOCK' : 'IN STOCK'}
+                  </Badge>
+                </div>
                 <h1 className="text-4xl md:text-5xl font-black font-headline text-white leading-tight uppercase tracking-tighter">{product.name}</h1>
                 <div className="flex items-center gap-4">
                   <p className="text-3xl font-black text-orange-600 uppercase tracking-tighter">৳{product.price.toLocaleString()}</p>
@@ -74,16 +86,30 @@ export default function ProductDetails() {
                   )}
                 </div>
               </div>
+
+              {product.sizes && product.sizes.length > 0 && (
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black text-white uppercase tracking-widest">Available Sizes</p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizes.map((size: string) => (
+                      <span key={size} className="px-4 py-2 bg-white/5 border border-white/10 text-xs font-black text-white uppercase">
+                        {size}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               <div className="text-muted-foreground uppercase leading-relaxed text-sm tracking-tight">{product.description}</div>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button 
+                  disabled={isOutOfStock}
                   onClick={() => setIsOrderOpen(true)}
                   size="lg" 
-                  className="flex-grow h-14 rounded-none text-sm font-black bg-orange-600 hover:bg-orange-700 uppercase tracking-widest shadow-xl shadow-orange-600/10"
+                  className={`flex-grow h-14 rounded-none text-sm font-black uppercase tracking-widest shadow-xl ${isOutOfStock ? 'bg-white/5 text-white/20' : 'bg-orange-600 hover:bg-orange-700 text-white shadow-orange-600/10'}`}
                 >
-                  <ShoppingCart className="mr-2 h-5 w-5" /> ORDER NOW
+                  <ShoppingCart className="mr-2 h-5 w-5" /> {isOutOfStock ? 'CURRENTLY UNAVAILABLE' : 'ORDER NOW'}
                 </Button>
                 <div className="flex gap-2">
                   <Button size="icon" variant="outline" className="h-14 w-14 rounded-none border-white/10 text-white hover:bg-white/5"><Heart className="h-5 w-5" /></Button>
@@ -94,7 +120,7 @@ export default function ProductDetails() {
               <div className="pt-8 border-t border-white/5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                   <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5"><Truck className="h-4 w-4 text-orange-600" /><span>FAST DELIVERY</span></div>
-                  <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5"><ShieldCheck className="h-4 w-4 text-orange-600" /><span>AUTHENTIC PRODUCT</span></div>
+                  <div className="flex items-center gap-3 p-4 bg-white/[0.02] border border-white/5"><Package className="h-4 w-4 text-orange-600" /><span>STOCK: {product.stockQuantity}</span></div>
                 </div>
               </div>
             </div>
