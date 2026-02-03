@@ -33,15 +33,15 @@ export default function Home() {
                       <span className="bg-primary text-background text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Limited Edition</span>
                     </div>
                     <h2 className="text-6xl font-headline font-bold text-white max-w-2xl leading-tight">
-                      অভিজাত ফ্যাশন ও আধুনিক <span className="gold-gradient">লাইফস্টাইল</span>
+                      Exquisite Fashion & Modern <span className="gold-gradient">Lifestyle</span>
                     </h2>
-                    <p className="text-white/70 max-w-lg text-lg">বাংলাদেশের সবচেয়ে প্রিমিয়াম অনলাইন শপিং অভিজ্ঞতা। এখন আরও স্মার্ট, আরও আধুনিক।</p>
+                    <p className="text-white/70 max-w-lg text-lg">The most premium online shopping experience in Bangladesh. Now smarter, now modern.</p>
                     <div className="flex gap-4">
                       <Button className="bg-primary text-background h-14 px-10 font-bold rounded-full text-lg hover:shadow-lg hover:shadow-primary/30 transition-all">
-                        শপ করুন <ArrowRight className="ml-2 h-5 w-5" />
+                        Shop Now <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                       <Button variant="outline" className="h-14 px-10 font-bold rounded-full text-lg border-white/30 text-white hover:bg-white/10">
-                        কালেকশন দেখুন
+                        View Collection
                       </Button>
                     </div>
                   </div>
@@ -60,8 +60,8 @@ export default function Home() {
               <ShieldCheck className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">১০০% অথেন্টিক</p>
-              <p className="text-xs text-muted-foreground">নিশ্চিত গুণগত মান</p>
+              <p className="font-bold text-sm">100% Authentic</p>
+              <p className="text-xs text-muted-foreground">Guaranteed Quality</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-6 bg-card rounded-2xl border border-primary/10 shadow-sm hover:border-primary/30 transition-colors">
@@ -69,8 +69,8 @@ export default function Home() {
               <Truck className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">ফাস্ট ডেলিভারি</p>
-              <p className="text-xs text-muted-foreground">সারা বাংলাদেশে দ্রুত সেবা</p>
+              <p className="font-bold text-sm">Fast Delivery</p>
+              <p className="text-xs text-muted-foreground">Nationwide Service</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-6 bg-card rounded-2xl border border-primary/10 shadow-sm hover:border-primary/30 transition-colors">
@@ -78,8 +78,8 @@ export default function Home() {
               <RotateCcw className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">সহজ রিটার্ন</p>
-              <p className="text-xs text-muted-foreground">৭ দিনের গ্যারান্টি</p>
+              <p className="font-bold text-sm">Easy Returns</p>
+              <p className="text-xs text-muted-foreground">7 Days Guarantee</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-6 bg-card rounded-2xl border border-primary/10 shadow-sm hover:border-primary/30 transition-colors">
@@ -87,8 +87,8 @@ export default function Home() {
               <Star className="h-8 w-8 text-primary" />
             </div>
             <div>
-              <p className="font-bold text-sm">সেরা দাম</p>
-              <p className="text-xs text-muted-foreground">ভ্যালু ফর মানি</p>
+              <p className="font-bold text-sm">Best Price</p>
+              <p className="text-xs text-muted-foreground">Value for Money</p>
             </div>
           </div>
         </section>
@@ -102,20 +102,20 @@ export default function Home() {
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-6">
                   <h2 className="text-3xl font-bold flex items-center gap-3">
-                    <Zap className="h-8 w-8 text-primary fill-current" /> ফ্ল্যাশ সেল
+                    <Zap className="h-8 w-8 text-primary fill-current" /> Flash Sale
                   </h2>
                   <div className="flex items-center gap-3 text-sm">
-                    <span className="text-muted-foreground font-medium uppercase tracking-widest">সময় বাকি:</span>
+                    <span className="text-muted-foreground font-medium uppercase tracking-widest">Time Left:</span>
                     <div className="flex gap-2">
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">১২</div>
+                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">12</div>
                       <span className="text-2xl font-bold text-primary">:</span>
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">৪৫</div>
+                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">45</div>
                       <span className="text-2xl font-bold text-primary">:</span>
-                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">০৯</div>
+                      <div className="bg-primary text-background px-3 py-1.5 rounded-lg font-bold text-lg">09</div>
                     </div>
                   </div>
                 </div>
-                <Button variant="link" className="text-primary font-bold text-lg">সবগুলো দেখুন <ArrowRight className="ml-1 h-4 w-4" /></Button>
+                <Button variant="link" className="text-primary font-bold text-lg">View All <ArrowRight className="ml-1 h-4 w-4" /></Button>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.slice(0, 4).map((product) => (
@@ -128,16 +128,16 @@ export default function Home() {
             <section className="space-y-8">
               <div className="flex items-center gap-3">
                 <LayoutGrid className="h-7 w-7 text-primary" />
-                <h2 className="text-3xl font-bold">টপ ক্যাটাগরি</h2>
+                <h2 className="text-3xl font-bold">Top Categories</h2>
               </div>
               <div className="grid grid-cols-3 md:grid-cols-6 gap-6">
                 {[
-                  { name: 'স্মার্টফোন', color: 'bg-blue-500/10 text-blue-500' },
-                  { name: 'ফ্যাশন', color: 'bg-pink-500/10 text-pink-500' },
-                  { name: 'ঘড়ি', color: 'bg-amber-500/10 text-amber-500' },
-                  { name: 'বিউটি', color: 'bg-purple-500/10 text-purple-500' },
-                  { name: 'ল্যাপটপ', color: 'bg-emerald-500/10 text-emerald-500' },
-                  { name: 'জুতা', color: 'bg-rose-500/10 text-rose-500' }
+                  { name: 'Smartphones', color: 'bg-blue-500/10 text-blue-500' },
+                  { name: 'Fashion', color: 'bg-pink-500/10 text-pink-500' },
+                  { name: 'Watches', color: 'bg-amber-500/10 text-amber-500' },
+                  { name: 'Beauty', color: 'bg-purple-500/10 text-purple-500' },
+                  { name: 'Laptops', color: 'bg-emerald-500/10 text-emerald-500' },
+                  { name: 'Footwear', color: 'bg-rose-500/10 text-rose-500' }
                 ].map((cat) => (
                   <div key={cat.name} className="group cursor-pointer text-center space-y-3 p-4 hover:bg-card rounded-2xl transition-all border border-transparent hover:border-primary/10">
                     <div className={`aspect-square ${cat.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-inner`}>
@@ -155,7 +155,7 @@ export default function Home() {
             <section className="space-y-8">
               <div className="flex items-center gap-3">
                 <Flame className="h-7 w-7 text-primary" />
-                <h2 className="text-3xl font-bold">আপনার জন্য বিশেষ</h2>
+                <h2 className="text-3xl font-bold">Just For You</h2>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {products.map((product) => (
@@ -164,7 +164,7 @@ export default function Home() {
               </div>
               <div className="flex justify-center pt-12">
                 <Button variant="outline" size="lg" className="w-full max-w-sm h-14 border-primary text-primary hover:bg-primary hover:text-background rounded-full text-lg font-bold shadow-lg hover:shadow-primary/20 transition-all">
-                  আরও পণ্য দেখুন
+                  Load More Products
                 </Button>
               </div>
             </section>
@@ -177,9 +177,9 @@ export default function Home() {
             </div>
             
             <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 rounded-3xl border border-primary/10 space-y-6">
-              <h4 className="text-xl font-bold leading-tight">মেম্বারশিপ সুবিধা পান!</h4>
-              <p className="text-sm text-muted-foreground">আমাদের লয়্যালটি প্রোগ্রামে যোগ দিয়ে পান বিশেষ ছাড় এবং দ্রুত ডেলিভারি সুবিধা।</p>
-              <Button className="w-full bg-primary text-background font-bold h-12 rounded-xl">এখনই যোগ দিন</Button>
+              <h4 className="text-xl font-bold leading-tight">Get Membership Benefits!</h4>
+              <p className="text-sm text-muted-foreground">Join our loyalty program to get exclusive discounts and faster delivery options.</p>
+              <Button className="w-full bg-primary text-background font-bold h-12 rounded-xl">Join Now</Button>
             </div>
           </aside>
         </div>

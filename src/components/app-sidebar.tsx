@@ -36,23 +36,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const data = {
   navMain: [
-    { title: "হোম", url: "/", icon: Home },
-    { title: "ফ্ল্যাশ সেল", url: "#flash-sale", icon: Zap },
-    { title: "অর্ডার ট্র্যাকিং", url: "#", icon: Truck },
-    { title: "আমার উইশলিস্ট", url: "#", icon: Heart },
+    { title: "Home", url: "/", icon: Home },
+    { title: "Flash Sale", url: "#flash-sale", icon: Zap },
+    { title: "Track Order", url: "#", icon: Truck },
+    { title: "My Wishlist", url: "#", icon: Heart },
   ],
   categories: [
-    { title: "ইলেকট্রনিক্স", url: "#", icon: Smartphone },
-    { title: "ফ্যাশন", url: "#", icon: Shirt },
-    { title: "ঘড়ি ও এক্সেসরিজ", url: "#", icon: Watch },
-    { title: "ফার্নিচার", url: "#", icon: Armchair },
-    { title: "গিফট আইটেম", url: "#", icon: Gift },
+    { title: "Electronics", url: "#", icon: Smartphone },
+    { title: "Fashion", url: "#", icon: Shirt },
+    { title: "Watches & Accessories", url: "#", icon: Watch },
+    { title: "Furniture", url: "#", icon: Armchair },
+    { title: "Gift Items", url: "#", icon: Gift },
   ],
   account: [
-    { title: "আমার প্রোফাইল", url: "#", icon: User },
-    { title: "পেমেন্ট মেথড", url: "#", icon: CreditCard },
-    { title: "মেসেজ", url: "#", icon: MessageSquare },
-    { title: "সেটিংস", url: "#", icon: Settings },
+    { title: "My Profile", url: "#", icon: User },
+    { title: "Payment Methods", url: "#", icon: CreditCard },
+    { title: "Messages", url: "#", icon: MessageSquare },
+    { title: "Settings", url: "#", icon: Settings },
   ],
 };
 
@@ -75,7 +75,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">মেনু</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {data.navMain.map((item) => (
@@ -93,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">ক্যাটাগরি</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Categories</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {data.categories.map((item) => (
@@ -111,7 +111,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">অ্যাকাউন্ট</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary/70 font-bold uppercase tracking-tighter">Account</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {data.account.map((item) => (
@@ -136,7 +136,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
-            <span className="text-sm font-bold truncate">জুবায়ের রহমান</span>
+            <span className="text-sm font-bold truncate">Zubair Rahman</span>
             <span className="text-[10px] text-muted-foreground truncate">Premium Member</span>
           </div>
         </div>

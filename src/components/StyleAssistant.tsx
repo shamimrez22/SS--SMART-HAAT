@@ -29,7 +29,7 @@ export function StyleAssistant() {
     <div className="flex flex-col h-[500px] bg-card border-none">
       <div className="p-6 bg-gradient-to-r from-primary to-primary/80 flex items-center justify-between">
         <h4 className="font-bold flex items-center gap-2 text-background">
-          <Sparkles className="h-4 w-4 text-background animate-pulse" /> স্মার্ট হাট স্টাইলিস্ট
+          <Sparkles className="h-4 w-4 text-background animate-pulse" /> AI Style Assistant
         </h4>
         <div className="h-6 w-6 rounded-full border border-background/30 flex items-center justify-center">
           <Info className="h-3 w-3 text-background/70" />
@@ -43,7 +43,7 @@ export function StyleAssistant() {
               <Sparkles className="h-8 w-8 text-primary/40" />
             </div>
             <p className="text-muted-foreground italic font-light px-4">
-              "আমি আপনাকে আপনার শপিং যাত্রায় সেরা ফ্যাশন পরামর্শ দিতে পারি..."
+              "I can help you find the perfect outfit for any occasion..."
             </p>
           </div>
         )}
@@ -51,7 +51,7 @@ export function StyleAssistant() {
         {loading && (
           <div className="flex flex-col items-center justify-center mt-12 gap-4">
             <Loader2 className="h-10 w-10 text-primary animate-spin" />
-            <p className="text-xs uppercase tracking-[0.2em] text-primary animate-pulse font-bold">পরামর্শ তৈরি হচ্ছে...</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary animate-pulse font-bold">Generating Advice...</p>
           </div>
         )}
 
@@ -61,7 +61,7 @@ export function StyleAssistant() {
               <p className="text-sm leading-relaxed text-foreground/90 italic font-medium">"{result.advice}"</p>
             </div>
             <div className="space-y-3">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">পছন্দসই রঙসমূহ</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Suggested Colors</p>
               <div className="flex flex-wrap gap-2">
                 {result.suggestedColors.map((color, i) => (
                   <span key={i} className="text-[10px] px-3 py-1.5 bg-background rounded-full border border-primary/20 shadow-sm uppercase tracking-tighter font-bold">
@@ -71,7 +71,7 @@ export function StyleAssistant() {
               </div>
             </div>
             <div className="pt-4 border-t border-primary/10">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">ভাইব: <span className="text-foreground">{result.vibe}</span></p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-primary font-bold">Vibe: <span className="text-foreground">{result.vibe}</span></p>
             </div>
           </div>
         )}
@@ -81,7 +81,7 @@ export function StyleAssistant() {
         <Input 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="যেমন: বিয়ের দাওয়াতের জন্য কী পরব?" 
+          placeholder="Ask me: What should I wear to a wedding?" 
           className="bg-background/80 border-primary/20 focus:ring-primary h-12 rounded-xl text-sm"
         />
         <Button disabled={loading} size="icon" className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">

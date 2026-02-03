@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Search, ShoppingBag, User, SidebarTrigger as SidebarIcon } from 'lucide-react';
+import { Search, ShoppingBag, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from "@/components/ui/sidebar";
