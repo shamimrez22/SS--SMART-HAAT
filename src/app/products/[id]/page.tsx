@@ -42,7 +42,7 @@ export default function ProductDetails() {
           <div className="text-center space-y-6 max-w-md p-8 border border-white/5 bg-white/[0.02]">
             <Package className="h-16 w-16 text-orange-600/30 mx-auto" />
             <h1 className="text-3xl font-black text-white uppercase tracking-tighter">PRODUCT NOT DISCOVERED</h1>
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed">
+            <p className="text-[10px] text-white/60 uppercase tracking-widest leading-relaxed">
               THE ITEM YOU ARE SEARCHING FOR IS NOT REGISTERED IN OUR CURRENT ARCHIVE.
             </p>
             <Button className="rounded-none bg-orange-600 uppercase w-full h-14 font-black" onClick={() => router.push('/')}>RETURN TO SHOP</Button>
@@ -90,11 +90,13 @@ export default function ProductDetails() {
                 <h1 className="text-5xl md:text-7xl font-black font-headline text-white leading-none uppercase tracking-tighter">{product.name}</h1>
                 <div className="flex items-center gap-6">
                   <div className="text-4xl font-black text-orange-600 uppercase tracking-tighter flex items-baseline">
-                    <span className="text-xl font-bold mr-1">৳</span>
+                    <span className="text-sm font-bold mr-1">৳</span>
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (
-                    <p className="text-xl text-muted-foreground line-through font-bold opacity-50">৳{product.originalPrice.toLocaleString()}</p>
+                    <p className="text-xl text-white/60 line-through font-bold flex items-baseline">
+                      <span className="text-xs mr-0.5">৳</span>{product.originalPrice.toLocaleString()}
+                    </p>
                   )}
                 </div>
               </div>
@@ -147,7 +149,7 @@ export default function ProductDetails() {
               </div>
               
               <div className="pt-10 border-t border-white/5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] font-black uppercase tracking-[0.3em] text-muted-foreground">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] font-black uppercase tracking-[0.3em] text-white/60">
                   <div className="flex items-center gap-4 p-5 bg-white/[0.02] border border-white/5 group hover:border-orange-600/30 transition-all">
                     <Truck className="h-5 w-5 text-orange-600" />
                     <span className="group-hover:text-white transition-colors">ELITE DELIVERY SERVICE</span>

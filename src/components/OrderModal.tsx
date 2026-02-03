@@ -112,7 +112,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <h2 className="text-xl font-black text-white uppercase tracking-tighter leading-tight">{product.name}</h2>
                 <div className="flex items-center gap-4">
                    <div className="text-2xl font-black text-white flex items-baseline">
-                     <span className="text-sm font-bold mr-0.5">৳</span>
+                     <span className="text-[10px] font-bold mr-0.5">৳</span>
                      {product.price.toLocaleString()}
                    </div>
                    <span className="text-[10px] font-black text-green-500 uppercase">IN STOCK</span>
@@ -127,7 +127,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                   <div className="h-6 w-1.5 bg-orange-600" />
                   <DialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">COMPLETE ORDER</DialogTitle>
                 </div>
-                <DialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
+                <DialogDescription className="text-[10px] text-white/60 uppercase font-black tracking-widest">
                   PROVIDE YOUR DETAILS FOR DELIVERY
                 </DialogDescription>
               </div>
@@ -136,7 +136,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 {/* SIZE SELECTION */}
                 {product?.sizes && product.sizes.length > 0 && (
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                    <label className="text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                       <Ruler className="h-3 w-3" /> SELECT SIZE
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -159,7 +159,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                  <label className="text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                     <User className="h-3 w-3" /> FULL NAME
                   </label>
                   <Input 
@@ -172,7 +172,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                  <label className="text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                     <Phone className="h-3 w-3" /> PHONE NUMBER
                   </label>
                   <Input 
@@ -186,7 +186,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                  <label className="text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                     <MapPin className="h-3 w-3" /> DELIVERY ADDRESS
                   </label>
                   <Textarea 
@@ -224,7 +224,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             </DialogDescription>
           </div>
           <div className="pt-4">
-            <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.4em] animate-pulse">
+            <p className="text-[8px] font-black text-white/60 uppercase tracking-[0.4em] animate-pulse">
               CLOSING IN 3 SECONDS...
             </p>
           </div>
