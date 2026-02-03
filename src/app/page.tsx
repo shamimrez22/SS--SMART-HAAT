@@ -4,7 +4,7 @@
 import React, { useRef, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Star, Apple, Play, Truck, Tag, Flame } from 'lucide-react';
+import { ArrowRight, Star, Apple, Play, Truck, Tag, Flame, ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -12,6 +12,8 @@ import { ProductCard } from '@/components/ProductCard';
 import { products } from '@/lib/products';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
 
 // Memoized carousel item for performance
 const SlideItem = memo(({ slide, priority }: { slide: any, priority: boolean }) => (
@@ -40,7 +42,7 @@ const SlideItem = memo(({ slide, priority }: { slide: any, priority: boolean }) 
 ));
 SlideItem.displayName = 'SlideItem';
 
-// Updated OfferCard - Just a single large image highlight as requested
+// Updated OfferCard - Just a single large image highlight
 const OfferCard = () => {
   const offerProduct = products.find(p => p.discountPercentage > 0) || products[0];
   return (
@@ -53,7 +55,6 @@ const OfferCard = () => {
           sizes="400px"
           className="object-cover group-hover:scale-110 transition-transform duration-1000 opacity-90 group-hover:opacity-100"
         />
-        {/* Subtle overlay for depth */}
         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
       </Link>
     </div>
@@ -61,6 +62,10 @@ const OfferCard = () => {
 };
 
 export default function Home() {
+  const db = useFirestore();
+  const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
+  const { data: categories, isLoading: categoriesLoading } = useCollection(categoriesRef);
+
   const plugin = useRef(
     Autoplay({ delay: 3000, stopOnInteraction: false })
   );
@@ -90,13 +95,10 @@ export default function Home() {
       <main className="flex-grow container mx-auto px-4 py-4 space-y-8">
         {/* HERO GRID SECTION - Height 350px */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          
-          {/* LEFT: IMAGE HIGHLIGHT */}
           <div className="hidden lg:block lg:col-span-3">
             <OfferCard />
           </div>
 
-          {/* MIDDLE: CAROUSEL */}
           <div className="lg:col-span-6 relative rounded-none overflow-hidden h-[350px] bg-card">
             <Carousel 
               className="w-full h-full" 
@@ -113,7 +115,6 @@ export default function Home() {
             </Carousel>
           </div>
           
-          {/* RIGHT: DOWNLOAD APP SECTION */}
           <div className="hidden lg:flex lg:col-span-3 flex-col h-[350px] gap-4">
             <div className="relative flex-grow bg-gradient-to-br from-[#ff8c00] to-[#ff0080] p-5 pt-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
               <div className="text-center mb-6">
@@ -163,8 +164,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
-            <p className="text-[10px] font-black text-orange-600 uppercase tracking-[0.1em] px-1 leading-none mt-1">Download the App Now!</p>
           </div>
         </section>
 
@@ -176,14 +175,13 @@ export default function Home() {
             </h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {products.concat(products).slice(0, 12).map((product, idx) => (
+            {products.map((product, idx) => (
               <ProductCard key={`${product.id}-${idx}`} product={product} />
             ))}
           </div>
           
-          {/* MORE PRODUCT BUTTON */}
           <div className="flex justify-center mt-12">
-            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[12px] uppercase h-12 px-10 rounded-none shadow-xl transition-all hover:scale-105 active:scale-95">
+            <Button asChild className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[12px] uppercase h-12 px-10 rounded-none shadow-xl transition-all">
               <Link href="/shop">
                 MORE PRODUCT <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -191,22 +189,31 @@ export default function Home() {
           </div>
         </section>
 
-        {/* SHOP BY CATEGORY */}
+        {/* SHOP BY CATEGORY - Real-time from Firestore */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="h-6 w-1.5 bg-orange-600" />
             <h2 className="text-xl font-black uppercase tracking-tighter text-white">SHOP BY CATEGORY</h2>
           </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-            {[
-              { name: 'SMARTPHONES' }, { name: 'FASHION' }, { name: 'WATCHES' },
-              { name: 'BEAUTY' }, { name: 'LAPTOPS' }, { name: 'FOOTWEAR' }
-            ].map((cat) => (
-              <div key={cat.name} className="group cursor-pointer text-center p-4 bg-card border border-white/5 hover:border-orange-600/30 transition-all">
-                <Star className="h-5 w-5 text-orange-600 mx-auto mb-2 opacity-40 group-hover:opacity-100" />
-                <p className="text-[12px] font-black uppercase tracking-widest text-white">{cat.name}</p>
-              </div>
-            ))}
+            {categoriesLoading ? (
+              [1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-20 bg-white/5 animate-pulse border border-white/5" />
+              ))
+            ) : categories && categories.length > 0 ? (
+              categories.map((cat) => (
+                <Link 
+                  href={`/shop?category=${cat.name}`} 
+                  key={cat.id} 
+                  className="group cursor-pointer text-center p-4 bg-card border border-white/5 hover:border-orange-600/30 transition-all flex flex-col items-center justify-center gap-2"
+                >
+                  <Star className="h-5 w-5 text-orange-600 opacity-40 group-hover:opacity-100" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white leading-tight">{cat.name}</p>
+                </Link>
+              ))
+            ) : (
+              <p className="text-[8px] uppercase text-muted-foreground">No categories available.</p>
+            )}
           </div>
         </section>
       </main>
