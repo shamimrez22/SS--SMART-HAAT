@@ -219,8 +219,8 @@ export default function AdminSettings() {
                       className="border-none pt-2"
                       style={{
                         width: '1200px',
-                        height: '2294px', // (650 / 340) * 1200
-                        transform: 'scale(0.2833)', // 340 / 1200
+                        height: '2294px', // Adjusted height based on 1200px width ratio
+                        transform: 'scale(0.2833)', // Scales 1200px down to fit 340px (340/1200)
                         transformOrigin: 'top left',
                       }}
                       title="Mobile Preview"
