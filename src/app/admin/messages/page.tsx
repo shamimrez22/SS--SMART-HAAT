@@ -30,7 +30,7 @@ export default function AdminMessages() {
   const [replyText, setReplyText] = useState('');
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Get all unique chats (grouped by orderId)
+  // Get all unique chats (grouped by orderId, which could be temp IDs)
   const allMessagesQuery = useMemoFirebase(() => query(collection(db, 'messages'), orderBy('createdAt', 'desc')), [db]);
   const { data: allMessages, isLoading } = useCollection(allMessagesQuery);
 
@@ -97,7 +97,7 @@ export default function AdminMessages() {
           <Card className="col-span-4 bg-card border-white/5 rounded-none overflow-hidden flex flex-col">
             <div className="p-6 border-b border-white/5 bg-white/[0.02]">
                <div className="relative">
-                 <Input placeholder="SEARCH CUSTOMERS..." className="bg-black/50 border-white/10 rounded-none h-12 pl-10 text-[10px] font-black uppercase" />
+                 <Input placeholder="SEARCH CHATS..." className="bg-black/50 border-white/10 rounded-none h-12 pl-10 text-[10px] font-black uppercase" />
                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/40" />
                </div>
             </div>
@@ -105,12 +105,12 @@ export default function AdminMessages() {
               {isLoading ? (
                 <div className="flex flex-col items-center justify-center py-20 gap-3">
                   <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
-                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Loading Chats...</p>
+                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Syncing Messages...</p>
                 </div>
               ) : uniqueChats.length === 0 ? (
                 <div className="text-center py-20">
                   <MessageSquare className="h-10 w-10 text-white/10 mx-auto mb-4" />
-                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">No active chats found.</p>
+                  <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">No messages found.</p>
                 </div>
               ) : uniqueChats.map((chat) => (
                 <div 
@@ -119,12 +119,12 @@ export default function AdminMessages() {
                   className={`p-6 border-b border-white/5 cursor-pointer transition-all hover:bg-white/[0.03] group ${selectedOrderId === chat.orderId ? 'bg-[#01a3a4]/10 border-l-4 border-l-[#01a3a4]' : ''}`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-sm font-black text-white uppercase tracking-tight">{chat.customerName}</h3>
+                    <h3 className="text-sm font-black text-white uppercase tracking-tight">{chat.customerName || 'GUEST'}</h3>
                     <span className="text-[8px] font-mono text-white/40">{new Date(chat.createdAt).toLocaleDateString()}</span>
                   </div>
                   <p className="text-[11px] text-white/60 line-clamp-1 italic">"{chat.text}"</p>
                   <div className="flex items-center gap-2 mt-3">
-                    <Badge className="bg-white/5 border-white/10 text-[7px] font-black h-4 px-1 rounded-none">ORDER: #{chat.orderId.slice(0, 8)}</Badge>
+                    <Badge className="bg-white/5 border-white/10 text-[7px] font-black h-4 px-1 rounded-none uppercase">ID: {chat.orderId.slice(0, 8)}</Badge>
                   </div>
                 </div>
               ))}
@@ -141,7 +141,7 @@ export default function AdminMessages() {
                       <User className="h-6 w-6 text-[#01a3a4]" />
                     </div>
                     <div>
-                      <h2 className="text-lg font-black text-white uppercase tracking-tighter">{selectedChatInfo?.customerName}</h2>
+                      <h2 className="text-lg font-black text-white uppercase tracking-tighter">{selectedChatInfo?.customerName || 'GUEST CUSTOMER'}</h2>
                       <div className="flex items-center gap-3">
                         <span className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest flex items-center gap-1">
                           <CheckCircle2 className="h-3 w-3" /> ACTIVE SESSION
@@ -150,9 +150,6 @@ export default function AdminMessages() {
                       </div>
                     </div>
                   </div>
-                  <Button variant="outline" className="border-white/10 text-white text-[9px] font-black uppercase rounded-none h-10 px-4">
-                    <Phone className="mr-2 h-3.5 w-3.5 text-[#01a3a4]" /> CALL CUSTOMER
-                  </Button>
                 </div>
 
                 <div className="flex-grow overflow-y-auto p-10 space-y-8 bg-black/20">
@@ -182,7 +179,7 @@ export default function AdminMessages() {
                   <Input 
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
-                    placeholder="TYPE YOUR STRATEGIC RESPONSE..." 
+                    placeholder="TYPE YOUR RESPONSE..." 
                     className="flex-grow bg-black/50 border-white/10 h-16 rounded-none text-[11px] font-black uppercase px-6 tracking-widest focus:ring-[#01a3a4]"
                   />
                   <Button type="submit" className="h-16 w-24 bg-[#01a3a4] hover:bg-[#01a3a4]/90 rounded-none shadow-2xl shadow-[#01a3a4]/10">
