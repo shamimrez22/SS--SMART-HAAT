@@ -51,7 +51,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
   });
 
   useEffect(() => {
-    // Generate a temporary ID for chat if order is not placed yet
     if (!tempId) {
       setTempId('chat_' + Math.random().toString(36).substr(2, 9));
     }
@@ -75,7 +74,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
     }
   }, [product, isOpen, tempId]);
 
-  // Fetch messages for either currentOrderId or tempId
   const messagesQuery = useMemoFirebase(() => {
     const idToUse = currentOrderId || tempId;
     if (!idToUse) return null;
@@ -88,7 +86,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
 
   const { data: chatHistory } = useCollection(messagesQuery);
 
-  // 3-second auto-close timer when reaching SUCCESS step
   useEffect(() => {
     if (step === 'SUCCESS') {
       const timer = setTimeout(() => {
@@ -124,8 +121,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
     docPromise.then((docRef) => {
       if (docRef) {
         setCurrentOrderId(docRef.id);
-        // Link any previous temp messages to this new orderId
-        // (Simplified for MVP: we just switch the active ID)
       }
     });
     
@@ -156,8 +151,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
       <DialogContent className="max-w-[1100px] p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl">
         <div className="flex flex-col md:flex-row h-full max-h-[95vh] min-h-[600px]">
           
-          {/* LEFT SECTION: PRODUCT OR SUCCESS MSG */}
-          <div className="w-full md:w-2/3 flex flex-col md:flex-row bg-white">
+          <div className={`flex flex-col md:flex-row bg-white transition-all duration-500 ${step === 'SUCCESS' ? 'w-full' : 'w-full md:w-2/3'}`}>
             {step === 'FORM' ? (
               <>
                 {!isActualMobile && (
@@ -228,7 +222,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                           value={formData.name}
                           onChange={(e) => setFormData({...formData, name: e.target.value})}
                           placeholder="YOUR NAME"
-                          className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-4 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-300"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-4 text-[13px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-400"
                         />
                       </div>
 
@@ -242,7 +236,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                           value={formData.phone}
                           onChange={(e) => setFormData({...formData, phone: e.target.value})}
                           placeholder="01XXXXXXXXX"
-                          className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-4 text-[11px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-300"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-4 text-[13px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-400"
                         />
                       </div>
 
@@ -255,7 +249,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                           value={formData.address}
                           onChange={(e) => setFormData({...formData, address: e.target.value})}
                           placeholder="HOUSE, AREA, CITY"
-                          className="w-full bg-gray-50 border border-gray-200 rounded-none p-4 text-[11px] font-black uppercase tracking-widest min-h-[100px] focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-300"
+                          className="w-full bg-gray-50 border border-gray-200 rounded-none p-4 text-[13px] font-black uppercase tracking-widest min-h-[100px] focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black placeholder:text-gray-400"
                         />
                       </div>
                     </div>
@@ -271,27 +265,27 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 </div>
               </>
             ) : (
-              <div className="w-full p-16 text-center space-y-10 border-r border-gray-100 flex flex-col justify-center bg-white">
+              <div className="w-full p-20 text-center space-y-10 flex flex-col justify-center bg-white">
                 <div className="relative">
-                  <div className="w-24 h-24 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto mb-6 border-[3px] border-[#01a3a4]">
-                    <CheckCircle2 className="h-12 w-12 text-[#01a3a4]" />
+                  <div className="w-28 h-28 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto mb-6 border-[4px] border-[#01a3a4]">
+                    <CheckCircle2 className="h-14 w-14 text-[#01a3a4]" />
                   </div>
-                  <PartyPopper className="absolute -top-3 right-1/3 h-8 w-8 text-[#01a3a4] animate-bounce" />
+                  <PartyPopper className="absolute -top-3 right-[42%] h-10 w-10 text-[#01a3a4] animate-bounce" />
                 </div>
 
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.5em]">SUCCESSFUL</p>
-                    <DialogTitle className="text-4xl font-black text-black uppercase tracking-tighter leading-none font-headline">
+                    <p className="text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.5em]">SUCCESSFUL</p>
+                    <DialogTitle className="text-5xl font-black text-black uppercase tracking-tighter leading-none font-headline">
                       THANK YOU FOR YOUR ORDER
                     </DialogTitle>
                   </div>
                   
-                  <p className="text-[18px] font-bold text-black italic font-headline py-8 border-y border-gray-50">
-                    আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব যোগাযোগ করবে।
+                  <p className="text-[22px] font-bold text-black italic font-headline py-10 border-y border-gray-100 leading-relaxed">
+                    আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব আপনার সঙ্গে যোগাযোগ করবে।
                   </p>
 
-                  <Button onClick={onClose} className="w-full bg-black hover:bg-[#01a3a4] text-white font-black uppercase h-14 rounded-none text-[13px] tracking-[0.3em]">
+                  <Button onClick={onClose} className="w-full bg-black hover:bg-[#01a3a4] text-white font-black uppercase h-16 rounded-none text-[15px] tracking-[0.4em]">
                     DONE
                   </Button>
                 </div>
@@ -299,56 +293,57 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             )}
           </div>
 
-          {/* RIGHT SECTION: REAL-TIME CHAT (ALWAYS VISIBLE) */}
-          <div className="w-full md:w-1/3 flex flex-col bg-gray-50 min-h-[500px] md:min-h-0">
-            <div className="p-5 bg-white border-b border-gray-100 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MessageCircle className="h-4 w-4 text-[#01a3a4]" />
-                <h3 className="text-[10px] font-black text-black uppercase tracking-widest">LIVE SUPPORT</h3>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-[8px] font-black text-gray-400 uppercase">ONLINE</span>
-              </div>
-            </div>
-
-            <div className="flex-grow overflow-y-auto p-5 space-y-4">
-              {chatHistory?.length === 0 && (
-                <div className="text-center py-10 opacity-40">
-                  <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest leading-relaxed">
-                    যেকোনো প্রয়োজনে আমাদের এখানে মেসেজ দিন।
-                  </p>
+          {step === 'FORM' && (
+            <div className="w-full md:w-1/3 flex flex-col bg-gray-50 min-h-[500px] md:min-h-0 border-l border-gray-100">
+              <div className="p-5 bg-white border-b border-gray-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <MessageCircle className="h-4 w-4 text-[#01a3a4]" />
+                  <h3 className="text-[10px] font-black text-black uppercase tracking-widest">LIVE SUPPORT</h3>
                 </div>
-              )}
-              {chatHistory?.map((msg, i) => (
-                <div key={i} className={`flex flex-col ${msg.sender === 'CUSTOMER' ? 'items-end' : 'items-start'}`}>
-                  <div className={`max-w-[85%] p-3.5 text-[10.5px] font-medium leading-relaxed ${
-                    msg.sender === 'CUSTOMER' 
-                      ? 'bg-[#01a3a4] text-white rounded-l-xl rounded-tr-xl shadow-md' 
-                      : 'bg-white border border-gray-200 text-black rounded-r-xl rounded-tl-xl shadow-sm'
-                  }`}>
-                    {msg.text}
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-[8px] font-black text-gray-400 uppercase">ONLINE</span>
+                </div>
+              </div>
+
+              <div className="flex-grow overflow-y-auto p-5 space-y-4">
+                {chatHistory?.length === 0 && (
+                  <div className="text-center py-10 opacity-40">
+                    <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest leading-relaxed">
+                      যেকোনো প্রয়োজনে আমাদের এখানে মেসেজ দিন।
+                    </p>
                   </div>
-                  <span className="text-[7px] font-black text-gray-400 uppercase mt-1 px-1">
-                    {msg.sender === 'CUSTOMER' ? 'YOU' : 'ADMIN'} • {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </span>
-                </div>
-              ))}
-              <div ref={chatEndRef} />
-            </div>
+                )}
+                {chatHistory?.map((msg, i) => (
+                  <div key={i} className={`flex flex-col ${msg.sender === 'CUSTOMER' ? 'items-end' : 'items-start'}`}>
+                    <div className={`max-w-[85%] p-3.5 text-[10.5px] font-medium leading-relaxed ${
+                      msg.sender === 'CUSTOMER' 
+                        ? 'bg-[#01a3a4] text-white rounded-l-xl rounded-tr-xl shadow-md' 
+                        : 'bg-white border border-gray-200 text-black rounded-r-xl rounded-tl-xl shadow-sm'
+                    }`}>
+                      {msg.text}
+                    </div>
+                    <span className="text-[7px] font-black text-gray-400 uppercase mt-1 px-1">
+                      {msg.sender === 'CUSTOMER' ? 'YOU' : 'ADMIN'} • {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </span>
+                  </div>
+                ))}
+                <div ref={chatEndRef} />
+              </div>
 
-            <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 flex gap-2">
-              <input 
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-                placeholder="TYPE MESSAGE..."
-                className="flex-grow bg-gray-50 border border-gray-200 h-12 px-4 text-[10px] font-black uppercase focus:outline-none focus:border-[#01a3a4] transition-all"
-              />
-              <Button type="submit" size="icon" className="h-12 w-12 bg-[#01a3a4] hover:bg-black rounded-none">
-                <Send className="h-4 w-4 text-white" />
-              </Button>
-            </form>
-          </div>
+              <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 flex gap-2">
+                <input 
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  placeholder="TYPE MESSAGE..."
+                  className="flex-grow bg-gray-50 border border-gray-200 h-12 px-4 text-[11px] font-black uppercase text-black focus:outline-none focus:border-[#01a3a4] transition-all"
+                />
+                <Button type="submit" size="icon" className="h-12 w-12 bg-[#01a3a4] hover:bg-black rounded-none">
+                  <Send className="h-4 w-4 text-white" />
+                </Button>
+              </form>
+            </div>
+          )}
 
         </div>
       </DialogContent>
