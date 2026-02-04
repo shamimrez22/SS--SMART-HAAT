@@ -18,10 +18,11 @@ import { OrderModal } from '@/components/OrderModal';
 const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
+  // If item is a product
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-full w-full bg-black">
+        <div className="relative h-full w-full bg-white">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -32,22 +33,22 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             loading="eager"
             quality={90}
           />
-          {/* Content overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center px-12 space-y-4">
-            <div className="text-2xl md:text-4xl font-headline font-black text-white leading-tight uppercase tracking-tighter max-w-[500px] drop-shadow-lg">
+          {/* Content overlay - Keeping it clean and light */}
+          <div className="absolute inset-0 flex flex-col justify-center px-12 space-y-4 pointer-events-none">
+            <div className="text-2xl md:text-4xl font-headline font-black text-black leading-tight uppercase tracking-tighter max-w-[500px]">
               {item.name}
             </div>
             <div className="flex items-baseline gap-4">
-              <div className="text-white text-[10px] font-black tracking-[0.3em] uppercase leading-tight border-l-2 border-[#01a3a4] pl-3">
+              <div className="text-black/60 text-[10px] font-black tracking-[0.3em] uppercase leading-tight border-l-2 border-[#01a3a4] pl-3">
                 PREMIUM<br/>COLLECTION
               </div>
-              <div className="text-4xl font-black text-white tracking-tighter flex items-baseline drop-shadow-lg">
+              <div className="text-4xl font-black text-[#01a3a4] tracking-tighter flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                 {item.price.toLocaleString()}
               </div>
             </div>
-            <div className="flex gap-3 mt-4">
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-11 px-8 font-black rounded-none text-[10px] hover:bg-white hover:text-black transition-all uppercase tracking-widest shadow-xl">
+            <div className="flex gap-3 mt-4 pointer-events-auto">
+              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-11 px-8 font-black rounded-none text-[10px] hover:bg-black transition-all uppercase tracking-widest shadow-xl">
                 ORDER NOW
               </button>
             </div>
@@ -62,9 +63,10 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
     );
   }
 
+  // If item is a direct banner
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-full w-full bg-black">
+      <div className="relative h-full w-full bg-white">
         <Image
           src={item.imageUrl}
           alt={item.title || "Banner"}
@@ -115,7 +117,7 @@ const FlashOfferCard = () => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-full bg-black overflow-hidden relative group border border-white/5 w-full">
+    <div className="h-full bg-white overflow-hidden relative group border border-white/5 w-full">
       {activeItem ? (
         <div className="h-full w-full relative">
           <Image 
@@ -129,23 +131,22 @@ const FlashOfferCard = () => {
             loading="eager"
             quality={85}
           />
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500" />
-          <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1 text-[9px] font-black text-white uppercase tracking-widest z-10 animate-pulse">
+          <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1 text-[9px] font-black text-white uppercase tracking-widest z-10 animate-pulse shadow-lg">
             FLASH OFFER
           </div>
 
           {activeItem.price !== undefined ? (
             <>
               <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 text-center">
-                <div className="bg-black/80 backdrop-blur-lg p-4 w-full border border-white/10 shadow-2xl">
-                  <h3 className="text-white font-black text-[10px] uppercase mb-2 tracking-widest line-clamp-1">{activeItem.name}</h3>
+                <div className="bg-white p-4 w-full border border-gray-100 shadow-2xl">
+                  <h3 className="text-black font-black text-[10px] uppercase mb-2 tracking-widest line-clamp-1">{activeItem.name}</h3>
                   <div className="text-[#01a3a4] font-black text-xl mb-3 flex items-baseline justify-center">
                     <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                     {activeItem.price.toLocaleString()}
                   </div>
                   <Button 
                     onClick={() => setIsOrderOpen(true)}
-                    className="bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black text-[9px] uppercase h-9 px-4 rounded-none w-full transition-all"
+                    className="bg-[#01a3a4] hover:bg-black text-white font-black text-[9px] uppercase h-9 px-4 rounded-none w-full transition-all"
                   >
                     ORDER NOW
                   </Button>
@@ -155,13 +156,13 @@ const FlashOfferCard = () => {
             </>
           ) : (
              <div className="absolute inset-0 flex items-end justify-center p-6">
-                <p className="text-white/40 text-[8px] font-black uppercase tracking-[0.4em]">PROMOTIONAL OFFER</p>
+                <p className="text-black/20 text-[8px] font-black uppercase tracking-[0.4em]">PROMOTIONAL OFFER</p>
              </div>
           )}
         </div>
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">WAITING...</p>
+          <p className="text-black/10 text-[10px] font-black uppercase tracking-[0.3em]">WAITING...</p>
         </div>
       )}
     </div>
@@ -207,13 +208,13 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto py-8 space-y-12">
-        {/* COMPACT HERO SECTION - 420px Height */}
+        {/* COMPACT HERO SECTION - 420px Height, Full Visibility */}
         <section className="grid grid-cols-12 gap-4 h-[420px]">
           <div className="col-span-3 h-full">
             <FlashOfferCard />
           </div>
 
-          <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-card border border-white/5 shadow-2xl">
+          <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-white border border-white/5 shadow-2xl">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
                 <CarouselContent className="h-[420px]">
@@ -225,7 +226,7 @@ export default function Home() {
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
                 <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
-                <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">LOADING FEATURED...</p>
+                <p className="text-black/10 text-[10px] font-black uppercase tracking-widest">LOADING FEATURED...</p>
               </div>
             )}
           </div>
@@ -307,7 +308,7 @@ export default function Home() {
               Array.from({length: 8}).map((_, i) => <div key={i} className="aspect-square bg-white/5 animate-pulse border border-white/5" />)
             ) : categories?.map((cat) => (
               <Link href={`/shop?category=${cat.name}`} key={cat.id} className="group flex flex-col items-center space-y-3">
-                <div className="relative w-full aspect-square overflow-hidden border border-white/5 group-hover:border-[#01a3a4] transition-all bg-black shadow-xl">
+                <div className="relative w-full aspect-square overflow-hidden border border-white/5 group-hover:border-[#01a3a4] transition-all bg-white shadow-xl">
                   {cat.imageUrl && (
                     <Image 
                       src={cat.imageUrl} 

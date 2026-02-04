@@ -22,8 +22,8 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className="group overflow-hidden bg-black border-none rounded-none flex flex-col h-full relative">
         
-        {/* IMAGE CONTAINER - EXACT MATCH TO IMAGE (WHITE BG, CONTAIN) */}
-        <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden bg-white border border-white/5">
+        {/* IMAGE CONTAINER - EXACT MATCH TO USER REFERENCE (WHITE BG, CONTAIN) */}
+        <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden bg-white">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -41,7 +41,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           )}
         </Link>
         
-        {/* CONTENT AREA - MATCHING REFERENCE IMAGE */}
+        {/* CONTENT AREA - MATCHING REFERENCE IMAGE LAYOUT */}
         <CardContent className="p-4 flex flex-col flex-grow space-y-3 bg-black">
           <Link href={`/products/${product.id}`} className="block">
             <h3 className="font-black text-[12px] leading-tight text-white uppercase tracking-widest truncate">
@@ -58,7 +58,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
               </span>
             </div>
             
-            {/* DISCOUNT BOX - TEAL BORDER */}
+            {/* DISCOUNT BOX - TEAL BORDER BOX */}
             {product.discountPercentage > 0 && (
               <div className="px-2 py-1 border border-[#01a3a4] flex items-center justify-center h-6">
                 <span className="text-[10px] font-black text-[#01a3a4] leading-none">
@@ -78,7 +78,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             </div>
           )}
 
-          {/* STOCK STATUS */}
+          {/* STOCK STATUS INDICATOR */}
           <div className="flex items-center gap-2 py-1">
             <div className={`h-2 w-2 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'} animate-pulse`} />
             <span className={`text-[9px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
