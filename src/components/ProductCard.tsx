@@ -22,17 +22,17 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE */}
+        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE - EXTREME OPTIMIZATION */}
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5 bg-black">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            priority={index < 8}
-            loading={index < 8 ? "eager" : "lazy"}
-            quality={75}
-            className="object-cover transition-transform duration-1000 group-hover:scale-105"
+            priority={index < 12} // Load first 12 images instantly
+            loading={index < 12 ? "eager" : "lazy"}
+            quality={60} // Reduced quality for extreme speed without losing much detail
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -50,6 +50,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           </Link>
           
           <div className="flex items-center justify-between">
+            {/* MAIN PRICE - ELEGANT SIZE - ৳ SYMBOL 50% SMALLER & NORMAL WEIGHT */}
             <span className="font-black text-sm md:text-[15px] text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
