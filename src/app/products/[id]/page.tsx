@@ -77,7 +77,7 @@ export default function ProductDetails() {
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority 
                 loading="eager"
-                quality={95}
+                quality={90}
                 className="object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
@@ -96,7 +96,7 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-6">
                   {/* PRICE ROW */}
                   <div className="text-4xl md:text-6xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
-                    <span className="text-[0.3em] font-normal mr-2 translate-y-[-0.4em] text-white/50">৳</span>
+                    <span className="text-[14px] font-normal mr-2 translate-y-[-12px] text-white/50">৳</span>
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (
@@ -138,14 +138,13 @@ export default function ProductDetails() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
+                  <button 
                     disabled={isOutOfStock}
                     onClick={() => setIsOrderOpen(true)}
-                    size="lg" 
-                    className={`flex-grow h-16 rounded-none text-[14px] font-black uppercase tracking-[0.4em] shadow-2xl transition-all duration-500 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
+                    className={`flex-grow h-16 rounded-none text-[14px] font-black uppercase tracking-[0.4em] shadow-2xl transition-all duration-500 flex items-center justify-center gap-3 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
                   >
-                    <ShoppingCart className="mr-3 h-5 w-5" /> {isOutOfStock ? 'SOLD OUT' : 'অর্ডার করুন'}
-                  </Button>
+                    <ShoppingCart className="h-5 w-5" /> {isOutOfStock ? 'SOLD OUT' : 'অর্ডার করুন'}
+                  </button>
                   <div className="flex gap-3">
                     <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Heart className="h-6 w-6" /></Button>
                     <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Share2 className="h-6 w-6" /></Button>

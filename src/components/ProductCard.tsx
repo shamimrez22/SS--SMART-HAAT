@@ -28,10 +28,10 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             src={product.imageUrl}
             alt={product.name}
             fill
-            sizes="400px"
-            priority={index < 12}
-            loading={index < 12 ? "eager" : "lazy"}
-            quality={95}
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw"
+            priority={index < 6}
+            loading={index < 6 ? "eager" : "lazy"}
+            quality={85}
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
           {isOutOfStock && (
@@ -52,7 +52,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             {/* MAIN PRICE - LARGE TEAL BOLD */}
             <div className="flex items-baseline text-[#01a3a4]">
-              <span className="text-[7px] font-normal mr-1 translate-y-[-10px] text-white/50">৳</span>
+              <span className="text-[10px] font-normal mr-1 translate-y-[-10px] text-white/50">৳</span>
               <span className="font-black text-[34px] tracking-tighter leading-none">
                 {product.price.toLocaleString()}
               </span>

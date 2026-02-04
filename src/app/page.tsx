@@ -30,8 +30,8 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             sizes="1200px"
             className="object-cover opacity-100"
             priority={priority}
-            loading="eager"
-            quality={95}
+            loading={priority ? "eager" : "lazy"}
+            quality={85}
           />
           {/* Transparent Overlay for Text */}
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-12 space-y-4">
@@ -43,7 +43,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
                 <span className="text-[12px] font-black uppercase tracking-[0.2em]">SPECIAL EDITION</span>
                 <span className="text-white/40">|</span>
                 <div className="flex items-baseline text-2xl font-black tracking-tighter text-[#01a3a4]">
-                  <span className="text-[0.2em] font-normal mr-1 translate-y-[-0.4em] text-white/50">৳</span>
+                  <span className="text-[10px] font-normal mr-1 translate-y-[-8px] text-white/50">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
@@ -78,8 +78,8 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
           sizes="1200px"
           className="object-cover opacity-100"
           priority={priority}
-          loading="eager"
-          quality={95}
+          loading={priority ? "eager" : "lazy"}
+          quality={85}
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col justify-center px-12">
            <h2 className="text-4xl font-black text-white uppercase tracking-tighter max-w-[500px] leading-none">{item.title}</h2>
@@ -141,7 +141,7 @@ const FlashOfferCard = () => {
               key={activeItem.id || activeItem.imageUrl}
               priority={true}
               loading="eager"
-              quality={90}
+              quality={80}
             />
           </div>
 
@@ -235,7 +235,7 @@ export default function Home() {
             )}
           </div>
           
-          {/* RIGHT: SIDEBAR BOXES */}
+          {/* RIGHT: SIDEBAR BOXES - FULL TEAL DOWN TO QR */}
           <div className="col-span-3 flex flex-col h-full bg-[#01a3a4]">
             {/* TOP BOX */}
             <div className="h-2/3 p-10 flex flex-col items-center justify-center space-y-10">
@@ -267,7 +267,7 @@ export default function Home() {
               {/* QR CODE BOX */}
               <div className="bg-white p-2 w-24 h-24 shrink-0 flex items-center justify-center shadow-2xl">
                 <svg viewBox="0 0 100 100" className="w-full h-full text-black">
-                  <path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" />
+                  <path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" />
                 </svg>
               </div>
               {/* STORE BUTTONS */}
