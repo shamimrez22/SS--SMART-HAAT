@@ -216,7 +216,13 @@ export default function AdminSettings() {
                   {previewUrl && (
                     <iframe 
                       src={previewUrl} 
-                      className="w-full h-full border-none pt-2"
+                      className="border-none pt-2"
+                      style={{
+                        width: '1200px',
+                        height: '2294px', // (650 / 340) * 1200
+                        transform: 'scale(0.2833)', // 340 / 1200
+                        transformOrigin: 'top left',
+                      }}
                       title="Mobile Preview"
                     />
                   )}

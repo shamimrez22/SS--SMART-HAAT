@@ -16,10 +16,11 @@ const inter = Inter({
 });
 
 // FORCE DESKTOP MODE ON MOBILE BY SETTING A FIXED VIEWPORT WIDTH
+// This tells the browser the page is 1200px wide, and it should scale it down to fit.
 export const viewport: Viewport = {
   width: 1200,
-  initialScale: 1,
-  maximumScale: 1,
+  initialScale: 0.3, // Allow initial zoom out on mobile to fit 1200px
+  minimumScale: 0.1,
   userScalable: true,
 };
 
