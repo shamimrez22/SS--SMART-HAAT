@@ -52,7 +52,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             {/* MAIN PRICE - LARGE TEAL BOLD */}
             <div className="flex items-baseline text-[#01a3a4]">
-              <span className="text-[9px] font-normal mr-1.5 translate-y-[-6px] text-white/50">৳</span>
+              <span className="text-[7px] font-normal mr-1 translate-y-[-10px] text-white/50">৳</span>
               <span className="font-black text-[34px] tracking-tighter leading-none">
                 {product.price.toLocaleString()}
               </span>
@@ -71,7 +71,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           {/* OLD PRICE */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline text-white/30 -mt-3">
-              <span className="text-[8px] font-normal mr-1 translate-y-[-2px]">৳</span>
+              <span className="text-[6px] font-normal mr-1 translate-y-[-4px]">৳</span>
               <span className="text-white/30 line-through text-[18px] font-bold">
                 {product.originalPrice.toLocaleString()}
               </span>

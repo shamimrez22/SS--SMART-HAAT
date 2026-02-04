@@ -43,7 +43,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
                 <span className="text-[12px] font-black uppercase tracking-[0.2em]">SPECIAL EDITION</span>
                 <span className="text-white/40">|</span>
                 <div className="flex items-baseline text-2xl font-black tracking-tighter text-[#01a3a4]">
-                  <span className="text-[0.3em] font-normal mr-1 translate-y-[-0.3em] text-white/50">৳</span>
+                  <span className="text-[0.2em] font-normal mr-1 translate-y-[-0.4em] text-white/50">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
@@ -236,9 +236,9 @@ export default function Home() {
           </div>
           
           {/* RIGHT: SIDEBAR BOXES */}
-          <div className="col-span-3 flex flex-col h-full bg-black">
-            {/* TEAL TOP BOX */}
-            <div className="bg-[#01a3a4] h-2/3 p-10 flex flex-col items-center justify-center space-y-10 shadow-inner">
+          <div className="col-span-3 flex flex-col h-full bg-[#01a3a4]">
+            {/* TOP BOX */}
+            <div className="h-2/3 p-10 flex flex-col items-center justify-center space-y-10">
               <h3 className="text-white font-black text-3xl tracking-tighter uppercase font-headline">DOWNLOAD APP</h3>
               <div className="w-full space-y-5">
                 <div className="flex items-center gap-5">
@@ -262,8 +262,8 @@ export default function Home() {
               </div>
             </div>
             
-            {/* BLACK BOTTOM BOX */}
-            <div className="bg-black h-1/3 p-6 flex items-center gap-6">
+            {/* BOTTOM BOX - NOW TEAL AS WELL */}
+            <div className="h-1/3 p-6 flex items-center gap-6 border-t border-white/10">
               {/* QR CODE BOX */}
               <div className="bg-white p-2 w-24 h-24 shrink-0 flex items-center justify-center shadow-2xl">
                 <svg viewBox="0 0 100 100" className="w-full h-full text-black">
@@ -272,11 +272,11 @@ export default function Home() {
               </div>
               {/* STORE BUTTONS */}
               <div className="flex flex-col gap-3 flex-grow">
-                <button className="bg-white text-black h-10 px-4 flex items-center gap-4 hover:bg-[#01a3a4] hover:text-white transition-all border-none w-full shadow-lg">
+                <button className="bg-white text-black h-10 px-4 flex items-center gap-4 hover:bg-black hover:text-white transition-all border-none w-full shadow-lg">
                   <Apple className="h-5 w-5 fill-current" />
                   <span className="text-[11px] font-black uppercase tracking-widest">APP STORE</span>
                 </button>
-                <button className="bg-white text-black h-10 px-4 flex items-center gap-4 hover:bg-[#01a3a4] hover:text-white transition-all border-none w-full shadow-lg">
+                <button className="bg-white text-black h-10 px-4 flex items-center gap-4 hover:bg-black hover:text-white transition-all border-none w-full shadow-lg">
                   <Play className="h-5 w-5 fill-current" />
                   <span className="text-[11px] font-black uppercase tracking-widest">GOOGLE PLAY</span>
                 </button>
