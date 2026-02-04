@@ -47,15 +47,15 @@
     @apply text-white/90;
   }
 
-  /* FLUID FULL-WIDTH CONTAINER */
+  /* FLUID FULL-WIDTH CONTAINER - REMOVED PADDING FOR FULL DISPLAY COVERAGE */
   .container {
     width: 100% !important;
     max-width: 100% !important;
     min-width: unset !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
