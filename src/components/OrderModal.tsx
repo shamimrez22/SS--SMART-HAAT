@@ -87,7 +87,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-col md:flex-row h-full max-h-[95vh]">
             
-            {/* PRODUCT PREVIEW - HIDDEN ON MOBILE AS PER USER REQUEST TO ENSURE FORM IS VISIBLE */}
+            {/* PRODUCT PREVIEW - HIDDEN ON MOBILE TO ENSURE FORM IS VISIBLE */}
             <div className="hidden md:block relative w-5/12 aspect-[4/5] bg-black border-r border-white/5">
               <Image 
                 src={product.imageUrl} 
@@ -119,7 +119,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <DialogDescription className="text-[10px] md:text-[11px] text-white/60 uppercase font-black tracking-widest">
                   PROVIDE YOUR DETAILS FOR ELITE DELIVERY
                 </DialogDescription>
-                {/* Mobile Identity Helper since Image is hidden */}
+                {/* Mobile Identity Helper */}
                 <div className="md:hidden pt-2 flex items-center justify-between border-t border-white/5">
                    <p className="text-[10px] font-black text-white/40 uppercase">{product.name}</p>
                    <div className="text-lg font-black text-[#01a3a4] flex items-baseline">

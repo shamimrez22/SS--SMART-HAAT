@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Send, Sparkles, Loader2, Info } from 'lucide-react';
+import { Send, Sparkles, Loader2, Info, LayoutDashboard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getStyleAdvice, type StyleAssistantOutput } from '@/ai/flows/style-assistant-flow';
@@ -30,7 +30,7 @@ export function StyleAssistant() {
     <div className="flex flex-col h-[550px] bg-card border-none">
       <div className="p-6 bg-gradient-to-r from-[#01a3a4] to-[#00d2d3] flex items-center justify-between">
         <h4 className="font-black flex items-center gap-2 text-white uppercase tracking-widest text-xs">
-          <Sparkles className="h-4 w-4 text-white animate-pulse" /> AI STYLE CONSULTANT
+          <LayoutDashboard className="h-4 w-4 text-white" /> AI BUSINESS & STYLE STRATEGIST
         </h4>
         <div className="h-6 w-6 rounded-none border border-white/30 flex items-center justify-center">
           <Info className="h-3 w-3 text-white/70" />
@@ -43,16 +43,19 @@ export function StyleAssistant() {
             <div className="w-16 h-16 bg-[#01a3a4]/10 flex items-center justify-center mx-auto">
               <Sparkles className="h-8 w-8 text-[#01a3a4]/40" />
             </div>
-            <p className="text-muted-foreground italic font-black uppercase text-[10px] tracking-widest px-4 leading-relaxed">
-              "EXECUTIVE STYLING ADVICE FOR THE DHAKA ELITE..."
-            </p>
+            <div className="space-y-2">
+              <p className="text-white font-black uppercase text-[10px] tracking-widest">Consult your system intelligence</p>
+              <p className="text-muted-foreground italic font-black uppercase text-[8px] tracking-[0.2em] px-4 leading-relaxed">
+                "ADVICE ON FASHION, INVENTORY, OR SITE OPTIMIZATION"
+              </p>
+            </div>
           </div>
         )}
 
         {loading && (
           <div className="flex flex-col items-center justify-center mt-12 gap-4">
             <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#01a3a4] animate-pulse font-black">Generating Advice...</p>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#01a3a4] animate-pulse font-black">Analyzing Data...</p>
           </div>
         )}
 
@@ -63,7 +66,7 @@ export function StyleAssistant() {
             </div>
             
             <div className="space-y-4">
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#01a3a4] font-black">PALETTE RECOMMENDATION</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#01a3a4] font-black">STRATEGIC THEMES</p>
               <div className="flex flex-wrap gap-2">
                 {result.suggestedColors.map((color, i) => (
                   <span key={i} className="text-[10px] px-4 py-2 bg-white/5 border border-white/10 uppercase tracking-tighter font-black text-white">
@@ -75,7 +78,7 @@ export function StyleAssistant() {
             
             <div className="pt-6 border-t border-white/5">
               <p className="text-[11px] uppercase tracking-[0.3em] text-[#01a3a4] font-black">
-                ESTABLISHED VIBE: <span className="text-white font-headline normal-case ml-2 text-xl">{result.vibe}</span>
+                VIBE/STRATEGY: <span className="text-white font-headline normal-case ml-2 text-xl">{result.vibe}</span>
               </p>
             </div>
           </div>
@@ -86,7 +89,7 @@ export function StyleAssistant() {
         <Input 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="E.G. WHAT TO WEAR FOR A GALA?" 
+          placeholder="ASK ABOUT STYLE OR SITE OPTIMIZATION..." 
           className="bg-white/5 border-white/10 focus:ring-[#01a3a4] h-12 rounded-none text-[10px] font-black uppercase placeholder:text-white/20"
         />
         <Button disabled={loading} size="icon" className="h-12 w-12 rounded-none bg-[#01a3a4] hover:bg-[#01a3a4]/90 shadow-lg shadow-[#01a3a4]/20">

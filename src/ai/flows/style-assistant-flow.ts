@@ -1,22 +1,22 @@
 
 'use server';
 /**
- * @fileOverview An AI style assistant for SS SMART HAAT.
- * Specialized for the Dhaka high-society fashion scene.
+ * @fileOverview A Business & Style Strategist AI for SS SMART HAAT.
+ * Provides advice on fashion, inventory management, and site optimization.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const StyleAssistantInputSchema = z.object({
-  userQuery: z.string().describe('The user question about fashion or a specific product.'),
-  context: z.string().optional().describe('Additional context like current season or user preference.'),
+  userQuery: z.string().describe('The user question about fashion, products, or site management.'),
+  context: z.string().optional().describe('Context like current season, stock levels, or site performance.'),
 });
 
 const StyleAssistantOutputSchema = z.object({
-  advice: z.string().describe('Styling advice or product recommendation.'),
-  suggestedColors: z.array(z.string()).describe('A list of colors that would work well.'),
-  vibe: z.string().describe('The overall aesthetic vibe (e.g., "Minimalist Noir", "Royal Heritage").'),
+  advice: z.string().describe('Styling advice, business strategy, or management recommendation.'),
+  suggestedColors: z.array(z.string()).describe('A list of colors or themes that would work well.'),
+  vibe: z.string().describe('The overall aesthetic or strategic vibe.'),
 });
 
 export type StyleAssistantInput = z.infer<typeof StyleAssistantInputSchema>;
@@ -30,16 +30,18 @@ const prompt = ai.definePrompt({
   name: 'styleAssistantPrompt',
   input: { schema: StyleAssistantInputSchema },
   output: { schema: StyleAssistantOutputSchema },
-  prompt: `You are the Executive Style Consultant for "SS SMART HAAT", the most exclusive luxury boutique in Bangladesh.
-Your audience is the Dhaka elite—business moguls, celebrities, and tastemakers.
-Your tone is incredibly sophisticated, slightly mysterious, and deeply knowledgeable about global trends and local heritage.
+  prompt: `You are the "Ultimate Business & Style Strategist" for "SS SMART HAAT", the most exclusive luxury marketplace in Bangladesh.
+Your role is twofold:
+1. EXECUTIVE STYLE: Advise the Dhaka elite on high-end fashion, textures (Jamdani, Silk, Premium Wool), and global trends.
+2. SITE STRATEGIST: Provide advice on how to optimize the website, improve sales, and manage inventory effectively.
 
-If the user asks in Bengali, respond in "Elegant Banglish"—a mix of high-class Bengali and English that feels natural to the Banani/Gulshan social circles.
+If the user asks about site optimization or changes, provide expert tips on presentation, product photography, or marketing. 
+If the user asks in Bengali, respond in "Elegant Banglish"—a mix of high-class Bengali and English common in Banani/Gulshan circles.
 
-User Question: {{{userQuery}}}
+User Query: {{{userQuery}}}
 Context: {{{context}}}
 
-Provide a recommendation that emphasizes exclusivity, craftsmanship, and status. Reference textures like Jamdani silk or premium wool if appropriate.`,
+Provide high-impact, professional advice that emphasizes status, exclusivity, and efficiency.`,
 });
 
 const styleAssistantFlow = ai.defineFlow(
