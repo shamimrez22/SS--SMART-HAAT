@@ -103,62 +103,151 @@ export default function AdminOrders() {
   const generateInvoice = (order: any) => {
     const doc = new jsPDF();
     const dCharge = order.deliveryCharge || 0;
-    const total = order.productPrice + dCharge;
+    const subtotal = order.productPrice;
+    const total = subtotal + dCharge;
+    const primaryColor = [1, 163, 164]; // #01a3a4
     
-    // Header
-    doc.setFillColor(255, 140, 0); 
-    doc.rect(0, 0, 210, 40, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(24);
+    // Header - Clean & Minimalist
+    doc.setFontSize(22);
+    doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
     doc.text("SS SMART HAAT", 15, 25);
-    doc.setFontSize(10);
-    doc.text("PREMIUM MARKETPLACE INVOICE", 15, 32);
-
-    // Order Info
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.text("INVOICE TO:", 15, 55);
+    
+    doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.text(`Customer Name: ${order.customerName}`, 15, 62);
-    doc.text(`Phone: ${order.customerPhone}`, 15, 68);
-    doc.text(`Address: ${order.customerAddress}`, 15, 74);
+    doc.setTextColor(100, 100, 100);
+    doc.text("PREMIUM MARKETPLACE | DHAKA, BANGLADESH", 15, 31);
+    
+    // Horizontal Line
+    doc.setDrawColor(240, 240, 240);
+    doc.line(15, 38, 195, 38);
 
+    // Invoice Title
+    doc.setFontSize(16);
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.setFont("helvetica", "bold");
-    doc.text("ORDER DETAILS:", 130, 55);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Order ID: #${order.id.slice(0, 8).toUpperCase()}`, 130, 62);
-    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 130, 68);
-    doc.text(`Status: ${order.status}`, 130, 74);
+    doc.text("INVOICE", 15, 50);
 
-    // Table
+    // Order Meta Info (Top Right)
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.setFont("helvetica", "bold");
+    doc.text("INVOICE NO:", 140, 47);
+    doc.setFont("helvetica", "normal");
+    doc.text(`#${order.id.slice(0, 10).toUpperCase()}`, 165, 47);
+    
+    doc.setFont("helvetica", "bold");
+    doc.text("DATE:", 140, 53);
+    doc.setFont("helvetica", "normal");
+    doc.text(`${new Date(order.createdAt).toLocaleDateString()}`, 165, 53);
+
+    // Bill To & Shipping
+    doc.setFillColor(250, 250, 250);
+    doc.rect(15, 65, 180, 45, 'F');
+    
+    doc.setFontSize(10);
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setFont("helvetica", "bold");
+    doc.text("CUSTOMER DETAILS", 20, 75);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    doc.setFont("helvetica", "bold");
+    doc.text("NAME:", 20, 83);
+    doc.setFont("helvetica", "normal");
+    doc.text(order.customerName.toUpperCase(), 45, 83);
+    
+    doc.setFont("helvetica", "bold");
+    doc.text("PHONE:", 20, 89);
+    doc.setFont("helvetica", "normal");
+    doc.text(order.customerPhone, 45, 89);
+    
+    doc.setFont("helvetica", "bold");
+    doc.text("ADDRESS:", 20, 95);
+    doc.setFont("helvetica", "normal");
+    const splitAddress = doc.splitTextToSize(order.customerAddress.toUpperCase(), 130);
+    doc.text(splitAddress, 45, 95);
+
+    // Product Table
     autoTable(doc, {
-      startY: 90,
-      head: [['PRODUCT NAME', 'UNIT PRICE', 'QTY', 'TOTAL']],
+      startY: 120,
+      head: [['ITEM DESCRIPTION', 'UNIT PRICE', 'QTY', 'TOTAL']],
       body: [
-        [order.productName, `BDT ${order.productPrice.toLocaleString()}`, '1', `BDT ${order.productPrice.toLocaleString()}`]
+        [
+          { content: order.productName.toUpperCase(), styles: { fontStyle: 'bold' } }, 
+          `BDT ${subtotal.toLocaleString()}`, 
+          '01', 
+          `BDT ${subtotal.toLocaleString()}`
+        ]
       ],
-      headStyles: { fillColor: [255, 140, 0], textColor: [255, 255, 255] },
-      styles: { fontSize: 10, cellPadding: 5 }
+      headStyles: { 
+        fillColor: [255, 255, 255], 
+        textColor: primaryColor, 
+        fontSize: 9, 
+        fontStyle: 'bold',
+        lineWidth: 0.1,
+        lineColor: [240, 240, 240]
+      },
+      styles: { 
+        fontSize: 9, 
+        cellPadding: 6, 
+        textColor: [60, 60, 60],
+        valign: 'middle',
+        lineWidth: 0,
+      },
+      columnStyles: {
+        0: { cellWidth: 90 },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'right' }
+      },
+      alternateRowStyles: { fillColor: [252, 252, 252] },
+      margin: { left: 15, right: 15 }
     });
 
-    // Totals
+    // Summary Section
     const finalY = (doc as any).lastAutoTable.finalY + 10;
+    
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
     doc.setFont("helvetica", "normal");
-    doc.text(`Subtotal: BDT ${order.productPrice.toLocaleString()}`, 130, finalY);
-    doc.text(`Delivery Charge: BDT ${dCharge.toLocaleString()}`, 130, finalY + 6);
-    doc.setFont("helvetica", "bold");
+    doc.text("SUBTOTAL", 140, finalY);
+    doc.text(`BDT ${subtotal.toLocaleString()}`, 195, finalY, { align: 'right' });
+    
+    doc.text("DELIVERY CHARGE", 140, finalY + 7);
+    doc.text(`+ BDT ${dCharge.toLocaleString()}`, 195, finalY + 7, { align: 'right' });
+    
+    // Grand Total Divider
+    doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setLineWidth(0.5);
+    doc.line(140, finalY + 11, 195, finalY + 11);
+    
     doc.setFontSize(12);
-    doc.text(`GRAND TOTAL: BDT ${total.toLocaleString()}`, 130, finalY + 14);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("helvetica", "bold");
+    doc.text("GRAND TOTAL", 140, finalY + 20);
+    doc.text(`BDT ${total.toLocaleString()}`, 195, finalY + 20, { align: 'right' });
+
+    // Payment Status Badge
+    doc.setFillColor(240, 240, 240);
+    doc.rect(15, finalY + 12, 40, 10, 'F');
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text("PAYMENT METHOD:", 15, finalY + 10);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("helvetica", "bold");
+    doc.text("CASH ON DELIVERY", 20, finalY + 18.5);
 
     // Footer
+    doc.setDrawColor(240, 240, 240);
+    doc.line(15, 275, 195, 275);
     doc.setFontSize(8);
     doc.setFont("helvetica", "italic");
-    doc.text("Thank you for choosing SS SMART HAAT. For any queries, contact our support.", 15, 280);
-    doc.text("Generated by SS SMART HAAT System", 140, 280);
+    doc.setTextColor(150, 150, 150);
+    doc.text("THANK YOU FOR CHOOSING SS SMART HAAT. YOUR SATISFACTION IS OUR PRIORITY.", 15, 282);
+    doc.text("GENERATED BY SS SMART HAAT ENTERPRISE SYSTEM", 135, 282);
 
-    doc.save(`Invoice_${order.customerName}_${order.id.slice(0, 5)}.pdf`);
+    doc.save(`INVOICE_${order.customerName.replace(/\s+/g, '_')}_${order.id.slice(0, 5)}.pdf`);
   };
 
   return (
@@ -172,7 +261,7 @@ export default function AdminOrders() {
               <Link href="/admin"><ArrowLeft className="h-6 w-6" /></Link>
             </Button>
             <div className="space-y-1">
-              <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Business Operations</p>
+              <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Business Operations</p>
               <h1 className="text-4xl font-black uppercase tracking-tighter text-white">ORDER INTELLIGENCE</h1>
             </div>
           </div>
@@ -183,8 +272,8 @@ export default function AdminOrders() {
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
-            <Loader2 className="h-12 w-12 text-orange-600 animate-spin" />
-            <p className="text-[10px] font-black uppercase text-orange-600 animate-pulse tracking-[0.3em]">Syncing Order Records...</p>
+            <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
+            <p className="text-[10px] font-black uppercase text-[#01a3a4] animate-pulse tracking-[0.3em]">Syncing Order Records...</p>
           </div>
         ) : !orders || orders.length === 0 ? (
           <div className="text-center py-32 border border-dashed border-white/10 bg-white/[0.02]">
@@ -194,7 +283,7 @@ export default function AdminOrders() {
         ) : (
           <div className="space-y-2">
             {/* LIST HEADER */}
-            <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-orange-600 mb-4">
+            <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-[#01a3a4] mb-4">
               <div className="col-span-2">Customer</div>
               <div className="col-span-2">Contact & Address</div>
               <div className="col-span-3">Product Info</div>
@@ -204,20 +293,20 @@ export default function AdminOrders() {
 
             {/* ORDER LIST ITEMS */}
             {orders.map((order) => (
-              <div key={order.id} className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 bg-card border border-white/5 hover:border-orange-600/30 transition-all group items-center">
+              <div key={order.id} className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 bg-card border border-white/5 hover:border-[#01a3a4]/30 transition-all group items-center">
                 <div className="col-span-2 space-y-1">
-                  <p className="text-[9px] font-black text-orange-600 uppercase tracking-widest">Client Name</p>
+                  <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Client Name</p>
                   <p className="text-[14px] font-black text-white uppercase truncate">{order.customerName}</p>
                   <span className="text-[9px] font-mono text-muted-foreground block">UID: #{order.id.slice(0, 8)}</span>
                 </div>
 
                 <div className="col-span-2 space-y-3">
                    <div className="flex items-center gap-2">
-                     <Phone className="h-3 w-3 text-orange-600" />
+                     <Phone className="h-3 w-3 text-[#01a3a4]" />
                      <p className="text-[11px] font-mono text-white/70">{order.customerPhone}</p>
                    </div>
                    <div className="flex items-start gap-2">
-                     <MapPin className="h-3 w-3 text-orange-600 mt-0.5 shrink-0" />
+                     <MapPin className="h-3 w-3 text-[#01a3a4] mt-0.5 shrink-0" />
                      <p className="text-[10px] text-white/60 uppercase leading-tight line-clamp-2">{order.customerAddress}</p>
                    </div>
                 </div>
@@ -247,7 +336,7 @@ export default function AdminOrders() {
                   {order.status === 'PENDING' && (
                     <Button 
                       onClick={() => handleOpenConfirm(order)}
-                      className="bg-orange-600 hover:bg-orange-700 text-white font-black text-[9px] uppercase rounded-none h-10 px-4"
+                      className="bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white font-black text-[9px] uppercase rounded-none h-10 px-4"
                     >
                       <CheckCircle className="mr-2 h-3.5 w-3.5" /> CONFIRM
                     </Button>
@@ -281,7 +370,7 @@ export default function AdminOrders() {
                     onClick={() => generateInvoice(order)}
                     className="bg-white/5 hover:bg-white/10 text-white font-black text-[9px] uppercase rounded-none h-10 px-4 border border-white/10"
                   >
-                    <FileText className="mr-2 h-3.5 w-3.5 text-orange-600" /> INVOICE
+                    <FileText className="mr-2 h-3.5 w-3.5 text-[#01a3a4]" /> INVOICE
                   </Button>
 
                   <Button 
@@ -300,11 +389,11 @@ export default function AdminOrders() {
 
       {/* DELIVERY CHARGE CONFIRMATION MODAL */}
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-        <DialogContent className="bg-black border-orange-600/30 rounded-none max-w-md p-8">
+        <DialogContent className="bg-black border-[#01a3a4]/30 rounded-none max-w-md p-8">
           <DialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-orange-600/10 flex items-center justify-center border border-orange-600/20">
-                <Truck className="h-6 w-6 text-orange-600" />
+              <div className="h-10 w-10 bg-[#01a3a4]/10 flex items-center justify-center border border-[#01a3a4]/20">
+                <Truck className="h-6 w-6 text-[#01a3a4]" />
               </div>
               <DialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">ORDER CONFIRMATION</DialogTitle>
             </div>
@@ -315,7 +404,7 @@ export default function AdminOrders() {
 
           <div className="py-8 space-y-6">
             <div className="p-4 bg-white/5 border border-white/5 space-y-2">
-              <p className="text-[9px] font-black text-orange-600 uppercase tracking-widest">Ordering Product</p>
+              <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Ordering Product</p>
               <p className="text-sm font-black text-white uppercase">{selectedOrder?.productName}</p>
               <p className="text-xl font-black text-white">৳{selectedOrder?.productPrice.toLocaleString()}</p>
             </div>
@@ -329,7 +418,7 @@ export default function AdminOrders() {
                 value={deliveryCharge}
                 onChange={(e) => setDeliveryCharge(e.target.value)}
                 placeholder="E.G. 60 OR 120"
-                className="bg-white/5 border-white/20 rounded-none h-14 text-lg font-black text-white focus:ring-orange-600"
+                className="bg-white/5 border-white/20 rounded-none h-14 text-lg font-black text-white focus:ring-[#01a3a4]"
               />
             </div>
           </div>
@@ -345,7 +434,7 @@ export default function AdminOrders() {
             <Button 
               disabled={!deliveryCharge}
               onClick={handleFinalizeConfirmation}
-              className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black uppercase text-[10px] rounded-none h-14 shadow-xl shadow-orange-600/10"
+              className="flex-1 bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white font-black uppercase text-[10px] rounded-none h-14 shadow-xl shadow-[#01a3a4]/10"
             >
               FINALIZE CONFIRMATION
             </Button>
@@ -355,7 +444,7 @@ export default function AdminOrders() {
 
       {/* PROFESSIONAL ALERT DIALOG FOR DESTRUCTIVE ACTIONS */}
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-black border-orange-600/30 rounded-none p-8 max-w-md">
+        <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md">
           <AlertDialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20">
