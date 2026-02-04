@@ -27,30 +27,30 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             src={item.imageUrl}
             alt={item.name}
             fill
-            sizes="800px"
+            sizes="1200px"
             className="object-cover opacity-80"
             priority={priority}
             loading="eager"
             quality={85}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent flex flex-col justify-center px-12 space-y-6">
-            <div className="text-4xl md:text-5xl font-headline font-black text-white leading-tight uppercase tracking-tighter max-w-[400px]">
+            <div className="text-4xl md:text-6xl font-headline font-black text-white leading-tight uppercase tracking-tighter max-w-[600px]">
               {item.name}
             </div>
             <div className="flex items-baseline gap-4">
               <div className="text-white text-[12px] font-black tracking-[0.3em] uppercase leading-tight border-l-2 border-[#01a3a4] pl-4">
                 PREMIUM<br/>COLLECTION
               </div>
-              <div className="text-5xl font-black text-white tracking-tighter flex items-baseline">
+              <div className="text-6xl font-black text-white tracking-tighter flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                 {item.price.toLocaleString()}
               </div>
             </div>
-            <div className="flex gap-4 mt-6">
-              <Button asChild variant="outline" className="border-white/20 text-white h-12 px-10 font-black rounded-none text-[11px] hover:bg-white/10 transition-all uppercase tracking-widest">
+            <div className="flex gap-4 mt-8">
+              <Button asChild variant="outline" className="border-white/20 text-white h-14 px-12 font-black rounded-none text-[12px] hover:bg-white/10 transition-all uppercase tracking-widest">
                 <Link href={`/products/${item.id}`}>EXPLORE</Link>
               </Button>
-              <Button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-12 px-10 font-black rounded-none text-[11px] hover:bg-[#01a3a4]/90 transition-all uppercase tracking-widest">
+              <Button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-14 px-12 font-black rounded-none text-[12px] hover:bg-[#01a3a4]/90 transition-all uppercase tracking-widest">
                 <ShoppingCart className="mr-2 h-4 w-4" /> ORDER NOW
               </Button>
             </div>
@@ -73,7 +73,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
           src={item.imageUrl}
           alt={item.title || "Banner"}
           fill
-          sizes="800px"
+          sizes="1200px"
           className="object-cover opacity-100"
           priority={priority}
           loading="eager"
@@ -220,17 +220,17 @@ export default function Home() {
       
       <main className="flex-grow container mx-auto py-8 space-y-12">
         {/* HERO FEATURED SECTION */}
-        <section className="grid grid-cols-12 gap-4 h-[450px]">
-          {/* LEFT: FLASH OFFER (DUAL MODE) */}
+        <section className="grid grid-cols-12 gap-4 h-[550px]">
+          {/* LEFT: FLASH OFFER */}
           <div className="col-span-3 h-full">
             <FlashOfferCard />
           </div>
 
-          {/* MIDDLE: MAIN SLIDER (DUAL MODE) */}
+          {/* MIDDLE: MAIN SLIDER */}
           <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-card border border-white/5 shadow-2xl">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
-                <CarouselContent className="h-[450px]">
+                <CarouselContent className="h-[550px]">
                   {combinedSliderItems.map((item, index) => (
                     <SlideItem key={item.id || index} item={item} priority={index < 3} />
                   ))}
@@ -244,35 +244,48 @@ export default function Home() {
             )}
           </div>
           
-          {/* RIGHT: PROMOTIONAL TILES */}
+          {/* RIGHT: PROMOTIONAL TILES (UPDATED AS PER IMAGE) */}
           <div className="col-span-3 flex flex-col h-full gap-4">
-            <div className="relative flex-grow bg-gradient-to-br from-[#01a3a4] to-[#00b894] p-8 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between border border-white/10 group">
+            {/* TOP TEAL BOX */}
+            <div className="relative h-3/5 bg-[#01a3a4] p-8 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between group">
               <div className="relative z-10">
-                <h3 className="text-white font-black text-2xl tracking-tighter uppercase leading-none">PREMIUM<br/>EXPERIENCE</h3>
-                <p className="text-white/60 text-[9px] font-black uppercase tracking-[0.4em] mt-3">EXCLUSIVE MEMBER ACCESS</p>
+                <h3 className="text-white font-black text-3xl tracking-tighter uppercase leading-[0.9]">PREMIUM<br/>EXPERIENCE</h3>
+                <p className="text-white/80 text-[10px] font-black uppercase tracking-[0.4em] mt-4">EXCLUSIVE MEMBER ACCESS</p>
               </div>
-              <div className="space-y-5 relative z-10">
+              <div className="space-y-6 relative z-10">
                 <div className="flex items-center gap-4 group-hover:translate-x-2 transition-transform">
-                  <div className="w-12 h-12 bg-black/20 flex items-center justify-center border border-white/10"><Truck className="h-6 w-6 text-white" /></div>
-                  <div className="flex flex-col"><span className="text-white font-black text-[10px] uppercase opacity-70 tracking-widest">Expedited</span><span className="text-white font-black text-[14px] uppercase tracking-tighter">Shipping</span></div>
+                  <div className="w-14 h-14 bg-black/10 flex items-center justify-center border border-white/10"><Truck className="h-7 w-7 text-white" /></div>
+                  <div className="flex flex-col"><span className="text-white/70 font-black text-[10px] uppercase tracking-widest leading-none mb-1">Expedited</span><span className="text-white font-black text-[16px] uppercase tracking-tighter leading-none">SHIPPING</span></div>
                 </div>
                 <div className="flex items-center gap-4 group-hover:translate-x-2 transition-transform">
-                  <div className="w-12 h-12 bg-black/20 flex items-center justify-center border border-white/10"><Tag className="h-6 w-6 text-white" /></div>
-                  <div className="flex flex-col"><span className="text-white font-black text-[10px] uppercase opacity-70 tracking-widest">Global</span><span className="text-white font-black text-[14px] uppercase tracking-tighter">Standards</span></div>
+                  <div className="w-14 h-14 bg-black/10 flex items-center justify-center border border-white/10"><Tag className="h-7 w-7 text-white" /></div>
+                  <div className="flex flex-col"><span className="text-white/70 font-black text-[10px] uppercase tracking-widest leading-none mb-1">Global</span><span className="text-white font-black text-[16px] uppercase tracking-tighter leading-none">STANDARDS</span></div>
                 </div>
               </div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
             </div>
             
-            <div className="flex items-center gap-4 bg-card border border-white/10 p-4 hover:border-[#01a3a4] transition-all cursor-pointer">
-              <div className="bg-white p-2 w-16 h-16 shrink-0 border border-white/5 flex items-center justify-center shadow-lg">
-                <svg viewBox="0 0 100 100" className="w-full h-full text-black">
-                  <path fill="currentColor" d="M0 0h18v18H0V0zm2 2v14h14V2H2zm2 2h10v10H4V4zm78-4h18v18H82V0zm2 2v14h14V2H84zm2 2h10v10H86V4zM0 82h18v18H0V82zm2 2v14h14V84H2zm2 2h10v10H4V86zm20-80h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm-44 4h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-40 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2z" />
-                </svg>
-              </div>
-              <div className="flex flex-col gap-1.5 flex-grow">
-                <div className="bg-white h-7 px-4 flex items-center gap-2 hover:bg-[#01a3a4] hover:text-white transition-colors"><Apple className="h-3 w-3" /><span className="text-[9px] font-black uppercase tracking-widest">APP STORE</span></div>
-                <div className="bg-white h-7 px-4 flex items-center gap-2 hover:bg-[#01a3a4] hover:text-white transition-colors"><Play className="h-3 w-3 fill-current" /><span className="text-[9px] font-black uppercase tracking-widest">GOOGLE PLAY</span></div>
+            {/* BOTTOM BLACK BOX WITH UNIQUE QR & APP LINKS */}
+            <div className="relative h-2/5 bg-black border border-white/10 p-6 flex flex-col justify-center">
+              <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.4em] mb-4 text-center">DOWNLOAD APP</p>
+              <div className="flex items-center gap-4">
+                {/* UNIQUE QR CODE SVG */}
+                <div className="bg-white p-2 w-24 h-24 shrink-0 border border-white/5 flex items-center justify-center shadow-lg group hover:scale-105 transition-transform">
+                  <svg viewBox="0 0 100 100" className="w-full h-full text-black">
+                    {/* Unique Stylized QR Code Pattern */}
+                    <path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" />
+                    <rect x="40" y="40" width="8" height="8" fill="currentColor" className="animate-pulse" />
+                  </svg>
+                </div>
+                <div className="flex flex-col gap-2 flex-grow">
+                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group/btn shadow-md">
+                    <Apple className="h-4 w-4" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">APP STORE</span>
+                  </button>
+                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group/btn shadow-md">
+                    <Play className="h-4 w-4 fill-current" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">GOOGLE PLAY</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -283,12 +296,12 @@ export default function Home() {
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-4">
               <div className="h-10 w-2 bg-[#01a3a4]" />
-              <h2 className="text-3xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
-                <Flame className="h-8 w-8 text-[#01a3a4] fill-current" /> TOP SELLING PRODUCTS
+              <h2 className="text-4xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
+                <Flame className="h-10 w-10 text-[#01a3a4] fill-current" /> TOP SELLING PRODUCTS
               </h2>
             </div>
             <div className="h-px flex-grow mx-10 bg-white/5" />
-            <Link href="/shop" className="text-[10px] font-black text-[#01a3a4] hover:text-white transition-colors uppercase tracking-[0.3em]">VIEW ARCHIVE</Link>
+            <Link href="/shop" className="text-[11px] font-black text-[#01a3a4] hover:text-white transition-colors uppercase tracking-[0.3em]">VIEW ARCHIVE</Link>
           </div>
           
           <div className="grid grid-cols-6 gap-6">
@@ -300,8 +313,8 @@ export default function Home() {
           </div>
           
           <div className="flex justify-center mt-20">
-            <Button asChild className="bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black text-[13px] uppercase h-16 px-16 rounded-none shadow-2xl shadow-[#01a3a4]/20 transition-all duration-500">
-              <Link href="/shop">LOAD ALL COLLECTIONS <ArrowRight className="ml-4 h-5 w-5" /></Link>
+            <Button asChild className="bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black text-[14px] uppercase h-18 px-20 rounded-none shadow-2xl shadow-[#01a3a4]/20 transition-all duration-500">
+              <Link href="/shop">LOAD ALL COLLECTIONS <ArrowRight className="ml-4 h-6 w-6" /></Link>
             </Button>
           </div>
         </section>
@@ -310,7 +323,7 @@ export default function Home() {
         <section className="space-y-12 pb-20">
           <div className="flex items-center gap-5">
             <div className="h-10 w-2 bg-[#01a3a4]" />
-            <h2 className="text-3xl font-black uppercase tracking-tighter text-white">EXPLORE BY CLASSIFICATION</h2>
+            <h2 className="text-4xl font-black uppercase tracking-tighter text-white">EXPLORE BY CLASSIFICATION</h2>
           </div>
           <div className="grid grid-cols-8 gap-8">
             {categoriesLoading ? (
@@ -330,7 +343,7 @@ export default function Home() {
                   )}
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 text-center group-hover:text-[#01a3a4] transition-colors">{cat.name}</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 text-center group-hover:text-[#01a3a4] transition-colors">{cat.name}</p>
               </Link>
             ))}
           </div>
@@ -340,4 +353,3 @@ export default function Home() {
     </div>
   );
 }
-
