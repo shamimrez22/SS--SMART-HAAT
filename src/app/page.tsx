@@ -4,7 +4,7 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Apple, Play, Truck, Tag, Flame, Loader2, ShoppingCart } from 'lucide-react';
+import { ArrowRight, Apple, Play, Truck, Tag, Flame, Loader2, ShoppingCart, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -18,7 +18,6 @@ import { OrderModal } from '@/components/OrderModal';
 const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
-  // If item is a product (has price property)
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
@@ -65,7 +64,6 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
     );
   }
 
-  // If item is a standalone banner (from Featured Content)
   return (
     <CarouselItem className="h-full">
       <div className="relative h-full w-full bg-black">
@@ -90,14 +88,12 @@ const FlashOfferCard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const db = useFirestore();
   
-  // Get products marked as flash
   const flashProductQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
     where('showInFlashOffer', '==', true),
     limit(10)
   ), [db]);
 
-  // Get standalone banners marked as flash
   const flashBannerQuery = useMemoFirebase(() => query(
     collection(db, 'featured_banners'),
     where('type', '==', 'FLASH'),
@@ -181,20 +177,17 @@ export default function Home() {
   const db = useFirestore();
   const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
   
-  // Show ALL products in main grid
   const productsRef = useMemoFirebase(() => query(
     collection(db, 'products'),
     orderBy('createdAt', 'desc'),
     limit(18)
   ), [db]);
 
-  // Featured Products (from Checkboxes)
   const sliderProductQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
     where('showInSlider', '==', true)
   ), [db]);
 
-  // Featured Banners (Standalone uploads)
   const sliderBannerQuery = useMemoFirebase(() => query(
     collection(db, 'featured_banners'),
     where('type', '==', 'SLIDER'),
@@ -219,14 +212,11 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto py-8 space-y-12">
-        {/* HERO FEATURED SECTION */}
         <section className="grid grid-cols-12 gap-4 h-[550px]">
-          {/* LEFT: FLASH OFFER */}
           <div className="col-span-3 h-full">
             <FlashOfferCard />
           </div>
 
-          {/* MIDDLE: MAIN SLIDER */}
           <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-card border border-white/5 shadow-2xl">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
@@ -244,9 +234,7 @@ export default function Home() {
             )}
           </div>
           
-          {/* RIGHT: PROMOTIONAL TILES (UPDATED AS PER IMAGE) */}
           <div className="col-span-3 flex flex-col h-full gap-4">
-            {/* TOP TEAL BOX */}
             <div className="relative h-3/5 bg-[#01a3a4] p-8 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between group">
               <div className="relative z-10">
                 <h3 className="text-white font-black text-3xl tracking-tighter uppercase leading-[0.9]">PREMIUM<br/>EXPERIENCE</h3>
@@ -264,26 +252,27 @@ export default function Home() {
               </div>
             </div>
             
-            {/* BOTTOM BLACK BOX WITH UNIQUE QR & APP LINKS */}
             <div className="relative h-2/5 bg-black border border-white/10 p-6 flex flex-col justify-center">
-              <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.4em] mb-4 text-center">DOWNLOAD APP</p>
+              <div className="flex items-center gap-2 mb-4">
+                <Smartphone className="h-4 w-4 text-[#01a3a4]" />
+                <p className="text-[#01a3a4] text-[11px] font-black uppercase tracking-[0.3em]">DOWNLOAD APP</p>
+              </div>
               <div className="flex items-center gap-4">
-                {/* UNIQUE QR CODE SVG */}
                 <div className="bg-white p-2 w-24 h-24 shrink-0 border border-white/5 flex items-center justify-center shadow-lg group hover:scale-105 transition-transform">
                   <svg viewBox="0 0 100 100" className="w-full h-full text-black">
-                    {/* Unique Stylized QR Code Pattern */}
                     <path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" />
                     <rect x="40" y="40" width="8" height="8" fill="currentColor" className="animate-pulse" />
+                    <rect x="42" y="42" width="4" height="4" fill="#01a3a4" />
                   </svg>
                 </div>
                 <div className="flex flex-col gap-2 flex-grow">
-                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group/btn shadow-md">
-                    <Apple className="h-4 w-4" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">APP STORE</span>
+                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group shadow-md border-none">
+                    <Apple className="h-4 w-4 fill-current text-black group-hover:text-white" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-black group-hover:text-white">APP STORE</span>
                   </button>
-                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group/btn shadow-md">
-                    <Play className="h-4 w-4 fill-current" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">GOOGLE PLAY</span>
+                  <button className="bg-white text-black h-10 px-4 flex items-center gap-3 hover:bg-[#01a3a4] hover:text-white transition-all group shadow-md border-none">
+                    <Play className="h-4 w-4 fill-current text-black group-hover:text-white" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-black group-hover:text-white">GOOGLE PLAY</span>
                   </button>
                 </div>
               </div>
@@ -291,7 +280,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* TOP SELLING PRODUCTS GRID */}
         <section className="bg-card/20 p-10 border border-white/5 shadow-2xl">
           <div className="flex items-center justify-between mb-12">
             <div className="flex items-center gap-4">
@@ -319,7 +307,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CATEGORY EXPLORATION */}
         <section className="space-y-12 pb-20">
           <div className="flex items-center gap-5">
             <div className="h-10 w-2 bg-[#01a3a4]" />
