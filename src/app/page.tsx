@@ -18,7 +18,7 @@ import { OrderModal } from '@/components/OrderModal';
 const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
-  // If item is a product (has price)
+  // If item is a product (has price property)
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
@@ -27,30 +27,30 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             src={item.imageUrl}
             alt={item.name}
             fill
-            sizes="600px"
+            sizes="800px"
             className="object-cover opacity-80"
             priority={priority}
             loading="eager"
-            quality={75}
+            quality={85}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent flex flex-col justify-center px-8 space-y-4">
-            <div className="text-3xl font-headline font-black text-white leading-tight uppercase tracking-tighter max-w-[250px]">
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent flex flex-col justify-center px-12 space-y-6">
+            <div className="text-4xl md:text-5xl font-headline font-black text-white leading-tight uppercase tracking-tighter max-w-[400px]">
               {item.name}
             </div>
             <div className="flex items-baseline gap-4">
-              <div className="text-white text-[14px] font-black tracking-[0.2em] uppercase leading-tight">
-                SPECIAL<br/>EDITION |
+              <div className="text-white text-[12px] font-black tracking-[0.3em] uppercase leading-tight border-l-2 border-[#01a3a4] pl-4">
+                PREMIUM<br/>COLLECTION
               </div>
-              <div className="text-4xl font-black text-white tracking-tighter flex items-baseline">
+              <div className="text-5xl font-black text-white tracking-tighter flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                 {item.price.toLocaleString()}
               </div>
             </div>
-            <div className="flex flex-col gap-3 mt-4 w-fit">
-              <Button asChild variant="outline" className="border-white/20 text-white h-10 px-8 font-black rounded-none text-[11px] hover:bg-white/10 transition-all uppercase">
-                <Link href={`/products/${item.id}`}>DETAILS</Link>
+            <div className="flex gap-4 mt-6">
+              <Button asChild variant="outline" className="border-white/20 text-white h-12 px-10 font-black rounded-none text-[11px] hover:bg-white/10 transition-all uppercase tracking-widest">
+                <Link href={`/products/${item.id}`}>EXPLORE</Link>
               </Button>
-              <Button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-10 px-8 font-black rounded-none text-[11px] hover:bg-[#01a3a4]/90 transition-all uppercase">
+              <Button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-12 px-10 font-black rounded-none text-[11px] hover:bg-[#01a3a4]/90 transition-all uppercase tracking-widest">
                 <ShoppingCart className="mr-2 h-4 w-4" /> ORDER NOW
               </Button>
             </div>
@@ -65,19 +65,19 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
     );
   }
 
-  // If item is a banner
+  // If item is a standalone banner (from Featured Content)
   return (
     <CarouselItem className="h-full">
       <div className="relative h-full w-full bg-black">
         <Image
           src={item.imageUrl}
-          alt={item.title}
+          alt={item.title || "Banner"}
           fill
-          sizes="600px"
-          className="object-cover opacity-90"
+          sizes="800px"
+          className="object-cover opacity-100"
           priority={priority}
           loading="eager"
-          quality={80}
+          quality={90}
         />
         <div className="absolute inset-0 bg-black/10" />
       </div>
@@ -90,84 +90,87 @@ const FlashOfferCard = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const db = useFirestore();
   
+  // Get products marked as flash
   const flashProductQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
     where('showInFlashOffer', '==', true),
     limit(10)
   ), [db]);
 
+  // Get standalone banners marked as flash
   const flashBannerQuery = useMemoFirebase(() => query(
     collection(db, 'featured_banners'),
     where('type', '==', 'FLASH'),
-    limit(5)
+    limit(10)
   ), [db]);
   
   const { data: flashProducts } = useCollection(flashProductQuery);
   const { data: flashBanners } = useCollection(flashBannerQuery);
 
   const combinedItems = useMemo(() => {
-    return [...(flashProducts || []), ...(flashBanners || [])];
+    return [...(flashBanners || []), ...(flashProducts || [])];
   }, [flashProducts, flashBanners]);
 
   useEffect(() => {
     if (combinedItems.length <= 1) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % combinedItems.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [combinedItems]);
   
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-[350px] bg-black overflow-hidden relative group border border-white/5 w-full">
+    <div className="h-full bg-black overflow-hidden relative group border border-white/5 w-full">
       {activeItem ? (
         <div className="h-full w-full relative">
           <Image 
             src={activeItem.imageUrl} 
             alt="Flash Offer" 
             fill 
-            sizes="300px"
-            className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
-            key={activeItem.id}
+            sizes="400px"
+            className="object-cover group-hover:scale-110 transition-transform duration-[3000ms]"
+            key={activeItem.id || activeItem.imageUrl}
             priority={true}
             loading="eager"
-            quality={75}
+            quality={80}
           />
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500" />
-          <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 py-1 text-[10px] font-black text-white uppercase tracking-widest z-10 animate-pulse">
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500" />
+          <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1.5 text-[9px] font-black text-white uppercase tracking-widest z-10 animate-pulse border border-black/10">
             FLASH OFFER
           </div>
 
           {activeItem.price !== undefined ? (
             <>
-              <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 p-4 text-center">
-                <div className="bg-black/60 backdrop-blur-md p-4 w-full border border-white/10">
-                  <h3 className="text-white font-black text-xs uppercase mb-2 tracking-tighter line-clamp-1">{activeItem.name}</h3>
-                  <div className="text-[#01a3a4] font-black text-xl mb-3 flex items-baseline justify-center">
-                    <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
+              <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 text-center">
+                <div className="bg-black/70 backdrop-blur-lg p-5 w-full border border-white/10 shadow-2xl">
+                  <h3 className="text-white font-black text-[11px] uppercase mb-2 tracking-widest line-clamp-1">{activeItem.name}</h3>
+                  <div className="text-[#01a3a4] font-black text-2xl mb-4 flex items-baseline justify-center">
+                    <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                     {activeItem.price.toLocaleString()}
                   </div>
                   <div className="flex flex-col gap-2">
                     <Button 
                       onClick={() => setIsOrderOpen(true)}
-                      className="bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white font-black text-[9px] uppercase h-9 px-4 rounded-none w-full"
+                      className="bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black text-[10px] uppercase h-10 px-4 rounded-none w-full transition-all"
                     >
                       ORDER NOW
-                    </Button>
-                    <Button asChild variant="outline" className="border-white/40 text-white hover:bg-white hover:text-black font-black text-[9px] uppercase h-9 px-4 rounded-none w-full">
-                      <Link href={`/products/${activeItem.id}`}>DETAILS</Link>
                     </Button>
                   </div>
                 </div>
               </div>
               <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
             </>
-          ) : null}
+          ) : (
+             <div className="absolute inset-0 flex items-end justify-center p-8">
+                <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.5em] animate-pulse">PROMOTIONAL OFFER</p>
+             </div>
+          )}
         </div>
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
-          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">No Flash Offers</p>
+          <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">WAITING FOR PACKETS...</p>
         </div>
       )}
     </div>
@@ -178,21 +181,24 @@ export default function Home() {
   const db = useFirestore();
   const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
   
-  // LOGIC: Show ALL products in main grid regardless of slider/flash checkboxes
+  // Show ALL products in main grid
   const productsRef = useMemoFirebase(() => query(
     collection(db, 'products'),
     orderBy('createdAt', 'desc'),
     limit(18)
   ), [db]);
 
+  // Featured Products (from Checkboxes)
   const sliderProductQuery = useMemoFirebase(() => query(
     collection(db, 'products'),
     where('showInSlider', '==', true)
   ), [db]);
 
+  // Featured Banners (Standalone uploads)
   const sliderBannerQuery = useMemoFirebase(() => query(
     collection(db, 'featured_banners'),
-    where('type', '==', 'SLIDER')
+    where('type', '==', 'SLIDER'),
+    orderBy('createdAt', 'desc')
   ), [db]);
   
   const { data: categories, isLoading: categoriesLoading } = useCollection(categoriesRef);
@@ -201,11 +207,11 @@ export default function Home() {
   const { data: sliderBanners } = useCollection(sliderBannerQuery);
 
   const combinedSliderItems = useMemo(() => {
-    return [...(sliderProducts || []), ...(sliderBanners || [])];
+    return [...(sliderBanners || []), ...(sliderProducts || [])];
   }, [sliderProducts, sliderBanners]);
 
   const plugin = useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false })
+    Autoplay({ delay: 5000, stopOnInteraction: false })
   );
 
   return (
@@ -213,103 +219,118 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto py-8 space-y-12">
-        <section className="grid grid-cols-12 gap-4 h-[350px]">
+        {/* HERO FEATURED SECTION */}
+        <section className="grid grid-cols-12 gap-4 h-[450px]">
+          {/* LEFT: FLASH OFFER (DUAL MODE) */}
           <div className="col-span-3 h-full">
             <FlashOfferCard />
           </div>
 
-          <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-card border border-white/5">
+          {/* MIDDLE: MAIN SLIDER (DUAL MODE) */}
+          <div className="col-span-6 relative rounded-none overflow-hidden h-full bg-card border border-white/5 shadow-2xl">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
-                <CarouselContent className="h-[350px]">
+                <CarouselContent className="h-[450px]">
                   {combinedSliderItems.map((item, index) => (
-                    <SlideItem key={item.id} item={item} priority={index < 3} />
+                    <SlideItem key={item.id || index} item={item} priority={index < 3} />
                   ))}
                 </CarouselContent>
               </Carousel>
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
-                <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">Slider Content Not Set</p>
+                <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
+                <p className="text-white/20 text-[10px] font-black uppercase tracking-widest">LOADING FEATURED ASSETS...</p>
               </div>
             )}
           </div>
           
+          {/* RIGHT: PROMOTIONAL TILES */}
           <div className="col-span-3 flex flex-col h-full gap-4">
-            <div className="relative flex-grow bg-gradient-to-br from-[#01a3a4] to-[#00d2d3] p-6 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between">
-              <div className="text-center">
-                <h3 className="text-white font-black text-lg tracking-tight uppercase leading-none">Download App</h3>
-                <p className="text-white/70 text-[8px] font-black uppercase tracking-[0.3em] mt-2">Get Extra Discount</p>
+            <div className="relative flex-grow bg-gradient-to-br from-[#01a3a4] to-[#00b894] p-8 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between border border-white/10 group">
+              <div className="relative z-10">
+                <h3 className="text-white font-black text-2xl tracking-tighter uppercase leading-none">PREMIUM<br/>EXPERIENCE</h3>
+                <p className="text-white/60 text-[9px] font-black uppercase tracking-[0.4em] mt-3">EXCLUSIVE MEMBER ACCESS</p>
               </div>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-black/20 flex items-center justify-center border border-white/10"><Truck className="h-5 w-5 text-white" /></div>
-                  <div className="flex flex-col"><span className="text-white font-black text-[9px] uppercase opacity-80">Fast</span><span className="text-white font-black text-[12px] uppercase">Delivery</span></div>
+              <div className="space-y-5 relative z-10">
+                <div className="flex items-center gap-4 group-hover:translate-x-2 transition-transform">
+                  <div className="w-12 h-12 bg-black/20 flex items-center justify-center border border-white/10"><Truck className="h-6 w-6 text-white" /></div>
+                  <div className="flex flex-col"><span className="text-white font-black text-[10px] uppercase opacity-70 tracking-widest">Expedited</span><span className="text-white font-black text-[14px] uppercase tracking-tighter">Shipping</span></div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-black/20 flex items-center justify-center border border-white/10"><Tag className="h-5 w-5 text-white" /></div>
-                  <div className="flex flex-col"><span className="text-white font-black text-[9px] uppercase opacity-80">Premium</span><span className="text-white font-black text-[12px] uppercase">Service</span></div>
+                <div className="flex items-center gap-4 group-hover:translate-x-2 transition-transform">
+                  <div className="w-12 h-12 bg-black/20 flex items-center justify-center border border-white/10"><Tag className="h-6 w-6 text-white" /></div>
+                  <div className="flex flex-col"><span className="text-white font-black text-[10px] uppercase opacity-70 tracking-widest">Global</span><span className="text-white font-black text-[14px] uppercase tracking-tighter">Standards</span></div>
                 </div>
               </div>
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
             </div>
-            <div className="flex items-center gap-3 bg-card border border-white/5 p-3">
-              <div className="bg-white p-1 w-16 h-16 shrink-0 border border-white/5 flex items-center justify-center">
+            
+            <div className="flex items-center gap-4 bg-card border border-white/10 p-4 hover:border-[#01a3a4] transition-all cursor-pointer">
+              <div className="bg-white p-2 w-16 h-16 shrink-0 border border-white/5 flex items-center justify-center shadow-lg">
                 <svg viewBox="0 0 100 100" className="w-full h-full text-black">
-                  <path fill="currentColor" d="M0 0h18v18H0V0zm2 2v14h14V2H2zm2 2h10v10H4V4zm78-4h18v18H82V0zm2 2v14h14V2H84zm2 2h10v10H86V4zM0 82h18v18H0V82zm2 2v14h14V84H2zm2 2h10v10H4V86zm20-80h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm-44 4h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-40 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2z" />
+                  <path fill="currentColor" d="M0 0h18v18H0V0zm2 2v14h14V2H2zm2 2h10v10H4V4zm78-4h18v18H82V0zm2 2v14h14V2H84zm2 2h10v10H86V4zM0 82h18v18H0V82zm2 2v14h14V84H2zm2 2h10v10H4V86zm20-80h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm4 0h2v2h-2zm-44 4h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-40 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm12 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm-36 4h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2zm8 0h2v2h-2zm8 0h2v2h-2zm4 0h2v2h-2z" />
                 </svg>
               </div>
               <div className="flex flex-col gap-1.5 flex-grow">
-                <div className="bg-white h-7 px-3 flex items-center gap-2"><Apple className="h-3 w-3 text-black" /><span className="text-[8px] text-black font-black uppercase">App Store</span></div>
-                <div className="bg-white h-7 px-3 flex items-center gap-2"><Play className="h-3 w-3 text-black fill-black" /><span className="text-[8px] text-black font-black uppercase">Google Play</span></div>
+                <div className="bg-white h-7 px-4 flex items-center gap-2 hover:bg-[#01a3a4] hover:text-white transition-colors"><Apple className="h-3 w-3" /><span className="text-[9px] font-black uppercase tracking-widest">APP STORE</span></div>
+                <div className="bg-white h-7 px-4 flex items-center gap-2 hover:bg-[#01a3a4] hover:text-white transition-colors"><Play className="h-3 w-3 fill-current" /><span className="text-[9px] font-black uppercase tracking-widest">GOOGLE PLAY</span></div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-card/30 p-8 border border-white/5">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
-              <Flame className="h-6 w-6 text-[#01a3a4] fill-current" /> TOP SELLING PRODUCTS
-            </h2>
-            <div className="h-0.5 flex-grow mx-8 bg-white/5" />
+        {/* TOP SELLING PRODUCTS GRID */}
+        <section className="bg-card/20 p-10 border border-white/5 shadow-2xl">
+          <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center gap-4">
+              <div className="h-10 w-2 bg-[#01a3a4]" />
+              <h2 className="text-3xl font-black flex items-center gap-3 uppercase tracking-tighter text-white">
+                <Flame className="h-8 w-8 text-[#01a3a4] fill-current" /> TOP SELLING PRODUCTS
+              </h2>
+            </div>
+            <div className="h-px flex-grow mx-10 bg-white/5" />
+            <Link href="/shop" className="text-[10px] font-black text-[#01a3a4] hover:text-white transition-colors uppercase tracking-[0.3em]">VIEW ARCHIVE</Link>
           </div>
+          
           <div className="grid grid-cols-6 gap-6">
             {productsLoading ? (
-               Array.from({length: 12}).map((_, i) => <div key={i} className="aspect-[4/5] bg-white/5 animate-pulse" />)
+               Array.from({length: 12}).map((_, i) => <div key={i} className="aspect-[4/5] bg-white/5 animate-pulse border border-white/5" />)
             ) : products?.map((product, index) => (
               <ProductCard key={product.id} product={product} index={index} />
             ))}
           </div>
-          <div className="flex justify-center mt-16">
-            <Button asChild className="bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white font-black text-[13px] uppercase h-14 px-12 rounded-none shadow-2xl shadow-[#01a3a4]/20">
-              <Link href="/shop">LOAD MORE PRODUCTS <ArrowRight className="ml-3 h-5 w-5" /></Link>
+          
+          <div className="flex justify-center mt-20">
+            <Button asChild className="bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black text-[13px] uppercase h-16 px-16 rounded-none shadow-2xl shadow-[#01a3a4]/20 transition-all duration-500">
+              <Link href="/shop">LOAD ALL COLLECTIONS <ArrowRight className="ml-4 h-5 w-5" /></Link>
             </Button>
           </div>
         </section>
 
-        <section className="space-y-8 pb-12">
-          <div className="flex items-center gap-4">
-            <div className="h-8 w-2 bg-[#01a3a4]" />
-            <h2 className="text-2xl font-black uppercase tracking-tighter text-white">EXPLORE BY CATEGORY</h2>
+        {/* CATEGORY EXPLORATION */}
+        <section className="space-y-12 pb-20">
+          <div className="flex items-center gap-5">
+            <div className="h-10 w-2 bg-[#01a3a4]" />
+            <h2 className="text-3xl font-black uppercase tracking-tighter text-white">EXPLORE BY CLASSIFICATION</h2>
           </div>
-          <div className="grid grid-cols-8 gap-6">
+          <div className="grid grid-cols-8 gap-8">
             {categoriesLoading ? (
-              Array.from({length: 8}).map((_, i) => <div key={i} className="aspect-square bg-white/5 animate-pulse" />)
+              Array.from({length: 8}).map((_, i) => <div key={i} className="aspect-square bg-white/5 animate-pulse border border-white/5" />)
             ) : categories?.map((cat) => (
-              <Link href={`/shop?category=${cat.name}`} key={cat.id} className="group flex flex-col items-center space-y-3">
-                <div className="relative w-full aspect-square overflow-hidden border border-white/5 group-hover:border-[#01a3a4] transition-all bg-black">
+              <Link href={`/shop?category=${cat.name}`} key={cat.id} className="group flex flex-col items-center space-y-4">
+                <div className="relative w-full aspect-square overflow-hidden border border-white/5 group-hover:border-[#01a3a4] transition-all bg-black shadow-xl">
                   {cat.imageUrl && (
                     <Image 
                       src={cat.imageUrl} 
                       alt={cat.name} 
                       fill 
-                      sizes="150px" 
-                      quality={60} 
-                      className="object-cover group-hover:scale-110 transition-transform duration-500" 
+                      sizes="200px" 
+                      quality={70} 
+                      className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" 
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-white text-center group-hover:text-[#01a3a4] transition-colors">{cat.name}</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/60 text-center group-hover:text-[#01a3a4] transition-colors">{cat.name}</p>
               </Link>
             ))}
           </div>
@@ -319,3 +340,4 @@ export default function Home() {
     </div>
   );
 }
+

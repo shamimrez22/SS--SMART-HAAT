@@ -19,6 +19,7 @@ import {
   Smartphone,
   LayoutDashboard
 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, doc, query, orderBy } from 'firebase/firestore';
@@ -148,9 +149,14 @@ export default function FeaturedManager() {
                   </div>
                 </div>
 
-                <Button type="submit" disabled={!imagePreview} className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black rounded-none uppercase text-[10px] h-14 tracking-[0.2em] shadow-2xl transition-all">
-                  <Plus className="mr-2 h-4 w-4" /> ADD TO DISPLAY
-                </Button>
+                <div className="pt-2">
+                  <p className="text-[9px] text-white/40 uppercase tracking-widest font-bold leading-relaxed mb-4">
+                    * This option adds images directly to the zones without linking to a product. Perfect for branding and sales announcements.
+                  </p>
+                  <Button type="submit" disabled={!imagePreview} className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black rounded-none uppercase text-[10px] h-14 tracking-[0.2em] shadow-2xl transition-all">
+                    <Plus className="mr-2 h-4 w-4" /> ADD TO DISPLAY
+                  </Button>
+                </div>
               </form>
             </CardContent>
           </Card>
@@ -200,3 +206,4 @@ export default function FeaturedManager() {
     </div>
   );
 }
+

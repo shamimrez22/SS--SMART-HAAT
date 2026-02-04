@@ -414,7 +414,7 @@ export default function AdminProducts() {
                   </Select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/5 mt-4">
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5 mt-4">
                   <div className="flex items-center space-x-3 p-3 bg-white/[0.02] border border-white/5">
                     <Checkbox 
                       id="slider" 
@@ -434,6 +434,9 @@ export default function AdminProducts() {
                     <Label htmlFor="flash" className="text-[9px] font-black uppercase text-white cursor-pointer tracking-widest leading-none">Flash Offer</Label>
                   </div>
                 </div>
+                <p className="text-[8px] text-white/30 uppercase tracking-[0.2em] italic">
+                   * Checked products appear in the designated bar AND main list.
+                </p>
                 
                 <div className="space-y-2">
                   <label className={cn("text-[10px] font-black uppercase", showValidation && !imagePreview ? "text-red-500" : "text-muted-foreground")}>
@@ -565,3 +568,4 @@ export default function AdminProducts() {
     </div>
   );
 }
+
