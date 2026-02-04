@@ -4,7 +4,7 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // ULTIMATE EMERGENCY OVERRIDE V1005
+    // ULTIMATE EMERGENCY OVERRIDE V1007
     // UNIVERSAL ACCESS GRANTED TO PERMANENTLY RESOLVE ALL PERMISSION ERRORS
     match /{document=**} {
       allow read, write: if true;

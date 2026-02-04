@@ -21,13 +21,13 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE (NO BACKGROUND GAPS) */}
+        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE */}
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
             loading="lazy"
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
