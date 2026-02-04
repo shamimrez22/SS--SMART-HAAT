@@ -4,7 +4,7 @@
 import React, { memo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { OrderModal } from '@/components/OrderModal';
@@ -22,15 +22,15 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE - EXTREME OPTIMIZED */}
+        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE */}
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5 bg-black">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            priority={index < 6}
-            loading={index < 6 ? "eager" : "lazy"}
+            priority={index < 8}
+            loading={index < 8 ? "eager" : "lazy"}
             quality={75}
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
@@ -43,16 +43,14 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
         
         {/* CONTENT AREA */}
         <CardContent className="p-3 md:p-4 flex flex-col flex-grow space-y-2 bg-black">
-          {/* TITLE */}
           <Link href={`/products/${product.id}`} className="block">
             <h3 className="font-black text-[10px] md:text-[11px] leading-tight text-white uppercase tracking-tighter truncate">
               {product.name}
             </h3>
           </Link>
           
-          {/* PRICE ROW - ELEGANT SIZE - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
           <div className="flex items-center justify-between">
-            <span className="font-black text-sm md:text-base text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
+            <span className="font-black text-sm md:text-[15px] text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
             </span>
@@ -66,17 +64,15 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             )}
           </div>
 
-          {/* ORIGINAL PRICE - LARGE & CLEAR STRIKETHROUGH */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
-              <span className="text-white/40 line-through text-[12px] md:text-[14px] font-bold flex items-baseline">
+              <span className="text-white/40 line-through text-[11px] md:text-[13px] font-bold flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-1px]">৳</span>
                 {product.originalPrice.toLocaleString()}
               </span>
             </div>
           )}
 
-          {/* STOCK STATUS */}
           <div className="flex items-center gap-2 py-0.5">
             <div className={`h-1.5 w-1.5 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'} animate-pulse`} />
             <span className={`text-[7px] md:text-[8px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
@@ -84,7 +80,6 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             </span>
           </div>
           
-          {/* ACTION BUTTON */}
           <div className="mt-auto pt-2">
             <Button 
               disabled={isOutOfStock}
@@ -92,10 +87,10 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
                 e.preventDefault();
                 setIsOrderOpen(true);
               }}
-              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 cursor-not-allowed' : 'bg-[#01a3a4] text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] md:text-[11px] h-10 md:h-11 rounded-none uppercase px-2 flex items-center justify-center gap-2 group/btn shadow-xl shadow-[#01a3a4]/10`}
+              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 cursor-not-allowed' : 'bg-[#01a3a4] text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] md:text-[11px] h-10 md:h-11 rounded-none uppercase px-2 flex items-center justify-center gap-2 shadow-xl shadow-[#01a3a4]/10`}
             >
-              <ShoppingCart className="h-3.5 w-3.5" /> 
-              <span className="tracking-widest">{isOutOfStock ? 'ARCHIVE ONLY' : 'ORDER NOW'}</span>
+              <ShoppingBag className="h-3.5 w-3.5" /> 
+              <span className="tracking-widest">{isOutOfStock ? 'SOLD OUT' : 'অর্ডার করুন'}</span>
             </Button>
           </div>
         </CardContent>
