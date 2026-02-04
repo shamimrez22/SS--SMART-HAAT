@@ -34,9 +34,10 @@
   }
   html, body {
     @apply bg-background text-foreground font-body antialiased;
-    /* REMOVED MIN-WIDTH FROM BODY TO ALLOW FULL DISPLAY */
     margin: 0;
     padding: 0;
+    width: 100%;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
@@ -46,16 +47,15 @@
     @apply text-white/90;
   }
 
-  /* HARD OVERRIDE FOR CONTAINER TO STAY DESKTOP WIDTH AND CENTERED */
-  /* This ensures the layout stays "Desktop Style" even on full display */
+  /* FLUID FULL-WIDTH CONTAINER */
   .container {
-    width: 1200px !important;
-    max-width: 1200px !important;
-    min-width: 1200px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: unset !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 

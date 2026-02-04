@@ -15,11 +15,11 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-// FORCE DESKTOP MODE ON MOBILE BY SETTING A FIXED VIEWPORT WIDTH
+// FULL RESPONSIVE VIEWPORT
 export const viewport: Viewport = {
-  width: 1200,
-  initialScale: 0.3, // Automatically zoom out on mobile to fit 1200px layout
-  minimumScale: 0.1,
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
   userScalable: true,
 };
 
