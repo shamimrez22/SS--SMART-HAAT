@@ -29,9 +29,9 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            priority={index < 12} // Load first 12 images instantly
+            priority={index < 12} // Load first 12 images instantly for maximum speed
             loading={index < 12 ? "eager" : "lazy"}
-            quality={60} // Reduced quality for extreme speed
+            quality={75}
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {isOutOfStock && (
@@ -50,8 +50,8 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           </Link>
           
           <div className="flex items-center justify-between">
-            {/* MAIN PRICE - ELEGANT SMALLER SIZE - ৳ SYMBOL 50% SMALLER & NORMAL WEIGHT */}
-            <span className="font-black text-sm md:text-[15px] text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
+            {/* MAIN PRICE - ELEGANT SMALLER SIZE AS REQUESTED - ৳ SYMBOL 50% SMALLER & NORMAL WEIGHT */}
+            <span className="font-black text-[13px] md:text-[14px] text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
             </span>
