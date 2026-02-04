@@ -213,15 +213,15 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         </DialogContent>
       </Dialog>
 
-      {/* SUCCESS MODAL */}
+      {/* SUCCESS MODAL (WHITE THEME) */}
       <Dialog open={isOpen && step === 'SUCCESS'} onOpenChange={(val) => !val && handleClose()}>
-        <DialogContent className="max-w-2xl bg-black border-[5px] border-[#01a3a4] rounded-none p-0 overflow-hidden shadow-[0_0_100px_rgba(1,163,164,0.5)] relative">
-          <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
-          <div className="absolute bottom-0 left-0 w-full h-3 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
+        <DialogContent className="max-w-2xl bg-white border-[5px] border-[#01a3a4] rounded-none p-0 overflow-hidden shadow-2xl relative">
+          <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-[#01a3a4] via-gray-200 to-[#01a3a4]" />
+          <div className="absolute bottom-0 left-0 w-full h-3 bg-gradient-to-r from-[#01a3a4] via-gray-200 to-[#01a3a4]" />
           
-          <div className="relative p-16 text-center space-y-12">
+          <div className="relative p-16 text-center space-y-12 bg-white">
             <div className="relative">
-              <div className="w-40 h-40 bg-[#01a3a4]/10 rounded-full flex items-center justify-center mx-auto mb-10 border-[4px] border-[#01a3a4] shadow-[0_0_60px_rgba(1,163,164,0.6)] animate-pulse">
+              <div className="w-40 h-40 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto mb-10 border-[4px] border-[#01a3a4] shadow-[0_0_40px_rgba(1,163,164,0.2)] animate-pulse">
                 <CheckCircle2 className="h-20 w-20 text-[#01a3a4]" />
               </div>
               <PartyPopper className="absolute -top-6 right-1/4 h-12 w-12 text-[#01a3a4] animate-bounce" />
@@ -231,7 +231,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             <div className="space-y-10">
               <div className="space-y-4">
                 <p className="text-[13px] font-black text-[#01a3a4] uppercase tracking-[0.8em] animate-pulse">SYSTEM VERIFIED</p>
-                <DialogTitle className="text-5xl font-black text-white uppercase tracking-tighter leading-none font-headline">
+                <DialogTitle className="text-5xl font-black text-black uppercase tracking-tighter leading-none font-headline">
                   THANK YOU FOR YOUR ORDER
                 </DialogTitle>
               </div>
@@ -243,7 +243,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
               </div>
 
               <div className="space-y-6">
-                <DialogDescription className="text-[24px] font-bold text-white leading-relaxed max-w-lg mx-auto border-y border-white/10 py-10 px-6 italic font-headline">
+                <DialogDescription className="text-[24px] font-bold text-black leading-relaxed max-w-lg mx-auto border-y border-gray-100 py-10 px-6 italic font-headline">
                   আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব আপনার সঙ্গে যোগাযোগ করবে।
                 </DialogDescription>
                 
@@ -255,7 +255,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
 
             <Button 
               onClick={handleClose} 
-              className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black uppercase h-24 rounded-none text-[20px] tracking-[0.5em] transition-all duration-700 shadow-[0_20px_50px_rgba(1,163,164,0.4)] border-none"
+              className="w-full bg-[#01a3a4] hover:bg-black text-white font-black uppercase h-24 rounded-none text-[20px] tracking-[0.5em] transition-all duration-700 shadow-xl border-none"
             >
               ঠিক আছে
             </Button>
