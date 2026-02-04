@@ -6,12 +6,19 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { collection, query, where } from 'firebase/firestore';
 import { Loader2 } from 'lucide-react';
 
 export default function ShopPage() {
   const db = useFirestore();
-  const productsRef = useMemoFirebase(() => collection(db, 'products'), [db]);
+  
+  // EXCLUSIVE LOGIC: Only show regular products that are NOT featured in Slider or Flash Offers
+  const productsRef = useMemoFirebase(() => query(
+    collection(db, 'products'),
+    where('showInSlider', '==', false),
+    where('showInFlashOffer', '==', false)
+  ), [db]);
+  
   const { data: products, isLoading } = useCollection(productsRef);
 
   return (
@@ -33,6 +40,11 @@ export default function ShopPage() {
             {products?.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+            {!isLoading && products?.length === 0 && (
+              <div className="col-span-full py-20 text-center border border-dashed border-white/10 bg-white/[0.01]">
+                <p className="text-[10px] text-white/20 uppercase font-black tracking-widest">No regular products available.</p>
+              </div>
+            )}
           </div>
         )}
       </main>
