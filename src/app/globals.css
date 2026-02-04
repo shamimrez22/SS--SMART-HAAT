@@ -56,7 +56,7 @@
   background: #01a3a4;
 }
 
-/* Notification Shake Animation */
+/* Animations */
 @keyframes alert-shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(5px); }
@@ -65,6 +65,19 @@
   100% { transform: translateX(0); }
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .animate-alert-shake {
   animation: alert-shake 0.5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
 }

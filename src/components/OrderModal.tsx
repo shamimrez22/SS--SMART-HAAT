@@ -11,7 +11,7 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
-import { ShoppingBag, CheckCircle2, Loader2, Phone, MapPin, User, Ruler, Sparkles } from 'lucide-react';
+import { ShoppingBag, CheckCircle2, Loader2, Phone, MapPin, User, Ruler, Sparkles, PartyPopper } from 'lucide-react';
 import { useFirestore } from '@/firebase';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
@@ -44,7 +44,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
     if (step === 'SUCCESS') {
       timer = setTimeout(() => {
         handleClose();
-      }, 8000); // Increased time to enjoy the beautiful success screen
+      }, 10000); 
     }
     return () => clearTimeout(timer);
   }, [step]);
@@ -87,7 +87,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-col md:flex-row h-full max-h-[95vh]">
             
-            {/* PRODUCT PREVIEW - HIDDEN ON MOBILE TO ENSURE FORM IS FULLY VISIBLE AS REQUESTED */}
+            {/* PRODUCT PREVIEW - HIDDEN ON MOBILE */}
             <div className="hidden md:block relative w-5/12 aspect-[4/5] bg-black border-r border-white/5">
               <Image 
                 src={product.imageUrl} 
@@ -119,14 +119,6 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <DialogDescription className="text-[10px] md:text-[11px] text-white/60 uppercase font-black tracking-widest">
                   PROVIDE YOUR DETAILS FOR ELITE DELIVERY
                 </DialogDescription>
-                {/* Mobile Identity Helper */}
-                <div className="md:hidden pt-2 flex items-center justify-between border-t border-white/5">
-                   <p className="text-[10px] font-black text-white/40 uppercase line-clamp-1 max-w-[150px]">{product.name}</p>
-                   <div className="text-lg font-black text-[#01a3a4] flex items-baseline">
-                      <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
-                      {product.price.toLocaleString()}
-                   </div>
-                </div>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -209,51 +201,54 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         </DialogContent>
       </Dialog>
 
-      {/* UNIQUE & ATTRACTIVE SUCCESS MODAL */}
+      {/* UNIQUE, ATTRACTIVE SUCCESS MODAL */}
       <Dialog open={isOpen && step === 'SUCCESS'} onOpenChange={(val) => !val && handleClose()}>
-        <DialogContent className="max-w-lg bg-black border-[3px] border-[#01a3a4] rounded-none p-0 overflow-hidden shadow-[0_0_50px_rgba(1,163,164,0.3)]">
-          <div className="relative p-10 text-center space-y-8">
-            {/* Decorative background element */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#01a3a4] to-transparent" />
-            
+        <DialogContent className="max-w-2xl bg-black border-[5px] border-[#01a3a4] rounded-none p-0 overflow-hidden shadow-[0_0_80px_rgba(1,163,164,0.4)] relative">
+          {/* BACKGROUND DECORATIVE ELEMENTS */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
+          <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
+          
+          <div className="relative p-12 text-center space-y-10">
             <div className="relative">
-              <div className="w-24 h-24 bg-[#01a3a4]/10 rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-[#01a3a4]/40 animate-pulse">
-                <CheckCircle2 className="h-12 w-12 text-[#01a3a4]" />
+              <div className="w-32 h-32 bg-[#01a3a4]/10 rounded-full flex items-center justify-center mx-auto mb-8 border-[3px] border-[#01a3a4] shadow-[0_0_40px_rgba(1,163,164,0.5)] animate-pulse">
+                <CheckCircle2 className="h-16 w-16 text-[#01a3a4]" />
               </div>
-              <Sparkles className="absolute top-0 right-1/4 h-6 w-6 text-[#01a3a4] animate-bounce" />
+              <PartyPopper className="absolute -top-4 right-1/4 h-10 w-10 text-[#01a3a4] animate-bounce" />
+              <Sparkles className="absolute bottom-0 left-1/4 h-8 w-8 text-[#01a3a4] animate-spin-slow" />
             </div>
 
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.5em]">Order Confirmed</p>
-                <DialogTitle className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <p className="text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.6em] animate-pulse">System Confirmed</p>
+                <DialogTitle className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none font-headline">
                   THANK YOU FOR YOUR ORDER
                 </DialogTitle>
               </div>
 
-              <div className="h-px w-20 bg-[#01a3a4] mx-auto opacity-50" />
+              <div className="flex items-center justify-center gap-4">
+                <div className="h-1 w-24 bg-gradient-to-r from-transparent to-[#01a3a4]" />
+                <Sparkles className="h-6 w-6 text-[#01a3a4]" />
+                <div className="h-1 w-24 bg-gradient-to-l from-transparent to-[#01a3a4]" />
+              </div>
 
-              <DialogDescription className="text-[15px] md:text-[18px] font-bold text-white/90 leading-relaxed max-w-sm mx-auto">
+              <DialogDescription className="text-[20px] md:text-[24px] font-bold text-white leading-relaxed max-w-lg mx-auto border-y border-white/10 py-8 px-4 italic">
                 আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব আপনার সঙ্গে যোগাযোগ করবে।
               </DialogDescription>
               
-              <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest italic opacity-70">
-                STAY CONNECTED WITH SS SMART HAAT
+              <p className="text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.4em] opacity-80">
+                STAY CONNECTED WITH SS SMART HAAT • DHAKA, BANGLADESH
               </p>
             </div>
 
             <Button 
               onClick={handleClose} 
-              className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black uppercase h-16 rounded-none text-[12px] tracking-[0.3em] transition-all shadow-xl shadow-[#01a3a4]/20"
+              className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black uppercase h-20 rounded-none text-[16px] tracking-[0.4em] transition-all shadow-[0_15px_40px_rgba(1,163,164,0.3)] border-b-4 border-black/20"
             >
               ঠিক আছে
             </Button>
-            
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#01a3a4] to-transparent" />
           </div>
         </DialogContent>
       </Dialog>
     </>
   );
 }
-

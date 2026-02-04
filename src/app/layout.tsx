@@ -1,5 +1,5 @@
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Playfair_Display, Inter } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
@@ -14,6 +14,14 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
+
+// FORCE DESKTOP MODE ON MOBILE BY SETTING A FIXED VIEWPORT WIDTH
+export const viewport: Viewport = {
+  width: 1200,
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: true,
+};
 
 export const metadata: Metadata = {
   title: 'SS SMART HAAT | Premium Marketplace',
