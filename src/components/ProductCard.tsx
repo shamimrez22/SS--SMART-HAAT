@@ -22,29 +22,29 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className="group overflow-hidden bg-black border-none rounded-none flex flex-col h-full relative">
         
-        {/* IMAGE CONTAINER - FULL COVERAGE, NO BG BOX */}
+        {/* IMAGE CONTAINER - FULL COVERAGE, NO BG BOX, NO PADDING */}
         <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            sizes="300px"
+            sizes="400px"
             priority={index < 12}
             loading={index < 12 ? "eager" : "lazy"}
-            quality={90}
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            quality={95}
+            className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
           {isOutOfStock && (
-            <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
-              <span className="bg-black text-white text-[8px] font-black px-2 py-1 uppercase tracking-widest border border-white/20">SOLD OUT</span>
+            <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-10">
+              <span className="bg-black text-white text-[9px] font-black px-3 py-1.5 uppercase tracking-widest border border-white/20">OUT OF ARCHIVE</span>
             </div>
           )}
         </Link>
         
         {/* CONTENT AREA */}
-        <CardContent className="p-5 flex flex-col flex-grow bg-black space-y-4">
+        <CardContent className="p-6 flex flex-col flex-grow bg-black space-y-5">
           <Link href={`/products/${product.id}`} className="block">
-            <h3 className="font-black text-[15px] leading-tight text-white uppercase tracking-wider font-headline truncate">
+            <h3 className="font-black text-[16px] leading-tight text-white uppercase tracking-[0.1em] font-headline truncate">
               {product.name}
             </h3>
           </Link>
@@ -52,16 +52,16 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center justify-between">
             {/* MAIN PRICE - LARGE TEAL BOLD */}
             <div className="flex items-baseline text-[#01a3a4]">
-              <span className="text-[12px] font-normal mr-1.5 translate-y-[-2px]">৳</span>
-              <span className="font-black text-[32px] tracking-tighter leading-none">
+              <span className="text-[12px] font-normal mr-2 translate-y-[-2px] text-white/50">৳</span>
+              <span className="font-black text-[34px] tracking-tighter leading-none">
                 {product.price.toLocaleString()}
               </span>
             </div>
             
             {/* DISCOUNT BOX - TEAL BORDER BOX */}
             {product.discountPercentage > 0 && (
-              <div className="px-2.5 py-1.5 border border-[#01a3a4] flex items-center justify-center">
-                <span className="text-[10px] font-black text-[#01a3a4] leading-none">
+              <div className="px-3 py-2 border border-[#01a3a4] flex items-center justify-center">
+                <span className="text-[11px] font-black text-[#01a3a4] leading-none">
                   -{product.discountPercentage}%
                 </span>
               </div>
@@ -70,35 +70,35 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
 
           {/* OLD PRICE - GREY STRIKETHROUGH */}
           {product.originalPrice > product.price && (
-            <div className="flex items-baseline text-white/40 -mt-2">
+            <div className="flex items-baseline text-white/30 -mt-3">
               <span className="text-[10px] font-normal mr-1">৳</span>
-              <span className="text-white/40 line-through text-[18px] font-bold">
+              <span className="text-white/30 line-through text-[18px] font-bold">
                 {product.originalPrice.toLocaleString()}
               </span>
             </div>
           )}
 
           {/* STOCK STATUS INDICATOR */}
-          <div className="flex items-center gap-2 pt-2 pb-1">
-            <div className={`h-2.5 w-2.5 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'}`} />
-            <span className={`text-[10px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
+          <div className="flex items-center gap-2.5 pt-2">
+            <div className={`h-2.5 w-2.5 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600 animate-pulse'}`} />
+            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
               {isOutOfStock ? 'OUT OF STOCK' : 'AVAILABLE IN STOCK'}
             </span>
           </div>
           
-          <div className="mt-auto pt-3">
+          <div className="mt-auto pt-4">
             <Button 
               disabled={isOutOfStock}
               onClick={(e) => {
                 e.preventDefault();
                 setIsOrderOpen(true);
               }}
-              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 cursor-not-allowed' : 'bg-[#01a3a4] text-white hover:bg-[#01a3a4]/90'} transition-all duration-300 font-black text-[12px] h-14 rounded-none uppercase px-4 flex items-center justify-center gap-3 shadow-xl`}
+              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10' : 'bg-[#01a3a4] text-white hover:bg-white hover:text-black'} transition-all duration-500 font-black text-[13px] h-14 rounded-none uppercase px-6 flex items-center justify-center gap-4 shadow-2xl`}
             >
               <div className="w-6 h-6 border border-white/20 flex items-center justify-center">
-                <ShoppingBag className="h-3.5 w-3.5" /> 
+                <ShoppingBag className="h-4 w-4" /> 
               </div>
-              <span className="tracking-[0.2em]">ORDER NOW</span>
+              <span className="tracking-[0.3em]">ORDER NOW</span>
             </Button>
           </div>
         </CardContent>
