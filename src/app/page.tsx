@@ -21,7 +21,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-full w-full bg-black overflow-hidden group">
+        <div className="relative h-[420px] w-full bg-black overflow-hidden group">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -40,7 +40,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
                 <span className="text-[12px] font-black uppercase tracking-[0.2em]">SPECIAL EDITION</span>
                 <span className="text-white/40">|</span>
                 <div className="flex items-baseline text-2xl font-black tracking-tighter text-[#01a3a4]">
-                  <span className="text-[8px] font-normal mr-1 translate-y-[-8px] text-white/50">৳</span>
+                  <span className="text-[7px] font-normal mr-1 translate-y-[-12px] text-white/50">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
@@ -62,7 +62,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
 
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-full w-full bg-black">
+      <div className="relative h-[420px] w-full bg-black">
         <Image src={item.imageUrl} alt={item.title || "Banner"} fill sizes="1200px" className="object-cover opacity-100" priority={priority} quality={80} />
         <div className="absolute inset-0 bg-black/20 flex flex-col justify-center px-12">
            <h2 className="text-4xl font-black text-white uppercase tracking-tighter max-w-[500px] leading-none">{item.title}</h2>
@@ -107,7 +107,7 @@ const FlashOfferCard = () => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-full bg-black overflow-hidden relative group w-full">
+    <div className="h-[420px] bg-black overflow-hidden relative group w-full">
       {activeItem ? (
         <div className="h-full w-full relative flex flex-col items-center justify-center">
           <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1.5 text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-lg">
@@ -118,9 +118,9 @@ const FlashOfferCard = () => {
             <Image src={activeItem.imageUrl} alt="Flash Offer" fill sizes="400px" className="object-cover" priority={true} quality={80} />
           </div>
 
-          <div className="absolute bottom-0 w-full text-center px-4 py-6 bg-gradient-to-t from-black to-transparent">
-             <p className="text-white font-black text-[12px] uppercase tracking-[0.2em] mb-1 line-clamp-1">{activeItem.name || activeItem.title}</p>
-             <p className="text-[#01a3a4] text-[9px] font-black uppercase tracking-[0.4em]">SPECIAL COLLECTION</p>
+          <div className="absolute bottom-0 w-full text-center px-4 py-6">
+             <p className="text-white font-black text-[12px] uppercase tracking-[0.2em] mb-1 line-clamp-1 drop-shadow-md">{activeItem.name || activeItem.title}</p>
+             <p className="text-[#01a3a4] text-[9px] font-black uppercase tracking-[0.4em] drop-shadow-md">SPECIAL COLLECTION</p>
           </div>
 
           {activeItem.price !== undefined && (
@@ -164,9 +164,9 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto py-0 space-y-12">
-        <section className="grid grid-cols-12 gap-0 h-[420px]">
-          <div className="col-span-3 h-full"><FlashOfferCard /></div>
-          <div className="col-span-6 relative overflow-hidden h-full bg-black">
+        <section className="grid grid-cols-12 gap-0 h-[420px] max-h-[420px] overflow-hidden">
+          <div className="col-span-3 h-[420px]"><FlashOfferCard /></div>
+          <div className="col-span-6 relative overflow-hidden h-[420px] bg-black">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
                 <CarouselContent className="h-[420px]">
@@ -182,7 +182,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          <div className="col-span-3 flex flex-col h-full bg-[#01a3a4]">
+          <div className="col-span-3 flex flex-col h-[420px] bg-[#01a3a4] overflow-hidden">
             <div className="h-2/3 p-10 flex flex-col items-center justify-center space-y-10">
               <h3 className="text-white font-black text-3xl tracking-tighter uppercase font-headline">DOWNLOAD APP</h3>
               <div className="w-full space-y-5">
@@ -198,7 +198,7 @@ export default function Home() {
             </div>
             <div className="h-1/3 p-6 flex items-center gap-6 border-t border-white/10">
               <div className="bg-white p-2 w-24 h-24 shrink-0 flex items-center justify-center shadow-2xl">
-                <svg viewBox="0 0 100 100" className="w-full h-full text-black"><path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" /></svg>
+                <svg viewBox="0 0 100 100" className="w-full h-full text-black"><path fill="currentColor" d="M0 0h20v20H0V0zm4 4v12h12V4H4zm2 2h8v8H6V6zm60-6h20v20H66V0zm4 4v12h12V4H70zm2 2h8v8H72V6zM0 66h20v20H0V66zm4 4v12h12V70H4zm2 2h8v8H6V72zm22-60h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm-32 8h4v4h-4zm16 0h4v4h-4zm16 0h4v4h-4zm-32 8h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4zm8 0h4v4h-4z" /></svg>
               </div>
               <div className="flex flex-col gap-3 flex-grow">
                 <button className="bg-white text-black h-10 px-4 flex items-center gap-4 hover:bg-black hover:text-white border-none w-full shadow-lg"><Apple className="h-5 w-5 fill-current" /><span className="text-[11px] font-black uppercase tracking-widest">APP STORE</span></button>
