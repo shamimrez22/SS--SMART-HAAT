@@ -98,6 +98,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 40vw"
                 quality={75}
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 space-y-1 md:space-y-2">
