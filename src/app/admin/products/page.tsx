@@ -19,6 +19,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -49,6 +50,9 @@ export default function AdminProducts() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showInSlider, setShowInSlider] = useState(false);
   const [showInFlashOffer, setShowInFlashOffer] = useState(false);
+  
+  // Validation state
+  const [showValidation, setShowValidation] = useState(false);
   
   // Advanced Size Management
   const [sizeEntries, setSizeEntries] = useState<SizeEntry[]>([]);
@@ -122,11 +126,20 @@ export default function AdminProducts() {
 
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !price || !imagePreview || !category) {
+    
+    // Check missing fields
+    const isNameMissing = !name;
+    const isPriceMissing = !price;
+    const isCategoryMissing = !category;
+    const isImageMissing = !imagePreview;
+    const isStockMissing = sizeEntries.length === 0 && !manualStockQuantity;
+
+    if (isNameMissing || isPriceMissing || isCategoryMissing || isImageMissing || isStockMissing) {
+      setShowValidation(true);
       toast({
         variant: "destructive",
         title: "MISSING INFORMATION",
-        description: "PLEASE FILL ALL REQUIRED FIELDS BEFORE SAVING.",
+        description: "PLEASE FILL ALL RED HIGHLIGHTED FIELDS BEFORE SAVING.",
       });
       return;
     }
@@ -184,6 +197,7 @@ export default function AdminProducts() {
     setImagePreview(null);
     setShowInSlider(false);
     setShowInFlashOffer(false);
+    setShowValidation(false);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
@@ -204,6 +218,7 @@ export default function AdminProducts() {
     setImagePreview(product.imageUrl);
     setShowInSlider(!!product.showInSlider);
     setShowInFlashOffer(!!product.showInFlashOffer);
+    setShowValidation(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -253,13 +268,17 @@ export default function AdminProducts() {
             <CardContent className="p-6">
               <form onSubmit={handleSaveProduct} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Identity *</label>
+                  <label className={cn("text-[10px] font-black uppercase", showValidation && !name ? "text-red-500" : "text-muted-foreground")}>
+                    Product Identity *
+                  </label>
                   <Input 
                     value={name} 
                     onChange={(e) => setName(e.target.value)} 
                     placeholder="E.G. PREMIUM POLO SHIRT" 
-                    className="bg-black/50 border-white/10 rounded-none h-12 text-xs uppercase font-bold"
-                    required
+                    className={cn(
+                      "bg-black/50 border-white/10 rounded-none h-12 text-xs uppercase font-bold",
+                      showValidation && !name && "border-red-600 focus-visible:ring-red-600"
+                    )}
                   />
                 </div>
                 
@@ -285,14 +304,18 @@ export default function AdminProducts() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase">Sales Price (৳) *</label>
+                    <label className={cn("text-[10px] font-black uppercase", showValidation && !price ? "text-red-500" : "text-muted-foreground")}>
+                      Sales Price (৳) *
+                    </label>
                     <Input 
                       type="number" 
                       value={price} 
                       onChange={(e) => setPrice(e.target.value)} 
                       placeholder="0.00" 
-                      className="bg-black/50 border-white/10 rounded-none h-12 text-xs text-orange-600 font-black"
-                      required
+                      className={cn(
+                        "bg-black/50 border-white/10 rounded-none h-12 text-xs text-orange-600 font-black",
+                        showValidation && !price && "border-red-600 focus-visible:ring-red-600"
+                      )}
                     />
                   </div>
                 </div>
@@ -342,14 +365,18 @@ export default function AdminProducts() {
 
                   {sizeEntries.length === 0 && (
                     <div className="space-y-2 p-4 bg-white/[0.02] border border-dashed border-white/10">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase">Manual Total Stock *</label>
+                      <label className={cn("text-[10px] font-black uppercase", showValidation && !manualStockQuantity ? "text-red-500" : "text-muted-foreground")}>
+                        Manual Total Stock *
+                      </label>
                       <Input 
                         type="number" 
                         value={manualStockQuantity} 
                         onChange={(e) => setManualStockQuantity(e.target.value)} 
                         placeholder="TOTAL UNITS" 
-                        className="bg-black/50 border-white/10 rounded-none h-12 text-xs font-black"
-                        required={sizeEntries.length === 0}
+                        className={cn(
+                          "bg-black/50 border-white/10 rounded-none h-12 text-xs font-black",
+                          showValidation && sizeEntries.length === 0 && !manualStockQuantity && "border-red-600 focus-visible:ring-red-600"
+                        )}
                       />
                       <p className="text-[8px] text-orange-600/70 italic uppercase tracking-wider font-bold">
                         * Use this if product has no specific sizes.
@@ -367,9 +394,14 @@ export default function AdminProducts() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Classification *</label>
-                  <Select value={category} onValueChange={setCategory}>
-                    <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-12 uppercase font-black">
+                  <label className={cn("text-[10px] font-black uppercase", showValidation && !category ? "text-red-500" : "text-muted-foreground")}>
+                    Classification *
+                  </label>
+                  <Select value={category} onValueChange={(val) => setCategory(val)}>
+                    <SelectTrigger className={cn(
+                      "bg-black/50 border-white/10 rounded-none text-[10px] h-12 uppercase font-black",
+                      showValidation && !category && "border-red-600 ring-red-600"
+                    )}>
                       <SelectValue placeholder="SELECT CATEGORY" />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-white/10 rounded-none">
@@ -404,10 +436,15 @@ export default function AdminProducts() {
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Product Visualization *</label>
+                  <label className={cn("text-[10px] font-black uppercase", showValidation && !imagePreview ? "text-red-500" : "text-muted-foreground")}>
+                    Product Visualization *
+                  </label>
                   <div 
                     onClick={() => fileInputRef.current?.click()} 
-                    className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer hover:border-orange-600 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[200px] relative group overflow-hidden"
+                    className={cn(
+                      "border-2 border-dashed p-6 text-center cursor-pointer transition-all bg-black/30 flex flex-col items-center justify-center min-h-[200px] relative group overflow-hidden",
+                      showValidation && !imagePreview ? "border-red-600" : "border-white/10 hover:border-orange-600"
+                    )}
                   >
                     {imagePreview ? (
                       <div className="relative w-full aspect-square animate-in zoom-in duration-300">
@@ -416,8 +453,10 @@ export default function AdminProducts() {
                       </div>
                     ) : (
                       <div className="space-y-3 group-hover:scale-110 transition-transform">
-                        <Upload className="h-10 w-10 text-orange-600 mx-auto opacity-50" />
-                        <p className="text-[10px] font-black text-white uppercase tracking-widest">UPLOAD MASTER IMAGE</p>
+                        <Upload className={cn("h-10 w-10 mx-auto", showValidation && !imagePreview ? "text-red-500" : "text-orange-600 opacity-50")} />
+                        <p className={cn("text-[10px] font-black uppercase tracking-widest", showValidation && !imagePreview ? "text-red-500" : "text-white")}>
+                          UPLOAD MASTER IMAGE
+                        </p>
                       </div>
                     )}
                     <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
