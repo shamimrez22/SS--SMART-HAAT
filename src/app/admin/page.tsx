@@ -18,7 +18,9 @@ import {
   AlertCircle,
   MessageSquare,
   ArrowUpRight,
-  Calendar
+  Calendar,
+  Zap,
+  LayoutDashboard
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
@@ -51,10 +53,6 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-/**
- * AdminPanel - মেইন ড্যাশবোর্ড।
- * এখান থেকে সব অপশন (অর্ডার, মেসেজ, ইনভেন্টরি) ম্যানেজ করা যায়।
- */
 export default function AdminPanel() {
   const db = useFirestore();
   const { toast } = useToast();
@@ -75,7 +73,6 @@ export default function AdminPanel() {
   const { data: messages } = useCollection(messagesRef);
   const { data: dailyStats } = useDoc(loginStatsRef);
 
-  // নতুন অর্ডার আসলে নোটিফিকেশন দেওয়া
   useEffect(() => {
     if (pendingOrders && pendingOrders.length > 0) {
       const latestOrder = pendingOrders[0];
@@ -99,6 +96,7 @@ export default function AdminPanel() {
   ];
 
   const quickLinks = [
+    { title: "FEATURED CONTENT", icon: Zap, href: "/admin/featured" },
     { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders", badge: pendingOrders?.length },
     { title: "LIVE MESSAGE CENTER", icon: MessageSquare, href: "/admin/messages" },
     { title: "PRODUCT INVENTORY", icon: Package, href: "/admin/products" },
@@ -112,7 +110,6 @@ export default function AdminPanel() {
       <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-8">
-        {/* উপরের স্ট্যাটাস কার্ডগুলো */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
             <Link key={i} href={stat.href}>
@@ -132,7 +129,6 @@ export default function AdminPanel() {
           ))}
         </div>
 
-        {/* নতুন মেসেজ বা অর্ডার নোটিফিকেশন বার */}
         {pendingOrders && pendingOrders.length > 0 && (
           <div className="mb-6 p-4 bg-[#01a3a4]/10 border border-[#01a3a4]/30 flex items-center justify-between animate-pulse">
             <div className="flex items-center gap-3">
@@ -148,7 +144,6 @@ export default function AdminPanel() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* বামপাশের কুইক লিংক এবং AI */}
           <div className="lg:col-span-4 space-y-6">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
@@ -158,9 +153,9 @@ export default function AdminPanel() {
                 <div className="grid grid-cols-1 gap-1">
                   {quickLinks.map((link, i) => (
                     <Link key={i} href={link.href}>
-                      <div className="flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0">
+                      <div className={`flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0 ${link.title === 'FEATURED CONTENT' ? 'bg-[#01a3a4]/5 border-l-2 border-l-[#01a3a4]' : ''}`}>
                         <div className="flex items-center gap-4">
-                          <link.icon className="h-4 w-4 text-[#01a3a4] opacity-50 group-hover:opacity-100" />
+                          <link.icon className={`h-4 w-4 ${link.title === 'FEATURED CONTENT' ? 'text-white' : 'text-[#01a3a4]'} opacity-50 group-hover:opacity-100`} />
                           <span className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-[#01a3a4]">{link.title}</span>
                           {link.badge ? (
                             <Badge className="bg-[#01a3a4] text-white text-[7px] font-black h-4 px-1.5 rounded-none border-none">{link.badge}</Badge>
@@ -187,7 +182,6 @@ export default function AdminPanel() {
             </Card>
           </div>
 
-          {/* ডানপাশের রেভিনিউ চার্ট */}
           <div className="lg:col-span-8">
             <Card className="bg-card border-white/5 rounded-none h-full shadow-2xl">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 p-6 gap-4 bg-white/[0.01]">
@@ -230,7 +224,6 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* রিসেন্ট অ্যাক্টিভিটি লগ */}
         <div className="mt-12">
           <div className="flex items-center gap-3 mb-6">
             <div className="h-4 w-1 bg-[#01a3a4]" />
