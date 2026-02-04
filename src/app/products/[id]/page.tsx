@@ -68,7 +68,7 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - COVER MODE */}
+            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - COVER MODE - OPTIMIZED */}
             <div className="relative aspect-[4/5] rounded-none overflow-hidden border border-white/5 shadow-2xl group">
               <Image 
                 src={product.imageUrl} 
@@ -76,6 +76,8 @@ export default function ProductDetails() {
                 fill 
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority 
+                loading="eager"
+                quality={80}
                 className="object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
@@ -93,7 +95,7 @@ export default function ProductDetails() {
                 <h1 className="text-5xl md:text-7xl font-black font-headline text-white leading-none uppercase tracking-tighter">{product.name}</h1>
                 <div className="flex items-center gap-6">
                   {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
-                  <div className="text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
+                  <div className="text-3xl md:text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
                     <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
                     {product.price.toLocaleString()}
                   </div>
