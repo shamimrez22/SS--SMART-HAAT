@@ -35,7 +35,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
   });
 
   useEffect(() => {
-    // Detect if the device is actually a mobile regardless of forced viewport width
+    // Detect actual mobile devices
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
     if (/android|iphone|ipad|ipod/i.test(userAgent.toLowerCase())) {
       setIsActualMobile(true);
@@ -94,7 +94,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-row h-full max-h-[95vh]">
             
-            {/* PRODUCT PREVIEW - HIDDEN ONLY ON ACTUAL MOBILE DEVICES */}
+            {/* PRODUCT PREVIEW - STRICTLY HIDDEN ON MOBILE AS REQUESTED */}
             {!isActualMobile && (
               <div className="relative w-5/12 aspect-[4/5] bg-black border-r border-white/5">
                 <Image 
@@ -210,10 +210,8 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         </DialogContent>
       </Dialog>
 
-      {/* UNIQUE, ATTRACTIVE SUCCESS MODAL */}
       <Dialog open={isOpen && step === 'SUCCESS'} onOpenChange={(val) => !val && handleClose()}>
         <DialogContent className="max-w-2xl bg-black border-[5px] border-[#01a3a4] rounded-none p-0 overflow-hidden shadow-[0_0_80px_rgba(1,163,164,0.4)] relative">
-          {/* BACKGROUND DECORATIVE ELEMENTS */}
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
           <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-[#01a3a4] via-white to-[#01a3a4]" />
           
@@ -229,7 +227,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
             <div className="space-y-8">
               <div className="space-y-4">
                 <p className="text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.6em] animate-pulse">System Confirmed</p>
-                <DialogTitle className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none font-headline">
+                <DialogTitle className="text-4xl font-black text-white uppercase tracking-tighter leading-none font-headline">
                   THANK YOU FOR YOUR ORDER
                 </DialogTitle>
               </div>
@@ -240,7 +238,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 <div className="h-1 w-24 bg-gradient-to-l from-transparent to-[#01a3a4]" />
               </div>
 
-              <DialogDescription className="text-[20px] md:text-[24px] font-bold text-white leading-relaxed max-w-lg mx-auto border-y border-white/10 py-8 px-4 italic">
+              <DialogDescription className="text-[20px] font-bold text-white leading-relaxed max-w-lg mx-auto border-y border-white/10 py-8 px-4 italic">
                 আমাদের একজন প্রতিনিধি যত দ্রুত সম্ভব আপনার সঙ্গে যোগাযোগ করবে।
               </DialogDescription>
               

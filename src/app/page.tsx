@@ -158,7 +158,7 @@ export default function Home() {
       <Navbar />
       
       <main className="flex-grow container mx-auto py-8 space-y-12">
-        {/* HERO SECTION: FIXED 3-COLUMN DESKTOP LAYOUT */}
+        {/* HERO SECTION: FORCED STATIC 1200PX DESKTOP GRID */}
         <section className="grid grid-cols-12 gap-4 h-[350px]">
           <div className="col-span-3 h-full">
             <FlashOfferCard />

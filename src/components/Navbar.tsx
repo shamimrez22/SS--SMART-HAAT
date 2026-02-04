@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 
 export function Navbar() {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
   const handleAdminClick = (e: React.MouseEvent) => {
@@ -37,8 +36,8 @@ export function Navbar() {
               </div>
             </Link>
 
-            {/* MIDDLE: CENTERED SEARCH BAR */}
-            <div className="flex-grow max-w-lg relative group hidden md:block">
+            {/* MIDDLE: SEARCH BAR */}
+            <div className="flex-grow max-w-lg relative group">
               <Input 
                 type="search" 
                 placeholder="SEARCH PRODUCTS..." 
@@ -52,7 +51,7 @@ export function Navbar() {
 
             {/* RIGHT: LINKS */}
             <div className="flex items-center gap-6 shrink-0">
-              <ul className="hidden lg:flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-white">
+              <ul className="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest text-white">
                 <li><Link href="/" className="hover:text-black transition-colors">HOME</Link></li>
                 <li><Link href="/shop" className="hover:text-black transition-colors">SHOP</Link></li>
                 <li><Link href="/categories" className="hover:text-black transition-colors">CATEGORY</Link></li>
@@ -73,34 +72,10 @@ export function Navbar() {
                     0
                   </span>
                 </Button>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="lg:hidden h-9 w-9 rounded-none text-white"
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                  {isMobileMenuOpen ? <X /> : <Menu />}
-                </Button>
               </div>
             </div>
           </div>
         </div>
-
-        {/* MOBILE MENU */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-[#01a3a4] brightness-90 border-t border-black/5 p-4 space-y-4">
-            <ul className="flex flex-col gap-4 text-[10px] font-black uppercase tracking-widest text-white">
-              <li><Link href="/" onClick={() => setIsMobileMenuOpen(false)}>HOME</Link></li>
-              <li><Link href="/shop" onClick={() => setIsMobileMenuOpen(false)}>SHOP</Link></li>
-              <li><Link href="/categories" onClick={() => setIsMobileMenuOpen(false)}>CATEGORY</Link></li>
-              <li>
-                <button onClick={(e) => { setIsMobileMenuOpen(false); handleAdminClick(e); }}>
-                  ADMIN
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
       </nav>
 
       <AdminLoginModal 

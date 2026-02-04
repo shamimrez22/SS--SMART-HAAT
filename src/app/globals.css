@@ -32,20 +32,21 @@
   * {
     @apply border-border uppercase;
   }
-  body {
-    @apply bg-background text-foreground font-body antialiased overflow-x-auto;
-    min-width: 1200px; /* FORCE DESKTOP MIN WIDTH */
+  html, body {
+    @apply bg-background text-foreground font-body antialiased;
+    width: 1200px !important;
+    min-width: 1200px !important;
+    overflow-x: auto !important;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
   }
   
-  /* Ensuring all "muted" or secondary text is Light White */
   .text-muted-foreground {
     @apply text-white/90;
   }
 
-  /* HARD OVERRIDE FOR CONTAINER TO STAY DESKTOP WIDTH */
+  /* HARD OVERRIDE FOR CONTAINER TO STAY DESKTOP WIDTH AT ALL TIMES */
   .container {
     width: 1200px !important;
     max-width: 1200px !important;
@@ -68,7 +69,6 @@
   background: #01a3a4;
 }
 
-/* Animations */
 @keyframes alert-shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(5px); }
