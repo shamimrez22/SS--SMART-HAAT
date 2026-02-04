@@ -19,7 +19,9 @@ import {
   FileText,
   DollarSign,
   AlertTriangle,
-  Calendar
+  Calendar,
+  Ruler,
+  Hash
 } from 'lucide-react';
 import {
   Dialog,
@@ -104,11 +106,10 @@ export default function AdminOrders() {
   const generateInvoice = (order: any) => {
     const doc = new jsPDF();
     const dCharge = order.deliveryCharge || 0;
-    const subtotal = order.productPrice;
+    const subtotal = order.productPrice * (order.quantity || 1);
     const total = subtotal + dCharge;
     const primaryColor = [1, 163, 164]; // #01a3a4
     
-    // Header - Clean & Minimalist
     doc.setFontSize(22);
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "bold");
@@ -119,17 +120,14 @@ export default function AdminOrders() {
     doc.setTextColor(100, 100, 100);
     doc.text("PREMIUM MARKETPLACE | DHAKA, BANGLADESH", 15, 31);
     
-    // Horizontal Line
     doc.setDrawColor(240, 240, 240);
     doc.line(15, 38, 195, 38);
 
-    // Invoice Title
     doc.setFontSize(16);
     doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.setFont("helvetica", "bold");
     doc.text("INVOICE", 15, 50);
 
-    // Order Meta Info (Top Right)
     doc.setFontSize(9);
     doc.setTextColor(100, 100, 100);
     doc.setFont("helvetica", "bold");
@@ -142,7 +140,6 @@ export default function AdminOrders() {
     doc.setFont("helvetica", "normal");
     doc.text(`${new Date(order.createdAt).toLocaleDateString()}`, 165, 53);
 
-    // Bill To & Shipping
     doc.setFillColor(250, 250, 250);
     doc.rect(15, 65, 180, 45, 'F');
     
@@ -169,15 +166,16 @@ export default function AdminOrders() {
     const splitAddress = doc.splitTextToSize(order.customerAddress.toUpperCase(), 130);
     doc.text(splitAddress, 45, 95);
 
-    // Product Table
+    const itemDesc = order.selectedSize ? `${order.productName.toUpperCase()} (SIZE: ${order.selectedSize})` : order.productName.toUpperCase();
+
     autoTable(doc, {
       startY: 120,
       head: [['ITEM DESCRIPTION', 'UNIT PRICE', 'QTY', 'TOTAL']],
       body: [
         [
-          { content: order.productName.toUpperCase(), styles: { fontStyle: 'bold' } }, 
-          `BDT ${subtotal.toLocaleString()}`, 
-          '01', 
+          { content: itemDesc, styles: { fontStyle: 'bold' } }, 
+          `BDT ${order.productPrice.toLocaleString()}`, 
+          (order.quantity || 1).toString().padStart(2, '0'), 
           `BDT ${subtotal.toLocaleString()}`
         ]
       ],
@@ -206,7 +204,6 @@ export default function AdminOrders() {
       margin: { left: 15, right: 15 }
     });
 
-    // Summary Section
     const finalY = (doc as any).lastAutoTable.finalY + 10;
     
     doc.setFontSize(9);
@@ -218,7 +215,6 @@ export default function AdminOrders() {
     doc.text("DELIVERY CHARGE", 140, finalY + 7);
     doc.text(`+ BDT ${dCharge.toLocaleString()}`, 195, finalY + 7, { align: 'right' });
     
-    // Grand Total Divider
     doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.setLineWidth(0.5);
     doc.line(140, finalY + 11, 195, finalY + 11);
@@ -229,7 +225,6 @@ export default function AdminOrders() {
     doc.text("GRAND TOTAL", 140, finalY + 20);
     doc.text(`BDT ${total.toLocaleString()}`, 195, finalY + 20, { align: 'right' });
 
-    // Payment Status Badge
     doc.setFillColor(240, 240, 240);
     doc.rect(15, finalY + 12, 40, 10, 'F');
     doc.setFontSize(8);
@@ -239,7 +234,6 @@ export default function AdminOrders() {
     doc.setFont("helvetica", "bold");
     doc.text("CASH ON DELIVERY", 20, finalY + 18.5);
 
-    // Footer
     doc.setDrawColor(240, 240, 240);
     doc.line(15, 275, 195, 275);
     doc.setFontSize(8);
@@ -283,16 +277,14 @@ export default function AdminOrders() {
           </div>
         ) : (
           <div className="space-y-2">
-            {/* LIST HEADER */}
             <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-[#01a3a4] mb-4">
               <div className="col-span-2">Customer</div>
               <div className="col-span-2">Contact & Address</div>
-              <div className="col-span-3">Product Info</div>
+              <div className="col-span-3">Product Info & Qty</div>
               <div className="col-span-1 text-center">Status</div>
               <div className="col-span-4 text-right">Actions</div>
             </div>
 
-            {/* ORDER LIST ITEMS */}
             {orders.map((order) => (
               <div key={order.id} className="grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 bg-card border border-white/5 hover:border-[#01a3a4]/30 transition-all group items-center">
                 <div className="col-span-2 space-y-1">
@@ -304,7 +296,6 @@ export default function AdminOrders() {
                       {new Date(order.createdAt).toLocaleDateString()} @ {new Date(order.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                     </span>
                   </div>
-                  <span className="text-[8px] font-mono text-white/20 block">UID: #{order.id.slice(0, 8)}</span>
                 </div>
 
                 <div className="col-span-2 space-y-3">
@@ -320,8 +311,20 @@ export default function AdminOrders() {
 
                 <div className="col-span-3 space-y-2 border-l border-white/5 pl-4">
                   <h3 className="text-sm font-black text-white uppercase tracking-tighter line-clamp-1">{order.productName}</h3>
+                  <div className="flex flex-wrap gap-3 items-center">
+                    <div className="flex items-center gap-1 bg-white/5 px-2 py-1 border border-white/5">
+                      <Hash className="h-3 w-3 text-[#01a3a4]" />
+                      <span className="text-[10px] font-black text-white">{order.quantity || 1} PCS</span>
+                    </div>
+                    {order.selectedSize && (
+                      <div className="flex items-center gap-1 bg-white/5 px-2 py-1 border border-white/5">
+                        <Ruler className="h-3 w-3 text-[#01a3a4]" />
+                        <span className="text-[10px] font-black text-white">{order.selectedSize}</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex items-center gap-4">
-                    <p className="text-lg font-black text-white tracking-tighter">৳{order.productPrice.toLocaleString()}</p>
+                    <p className="text-lg font-black text-white tracking-tighter">৳{(order.productPrice * (order.quantity || 1)).toLocaleString()}</p>
                     {order.deliveryCharge && (
                       <p className="text-[10px] font-black text-green-500 uppercase tracking-widest">+ ৳{order.deliveryCharge} DELIVERY</p>
                     )}
@@ -394,7 +397,6 @@ export default function AdminOrders() {
         )}
       </main>
 
-      {/* DELIVERY CHARGE CONFIRMATION MODAL */}
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
         <DialogContent className="bg-black border-[#01a3a4]/30 rounded-none max-w-md p-8">
           <DialogHeader className="space-y-4">
@@ -413,7 +415,10 @@ export default function AdminOrders() {
             <div className="p-4 bg-white/5 border border-white/5 space-y-2">
               <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Ordering Product</p>
               <p className="text-sm font-black text-white uppercase">{selectedOrder?.productName}</p>
-              <p className="text-xl font-black text-white">৳{selectedOrder?.productPrice.toLocaleString()}</p>
+              <div className="flex items-center gap-4">
+                <p className="text-xl font-black text-white">৳{(selectedOrder?.productPrice * (selectedOrder?.quantity || 1)).toLocaleString()}</p>
+                <Badge className="bg-white/10 text-white text-[9px] font-black rounded-none border-none uppercase px-2">{selectedOrder?.quantity || 1} PCS</Badge>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -449,7 +454,6 @@ export default function AdminOrders() {
         </DialogContent>
       </Dialog>
 
-      {/* PROFESSIONAL ALERT DIALOG FOR DESTRUCTIVE ACTIONS */}
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
         <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md">
           <AlertDialogHeader className="space-y-4">

@@ -43,11 +43,12 @@
         "productName": { "type": "string" },
         "productPrice": { "type": "number" },
         "selectedSize": { "type": "string" },
+        "quantity": { "type": "number" },
         "deliveryCharge": { "type": "number" },
         "status": { "type": "string", "enum": ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED"] },
         "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["customerName", "customerPhone", "customerAddress", "productId", "status"]
+      "required": ["customerName", "customerPhone", "customerAddress", "productId", "status", "quantity"]
     },
     "Message": {
       "title": "Message",
