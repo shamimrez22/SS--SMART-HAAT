@@ -68,8 +68,8 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - CONTAIN MODE WITH PADDING FOR AUTO-FIT */}
-            <div className="relative aspect-[4/5] rounded-none overflow-hidden border border-white/5 shadow-2xl group bg-black">
+            {/* PRODUCT IMAGE - MATCHING SAME STYLE */}
+            <div className="relative aspect-square rounded-none overflow-hidden border border-white/5 shadow-2xl group bg-white">
               <Image 
                 src={product.imageUrl} 
                 alt={product.name} 
@@ -77,7 +77,7 @@ export default function ProductDetails() {
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority 
                 loading="eager"
-                quality={90}
+                quality={95}
                 className="object-contain p-8 transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
@@ -94,14 +94,14 @@ export default function ProductDetails() {
                 </div>
                 <h1 className="text-5xl md:text-7xl font-black font-headline text-white leading-none uppercase tracking-tighter">{product.name}</h1>
                 <div className="flex items-center gap-6">
-                  {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
-                  <div className="text-3xl md:text-4xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
-                    <span className="text-[0.45em] font-normal mr-1 translate-y-[-0.1em]">৳</span>
+                  {/* PRICE ROW - EXACT SYMBOL RATIO */}
+                  <div className="text-4xl md:text-6xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
+                    <span className="text-[0.45em] font-normal mr-2 translate-y-[-0.1em]">৳</span>
                     {product.price.toLocaleString()}
                   </div>
                   {product.originalPrice > product.price && (
-                    <p className="text-[20px] md:text-[24px] text-white/60 line-through font-bold flex items-baseline">
-                      <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-1px]">৳</span>{product.originalPrice.toLocaleString()}
+                    <p className="text-[24px] md:text-[32px] text-white/60 line-through font-bold flex items-baseline">
+                      <span className="text-[0.45em] font-normal mr-1 translate-y-[-1px]">৳</span>{product.originalPrice.toLocaleString()}
                     </p>
                   )}
                 </div>
@@ -142,9 +142,9 @@ export default function ProductDetails() {
                     disabled={isOutOfStock}
                     onClick={() => setIsOrderOpen(true)}
                     size="lg" 
-                    className={`flex-grow h-16 rounded-none text-xs font-black uppercase tracking-[0.3em] shadow-2xl transition-all duration-500 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
+                    className={`flex-grow h-16 rounded-none text-[14px] font-black uppercase tracking-[0.4em] shadow-2xl transition-all duration-500 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
                   >
-                    <ShoppingCart className="mr-3 h-5 w-5" /> {isOutOfStock ? 'SOLD OUT' : 'CONFIRM ORDER'}
+                    <ShoppingCart className="mr-3 h-5 w-5" /> {isOutOfStock ? 'SOLD OUT' : 'ORDER NOW'}
                   </Button>
                   <div className="flex gap-3">
                     <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Heart className="h-6 w-6" /></Button>
