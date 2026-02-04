@@ -11,9 +11,10 @@ import { OrderModal } from '@/components/OrderModal';
 
 interface ProductCardProps {
   product: any;
+  index?: number;
 }
 
-export const ProductCard = memo(({ product }: ProductCardProps) => {
+export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = product.stockQuantity <= 0;
 
@@ -28,7 +29,8 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            loading="lazy"
+            priority={index < 6} // First 6 products load with high priority for speed
+            quality={80}
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
           {isOutOfStock && (
@@ -47,26 +49,26 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
             </h3>
           </Link>
           
-          {/* PRICE ROW - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
+          {/* PRICE ROW - REDUCED SIZE AS REQUESTED - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
           <div className="flex items-center justify-between">
-            <span className="font-black text-2xl md:text-3xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
+            <span className="font-black text-lg md:text-xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
             </span>
             
             {product.discountPercentage > 0 && (
-              <div className="px-2 py-1 border border-[#01a3a4] flex items-center justify-center min-w-[45px]">
-                <span className="text-[9px] md:text-[10px] font-black text-[#01a3a4] leading-none">
+              <div className="px-1.5 py-0.5 border border-[#01a3a4] flex items-center justify-center">
+                <span className="text-[8px] md:text-[9px] font-black text-[#01a3a4] leading-none">
                   -{product.discountPercentage}%
                 </span>
               </div>
             )}
           </div>
 
-          {/* ORIGINAL PRICE - LARGE STRIKETHROUGH */}
+          {/* ORIGINAL PRICE - SMALLER THAN BEFORE BUT VISIBLE */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
-              <span className="text-white/40 line-through text-[16px] md:text-[20px] font-bold flex items-baseline">
+              <span className="text-white/40 line-through text-[12px] md:text-[14px] font-bold flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-1px]">৳</span>
                 {product.originalPrice.toLocaleString()}
               </span>
@@ -74,10 +76,10 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
           )}
 
           {/* STOCK STATUS */}
-          <div className="flex items-center gap-2 py-1">
-            <div className={`h-2 w-2 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'} animate-pulse`} />
-            <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
-              {isOutOfStock ? 'OUT OF STOCK' : 'AVAILABLE IN STOCK'}
+          <div className="flex items-center gap-2 py-0.5">
+            <div className={`h-1.5 w-1.5 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'} animate-pulse`} />
+            <span className={`text-[7px] md:text-[8px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
+              {isOutOfStock ? 'OUT OF STOCK' : 'AVAILABLE'}
             </span>
           </div>
           
@@ -89,9 +91,9 @@ export const ProductCard = memo(({ product }: ProductCardProps) => {
                 e.preventDefault();
                 setIsOrderOpen(true);
               }}
-              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 cursor-not-allowed' : 'bg-[#01a3a4] text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] md:text-[12px] h-11 md:h-12 rounded-none uppercase px-2 flex items-center justify-center gap-2 group/btn shadow-xl shadow-[#01a3a4]/10`}
+              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 cursor-not-allowed' : 'bg-[#01a3a4] text-white hover:bg-white hover:text-black'} transition-all duration-300 font-black text-[10px] md:text-[11px] h-10 md:h-11 rounded-none uppercase px-2 flex items-center justify-center gap-2 group/btn shadow-xl shadow-[#01a3a4]/10`}
             >
-              <ShoppingCart className="h-4 w-4" /> 
+              <ShoppingCart className="h-3.5 w-3.5" /> 
               <span className="tracking-widest">{isOutOfStock ? 'ARCHIVE ONLY' : 'ORDER NOW'}</span>
             </Button>
           </div>
