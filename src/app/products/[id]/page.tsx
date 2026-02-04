@@ -68,7 +68,7 @@ export default function ProductDetails() {
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - CONTAIN MODE - ENSURES NO CROPPING */}
+            {/* PRODUCT IMAGE - 4:5 ASPECT RATIO - CONTAIN MODE WITH PADDING */}
             <div className="relative aspect-[4/5] rounded-none overflow-hidden border border-white/5 shadow-2xl group bg-black">
               <Image 
                 src={product.imageUrl} 
@@ -78,7 +78,7 @@ export default function ProductDetails() {
                 priority 
                 loading="eager"
                 quality={90}
-                className="object-contain p-4 transition-transform duration-[2000ms] group-hover:scale-105" 
+                className="object-contain p-8 transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
                 <div className="absolute inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-10">

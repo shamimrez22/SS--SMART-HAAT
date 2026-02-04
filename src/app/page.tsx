@@ -27,7 +27,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             alt={item.name}
             fill
             sizes="1200px"
-            className="object-contain opacity-100"
+            className="object-contain p-8 opacity-100"
             priority={priority}
             loading="eager"
             quality={90}
@@ -70,7 +70,7 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
           alt={item.title || "Banner"}
           fill
           sizes="1200px"
-          className="object-contain opacity-100"
+          className="object-contain p-0 opacity-100"
           priority={priority}
           loading="eager"
           quality={95}
@@ -123,7 +123,7 @@ const FlashOfferCard = () => {
             alt="Flash Offer" 
             fill 
             sizes="400px"
-            className="object-contain transition-transform duration-[3000ms] group-hover:scale-110"
+            className="object-contain p-6 transition-transform duration-[3000ms] group-hover:scale-110"
             key={activeItem.id || activeItem.imageUrl}
             priority={true}
             loading="eager"

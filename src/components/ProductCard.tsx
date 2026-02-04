@@ -22,7 +22,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - CONTAIN MODE - ENSURES NO CROPPING */}
+        {/* IMAGE CONTAINER - 4:5 RATIO - CONTAIN MODE WITH PADDING FOR CONSISTENCY */}
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5 bg-black/50">
           <Image
             src={product.imageUrl}
@@ -32,7 +32,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             priority={index < 12}
             loading={index < 12 ? "eager" : "lazy"}
             quality={85}
-            className="object-contain transition-transform duration-700 group-hover:scale-105"
+            className="object-contain p-4 transition-transform duration-700 group-hover:scale-105"
           />
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
