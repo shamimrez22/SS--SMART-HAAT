@@ -22,15 +22,15 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
     <>
       <Card className={`group overflow-hidden bg-black border-none transition-all duration-300 rounded-none flex flex-col h-full relative ${isOutOfStock ? 'opacity-70' : ''}`}>
         
-        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE */}
+        {/* IMAGE CONTAINER - 4:5 RATIO - COVER MODE - HARD OPTIMIZED */}
         <Link href={`/products/${product.id}`} className="block relative aspect-[4/5] overflow-hidden border border-white/5">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
-            priority={index < 6} // First 6 products load with high priority for speed
-            quality={80}
+            priority={index < 6} // Hard optimization: first 6 products load instantly
+            quality={75} // Reduced file size for faster loading
             className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
           {isOutOfStock && (
@@ -49,9 +49,9 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             </h3>
           </Link>
           
-          {/* PRICE ROW - REDUCED SIZE AS REQUESTED - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
+          {/* PRICE ROW - SCALED DOWN AS REQUESTED - ৳ SYMBOL 50% SMALLER & FONT NORMAL */}
           <div className="flex items-center justify-between">
-            <span className="font-black text-lg md:text-xl text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
+            <span className="font-black text-base md:text-lg text-[#01a3a4] tracking-tighter leading-none flex items-baseline">
               <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-0.1em]">৳</span>
               {product.price.toLocaleString()}
             </span>
@@ -65,10 +65,10 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             )}
           </div>
 
-          {/* ORIGINAL PRICE - SMALLER THAN BEFORE BUT VISIBLE */}
+          {/* ORIGINAL PRICE - VISIBLE BUT SECONDARY */}
           {product.originalPrice > product.price && (
             <div className="flex items-baseline">
-              <span className="text-white/40 line-through text-[12px] md:text-[14px] font-bold flex items-baseline">
+              <span className="text-white/40 line-through text-[11px] md:text-[12px] font-bold flex items-baseline">
                 <span className="text-[0.45em] font-normal mr-0.5 translate-y-[-1px]">৳</span>
                 {product.originalPrice.toLocaleString()}
               </span>

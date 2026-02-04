@@ -89,7 +89,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
         <DialogContent className="max-w-4xl p-0 bg-black border-white/10 rounded-none overflow-hidden gap-0">
           <div className="flex flex-col md:flex-row h-full max-h-[90vh]">
             
-            {/* PRODUCT PREVIEW - 4:5 ASPECT RATIO - NO BACKGROUND GAPS */}
+            {/* PRODUCT PREVIEW - 4:5 ASPECT RATIO - COVER MODE */}
             <div className="relative w-full md:w-5/12 aspect-[4/5] bg-black border-b md:border-b-0 md:border-r border-white/5">
               <Image 
                 src={product.imageUrl} 
@@ -97,6 +97,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 fill 
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 40vw"
+                quality={75}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8 space-y-1 md:space-y-2">
@@ -153,12 +154,12 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                     <label className="text-[9px] md:text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                       <User className="h-3 w-3" /> FULL NAME
                     </label>
-                    <Input 
+                    <input 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
                       placeholder="ENTER NAME"
-                      className="bg-white/5 border-white/10 rounded-none h-12 text-[11px] uppercase focus:ring-[#01a3a4]"
+                      className="w-full bg-white/5 border border-white/10 rounded-none h-12 px-4 text-[11px] uppercase focus:outline-none focus:border-[#01a3a4] text-white"
                     />
                   </div>
 
@@ -166,13 +167,13 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                     <label className="text-[9px] md:text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                       <Phone className="h-3 w-3" /> CONTACT NUMBER
                     </label>
-                    <Input 
+                    <input 
                       required
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       placeholder="01XXXXXXXXX"
-                      className="bg-white/5 border-white/10 rounded-none h-12 text-[11px] uppercase focus:ring-[#01a3a4]"
+                      className="w-full bg-white/5 border border-white/10 rounded-none h-12 px-4 text-[11px] uppercase focus:outline-none focus:border-[#01a3a4] text-white"
                     />
                   </div>
 
@@ -180,12 +181,12 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                     <label className="text-[9px] md:text-[10px] font-black text-white/60 uppercase flex items-center gap-2">
                       <MapPin className="h-3 w-3" /> DELIVERY ADDRESS
                     </label>
-                    <Textarea 
+                    <textarea 
                       required
                       value={formData.address}
                       onChange={(e) => setFormData({...formData, address: e.target.value})}
                       placeholder="STREET, AREA, CITY..."
-                      className="bg-white/5 border-white/10 rounded-none text-[11px] uppercase min-h-[80px] md:min-h-[100px] focus:ring-[#01a3a4]"
+                      className="w-full bg-white/5 border border-white/10 rounded-none p-4 text-[11px] uppercase min-h-[80px] md:min-h-[100px] focus:outline-none focus:border-[#01a3a4] text-white"
                     />
                   </div>
                 </div>
