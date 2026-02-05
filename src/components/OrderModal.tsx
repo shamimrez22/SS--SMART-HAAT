@@ -157,8 +157,8 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className={cn(
-        "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl transition-all duration-300 gpu-accelerated fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
-        step === 'SUCCESS' ? "max-w-[350px]" : isMobile ? "max-w-full h-full sm:h-auto sm:max-w-[480px]" : "max-w-[95vw] lg:max-w-[1000px] w-full"
+        "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl transition-all duration-300 gpu-accelerated fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]",
+        step === 'SUCCESS' ? "max-w-[350px]" : isMobile ? "w-full h-full" : "max-w-[950px] w-[95vw]"
       )}>
         {/* GLOBAL CLOSE BUTTON */}
         <button 
@@ -168,13 +168,13 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex flex-col h-full max-h-[95vh]">
+        <div className="flex flex-col h-full max-h-[90vh]">
           {step === 'FORM' ? (
-            <div className="flex flex-col sm:flex-row h-full overflow-hidden">
+            <div className="flex flex-col md:flex-row h-full overflow-hidden">
               
-              {/* DESKTOP LEFT: PRODUCT IMAGE & INFO */}
+              {/* DESKTOP LEFT: PRODUCT INFO */}
               {!isMobile && (
-                <div className="sm:w-[280px] bg-gray-50 border-r border-gray-100 p-6 flex flex-col items-center shrink-0 overflow-y-auto no-scrollbar">
+                <div className="md:w-[280px] bg-gray-50 border-r border-gray-100 p-6 flex flex-col shrink-0 overflow-y-auto no-scrollbar">
                   <div className="relative w-full aspect-square border border-gray-200 mb-6 bg-white shadow-sm overflow-hidden">
                     <Image src={product.imageUrl} alt={product.name} fill className="object-cover" priority />
                   </div>
@@ -191,24 +191,15 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 </div>
               )}
 
-              {/* MIDDLE (OR FULL ON MOBILE): ORDER FORM */}
+              {/* MIDDLE: ORDER FORM */}
               <div className={cn(
-                "flex-grow p-6 sm:p-8 space-y-6 bg-white overflow-y-auto relative no-scrollbar",
-                !isMobile && "sm:w-[320px]"
+                "flex-grow p-6 md:p-8 space-y-6 bg-white overflow-y-auto relative no-scrollbar",
+                !isMobile && "md:w-[350px]"
               )}>
-                {/* SMALL PRODUCT IMAGE IN CORNER (FOR MOBILE ONLY) */}
-                {isMobile && (
-                  <div className="absolute top-4 right-12 w-16 h-16 border border-gray-100 shadow-md z-10 bg-white overflow-hidden">
-                    <Image 
-                      src={product.imageUrl} 
-                      alt={product.name} 
-                      fill 
-                      className="object-cover"
-                      sizes="64px"
-                      priority
-                    />
-                  </div>
-                )}
+                {/* SMALL PRODUCT IMAGE IN CORNER (FOR MOBILE OR COMPACT) */}
+                <div className="absolute top-4 right-12 w-14 h-14 border border-gray-100 shadow-sm z-10 bg-white overflow-hidden">
+                  <Image src={product.imageUrl} alt={product.name} fill className="object-cover" sizes="56px" priority />
+                </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
@@ -325,7 +316,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
 
               {/* DESKTOP RIGHT: SUPPORT CHAT */}
               {!isMobile && (
-                <div className="sm:w-[320px] flex flex-col bg-gray-50 shrink-0 border-l border-gray-100 h-full">
+                <div className="md:w-[320px] flex flex-col bg-gray-50 shrink-0 border-l border-gray-100 h-full">
                   <div className="p-5 bg-white border-b border-gray-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="h-2 w-2 bg-green-500 rounded-full animate-pulse" />
