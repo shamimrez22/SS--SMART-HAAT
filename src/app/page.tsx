@@ -163,7 +163,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
       <Navbar />
       
-      <main className="flex-grow container mx-auto py-0 space-y-12">
+      <main className="flex-grow container mx-auto py-0 space-y-4">
         <section className="grid grid-cols-12 gap-0 h-[420px] max-h-[420px] overflow-hidden">
           <div className="col-span-3 h-[420px]"><FlashOfferCard /></div>
           <div className="col-span-6 relative overflow-hidden h-[420px] bg-black">
@@ -208,12 +208,15 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-card/20 py-8 px-10 border-y border-white/5 mx-0">
-          <div className="flex items-center justify-between mb-6">
+        <section className="bg-card/20 py-2 px-10 border-y border-white/5 mx-0">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-4">
-              <div className="h-8 w-1.5 bg-[#01a3a4]" /><h2 className="text-2xl font-black flex items-center gap-3 uppercase tracking-tighter text-white"><Flame className="h-6 w-6 text-[#01a3a4] fill-current" /> TOP SELLING</h2>
+              <div className="h-6 w-1 bg-[#01a3a4]" />
+              <h2 className="text-lg font-black flex items-center gap-2 uppercase tracking-tighter text-white">
+                <Flame className="h-4 w-4 text-[#01a3a4] fill-current" /> TOP SELLING
+              </h2>
             </div>
-            <Link href="/shop" className="text-[11px] font-black text-[#01a3a4] hover:text-white transition-colors uppercase tracking-[0.4em]">VIEW ALL ARCHIVE</Link>
+            <Link href="/shop" className="text-[10px] font-black text-[#01a3a4] hover:text-white transition-colors uppercase tracking-[0.4em]">VIEW ALL ARCHIVE</Link>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {productsLoading ? (Array.from({length: 12}).map((_, i) => <div key={i} className="aspect-[4/5] bg-white/5 animate-pulse" />)) : products?.map((product, index) => (<ProductCard key={product.id} product={product} index={index} />))}
