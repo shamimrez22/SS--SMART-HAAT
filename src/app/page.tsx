@@ -14,6 +14,7 @@ import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase
 import { collection, query, where, limit, orderBy, doc, increment, setDoc } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
 
+// Memoized SlideItem for faster carousel performance
 const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
@@ -28,7 +29,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             sizes="100vw"
             className="object-cover"
             priority={priority}
-            quality={40}
+            quality={40} // Optimized for performance
           />
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-6 md:px-12 space-y-4">
             <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
@@ -139,7 +140,7 @@ export default function Home() {
     return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
   }, [settings?.qrCodeLink]);
 
-  // Optimized Visitor Tracking
+  // Optimized Visitor Tracking - Non-blocking
   useEffect(() => {
     const trackVisit = async () => {
       const today = new Date().toISOString().split('T')[0];

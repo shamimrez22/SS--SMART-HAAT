@@ -11,7 +11,7 @@ import { Loader2, Plus } from 'lucide-react';
 
 export default function ShopPage() {
   const db = useFirestore();
-  const [fetchLimit, setFetchLimit] = useState(18);
+  const [fetchLimit, setFetchLimit] = useState(18); // Load optimized batch size
   
   const productsRef = useMemoFirebase(() => query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(fetchLimit)), [db, fetchLimit]);
   const { data: products, isLoading } = useCollection(productsRef);
