@@ -22,7 +22,8 @@ import {
   Loader2,
   Share2,
   Contact2,
-  Twitter
+  Twitter,
+  QrCode
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -45,7 +46,8 @@ export default function AdminOthers() {
     instagramUrl: '',
     twitterUrl: '',
     youtubeUrl: '',
-    whatsappUrl: ''
+    whatsappUrl: '',
+    qrCodeLink: ''
   });
 
   useEffect(() => {
@@ -59,7 +61,8 @@ export default function AdminOthers() {
         instagramUrl: settings.instagramUrl || '',
         twitterUrl: settings.twitterUrl || '',
         youtubeUrl: settings.youtubeUrl || '',
-        whatsappUrl: settings.whatsappUrl || ''
+        whatsappUrl: settings.whatsappUrl || '',
+        qrCodeLink: settings.qrCodeLink || 'https://sssmarthaat.com'
       });
     }
   }, [settings]);
@@ -184,6 +187,26 @@ export default function AdminOthers() {
                     <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Youtube className="h-3 w-3 text-red-500" /> YOUTUBE URL</label>
                     <Input value={formData.youtubeUrl} onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})} className="bg-black border-white/10 h-11 text-[10px] font-bold" />
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card border-white/5 rounded-none shadow-2xl">
+              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
+                  <QrCode className="h-4 w-4" /> APP & QR CONFIG
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-8">
+                <div className="space-y-2">
+                  <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2">QR CODE REDIRECT URL (FOR HOME SIDEBAR)</label>
+                  <Input 
+                    value={formData.qrCodeLink} 
+                    onChange={(e) => setFormData({...formData, qrCodeLink: e.target.value})} 
+                    placeholder="HTTPS://EXAMPLE.COM/DOWNLOAD" 
+                    className="bg-black border-white/10 h-11 text-[10px] font-bold text-orange-500" 
+                  />
+                  <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mt-2">THIS LINK WILL BE ENCODED INTO THE SIDEBAR QR CODE.</p>
                 </div>
               </CardContent>
             </Card>

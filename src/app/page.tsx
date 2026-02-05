@@ -133,6 +133,11 @@ export default function Home() {
   const combinedSliderItems = useMemo(() => [...(sliderBanners || []), ...(sliderProducts || [])], [sliderProducts, sliderBanners]);
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
+  const qrCodeUrl = useMemo(() => {
+    const link = settings?.qrCodeLink || 'https://sssmarthaat.com';
+    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
+  }, [settings?.qrCodeLink]);
+
   // Visitor Tracking
   useEffect(() => {
     const trackVisit = async () => {
@@ -181,7 +186,7 @@ export default function Home() {
             <h3 className="text-white font-black text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
             <div className="bg-white p-2 w-36 h-36 flex items-center justify-center border-4 border-white/20">
               <Image 
-                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sssmarthaat.com" 
+                src={qrCodeUrl} 
                 alt="QR Code" 
                 width={150} 
                 height={150} 
