@@ -1,8 +1,9 @@
+
 /**
  * Utility to compress and resize images on the client side before uploading.
- * Optimized for ultra-fast loading (approx 15-20KB per image).
+ * Optimized for ultra-fast loading (approx 10-20KB per image).
  */
-export async function compressImage(file: File, maxWidth: number = 450, maxHeight: number = 450): Promise<string> {
+export async function compressImage(file: File, maxWidth: number = 400, maxHeight: number = 400): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -36,8 +37,8 @@ export async function compressImage(file: File, maxWidth: number = 450, maxHeigh
 
         ctx.drawImage(img, 0, 0, width, height);
         
-        // Aggressive compression (0.4) for super fast mobile paints
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.4);
+        // Ultra-aggressive compression (0.35) for instant paints even with 10k images
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.35);
         resolve(dataUrl);
       };
       img.onerror = reject;

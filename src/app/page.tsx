@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useMemo, useState, useEffect } from 'react';
@@ -130,14 +131,20 @@ export default function Home() {
               </Carousel>
             ) : <div className="h-full flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>}
           </div>
-          <div className="col-span-3 bg-[#01a3a4] flex flex-col items-center justify-center p-8 space-y-6 h-[420px]">
-            <h3 className="text-white font-black text-2xl uppercase tracking-tighter">DOWNLOAD APP</h3>
-            <div className="bg-white p-2 w-24 h-24 flex items-center justify-center">
-              <Image src="https://picsum.photos/seed/qr/100/100" alt="QR" width={100} height={100} />
+          <div className="col-span-3 bg-[#01a3a4] flex flex-col items-center justify-center p-8 space-y-8 h-[420px]">
+            <h3 className="text-white font-black text-4xl uppercase tracking-tighter leading-none italic">DOWNLOAD APP</h3>
+            <div className="bg-white p-1.5 w-32 h-32 flex items-center justify-center border-4 border-white/20">
+              <Image 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://sssmarthaat.com" 
+                alt="QR Code" 
+                width={150} 
+                height={150} 
+                className="w-full h-full"
+              />
             </div>
-            <div className="space-y-2 w-full max-w-[180px]">
-              <button className="bg-white text-black h-9 px-4 flex items-center gap-3 w-full font-black text-[9px] uppercase"><Apple className="h-4 w-4" /> APP STORE</button>
-              <button className="bg-white text-black h-9 px-4 flex items-center gap-3 w-full font-black text-[9px] uppercase"><Play className="h-4 w-4" /> GOOGLE PLAY</button>
+            <div className="space-y-3 w-full max-w-[220px]">
+              <button className="bg-white text-black h-12 px-6 flex items-center gap-4 w-full font-black text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Apple className="h-5 w-5" /> APP STORE</button>
+              <button className="bg-white text-black h-12 px-6 flex items-center gap-4 w-full font-black text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Play className="h-5 w-5" /> GOOGLE PLAY</button>
             </div>
           </div>
         </section>
