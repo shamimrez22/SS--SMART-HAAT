@@ -281,7 +281,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                       onClick={() => setStep('CHAT')}
                       className="w-full flex items-center justify-center gap-2 text-[9px] font-black text-[#01a3a4] uppercase tracking-widest py-2 hover:bg-gray-50 transition-all"
                     >
-                      <MessageCircle className="h-4 w-4" /> MESSAGE SUPPORT
+                      <MessageCircle className="h-4 w-4" /> CHAT
                     </button>
                   )}
                 </form>

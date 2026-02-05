@@ -57,14 +57,14 @@ export function Navbar() {
             <div className="flex items-center gap-2 md:gap-4 shrink-0">
               <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">
                 
-                {/* Desktop Search (Visible only on desktop) */}
+                {/* Desktop Search (WIDER VERSION) */}
                 <div className="hidden md:flex items-center relative">
                   <Input 
                     type="search" 
-                    placeholder="SEARCH..." 
-                    className="bg-black/10 border-white/20 h-9 w-32 focus:w-48 transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
+                    placeholder="SEARCH PRODUCTS..." 
+                    className="bg-black/10 border-white/20 h-9 w-64 lg:w-96 focus:lg:w-[450px] transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
                   />
-                  <Search className="absolute right-2 h-3.5 w-3.5 text-white/50" />
+                  <Search className="absolute right-3 h-3.5 w-3.5 text-white/50" />
                 </div>
 
                 <Link href="/shop" className="hover:text-black transition-colors flex items-center gap-1">
@@ -106,7 +106,7 @@ export function Navbar() {
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "LOCATION" : "লোকেশন"}</span>
                     </DropdownMenuItem>
 
-                    {/* Admin (Always inside 3-dot as requested) */}
+                    {/* Admin (Always inside 3-dot) */}
                     <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setIsAdminModalOpen(true)}>
                       <User className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
