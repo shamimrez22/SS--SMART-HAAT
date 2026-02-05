@@ -16,7 +16,7 @@ interface ProductCardProps {
 
 export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
-  const isOutOfStock = product.stockQuantity <= 0;
+  const isOutOfStock = (product.stockQuantity || 0) <= 0;
 
   return (
     <>
@@ -60,6 +60,13 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
                 ৳{product.originalPrice.toLocaleString()}
               </p>
             )}
+          </div>
+
+          <div className="flex items-center gap-1.5 py-1">
+            <div className={`h-1.5 w-1.5 rounded-full animate-pulse ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'}`} />
+            <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
+              {isOutOfStock ? 'OUT OF STOCK' : 'IN STOCK'}
+            </span>
           </div>
 
           <Button 
