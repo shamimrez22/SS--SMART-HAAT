@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -23,7 +24,8 @@ import {
   MessageCircle,
   Hash,
   ArrowLeft,
-  X
+  X,
+  ShoppingBag
 } from 'lucide-react';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, where, doc } from 'firebase/firestore';
@@ -159,7 +161,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className={cn(
         "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl transition-all duration-300",
-        step === 'SUCCESS' ? "max-w-[320px]" : isMobile ? "max-w-full h-full sm:h-auto sm:max-w-[480px]" : "max-w-[500px]"
+        step === 'SUCCESS' ? "max-w-[320px]" : isMobile ? "max-w-full h-full sm:h-auto sm:max-w-[480px]" : "sm:max-w-[900px]"
       )}>
         {/* GLOBAL CLOSE BUTTON */}
         <button 
@@ -171,30 +173,44 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
 
         <div className="flex flex-col h-full max-h-[100vh] sm:max-h-[95vh]">
           {step === 'FORM' ? (
-            <>
-              <div className="flex-grow p-6 space-y-4 bg-white overflow-y-auto relative">
-                {/* SMALL PRODUCT IMAGE IN CORNER */}
-                <div className="absolute top-4 right-12 w-12 h-12 md:w-16 md:h-16 border border-gray-100 shadow-sm z-10 bg-white">
-                  <Image 
-                    src={product.imageUrl} 
-                    alt={product.name} 
-                    fill 
-                    className="object-cover"
-                    sizes="64px"
-                  />
-                </div>
-
-                {/* PRODUCT INFO AT TOP (DESKTOP: Product -> Form -> Chat) */}
-                <div className="p-4 bg-gray-50 border border-gray-100 mb-6 flex gap-4">
-                  <div className="relative w-20 h-20 shrink-0 border border-gray-200">
+            <div className="flex flex-col sm:flex-row h-full">
+              
+              {/* DESKTOP LEFT: PRODUCT IMAGE & INFO */}
+              {!isMobile && (
+                <div className="sm:w-[250px] bg-gray-50 border-r border-gray-100 p-6 flex flex-col items-center shrink-0">
+                  <div className="relative w-full aspect-square border border-gray-200 mb-6 bg-white">
                     <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
                   </div>
-                  <div className="flex-grow">
-                    <h3 className="text-sm font-black text-black uppercase tracking-tighter">{product.name}</h3>
-                    <p className="text-[#01a3a4] font-black text-lg">৳{product.price.toLocaleString()}</p>
-                    <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">{product.category}</span>
+                  <div className="w-full space-y-2">
+                    <h3 className="text-sm font-black text-black uppercase tracking-tighter leading-tight">{product.name}</h3>
+                    <div className="text-[#01a3a4] font-black text-xl flex items-baseline">
+                      <span className="text-[10px] font-normal mr-1 translate-y-[-4px] text-gray-400">৳</span>
+                      {product.price.toLocaleString()}
+                    </div>
+                    <div className="pt-2 border-t border-gray-200">
+                      <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">{product.category}</span>
+                    </div>
                   </div>
                 </div>
+              )}
+
+              {/* MIDDLE (OR FULL ON MOBILE): ORDER FORM */}
+              <div className={cn(
+                "flex-grow p-6 space-y-4 bg-white overflow-y-auto relative",
+                !isMobile && "sm:w-[350px]"
+              )}>
+                {/* SMALL PRODUCT IMAGE IN CORNER (FOR MOBILE ONLY) */}
+                {isMobile && (
+                  <div className="absolute top-4 right-12 w-14 h-14 border border-gray-100 shadow-sm z-10 bg-white">
+                    <Image 
+                      src={product.imageUrl} 
+                      alt={product.name} 
+                      fill 
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </div>
+                )}
 
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
@@ -306,24 +322,27 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 </form>
               </div>
 
-              {/* CHAT AT BOTTOM (DESKTOP: Product -> Form -> Chat) */}
+              {/* DESKTOP RIGHT: SUPPORT CHAT */}
               {!isMobile && (
-                <div className="flex flex-col bg-gray-50 h-[180px] shrink-0 border-t border-gray-100">
-                  <div className="p-2.5 bg-white border-b border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <MessageCircle className="h-3.5 w-3.5 text-[#01a3a4]" />
-                      <h3 className="text-[8px] font-black text-black uppercase tracking-widest">SUPPORT CHAT</h3>
-                    </div>
+                <div className="sm:w-[300px] flex flex-col bg-gray-50 shrink-0 border-l border-gray-100 h-full">
+                  <div className="p-4 bg-white border-b border-gray-100 flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4 text-[#01a3a4]" />
+                    <h3 className="text-[10px] font-black text-black uppercase tracking-[0.2em]">LIVE SUPPORT</h3>
                   </div>
 
                   <div 
                     ref={chatScrollContainerRef}
-                    className="flex-grow overflow-y-auto p-4 space-y-3 bg-gray-50/30"
+                    className="flex-grow overflow-y-auto p-4 space-y-4 bg-gray-50/50"
                   >
-                    {chatHistory.map((msg, i) => (
+                    {chatHistory.length === 0 ? (
+                      <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                        <MessageCircle className="h-8 w-8 text-gray-200 mb-2" />
+                        <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">NEED HELP? CHAT WITH US NOW.</p>
+                      </div>
+                    ) : chatHistory.map((msg, i) => (
                       <div key={i} className={cn("flex flex-col", msg.sender === 'CUSTOMER' ? 'items-end' : 'items-start')}>
                         <div className={cn(
-                          "max-w-[85%] p-2 text-[9px] font-bold leading-tight",
+                          "max-w-[90%] p-2.5 text-[10px] font-bold leading-snug shadow-sm",
                           msg.sender === 'CUSTOMER' 
                             ? 'bg-[#01a3a4] text-white rounded-l-lg rounded-tr-lg' 
                             : 'bg-white border border-gray-200 text-black rounded-r-lg rounded-tl-lg'
@@ -334,20 +353,20 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                     ))}
                   </div>
 
-                  <form onSubmit={handleSendMessage} className="p-2 bg-white border-t border-gray-100 flex gap-2">
+                  <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-gray-100 flex gap-2">
                     <input 
                       value={chatMessage}
                       onChange={(e) => setChatMessage(e.target.value)}
                       placeholder="MESSAGE..."
-                      className="flex-grow bg-gray-50 border border-gray-200 h-9 px-3 text-[9px] font-black uppercase text-black focus:outline-none focus:border-[#01a3a4]"
+                      className="flex-grow bg-gray-50 border border-gray-200 h-10 px-3 text-[10px] font-black uppercase text-black focus:outline-none focus:border-[#01a3a4]"
                     />
-                    <Button type="submit" size="icon" className="h-9 w-9 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none">
-                      <Send className="h-3.5 w-3.5 text-white" />
+                    <Button type="submit" size="icon" className="h-10 w-10 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none">
+                      <Send className="h-4 w-4 text-white" />
                     </Button>
                   </form>
                 </div>
               )}
-            </>
+            </div>
           ) : step === 'CHAT' ? (
             <div className="flex flex-col h-full bg-white relative">
               <button onClick={() => setStep('FORM')} className="absolute left-4 top-4 z-50 p-2 text-white hover:scale-110 transition-all">
