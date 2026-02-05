@@ -14,14 +14,14 @@ import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase
 import { collection, query, where, limit, orderBy, doc, increment, setDoc } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
 
-// Memoized SlideItem for extreme performance
+// Memoized SlideItem for instant paint performance
 const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden group [transform:translateZ(0)]">
+        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden [transform:translateZ(0)]">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -30,7 +30,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             className="object-cover"
             priority={priority}
             loading={priority ? "eager" : "lazy"}
-            quality={30}
+            quality={30} // Low quality for extreme speed
           />
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-6 md:px-12 space-y-4">
             <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
@@ -115,7 +115,7 @@ const FlashOfferCard = memo(() => {
             className="object-cover" 
             priority={true} 
             loading="eager" 
-            quality={30} 
+            quality={25} // Aggressive compression for instant view
           />
           <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 md:px-4 py-1.5 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest z-10">FLASH OFFER</div>
           <div className="absolute bottom-6 w-full text-center px-4 space-y-2">
@@ -132,7 +132,7 @@ const FlashOfferCard = memo(() => {
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
-      ) : <div className="h-full flex items-center justify-center bg-black"><Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" /></div>}
+      ) : <div className="h-full flex items-center justify-center bg-black"></div>}
     </div>
   );
 });
@@ -196,7 +196,7 @@ export default function Home() {
                   {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 2} />)}
                 </CarouselContent>
               </Carousel>
-            ) : <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" /></div>}
+            ) : <div className="h-full flex items-center justify-center bg-black"></div>}
           </div>
           <div className="col-span-12 md:col-span-3 order-3 bg-[#01a3a4] flex flex-col items-center justify-center p-6 md:p-8 space-y-6 h-[250px] md:h-[420px]">
             <h3 className="text-white font-black text-lg md:text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
