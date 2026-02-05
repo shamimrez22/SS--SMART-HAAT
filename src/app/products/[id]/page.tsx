@@ -4,14 +4,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, ShoppingCart, Heart, Share2, Loader2, Package, Ruler, MapPin } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Share2, Loader2, Package, Ruler, MapPin, Grid2X2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
-import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useFirestore, useDoc, useCollection, useMemoFirebase } from '@/firebase';
+import { doc, collection, query, limit, where } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
+import { ProductCard } from '@/components/ProductCard';
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -24,6 +25,12 @@ export default function ProductDetails() {
   
   const { data: product, isLoading } = useDoc(productRef);
   const { data: settings } = useDoc(settingsRef);
+
+  // Fetch more products for the bottom section
+  const moreProductsRef = useMemoFirebase(() => {
+    return query(collection(db, 'products'), limit(6));
+  }, [db]);
+  const { data: moreProducts } = useCollection(moreProductsRef);
 
   if (isLoading) {
     return (
@@ -59,18 +66,18 @@ export default function ProductDetails() {
     );
   }
 
-  const isOutOfStock = product.stockQuantity <= 0;
+  const isOutOfStock = (product.stockQuantity || 0) <= 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
       <Navbar />
-      <main className="flex-grow py-20">
+      <main className="flex-grow py-12 md:py-20">
         <div className="container mx-auto px-4">
           <Button variant="ghost" className="mb-12 rounded-none uppercase text-white hover:bg-white/5 border border-white/10 h-10 px-6 font-black text-[10px] tracking-widest" onClick={() => router.back()}>
             <ArrowLeft className="mr-3 h-4 w-4 text-[#01a3a4]" /> BACK TO ARCHIVE
           </Button>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-24">
             <div className="relative aspect-square rounded-none overflow-hidden border border-white/5 shadow-2xl group bg-black">
               <Image 
                 src={product.imageUrl} 
@@ -78,8 +85,6 @@ export default function ProductDetails() {
                 fill 
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority={true}
-                loading="eager"
-                quality={40}
                 className="object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
@@ -94,7 +99,6 @@ export default function ProductDetails() {
                 <div className="flex items-center justify-between">
                   <Badge className="rounded-none uppercase tracking-[0.3em] text-[10px] bg-[#01a3a4] text-white font-black border-none px-4 py-1.5">{product.category}</Badge>
                   
-                  {/* PRODUCT LOCATION TAG */}
                   <div className="flex items-center gap-2 bg-white/5 px-3 py-1 border border-white/10">
                     <MapPin className="h-3 w-3 text-[#01a3a4]" />
                     <span className="text-[8px] font-black text-white uppercase tracking-widest">SHIPPED FROM: {settings?.liveLocation || 'BANANI, DHAKA'}</span>
@@ -162,6 +166,25 @@ export default function ProductDetails() {
               </div>
             </div>
           </div>
+
+          {/* MORE PRODUCTS SECTION */}
+          <section className="pt-20 border-t border-white/5">
+            <div className="flex items-center justify-between mb-12">
+              <div className="flex items-center gap-4">
+                <div className="h-8 w-1.5 bg-[#01a3a4]" />
+                <h2 className="text-3xl font-black uppercase text-white tracking-tighter">DISCOVER MORE</h2>
+              </div>
+              <Button onClick={() => router.push('/shop')} variant="ghost" className="text-[10px] font-black uppercase tracking-[0.3em] text-[#01a3a4] hover:bg-[#01a3a4]/10">
+                EXPLORE ALL ARCHIVE
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {moreProducts?.filter(p => p.id !== id).slice(0, 6).map((p, i) => (
+                <ProductCard key={p.id} product={p} index={i} />
+              ))}
+            </div>
+          </section>
         </div>
       </main>
 
