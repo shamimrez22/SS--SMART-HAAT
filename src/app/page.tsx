@@ -20,7 +20,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden">
+        <div className="relative h-full w-full bg-black overflow-hidden">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -29,20 +29,19 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             className="object-cover"
             priority={priority}
           />
-          {/* Extremely light overlay for maximum brightness */}
-          <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-6 md:px-12 space-y-4">
-            <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
+          <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12 space-y-2 md:space-y-4">
+            <h2 className="text-[10px] md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
               {item.name}
             </h2>
             <div className="flex flex-col space-y-1">
-              <div className="flex items-center gap-4">
-                <div className="flex items-baseline text-[18px] md:text-[22px] font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
-                  <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/90">৳</span>
+              <div className="flex items-center gap-1 md:gap-4">
+                <div className="flex items-baseline text-[12px] md:text-[22px] font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
+                  <span className="text-[7px] md:text-[11px] font-normal mr-0.5 translate-y-[-2px] md:translate-y-[-4px] text-white/90">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-9 md:h-10 px-6 md:px-8 font-black rounded-none text-[9px] md:text-[10px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-2xl w-fit mt-2">
-                <ShoppingCart className="h-3.5 w-3.5" /> অর্ডার করুন
+              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-6 md:h-10 px-3 md:px-8 font-black rounded-none text-[6px] md:text-[10px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-1 shadow-2xl w-fit mt-1">
+                <ShoppingCart className="h-2 w-2 md:h-3.5 md:w-3.5" /> অর্ডার করুন
               </button>
             </div>
           </div>
@@ -54,7 +53,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
 
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-[300px] md:h-[420px] w-full bg-black">
+      <div className="relative h-full w-full bg-black">
         <Image 
           src={item.imageUrl} 
           alt={item.title || "Banner"} 
@@ -63,8 +62,8 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           className="object-cover" 
           priority={priority} 
         />
-        <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-6 md:px-12">
-           <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
+        <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12">
+           <h2 className="text-[10px] md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
         </div>
       </div>
     </CarouselItem>
@@ -99,32 +98,32 @@ const FlashOfferCard = memo(() => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-[300px] md:h-[420px] bg-black overflow-hidden relative group w-full">
+    <div className="h-full bg-black overflow-hidden relative group w-full">
       {activeItem ? (
         <div className="h-full w-full relative">
           <Image 
             src={activeItem.imageUrl} 
             alt="Flash Offer" 
             fill 
-            sizes="(max-width: 768px) 100vw, 25vw" 
+            sizes="(max-width: 768px) 33vw, 25vw" 
             className="object-cover" 
             priority={true}
           />
-          <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 md:px-4 py-1.5 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH OFFER</div>
-          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/60 via-black/20 to-transparent pt-12 pb-6 text-center px-4 space-y-2">
-             <p className="text-white font-black text-[10px] md:text-[12px] uppercase tracking-widest mb-1 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
+          <div className="absolute top-2 left-2 bg-[#01a3a4] px-1.5 md:px-4 py-1 text-[6px] md:text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH</div>
+          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 via-black/20 to-transparent pt-6 pb-2 text-center px-2">
+             <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-widest mb-0.5 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
              {activeItem.price && (
                <div className="flex flex-col items-center">
-                 <span className="text-[#01a3a4] font-black text-base md:text-lg drop-shadow-2xl">৳{activeItem.price.toLocaleString()}</span>
+                 <span className="text-[#01a3a4] font-black text-[9px] md:text-lg drop-shadow-2xl">৳{activeItem.price.toLocaleString()}</span>
                </div>
              )}
-             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-4 md:px-6 py-2 h-9 md:h-10 font-black text-[8px] md:text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all mt-2 active:scale-95 shadow-xl">অর্ডার করুন</button>
+             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-2 md:px-6 py-1 md:h-10 font-black text-[6px] md:text-[9px] uppercase tracking-widest transition-all mt-1 active:scale-95 shadow-xl">অর্ডার করুন</button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
       ) : (
         <div className="h-full flex flex-col items-center justify-center gap-2">
-          <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
+          <Loader2 className="h-4 w-4 text-[#01a3a4] animate-spin" />
         </div>
       )}
     </div>
@@ -172,23 +171,24 @@ export default function Home() {
       <Navbar />
       
       {settings?.liveStatus && (
-        <div className="bg-black/80 backdrop-blur-md border-b border-white/5 py-2 px-4 overflow-hidden whitespace-nowrap">
+        <div className="bg-black/80 backdrop-blur-md border-b border-white/5 py-1.5 px-4 overflow-hidden whitespace-nowrap">
           <div className="container mx-auto flex items-center gap-6 animate-marquee">
-            <div className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
-              <Radio className="h-3 w-3 animate-pulse" /> LIVE STATUS:
+            <div className="flex items-center gap-2 text-[8px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
+              <Radio className="h-2.5 w-2.5 animate-pulse" /> LIVE STATUS:
             </div>
-            <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
+            <p className="text-[8px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
               {settings.liveStatus} <span className="text-white/20">•</span> 
-              <MapPin className="h-3 w-3 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
+              <MapPin className="h-2.5 w-2.5 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
             </p>
           </div>
         </div>
       )}
 
       <main className="flex-grow container mx-auto space-y-2">
-        <section className="grid grid-cols-12 gap-0">
-          <div className="col-span-12 md:col-span-3 order-2 md:order-1"><FlashOfferCard /></div>
-          <div className="col-span-12 md:col-span-6 order-1 md:order-2 relative overflow-hidden h-[300px] md:h-[420px] bg-black">
+        {/* DESKTOP-LIKE 3-COLUMN LAYOUT ON ALL DEVICES */}
+        <section className="grid grid-cols-12 gap-0 h-[220px] md:h-[420px]">
+          <div className="col-span-3 h-full"><FlashOfferCard /></div>
+          <div className="col-span-6 h-full relative overflow-hidden bg-black">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[autoplay.current]}>
                 <CarouselContent className="h-full">
@@ -197,18 +197,18 @@ export default function Home() {
               </Carousel>
             ) : (
               <div className="h-full flex flex-col items-center justify-center gap-2">
-                <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
+                <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
               </div>
             )}
           </div>
-          <div className="col-span-12 md:col-span-3 order-3 bg-[#01a3a4] flex flex-col items-center justify-center p-6 md:p-8 space-y-6 h-[250px] md:h-[420px]">
-            <h3 className="text-white font-black text-lg md:text-xl uppercase tracking-widest leading-none italic text-center drop-shadow-xl">DOWNLOAD APP</h3>
-            <div className="bg-white p-2 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center border-4 border-white/20 shadow-2xl">
+          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-2 md:p-8 space-y-3 md:space-y-6">
+            <h3 className="text-white font-black text-[8px] md:text-xl uppercase tracking-widest italic text-center drop-shadow-xl">DOWNLOAD APP</h3>
+            <div className="bg-white p-1 md:p-2 w-16 h-16 md:w-36 md:h-36 flex items-center justify-center border-2 md:border-4 border-white/20 shadow-2xl">
               <Image src={qrCodeUrl} alt="QR Code" width={150} height={150} className="w-full h-full" loading="lazy" />
             </div>
-            <div className="flex flex-row md:flex-col gap-3 w-full max-w-[280px]">
-              <button className="flex-1 bg-white text-black h-9 md:h-10 px-4 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[8px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Apple className="h-3 w-3 md:h-4 md:w-4" /> APP STORE</button>
-              <button className="flex-1 bg-white text-black h-9 md:h-10 px-4 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[8px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Play className="h-3 w-3 md:h-4 md:w-4" /> PLAY STORE</button>
+            <div className="flex flex-col gap-1.5 md:gap-3 w-full max-w-[280px]">
+              <button className="w-full bg-white text-black h-6 md:h-10 px-2 md:px-6 flex items-center justify-center gap-1.5 md:gap-4 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Apple className="h-2 w-2 md:h-4 md:w-4" /> APP STORE</button>
+              <button className="w-full bg-white text-black h-6 md:h-10 px-2 md:px-6 flex items-center justify-center gap-1.5 md:gap-4 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Play className="h-2 w-2 md:h-4 md:w-4" /> PLAY STORE</button>
             </div>
           </div>
         </section>
