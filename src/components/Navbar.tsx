@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, ShoppingBag, Languages, User, MapPin, MoreVertical, LayoutGrid, X } from 'lucide-react';
+import { Search, ShoppingBag, Languages, User, MapPin, MoreVertical, LayoutGrid, X, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
@@ -66,6 +66,10 @@ export function Navbar() {
                   />
                   <Search className="absolute right-3 h-3.5 w-3.5 text-white/50" />
                 </div>
+
+                <Link href="/" className="hover:text-black transition-colors flex items-center gap-1">
+                  <Home className="h-3 w-3 md:h-3.5 md:w-3.5" /> <span className="hidden sm:inline">{language === 'EN' ? "HOME" : "হোম"}</span>
+                </Link>
 
                 <Link href="/shop" className="hover:text-black transition-colors flex items-center gap-1">
                   <LayoutGrid className="h-3 w-3 md:h-3.5 md:w-3.5" /> <span className="hidden sm:inline">{language === 'EN' ? "SHOP" : "দোকান"}</span>

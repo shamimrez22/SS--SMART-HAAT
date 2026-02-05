@@ -173,12 +173,12 @@ export default function Home() {
       {settings?.liveStatus && (
         <div className="bg-black/80 backdrop-blur-md border-b border-white/5 py-1 px-4 overflow-hidden whitespace-nowrap">
           <div className="container mx-auto flex items-center gap-6 animate-marquee">
-            <div className="flex items-center gap-2 text-[8px] md:text-[9px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
-              <Radio className="h-2 w-2 animate-pulse" /> LIVE STATUS:
+            <div className="flex items-center gap-2 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest shrink-0">
+              <Radio className="h-2 w-2 animate-pulse text-white" /> LIVE STATUS:
             </div>
             <p className="text-[8px] md:text-[9px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
-              {settings.liveStatus} <span className="text-white/20">•</span> 
-              <MapPin className="h-2 w-2 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
+              {settings.liveStatus} <span className="text-white/40">•</span> 
+              <MapPin className="h-2 w-2 text-white" /> {settings.liveLocation || 'BANANI, DHAKA'}
             </p>
           </div>
         </div>
