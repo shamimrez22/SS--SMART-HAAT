@@ -158,11 +158,9 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className={cn(
         "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl transition-all duration-300 fixed z-[100] outline-none",
-        // Force absolute centering for Desktop, Full Screen for Mobile
         "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
         step === 'SUCCESS' ? "max-w-[350px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[950px] w-[95vw]"
       )}>
-        {/* CORNER CLOSE BUTTON */}
         <button 
           onClick={onClose}
           className="absolute right-4 top-4 z-[60] p-2 text-gray-400 hover:text-black hover:bg-gray-100 transition-all rounded-full"
@@ -170,11 +168,10 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
           <X className="h-5 w-5" />
         </button>
 
-        <div className="flex flex-col h-full max-h-[95vh] relative">
+        <div className="flex flex-col h-full max-h-[95vh] relative no-scrollbar">
           {step === 'FORM' ? (
             <div className="flex flex-col md:flex-row h-full overflow-hidden">
               
-              {/* DESKTOP LEFT: PRODUCT IMAGE (BAM SIDE IMAGE) */}
               {!isMobile && (
                 <div className="md:w-[280px] bg-gray-50 border-r border-gray-100 p-6 flex flex-col shrink-0 overflow-y-auto no-scrollbar">
                   <div className="relative w-full aspect-square border border-gray-200 mb-6 bg-white shadow-sm overflow-hidden">
@@ -193,56 +190,54 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 </div>
               )}
 
-              {/* MIDDLE: ORDER FORM (DANSIDE FROM) */}
               <div className={cn(
-                "flex-grow p-6 md:p-8 space-y-6 bg-white overflow-y-auto relative no-scrollbar",
+                "flex-grow p-4 md:p-8 space-y-4 md:space-y-6 bg-white overflow-y-auto relative no-scrollbar",
                 !isMobile && "md:w-[350px]"
               )}>
-                {/* SMALL PRODUCT IMAGE IN CORNER (FOR MOBILE OR COMPACT) */}
-                <div className="absolute top-4 right-12 w-14 h-14 border border-gray-100 shadow-sm z-10 bg-white overflow-hidden">
-                  <Image src={product.imageUrl} alt={product.name} fill className="object-cover" sizes="56px" priority />
+                <div className="absolute top-4 right-12 w-12 h-12 border border-gray-100 shadow-sm z-10 bg-white overflow-hidden">
+                  <Image src={product.imageUrl} alt={product.name} fill className="object-cover" sizes="48px" priority />
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-1.5 bg-[#01a3a4]" />
-                    <DialogTitle className="text-2xl font-black text-black uppercase tracking-tighter leading-none font-headline">ORDER CONFIRM</DialogTitle>
+                    <div className="h-5 md:h-6 w-1 md:w-1.5 bg-[#01a3a4]" />
+                    <DialogTitle className="text-xl md:text-2xl font-black text-black uppercase tracking-tighter leading-none font-headline">ORDER CONFIRM</DialogTitle>
                   </div>
-                  <DialogDescription className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                    Fill the details below to secure your purchase.
+                  <DialogDescription className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                    Fill the details to secure purchase.
                   </DialogDescription>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5 pt-2">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Ruler className="h-3.5 w-3.5 text-[#01a3a4]" /> SELECT SIZE
+                <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5 pt-1">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Ruler className="h-3 w-3 text-[#01a3a4]" /> SELECT SIZE
                       </label>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1.5">
                         {product?.sizes?.length > 0 ? product.sizes.map((size: string) => (
                           <button
                             key={size}
                             type="button"
                             onClick={() => setFormData({...formData, selectedSize: size})}
                             className={cn(
-                              "px-3 py-1.5 border text-[10px] font-black uppercase transition-all",
+                              "px-2 py-1 border text-[9px] font-black uppercase transition-all",
                               formData.selectedSize === size 
-                                ? 'bg-[#01a3a4] border-[#01a3a4] text-white shadow-lg' 
-                                : 'bg-gray-50 border-gray-200 text-gray-400 hover:border-[#01a3a4] hover:text-[#01a3a4]'
+                                ? 'bg-[#01a3a4] border-[#01a3a4] text-white shadow-md' 
+                                : 'bg-gray-50 border-gray-200 text-gray-400 hover:border-[#01a3a4]'
                             )}
                           >
                             {size}
                           </button>
                         )) : (
-                          <span className="text-[9px] font-black text-gray-400 uppercase italic">Standard Size</span>
+                          <span className="text-[8px] font-black text-gray-400 uppercase italic">Standard</span>
                         )}
                       </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Hash className="h-3.5 w-3.5 text-[#01a3a4]" /> QUANTITY
+                    <div className="space-y-1">
+                      <label className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Hash className="h-3 w-3 text-[#01a3a4]" /> QUANTITY
                       </label>
                       <input 
                         type="number"
@@ -250,28 +245,28 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         required
                         value={formData.quantity}
                         onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-10 px-4 text-[12px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black transition-all"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-9 px-3 text-[11px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] text-black"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <User className="h-3.5 w-3.5 text-[#01a3a4]" /> YOUR FULL NAME
+                  <div className="space-y-3 md:space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <User className="h-3 w-3 text-[#01a3a4]" /> FULL NAME
                       </label>
                       <input 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="ENTER NAME"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-5 text-[12px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black transition-all"
+                        placeholder="NAME"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-11 px-4 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black"
                       />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5 text-[#01a3a4]" /> ACTIVE PHONE NUMBER
+                    <div className="space-y-1">
+                      <label className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Phone className="h-3 w-3 text-[#01a3a4]" /> PHONE NUMBER
                       </label>
                       <input 
                         required
@@ -279,27 +274,27 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder="01XXXXXXXXX"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-5 text-[12px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black transition-all"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-11 px-4 text-[11px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black"
                       />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-[#01a3a4]" /> DELIVERY ADDRESS
+                    <div className="space-y-1">
+                      <label className="text-[8px] md:text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <MapPin className="h-3 w-3 text-[#01a3a4]" /> ADDRESS
                       </label>
                       <textarea 
                         required
                         value={formData.address}
                         onChange={(e) => setFormData({...formData, address: e.target.value})}
                         placeholder="AREA, HOUSE, CITY"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none p-4 text-[12px] font-black uppercase tracking-widest min-h-[80px] focus:outline-none focus:border-[#01a3a4] focus:bg-white text-black transition-all no-scrollbar"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-none p-3 text-[11px] font-black uppercase tracking-widest min-h-[60px] md:min-h-[80px] focus:outline-none focus:border-[#01a3a4] text-black no-scrollbar"
                       />
                     </div>
                   </div>
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#01a3a4] hover:bg-black text-white h-16 font-black uppercase tracking-[0.4em] rounded-none shadow-2xl text-[14px] border-none transition-all active:scale-95"
+                    className="w-full bg-[#01a3a4] hover:bg-black text-white h-14 md:h-16 font-black uppercase tracking-[0.4em] rounded-none shadow-xl text-[12px] md:text-[14px] border-none transition-all active:scale-95"
                   >
                     অর্ডার নিশ্চিত করুন
                   </Button>
@@ -308,7 +303,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                     <button 
                       type="button"
                       onClick={() => setStep('CHAT')}
-                      className="w-full flex items-center justify-center gap-2 text-[11px] font-black text-[#01a3a4] uppercase tracking-widest py-3 hover:bg-gray-50 transition-all border border-dashed border-[#01a3a4]/20 active:scale-95"
+                      className="w-full flex items-center justify-center gap-2 text-[10px] font-black text-[#01a3a4] uppercase tracking-widest py-2.5 hover:bg-gray-50 transition-all border border-dashed border-[#01a3a4]/20 active:scale-95"
                     >
                       <MessageCircle className="h-4 w-4" /> CHAT
                     </button>
@@ -316,7 +311,6 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 </form>
               </div>
 
-              {/* DESKTOP RIGHT: SUPPORT CHAT (DAN SITEY CHATE) */}
               {!isMobile && (
                 <div className="md:w-[320px] flex flex-col bg-gray-50 shrink-0 border-l border-gray-100 h-full">
                   <div className="p-5 bg-white border-b border-gray-100 flex items-center justify-between">
@@ -435,13 +429,13 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
               </div>
 
               <div className="space-y-4">
-                <DialogTitle className="text-3xl font-black text-black uppercase tracking-tighter leading-none font-headline animate-in slide-in-from-bottom-2 duration-700">
+                <DialogTitle className="text-2xl md:text-3xl font-black text-black uppercase tracking-tighter leading-none font-headline animate-in slide-in-from-bottom-2 duration-700">
                   THANK YOU
                 </DialogTitle>
                 <div className="h-1 w-12 bg-[#01a3a4] mx-auto rounded-full" />
-                <p className="text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">অর্ডার সফল হয়েছে</p>
+                <p className="text-[11px] md:text-[12px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">অর্ডার সফল হয়েছে</p>
                 <div className="py-2 px-6">
-                  <p className="text-[14px] font-bold text-black font-headline leading-relaxed">
+                  <p className="text-[13px] md:text-[14px] font-bold text-black font-headline leading-relaxed">
                     যত দ্রুত সম্ভব আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে
                   </p>
                 </div>
