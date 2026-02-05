@@ -68,6 +68,15 @@ export default function AdminPanel() {
     }));
   }, [products, categories]);
 
+  // Dynamic config for Pie Chart to avoid useChart context error
+  const pieChartConfig = useMemo(() => {
+    const config: ChartConfig = {};
+    categoryStats.forEach(stat => {
+      config[stat.name] = { label: stat.name, color: stat.color };
+    });
+    return config;
+  }, [categoryStats]);
+
   const salesStats = useMemo(() => {
     if (!orders) return { totalRevenue: 0, todaySales: 0 };
     const todayOrders = orders.filter(o => o.createdAt.startsWith(today));
@@ -181,7 +190,7 @@ export default function AdminPanel() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="h-[200px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ChartContainer config={pieChartConfig} className="h-full w-full">
                     <PieChart>
                       <Pie
                         data={categoryStats}
@@ -198,7 +207,7 @@ export default function AdminPanel() {
                       </Pie>
                       <ChartTooltip content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-2" />} />
                     </PieChart>
-                  </ResponsiveContainer>
+                  </ChartContainer>
                 </div>
                 <div className="mt-4 space-y-2">
                   {categoryStats.map((cat, i) => (
@@ -216,7 +225,7 @@ export default function AdminPanel() {
           </div>
 
           <div className="lg:col-span-8 space-y-6">
-            {/* REVENUE CHART */}
+            {/* REVENUE ARCHIVE */}
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 p-6 gap-4 bg-white/[0.01]">
                 <div className="space-y-1">
