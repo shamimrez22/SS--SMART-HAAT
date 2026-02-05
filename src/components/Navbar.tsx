@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -109,7 +108,6 @@ export function Navbar() {
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setIsAdminModalOpen(true)}>
-                      <User className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>

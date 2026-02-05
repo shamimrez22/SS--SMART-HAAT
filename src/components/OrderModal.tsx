@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -185,26 +184,23 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                   />
                 </div>
 
-                {/* DESKTOP PRODUCT INFO AT TOP */}
-                {!isMobile && (
-                  <div className="p-4 bg-gray-50 border border-gray-100 mb-6 flex gap-4">
-                    <div className="relative w-20 h-20 shrink-0 border border-gray-200">
-                      <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
-                    </div>
-                    <div className="flex-grow">
-                      <h3 className="text-sm font-black text-black uppercase tracking-tighter">{product.name}</h3>
-                      <p className="text-[#01a3a4] font-black text-lg">৳{product.price.toLocaleString()}</p>
-                      <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">{product.category}</span>
-                    </div>
+                {/* PRODUCT INFO AT TOP (DESKTOP: Product -> Form -> Chat) */}
+                <div className="p-4 bg-gray-50 border border-gray-100 mb-6 flex gap-4">
+                  <div className="relative w-20 h-20 shrink-0 border border-gray-200">
+                    <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
                   </div>
-                )}
+                  <div className="flex-grow">
+                    <h3 className="text-sm font-black text-black uppercase tracking-tighter">{product.name}</h3>
+                    <p className="text-[#01a3a4] font-black text-lg">৳{product.price.toLocaleString()}</p>
+                    <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">{product.category}</span>
+                  </div>
+                </div>
 
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
                     <div className="h-5 w-1 bg-[#01a3a4]" />
                     <DialogTitle className="text-xl font-black text-black uppercase tracking-tighter leading-none font-headline">ORDER CONFIRM</DialogTitle>
                   </div>
-                  {isMobile && <p className="text-[9px] font-bold text-[#01a3a4] uppercase tracking-widest truncate pr-16">{product.name}</p>}
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4 pt-2">
@@ -310,7 +306,7 @@ export function OrderModal({ product, isOpen, onClose }: OrderModalProps) {
                 </form>
               </div>
 
-              {/* DESKTOP CHAT AT BOTTOM */}
+              {/* CHAT AT BOTTOM (DESKTOP: Product -> Form -> Chat) */}
               {!isMobile && (
                 <div className="flex flex-col bg-gray-50 h-[180px] shrink-0 border-t border-gray-100">
                   <div className="p-2.5 bg-white border-b border-gray-100 flex items-center justify-between">
