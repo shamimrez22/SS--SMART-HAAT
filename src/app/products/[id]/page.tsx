@@ -63,12 +63,11 @@ export default function ProductDetails() {
       <Navbar />
       <main className="flex-grow py-20">
         <div className="container mx-auto px-4">
-          <Button variant="ghost" className="mb-12 rounded-none uppercase text-white hover:bg-white/5 border border-white/10 h-12 px-6 font-black text-[10px] tracking-widest" onClick={() => router.back()}>
+          <Button variant="ghost" className="mb-12 rounded-none uppercase text-white hover:bg-white/5 border border-white/10 h-10 px-6 font-black text-[10px] tracking-widest" onClick={() => router.back()}>
             <ArrowLeft className="mr-3 h-4 w-4 text-[#01a3a4]" /> BACK TO ARCHIVE
           </Button>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* PRODUCT IMAGE */}
             <div className="relative aspect-square rounded-none overflow-hidden border border-white/5 shadow-2xl group bg-black">
               <Image 
                 src={product.imageUrl} 
@@ -77,7 +76,7 @@ export default function ProductDetails() {
                 sizes="(max-width: 1024px) 100vw, 50vw" 
                 priority={true}
                 loading="eager"
-                quality={85}
+                quality={40}
                 className="object-cover transition-transform duration-[2000ms] group-hover:scale-105" 
               />
               {isOutOfStock && (
@@ -93,32 +92,33 @@ export default function ProductDetails() {
                   <Badge className="rounded-none uppercase tracking-[0.3em] text-[10px] bg-[#01a3a4] text-white font-black border-none px-4 py-1.5">{product.category}</Badge>
                 </div>
                 <h1 className="text-5xl md:text-7xl font-black font-headline text-white leading-none uppercase tracking-tighter">{product.name}</h1>
-                <div className="flex items-center gap-6">
-                  {/* PRICE ROW */}
-                  <div className="text-4xl md:text-6xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
-                    <span className="text-[14px] font-normal mr-2 translate-y-[-12px] text-white/50">৳</span>
-                    {product.price.toLocaleString()}
+                
+                <div className="flex flex-col space-y-1">
+                  <div className="flex items-center gap-6">
+                    <div className="text-4xl md:text-5xl font-black text-[#01a3a4] uppercase tracking-tighter flex items-baseline">
+                      <span className="text-[14px] font-normal mr-2 translate-y-[-12px] text-white/50">৳</span>
+                      {product.price.toLocaleString()}
+                    </div>
                   </div>
                   {product.originalPrice > product.price && (
-                    <p className="text-[24px] md:text-[32px] text-white/60 line-through font-bold flex items-baseline">
+                    <p className="text-[18px] md:text-[22px] text-white/40 line-through font-bold flex items-baseline">
                       <span className="text-[0.4em] font-normal mr-1 translate-y-[-1px]">৳</span>{product.originalPrice.toLocaleString()}
                     </p>
                   )}
                 </div>
               </div>
 
-              {product.sizeInventory && product.sizeInventory.length > 0 && (
+              {product.sizes && product.sizes.length > 0 && (
                 <div className="space-y-4 p-6 bg-white/[0.02] border border-white/5">
                   <p className="text-[11px] font-black text-[#01a3a4] uppercase tracking-[0.3em] flex items-center gap-3">
                     <Ruler className="h-4 w-4" /> AVAILABLE SPECIFICATIONS
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    {product.sizeInventory.map((si: any, i: number) => (
+                    {product.sizes.map((size: string, i: number) => (
                       <div key={i} className="flex flex-col items-center">
                         <span className="px-5 py-3 bg-white/5 border border-white/10 text-xs font-black text-white uppercase min-w-[60px] text-center">
-                          {si.size}
+                          {size}
                         </span>
-                        <span className="text-[8px] font-black text-[#01a3a4] uppercase mt-2">{si.quantity} PCS</span>
                       </div>
                     ))}
                   </div>
@@ -133,7 +133,7 @@ export default function ProductDetails() {
                 <div className="flex items-center gap-4">
                   <div className={`h-3 w-3 rounded-none animate-pulse ${isOutOfStock ? 'bg-red-600' : 'bg-green-600'}`} />
                   <span className={`text-[11px] font-black uppercase tracking-[0.3em] ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
-                    {isOutOfStock ? 'OUT OF STOCK' : `IN STOCK - ${product.stockQuantity} UNITS REGISTERED`}
+                    {isOutOfStock ? 'OUT OF STOCK' : `IN STOCK - READY TO SHIP`}
                   </span>
                 </div>
 
@@ -141,13 +141,13 @@ export default function ProductDetails() {
                   <button 
                     disabled={isOutOfStock}
                     onClick={() => setIsOrderOpen(true)}
-                    className={`flex-grow h-16 rounded-none text-[14px] font-black uppercase tracking-[0.4em] shadow-2xl transition-all duration-500 flex items-center justify-center gap-3 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
+                    className={`flex-grow h-14 rounded-none text-[14px] font-black uppercase tracking-[0.4em] shadow-2xl transition-all duration-500 flex items-center justify-center gap-3 ${isOutOfStock ? 'bg-white/5 text-white/20 border border-white/10' : 'bg-[#01a3a4] hover:bg-white hover:text-black text-white shadow-[#01a3a4]/20'}`}
                   >
                     <ShoppingCart className="h-5 w-5" /> {isOutOfStock ? 'SOLD OUT' : 'অর্ডার করুন'}
                   </button>
                   <div className="flex gap-3">
-                    <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Heart className="h-6 w-6" /></Button>
-                    <Button size="icon" variant="outline" className="h-16 w-16 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Share2 className="h-6 w-6" /></Button>
+                    <Button size="icon" variant="outline" className="h-14 w-14 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Heart className="h-5 w-5" /></Button>
+                    <Button size="icon" variant="outline" className="h-14 w-14 rounded-none border-white/10 text-white hover:bg-[#01a3a4] hover:border-[#01a3a4] transition-all duration-500"><Share2 className="h-5 w-5" /></Button>
                   </div>
                 </div>
               </div>

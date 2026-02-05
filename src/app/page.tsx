@@ -35,12 +35,19 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             <h2 className="text-xl md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
               {item.name}
             </h2>
-            <div className="flex items-center gap-4">
-              <div className="flex items-baseline text-2xl font-black text-[#01a3a4] tracking-tighter">
-                <span className="text-[7px] font-normal mr-1 translate-y-[-12px] text-white/50">৳</span>
-                {item.price.toLocaleString()}
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center gap-4">
+                <div className="flex items-baseline text-2xl font-black text-[#01a3a4] tracking-tighter">
+                  <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/50">৳</span>
+                  {item.price.toLocaleString()}
+                </div>
+                {item.originalPrice > item.price && (
+                  <span className="text-[10px] text-white/40 line-through font-bold translate-y-1">
+                    ৳{item.originalPrice.toLocaleString()}
+                  </span>
+                )}
               </div>
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-11 px-8 font-black rounded-none text-[10px] hover:bg-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-xl">
+              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-10 px-8 font-black rounded-none text-[10px] hover:bg-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-xl w-fit">
                 <ShoppingCart className="h-3.5 w-3.5" /> অর্ডার করুন
               </button>
             </div>
@@ -90,9 +97,17 @@ const FlashOfferCard = () => {
         <div className="h-full w-full relative">
           <Image src={activeItem.imageUrl} alt="Flash Offer" fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" priority quality={40} />
           <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1.5 text-[9px] font-black text-white uppercase tracking-widest z-10">FLASH OFFER</div>
-          <div className="absolute bottom-6 w-full text-center px-4">
+          <div className="absolute bottom-6 w-full text-center px-4 space-y-2">
              <p className="text-white font-black text-[12px] uppercase tracking-widest mb-1">{activeItem.name || activeItem.title}</p>
-             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-6 py-2 font-black text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">অর্ডার করুন</button>
+             {activeItem.price && (
+               <div className="flex items-center justify-center gap-3">
+                 <span className="text-[#01a3a4] font-black text-lg">৳{activeItem.price.toLocaleString()}</span>
+                 {activeItem.originalPrice > activeItem.price && (
+                   <span className="text-white/40 line-through text-xs">৳{activeItem.originalPrice.toLocaleString()}</span>
+                 )}
+               </div>
+             )}
+             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-6 py-2 h-10 font-black text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all">অর্ডার করুন</button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
@@ -131,7 +146,7 @@ export default function Home() {
               </Carousel>
             ) : <div className="h-full flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>}
           </div>
-          <div className="col-span-3 bg-[#01a3a4] flex flex-col items-center justify-center p-8 space-y-8 h-[420px]">
+          <div className="col-span-3 bg-[#01a3a4] flex flex-col items-center justify-center p-8 space-y-6 h-[420px]">
             <h3 className="text-white font-black text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
             <div className="bg-white p-1.5 w-32 h-32 flex items-center justify-center border-4 border-white/20">
               <Image 
@@ -142,17 +157,17 @@ export default function Home() {
                 className="w-full h-full"
               />
             </div>
-            <div className="space-y-3 w-full max-w-[220px]">
-              <button className="bg-white text-black h-12 px-6 flex items-center gap-4 w-full font-black text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Apple className="h-5 w-5" /> APP STORE</button>
-              <button className="bg-white text-black h-12 px-6 flex items-center gap-4 w-full font-black text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Play className="h-5 w-5" /> GOOGLE PLAY</button>
+            <div className="space-y-3 w-full max-w-[200px]">
+              <button className="bg-white text-black h-10 px-6 flex items-center gap-4 w-full font-black text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Apple className="h-4 w-4" /> APP STORE</button>
+              <button className="bg-white text-black h-10 px-6 flex items-center gap-4 w-full font-black text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Play className="h-4 w-4" /> GOOGLE PLAY</button>
             </div>
           </div>
         </section>
 
         <section className="py-2 px-10">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="h-3 w-1 bg-[#01a3a4]" />
+              <div className="h-4 w-1 bg-[#01a3a4]" />
               <h2 className="text-sm font-black text-white uppercase tracking-tighter">TOP SELLING</h2>
             </div>
             <Link href="/shop" className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">VIEW ALL</Link>

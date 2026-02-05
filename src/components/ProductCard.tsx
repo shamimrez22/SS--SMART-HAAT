@@ -28,7 +28,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             fill
             sizes="(max-width: 768px) 50vw, 15vw"
             priority={index < 6}
-            quality={50}
+            quality={40}
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
           {isOutOfStock && (
@@ -41,22 +41,31 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
         <CardContent className="p-4 flex flex-col flex-grow bg-black space-y-3">
           <h3 className="font-black text-[13px] text-white uppercase truncate font-headline">{product.name}</h3>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-baseline text-[#01a3a4]">
-              <span className="text-[7px] font-normal mr-1 translate-y-[-12px] text-white/50">৳</span>
-              <span className="font-black text-[28px] tracking-tighter leading-none">
-                {product.price.toLocaleString()}
-              </span>
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <div className="flex items-baseline text-[#01a3a4]">
+                <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/50">৳</span>
+                <span className="font-black text-[22px] tracking-tighter leading-none">
+                  {product.price.toLocaleString()}
+                </span>
+              </div>
+              {product.originalPrice > product.price && (
+                <span className="text-[9px] font-black text-[#01a3a4] border border-[#01a3a4] px-1.5 py-0.5">
+                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                </span>
+              )}
             </div>
-            {product.discountPercentage > 0 && (
-              <span className="text-[9px] font-black text-[#01a3a4] border border-[#01a3a4] px-1.5 py-0.5">-{product.discountPercentage}%</span>
+            {product.originalPrice > product.price && (
+              <p className="text-[10px] text-white/40 line-through font-bold">
+                ৳{product.originalPrice.toLocaleString()}
+              </p>
             )}
           </div>
 
           <Button 
             disabled={isOutOfStock}
             onClick={(e) => { e.preventDefault(); setIsOrderOpen(true); }}
-            className={`w-full ${isOutOfStock ? 'bg-white/5' : 'bg-[#01a3a4] hover:bg-white hover:text-black'} text-white font-black text-[11px] h-12 rounded-none uppercase flex items-center justify-center gap-2`}
+            className={`w-full ${isOutOfStock ? 'bg-white/5' : 'bg-[#01a3a4] hover:bg-white hover:text-black'} text-white font-black text-[11px] h-10 rounded-none uppercase flex items-center justify-center gap-2`}
           >
             <ShoppingBag className="h-3.5 w-3.5" /> অর্ডার করুন
           </Button>
