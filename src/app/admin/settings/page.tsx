@@ -15,21 +15,18 @@ import {
   Save, 
   Loader2,
   Terminal,
-  ExternalLink,
-  Github,
   ShieldAlert,
   MapPin,
   Smartphone,
   Zap,
-  ShoppingBag,
-  Menu
+  Eye,
+  ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
-import Image from 'next/image';
 
 export default function AdminSettings() {
   const db = useFirestore();
@@ -221,50 +218,35 @@ export default function AdminSettings() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Smartphone className="h-4 w-4" /> LIVE MOBILE SCREEN PREVIEW
+                  <Smartphone className="h-4 w-4" /> LIVE MOBILE PREVIEW (REAL-TIME)
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 flex flex-col md:flex-row items-center justify-center gap-12">
                 {/* IPHONE STYLE MOCKUP */}
-                <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-zinc-800 shadow-2xl overflow-hidden shrink-0">
+                <div className="relative w-[300px] h-[600px] bg-black rounded-[3rem] border-[12px] border-zinc-900 shadow-2xl overflow-hidden shrink-0">
                   {/* Speaker Grill */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-zinc-800 rounded-b-2xl z-20 flex items-center justify-center">
-                    <div className="w-12 h-1 bg-zinc-900 rounded-full" />
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-zinc-900 rounded-b-2xl z-30 flex items-center justify-center">
+                    <div className="w-12 h-1 bg-zinc-950 rounded-full" />
                   </div>
                   
-                  {/* Mock Screen Content */}
-                  <div className="absolute inset-0 bg-background overflow-y-auto no-scrollbar pt-8">
-                    {/* Mock Navbar */}
-                    <div className="h-10 bg-[#01a3a4] flex items-center justify-between px-4 sticky top-0 z-10">
-                      <Menu className="h-4 w-4 text-white" />
-                      <div className="h-4 w-12 bg-white/20 rounded-sm" />
-                      <ShoppingBag className="h-4 w-4 text-white" />
-                    </div>
-                    {/* Mock Carousel */}
-                    <div className="h-40 bg-zinc-900 relative">
-                       <Image src="https://picsum.photos/seed/mobile1/400/200" alt="Preview" fill className="object-cover opacity-80" />
-                       <div className="absolute inset-0 flex items-center px-4">
-                         <div className="h-4 w-2/3 bg-white/20 rounded" />
-                       </div>
-                    </div>
-                    {/* Mock Products */}
-                    <div className="p-3 grid grid-cols-2 gap-2">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="aspect-square bg-zinc-900 border border-white/5 p-2 space-y-2">
-                          <div className="h-2/3 bg-zinc-800" />
-                          <div className="h-2 w-full bg-white/10" />
-                          <div className="h-3 w-1/2 bg-[#01a3a4]/20" />
-                        </div>
-                      ))}
-                    </div>
+                  {/* Live Iframe Content */}
+                  <div className="absolute inset-0 pt-6">
+                    <iframe 
+                      src="/" 
+                      className="w-full h-full border-none pointer-events-auto no-scrollbar"
+                      title="Live Mobile Preview"
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-6 max-w-sm">
                   <div className="space-y-2">
-                    <h3 className="text-xl font-black text-white uppercase tracking-tighter">মোবাইল ডিসপ্লে চেক</h3>
+                    <div className="flex items-center gap-2 text-[#01a3a4]">
+                      <Eye className="h-5 w-5" />
+                      <h3 className="text-xl font-black text-white uppercase tracking-tighter">লাইভ মোবাইল ভিউ</h3>
+                    </div>
                     <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-relaxed">
-                      বামে আপনার সাইটের মোবাইল প্রিভিউ দেখা যাচ্ছে। আপনার ওয়েবসাইটটি প্রতিটি ছোট স্ক্রিনের জন্য অপ্টিমাইজড।
+                      বামের স্ক্রিনে আপনার ওয়েবসাইটটি বর্তমানে মোবাইলে যেমন দেখাবে তা সরাসরি দেখা যাচ্ছে। আপনি এখান থেকেই স্ক্রল করে চেক করতে পারেন।
                     </p>
                   </div>
                   <div className="p-4 bg-[#01a3a4]/5 border border-[#01a3a4]/20 space-y-3">
@@ -273,11 +255,13 @@ export default function AdminSettings() {
                       <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">রেসপন্সিভ অপ্টিমাইজেশন</p>
                     </div>
                     <p className="text-[9px] font-black text-white/60 uppercase leading-relaxed">
-                      মোবাইল ব্রাউজারে সাইটটি রকেটের গতিতে লোড হওয়ার জন্য ইমেজ ইঞ্জিন এবং গ্রিড সিস্টেম লক করা হয়েছে।
+                      প্রতিটি প্রোডাক্ট, স্লাইডার এবং মেনু মোবাইল ফ্রেন্ডলি কি না তা নিশ্চিত করার জন্য এই লাইভ প্রিভিউ ব্যবহার করুন।
                     </p>
                   </div>
                   <Button asChild variant="outline" className="w-full border-white/10 text-white hover:bg-white hover:text-black h-12 font-black uppercase tracking-widest text-[9px] rounded-none">
-                    <Link href="/" target="_blank">ওপেন লাইভ সাইট ভিউ</Link>
+                    <Link href="/" target="_blank" className="flex items-center justify-center gap-2">
+                      ওপেন লাইভ সাইট <ExternalLink className="h-3 w-3" />
+                    </Link>
                   </Button>
                 </div>
               </CardContent>
