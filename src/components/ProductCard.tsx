@@ -14,19 +14,14 @@ interface ProductCardProps {
   index?: number;
 }
 
-/**
- * ProductCard - Performance-optimized for "Instant-Ready" rendering.
- */
 export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = (product.stockQuantity || 0) <= 0;
-
-  // First 6 products are prioritized for immediate visibility
   const isPriority = index < 6;
 
   return (
     <>
-      <Card className="group bg-black border-none rounded-none flex flex-col h-full overflow-hidden [transform:translateZ(0)]">
+      <Card className="group bg-black border-none rounded-none flex flex-col h-full overflow-hidden">
         <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-black block">
           <Image
             src={product.imageUrl}
@@ -34,9 +29,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             fill
             sizes="(max-width: 768px) 50vw, 15vw"
             priority={isPriority}
-            loading={isPriority ? "eager" : "lazy"}
-            quality={25} // Lowest quality for fastest "Ready" state
-            className="object-cover" // Removed hover scale animation to prevent perceived lag
+            className="object-cover"
           />
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-10">

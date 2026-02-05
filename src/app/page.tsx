@@ -14,14 +14,13 @@ import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase
 import { collection, query, where, limit, orderBy, doc, increment, setDoc } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
 
-// Memoized SlideItem for instant paint performance
 const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden [transform:translateZ(0)]">
+        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -29,8 +28,6 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             sizes="100vw"
             className="object-cover"
             priority={priority}
-            loading={priority ? "eager" : "lazy"}
-            quality={30} // Low quality for extreme speed
           />
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-6 md:px-12 space-y-4">
             <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
@@ -43,11 +40,6 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
                   {item.price.toLocaleString()}
                 </div>
               </div>
-              {item.originalPrice > item.price && (
-                <span className="text-[9px] md:text-[10px] text-white/40 line-through font-bold translate-y-[-4px]">
-                  ৳{item.originalPrice.toLocaleString()}
-                </span>
-              )}
               <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-9 md:h-10 px-6 md:px-8 font-black rounded-none text-[9px] md:text-[10px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-xl w-fit mt-2">
                 <ShoppingCart className="h-3.5 w-3.5" /> অর্ডার করুন
               </button>
@@ -61,7 +53,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
 
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-[300px] md:h-[420px] w-full bg-black [transform:translateZ(0)]">
+      <div className="relative h-[300px] md:h-[420px] w-full bg-black">
         <Image 
           src={item.imageUrl} 
           alt={item.title || "Banner"} 
@@ -69,8 +61,6 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           sizes="100vw" 
           className="object-cover" 
           priority={priority} 
-          loading={priority ? "eager" : "lazy"} 
-          quality={30} 
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col justify-center px-6 md:px-12">
            <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none">{item.title}</h2>
@@ -93,7 +83,11 @@ const FlashOfferCard = memo(() => {
   const { data: flashProducts } = useCollection(flashProductQuery);
   const { data: flashBanners } = useCollection(flashBannerQuery);
 
-  const combinedItems = useMemo(() => [...(flashBanners || []), ...(flashProducts || [])], [flashProducts, flashBanners]);
+  const combinedItems = useMemo(() => {
+    const products = flashProducts || [];
+    const banners = flashBanners || [];
+    return [...banners, ...products];
+  }, [flashProducts, flashBanners]);
 
   useEffect(() => {
     if (combinedItems.length <= 1) return;
@@ -104,7 +98,7 @@ const FlashOfferCard = memo(() => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-[300px] md:h-[420px] bg-black overflow-hidden relative group w-full [transform:translateZ(0)]">
+    <div className="h-[300px] md:h-[420px] bg-black overflow-hidden relative group w-full">
       {activeItem ? (
         <div className="h-full w-full relative">
           <Image 
@@ -113,9 +107,7 @@ const FlashOfferCard = memo(() => {
             fill 
             sizes="(max-width: 768px) 100vw, 25vw" 
             className="object-cover" 
-            priority={true} 
-            loading="eager" 
-            quality={25} // Aggressive compression for instant view
+            priority={true}
           />
           <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 md:px-4 py-1.5 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest z-10">FLASH OFFER</div>
           <div className="absolute bottom-6 w-full text-center px-4 space-y-2">
@@ -123,16 +115,17 @@ const FlashOfferCard = memo(() => {
              {activeItem.price && (
                <div className="flex flex-col items-center">
                  <span className="text-[#01a3a4] font-black text-base md:text-lg">৳{activeItem.price.toLocaleString()}</span>
-                 {activeItem.originalPrice > activeItem.price && (
-                   <span className="text-white/40 line-through text-[9px] md:text-[10px] font-bold">৳{activeItem.originalPrice.toLocaleString()}</span>
-                 )}
                </div>
              )}
              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-4 md:px-6 py-2 h-9 md:h-10 font-black text-[8px] md:text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all mt-2 active:scale-95">অর্ডার করুন</button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
-      ) : <div className="h-full flex items-center justify-center bg-black"></div>}
+      ) : (
+        <div className="h-full flex flex-col items-center justify-center gap-2">
+          <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
+        </div>
+      )}
     </div>
   );
 });
@@ -146,12 +139,17 @@ export default function Home() {
   const sliderBannerQuery = useMemoFirebase(() => query(collection(db, 'featured_banners'), where('type', '==', 'SLIDER'), orderBy('createdAt', 'desc'), limit(3)), [db]);
   const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
   
-  const { data: products } = useCollection(productsRef);
+  const { data: products, isLoading: isProductsLoading } = useCollection(productsRef);
   const { data: sliderProducts } = useCollection(sliderProductQuery);
   const { data: sliderBanners } = useCollection(sliderBannerQuery);
   const { data: settings } = useDoc(settingsRef);
 
-  const combinedSliderItems = useMemo(() => [...(sliderBanners || []), ...(sliderProducts || [])], [sliderProducts, sliderBanners]);
+  const combinedSliderItems = useMemo(() => {
+    const products = sliderProducts || [];
+    const banners = sliderBanners || [];
+    return [...banners, ...products];
+  }, [sliderProducts, sliderBanners]);
+
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
   const qrCodeUrl = useMemo(() => {
@@ -187,16 +185,20 @@ export default function Home() {
       )}
 
       <main className="flex-grow container mx-auto space-y-2">
-        <section className="grid grid-cols-12 gap-0 overflow-hidden">
+        <section className="grid grid-cols-12 gap-0">
           <div className="col-span-12 md:col-span-3 order-2 md:order-1"><FlashOfferCard /></div>
-          <div className="col-span-12 md:col-span-6 order-1 md:order-2 relative overflow-hidden h-[300px] md:h-[420px] bg-black [transform:translateZ(0)]">
+          <div className="col-span-12 md:col-span-6 order-1 md:order-2 relative overflow-hidden h-[300px] md:h-[420px] bg-black">
             {combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[autoplay.current]}>
                 <CarouselContent className="h-full">
                   {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 2} />)}
                 </CarouselContent>
               </Carousel>
-            ) : <div className="h-full flex items-center justify-center bg-black"></div>}
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center gap-2">
+                <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
+              </div>
+            )}
           </div>
           <div className="col-span-12 md:col-span-3 order-3 bg-[#01a3a4] flex flex-col items-center justify-center p-6 md:p-8 space-y-6 h-[250px] md:h-[420px]">
             <h3 className="text-white font-black text-lg md:text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
@@ -221,8 +223,15 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
-            {products?.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 min-h-[400px]">
+            {isProductsLoading ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-20 gap-4">
+                <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
+                <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Loading Products...</p>
+              </div>
+            ) : products?.map((p, i) => (
+              <ProductCard key={p.id} product={p} index={i} />
+            ))}
           </div>
 
           <div className="mt-12 md:mt-16 flex justify-center px-4">
