@@ -38,6 +38,7 @@
     padding: 0;
     width: 100%;
     overflow-x: hidden;
+    scroll-behavior: smooth;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
@@ -59,9 +60,9 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Minimal performance impact */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: #000;
@@ -83,6 +84,11 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
 .animate-alert-shake {
   animation: alert-shake 0.5s ease-in-out infinite;
 }
@@ -93,4 +99,13 @@
 
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+/* Performance Tip: Hardware acceleration for animations */
+.animate-pulse, .animate-bounce, .animate-marquee {
+  will-change: transform;
 }

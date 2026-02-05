@@ -1,11 +1,10 @@
 
 "use client";
 
-import React, { useRef, useMemo, useState, useEffect } from 'react';
+import React, { useRef, useMemo, useState, useEffect, memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart, Truck, Tag, Flame, Loader2, Apple, Play, MapPin, Radio, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ShoppingCart, Loader2, Apple, Play, MapPin, Radio, ArrowRight } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
@@ -15,13 +14,13 @@ import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase
 import { collection, query, where, limit, orderBy, doc, increment, setDoc } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
 
-const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
+const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
   if (item.price !== undefined) {
     return (
       <CarouselItem className="h-full">
-        <div className="relative h-[420px] w-full bg-black overflow-hidden group">
+        <div className="relative h-[300px] md:h-[420px] w-full bg-black overflow-hidden group">
           <Image
             src={item.imageUrl}
             alt={item.name}
@@ -31,23 +30,23 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
             priority={priority}
             quality={40}
           />
-          <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-12 space-y-4">
-            <h2 className="text-xl md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
+          <div className="absolute inset-0 bg-black/40 flex flex-col justify-center px-6 md:px-12 space-y-4">
+            <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight">
               {item.name}
             </h2>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-4">
-                <div className="flex items-baseline text-[22px] font-black text-[#01a3a4] tracking-tighter">
+                <div className="flex items-baseline text-[18px] md:text-[22px] font-black text-[#01a3a4] tracking-tighter">
                   <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/50">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
               {item.originalPrice > item.price && (
-                <span className="text-[10px] text-white/40 line-through font-bold translate-y-[-4px]">
+                <span className="text-[9px] md:text-[10px] text-white/40 line-through font-bold translate-y-[-4px]">
                   ৳{item.originalPrice.toLocaleString()}
                 </span>
               )}
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-10 px-8 font-black rounded-none text-[10px] hover:bg-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-xl w-fit mt-2">
+              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-9 md:h-10 px-6 md:px-8 font-black rounded-none text-[9px] md:text-[10px] hover:bg-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-xl w-fit mt-2">
                 <ShoppingCart className="h-3.5 w-3.5" /> অর্ডার করুন
               </button>
             </div>
@@ -60,17 +59,19 @@ const SlideItem = ({ item, priority }: { item: any, priority: boolean }) => {
 
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-[420px] w-full bg-black">
+      <div className="relative h-[300px] md:h-[420px] w-full bg-black">
         <Image src={item.imageUrl} alt={item.title || "Banner"} fill sizes="100vw" className="object-cover" priority={priority} quality={40} />
-        <div className="absolute inset-0 bg-black/20 flex flex-col justify-center px-12">
-           <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none">{item.title}</h2>
+        <div className="absolute inset-0 bg-black/20 flex flex-col justify-center px-6 md:px-12">
+           <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none">{item.title}</h2>
         </div>
       </div>
     </CarouselItem>
   );
-};
+});
 
-const FlashOfferCard = () => {
+SlideItem.displayName = 'SlideItem';
+
+const FlashOfferCard = memo(() => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const db = useFirestore();
@@ -92,61 +93,58 @@ const FlashOfferCard = () => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-[420px] bg-black overflow-hidden relative group w-full">
+    <div className="h-[300px] md:h-[420px] bg-black overflow-hidden relative group w-full">
       {activeItem ? (
         <div className="h-full w-full relative">
           <Image src={activeItem.imageUrl} alt="Flash Offer" fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" priority quality={40} />
-          <div className="absolute top-4 left-4 bg-[#01a3a4] px-4 py-1.5 text-[9px] font-black text-white uppercase tracking-widest z-10">FLASH OFFER</div>
+          <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 md:px-4 py-1.5 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest z-10">FLASH OFFER</div>
           <div className="absolute bottom-6 w-full text-center px-4 space-y-2">
-             <p className="text-white font-black text-[12px] uppercase tracking-widest mb-1">{activeItem.name || activeItem.title}</p>
+             <p className="text-white font-black text-[10px] md:text-[12px] uppercase tracking-widest mb-1 truncate">{activeItem.name || activeItem.title}</p>
              {activeItem.price && (
                <div className="flex flex-col items-center">
-                 <span className="text-[#01a3a4] font-black text-lg">৳{activeItem.price.toLocaleString()}</span>
+                 <span className="text-[#01a3a4] font-black text-base md:text-lg">৳{activeItem.price.toLocaleString()}</span>
                  {activeItem.originalPrice > activeItem.price && (
-                   <span className="text-white/40 line-through text-[10px] font-bold">৳{activeItem.originalPrice.toLocaleString()}</span>
+                   <span className="text-white/40 line-through text-[9px] md:text-[10px] font-bold">৳{activeItem.originalPrice.toLocaleString()}</span>
                  )}
                </div>
              )}
-             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-6 py-2 h-10 font-black text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all mt-2">অর্ডার করুন</button>
+             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-4 md:px-6 py-2 h-9 md:h-10 font-black text-[8px] md:text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all mt-2 active:scale-95">অর্ডার করুন</button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
       ) : <div className="h-full flex items-center justify-center bg-black"><Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" /></div>}
     </div>
   );
-};
+});
+
+FlashOfferCard.displayName = 'FlashOfferCard';
 
 export default function Home() {
   const db = useFirestore();
-  const categoriesRef = useMemoFirebase(() => query(collection(db, 'categories'), limit(8)), [db]);
   const productsRef = useMemoFirebase(() => query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(12)), [db]);
   const sliderProductQuery = useMemoFirebase(() => query(collection(db, 'products'), where('showInSlider', '==', true), limit(3)), [db]);
   const sliderBannerQuery = useMemoFirebase(() => query(collection(db, 'featured_banners'), where('type', '==', 'SLIDER'), orderBy('createdAt', 'desc'), limit(3)), [db]);
   const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
   
-  const { data: categories } = useCollection(categoriesRef);
   const { data: products } = useCollection(productsRef);
   const { data: sliderProducts } = useCollection(sliderProductQuery);
   const { data: sliderBanners } = useCollection(sliderBannerQuery);
   const { data: settings } = useDoc(settingsRef);
 
   const combinedSliderItems = useMemo(() => [...(sliderBanners || []), ...(sliderProducts || [])], [sliderProducts, sliderBanners]);
-  const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
+  const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
   const qrCodeUrl = useMemo(() => {
     const link = settings?.qrCodeLink || 'https://sssmarthaat.com';
     return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
   }, [settings?.qrCodeLink]);
 
-  // Visitor Tracking
+  // Optimized Visitor Tracking
   useEffect(() => {
     const trackVisit = async () => {
       const today = new Date().toISOString().split('T')[0];
       const statsRef = doc(db, 'visitorStats', today);
-      await setDoc(statsRef, { 
-        count: increment(1),
-        date: today
-      }, { merge: true });
+      setDoc(statsRef, { count: increment(1), date: today }, { merge: true });
     };
     trackVisit();
   }, [db]);
@@ -155,14 +153,13 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
       
-      {/* LIVE LOCATION & STATUS BANNER */}
       {settings?.liveStatus && (
         <div className="bg-black/80 backdrop-blur-md border-b border-white/5 py-2 px-4 overflow-hidden whitespace-nowrap">
           <div className="container mx-auto flex items-center gap-6 animate-marquee">
-            <div className="flex items-center gap-2 text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">
+            <div className="flex items-center gap-2 text-[9px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
               <Radio className="h-3 w-3 animate-pulse" /> LIVE STATUS:
             </div>
-            <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
+            <p className="text-[9px] md:text-[10px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
               {settings.liveStatus} <span className="text-white/20">•</span> 
               <MapPin className="h-3 w-3 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
             </p>
@@ -171,54 +168,48 @@ export default function Home() {
       )}
 
       <main className="flex-grow container mx-auto space-y-2">
-        <section className="grid grid-cols-12 gap-0 h-[420px] overflow-hidden">
-          <div className="col-span-3"><FlashOfferCard /></div>
-          <div className="col-span-6 relative overflow-hidden h-[420px] bg-black">
+        <section className="grid grid-cols-12 gap-0 overflow-hidden">
+          <div className="col-span-12 md:col-span-3 order-2 md:order-1"><FlashOfferCard /></div>
+          <div className="col-span-12 md:col-span-6 order-1 md:order-2 relative overflow-hidden h-[300px] md:h-[420px] bg-black">
             {combinedSliderItems.length > 0 ? (
-              <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[plugin.current]}>
-                <CarouselContent className="h-[420px]">
-                  {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 2} />)}
+              <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[autoplay.current]}>
+                <CarouselContent className="h-full">
+                  {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 1} />)}
                 </CarouselContent>
               </Carousel>
-            ) : <div className="h-full flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>}
+            ) : <div className="h-full flex items-center justify-center"><Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" /></div>}
           </div>
-          <div className="col-span-3 bg-[#01a3a4] flex flex-col items-center justify-center p-8 space-y-6 h-[420px]">
-            <h3 className="text-white font-black text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
-            <div className="bg-white p-2 w-36 h-36 flex items-center justify-center border-4 border-white/20">
-              <Image 
-                src={qrCodeUrl} 
-                alt="QR Code" 
-                width={150} 
-                height={150} 
-                className="w-full h-full"
-              />
+          <div className="col-span-12 md:col-span-3 order-3 bg-[#01a3a4] flex flex-col items-center justify-center p-6 md:p-8 space-y-6 h-[250px] md:h-[420px]">
+            <h3 className="text-white font-black text-lg md:text-xl uppercase tracking-widest leading-none italic text-center">DOWNLOAD APP</h3>
+            <div className="bg-white p-2 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center border-4 border-white/20">
+              <Image src={qrCodeUrl} alt="QR Code" width={150} height={150} className="w-full h-full" />
             </div>
-            <div className="space-y-3 w-full max-w-[200px]">
-              <button className="bg-white text-black h-10 px-6 flex items-center gap-4 w-full font-black text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Apple className="h-4 w-4" /> APP STORE</button>
-              <button className="bg-white text-black h-10 px-6 flex items-center gap-4 w-full font-black text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all"><Play className="h-4 w-4" /> GOOGLE PLAY</button>
+            <div className="flex flex-row md:flex-col gap-3 w-full max-w-[280px]">
+              <button className="flex-1 bg-white text-black h-9 md:h-10 px-4 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[8px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Apple className="h-3 w-3 md:h-4 md:w-4" /> APP STORE</button>
+              <button className="flex-1 bg-white text-black h-9 md:h-10 px-4 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[8px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Play className="h-3 w-3 md:h-4 md:w-4" /> PLAY STORE</button>
             </div>
           </div>
         </section>
 
-        <section className="py-12 px-10">
+        <section className="py-10 md:py-12 px-4 md:px-10">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
               <div className="h-6 w-1.5 bg-[#01a3a4]" />
-              <h2 className="text-xl font-black text-white uppercase tracking-tighter">TOP SELLING PRODUCTS</h2>
+              <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-tighter">TOP SELLING PRODUCTS</h2>
             </div>
-            <Link href="/shop" className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
+            <Link href="/shop" className="text-[8px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
               VIEW ALL <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
             {products?.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
           </div>
 
-          <div className="mt-16 flex justify-center">
-            <Link href="/shop" className="group">
-              <button className="bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-12 h-16 font-black uppercase tracking-[0.5em] text-[12px] flex items-center gap-4 transition-all hover:bg-[#01a3a4] hover:text-black">
-                MORE PRODUCT <ArrowRight className="h-4 w-4 group-hover:translate-x-2 transition-transform" />
+          <div className="mt-12 md:mt-16 flex justify-center px-4">
+            <Link href="/shop" className="w-full md:w-auto">
+              <button className="w-full bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-12 h-14 md:h-16 font-black uppercase tracking-[0.4em] text-[10px] md:text-[12px] flex items-center justify-center gap-4 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95">
+                MORE PRODUCT <ArrowRight className="h-4 w-4" />
               </button>
             </Link>
           </div>
