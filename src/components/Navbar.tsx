@@ -55,10 +55,20 @@ export function Navbar() {
 
             {/* RIGHT: NAVIGATION LINKS */}
             <div className="flex items-center gap-2 md:gap-4 shrink-0">
-              <div className="flex items-center gap-3 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">
-                {/* Visible outside for both Mobile and Desktop */}
+              <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">
+                
+                {/* Desktop Search (Visible only on desktop) */}
+                <div className="hidden md:flex items-center relative">
+                  <Input 
+                    type="search" 
+                    placeholder="SEARCH..." 
+                    className="bg-black/10 border-white/20 h-9 w-32 focus:w-48 transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
+                  />
+                  <Search className="absolute right-2 h-3.5 w-3.5 text-white/50" />
+                </div>
+
                 <Link href="/shop" className="hover:text-black transition-colors flex items-center gap-1">
-                  <LayoutGrid className="h-3 w-3 md:h-3.5 md:w-3.5" /> {language === 'EN' ? "SHOP" : "দোকান"}
+                  <LayoutGrid className="h-3 w-3 md:h-3.5 md:w-3.5" /> <span className="hidden sm:inline">{language === 'EN' ? "SHOP" : "দোকান"}</span>
                 </Link>
                 
                 <button 
@@ -68,7 +78,15 @@ export function Navbar() {
                   <Languages className="h-3 w-3 md:h-3.5 md:w-3.5" /> {language}
                 </button>
 
-                {/* 3-DOT MENU: ONLY Search, Admin, and Location inside as requested */}
+                {/* Desktop Location (Visible only on desktop) */}
+                <button 
+                  onClick={() => setIsLocationModalOpen(true)}
+                  className="hidden md:flex items-center gap-1 hover:text-black transition-colors"
+                >
+                  <MapPin className="h-3.5 w-3.5" /> {language === 'EN' ? "LOCATION" : "লোকেশন"}
+                </button>
+
+                {/* 3-DOT MENU */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center">
@@ -76,14 +94,19 @@ export function Navbar() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="bg-white border-none rounded-none shadow-2xl p-2 min-w-[160px] z-[100]">
-                    <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setShowSearchInput(!showSearchInput)}>
+                    
+                    {/* Mobile Only inside 3-dot */}
+                    <DropdownMenuItem className="p-3 cursor-pointer md:hidden" onClick={() => setShowSearchInput(!showSearchInput)}>
                       <Search className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "SEARCH" : "খুঁজুন"}</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setIsLocationModalOpen(true)}>
+                    
+                    <DropdownMenuItem className="p-3 cursor-pointer md:hidden" onClick={() => setIsLocationModalOpen(true)}>
                       <MapPin className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "LOCATION" : "লোকেশন"}</span>
                     </DropdownMenuItem>
+
+                    {/* Admin (Always inside 3-dot as requested) */}
                     <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setIsAdminModalOpen(true)}>
                       <User className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
@@ -92,7 +115,7 @@ export function Navbar() {
                 </DropdownMenu>
               </div>
 
-              {/* Shopping Bag always visible */}
+              {/* Shopping Bag */}
               <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-none hover:bg-black/10 text-white group border border-white/20">
                 <ShoppingBag className="h-5 w-5 transition-transform group-hover:scale-110" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-[8px] font-black rounded-none flex items-center justify-center border border-[#01a3a4]">
@@ -102,9 +125,9 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* EXPANDABLE SEARCH BAR */}
+          {/* EXPANDABLE SEARCH BAR (Mobile Toggle) */}
           {showSearchInput && (
-            <div className="mt-2 pb-2 relative animate-in slide-in-from-top-2 duration-300">
+            <div className="mt-2 pb-2 relative animate-in slide-in-from-top-2 duration-300 md:hidden">
               <Input 
                 type="search" 
                 placeholder={language === 'EN' ? "SEARCH PRODUCTS..." : "পণ্য খুঁজুন..."} 
