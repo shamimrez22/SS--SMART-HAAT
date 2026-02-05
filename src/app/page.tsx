@@ -29,15 +29,15 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             className="object-cover"
             priority={priority}
           />
-          {/* Lighter overlay for much better brightness (from 40 to 10) */}
-          <div className="absolute inset-0 bg-black/10 flex flex-col justify-center px-6 md:px-12 space-y-4">
-            <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-lg">
+          {/* Extremely light overlay for maximum brightness */}
+          <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-6 md:px-12 space-y-4">
+            <h2 className="text-lg md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
               {item.name}
             </h2>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-4">
-                <div className="flex items-baseline text-[18px] md:text-[22px] font-black text-[#01a3a4] tracking-tighter drop-shadow-md">
-                  <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/80">৳</span>
+                <div className="flex items-baseline text-[18px] md:text-[22px] font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
+                  <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/90">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
@@ -63,9 +63,8 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           className="object-cover" 
           priority={priority} 
         />
-        {/* Extremely light overlay (from 20 to 5) for maximum brightness */}
         <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-6 md:px-12">
-           <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-xl">{item.title}</h2>
+           <h2 className="text-lg md:text-2xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
         </div>
       </div>
     </CarouselItem>
@@ -112,11 +111,11 @@ const FlashOfferCard = memo(() => {
             priority={true}
           />
           <div className="absolute top-4 left-4 bg-[#01a3a4] px-3 md:px-4 py-1.5 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH OFFER</div>
-          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-12 pb-6 text-center px-4 space-y-2">
-             <p className="text-white font-black text-[10px] md:text-[12px] uppercase tracking-widest mb-1 truncate drop-shadow-md">{activeItem.name || activeItem.title}</p>
+          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/60 via-black/20 to-transparent pt-12 pb-6 text-center px-4 space-y-2">
+             <p className="text-white font-black text-[10px] md:text-[12px] uppercase tracking-widest mb-1 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
              {activeItem.price && (
                <div className="flex flex-col items-center">
-                 <span className="text-[#01a3a4] font-black text-base md:text-lg drop-shadow-md">৳{activeItem.price.toLocaleString()}</span>
+                 <span className="text-[#01a3a4] font-black text-base md:text-lg drop-shadow-2xl">৳{activeItem.price.toLocaleString()}</span>
                </div>
              )}
              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-4 md:px-6 py-2 h-9 md:h-10 font-black text-[8px] md:text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all mt-2 active:scale-95 shadow-xl">অর্ডার করুন</button>
@@ -238,8 +237,8 @@ export default function Home() {
 
           <div className="mt-12 md:mt-16 flex justify-center px-4">
             <Link href="/shop" className="w-full md:w-auto">
-              <button className="w-full bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-12 h-14 md:h-16 font-black uppercase tracking-[0.4em] text-[10px] md:text-[12px] flex items-center justify-center gap-4 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl">
-                MORE PRODUCT <ArrowRight className="h-4 w-4" />
+              <button className="w-full bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-12 h-14 md:h-16 font-black uppercase tracking-widest text-[10px] md:text-[12px] flex items-center justify-center gap-4 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl">
+                MORE PRODUCT
               </button>
             </Link>
           </div>
