@@ -8,6 +8,7 @@ import { ShoppingCart, Loader2, Apple, Play, MapPin, Radio, ArrowRight } from 'l
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
+import { CategoriesGrid } from '@/components/CategoriesGrid';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase';
@@ -243,6 +244,8 @@ export default function Home() {
             </Link>
           </div>
         </section>
+
+        <CategoriesGrid />
       </main>
       <Footer />
     </div>

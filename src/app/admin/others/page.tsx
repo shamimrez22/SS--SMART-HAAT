@@ -22,7 +22,7 @@ import {
   Loader2,
   Share2,
   Contact2,
-  Twitter,
+  Truck,
   QrCode
 } from 'lucide-react';
 import Link from 'next/link';
@@ -47,7 +47,9 @@ export default function AdminOthers() {
     twitterUrl: '',
     youtubeUrl: '',
     whatsappUrl: '',
-    qrCodeLink: ''
+    qrCodeLink: '',
+    deliveryChargeInside: '',
+    deliveryChargeOutside: ''
   });
 
   useEffect(() => {
@@ -62,14 +64,20 @@ export default function AdminOthers() {
         twitterUrl: settings.twitterUrl || '',
         youtubeUrl: settings.youtubeUrl || '',
         whatsappUrl: settings.whatsappUrl || '',
-        qrCodeLink: settings.qrCodeLink || 'https://sssmarthaat.com'
+        qrCodeLink: settings.qrCodeLink || 'https://sssmarthaat.com',
+        deliveryChargeInside: settings.deliveryChargeInside?.toString() || '60',
+        deliveryChargeOutside: settings.deliveryChargeOutside?.toString() || '120'
       });
     }
   }, [settings]);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    setDocumentNonBlocking(settingsRef, formData, { merge: true });
+    setDocumentNonBlocking(settingsRef, {
+      ...formData,
+      deliveryChargeInside: parseFloat(formData.deliveryChargeInside),
+      deliveryChargeOutside: parseFloat(formData.deliveryChargeOutside)
+    }, { merge: true });
     toast({
       title: "CONFIGURATION SYNCED",
       description: "SITE DETAILS HAVE BEEN SUCCESSFULLY UPDATED.",
@@ -148,16 +156,32 @@ export default function AdminOthers() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Sparkles className="h-4 w-4" /> BENGALI BRAND PROFILE
+                  <Truck className="h-4 w-4" /> DELIVERY CHARGES (BDT)
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-8">
-                <Textarea 
-                  value={formData.descriptionBengali}
-                  onChange={(e) => setFormData({...formData, descriptionBengali: e.target.value})}
-                  placeholder="এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল..."
-                  className="bg-black border-white/10 rounded-none text-sm min-h-[180px] leading-relaxed font-bold italic"
-                />
+              <CardContent className="p-8 space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-muted-foreground uppercase">INSIDE DHAKA</label>
+                    <Input 
+                      type="number"
+                      value={formData.deliveryChargeInside}
+                      onChange={(e) => setFormData({...formData, deliveryChargeInside: e.target.value})}
+                      placeholder="60"
+                      className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-black text-muted-foreground uppercase">OUTSIDE DHAKA</label>
+                    <Input 
+                      type="number"
+                      value={formData.deliveryChargeOutside}
+                      onChange={(e) => setFormData({...formData, deliveryChargeOutside: e.target.value})}
+                      placeholder="120"
+                      className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
+                    />
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -187,26 +211,6 @@ export default function AdminOthers() {
                     <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Youtube className="h-3 w-3 text-red-500" /> YOUTUBE URL</label>
                     <Input value={formData.youtubeUrl} onChange={(e) => setFormData({...formData, youtubeUrl: e.target.value})} className="bg-black border-white/10 h-11 text-[10px] font-bold" />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card border-white/5 rounded-none shadow-2xl">
-              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
-                  <QrCode className="h-4 w-4" /> APP & QR CONFIG
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-8">
-                <div className="space-y-2">
-                  <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2">QR CODE REDIRECT URL (FOR HOME SIDEBAR)</label>
-                  <Input 
-                    value={formData.qrCodeLink} 
-                    onChange={(e) => setFormData({...formData, qrCodeLink: e.target.value})} 
-                    placeholder="HTTPS://EXAMPLE.COM/DOWNLOAD" 
-                    className="bg-black border-white/10 h-11 text-[10px] font-bold text-orange-500" 
-                  />
-                  <p className="text-[8px] font-black text-white/30 uppercase tracking-widest mt-2">THIS LINK WILL BE ENCODED INTO THE SIDEBAR QR CODE.</p>
                 </div>
               </CardContent>
             </Card>

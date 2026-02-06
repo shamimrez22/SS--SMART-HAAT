@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
+import { CategoriesGrid } from '@/components/CategoriesGrid';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, orderBy, limit } from 'firebase/firestore';
 import { Loader2, Plus } from 'lucide-react';
@@ -62,6 +63,8 @@ export default function ShopPage() {
             )}
           </>
         )}
+
+        <CategoriesGrid />
       </main>
       <Footer />
     </div>

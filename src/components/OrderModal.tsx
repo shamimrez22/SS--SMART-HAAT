@@ -23,8 +23,9 @@ import {
   Hash,
   ArrowLeft,
   X,
+  Truck
 } from 'lucide-react';
-import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase';
 import { collection, query, where, doc } from 'firebase/firestore';
 import { addDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { cn } from '@/lib/utils';
@@ -52,6 +53,9 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
     selectedSize: '',
     quantity: 1
   });
+
+  const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
+  const { data: settings } = useDoc(settingsRef);
 
   useEffect(() => {
     if (step === 'SUCCESS') {
@@ -183,6 +187,16 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                       <span className="text-[12px] font-normal mr-1 translate-y-[-4px] text-gray-400">৳</span>
                       {product.price.toLocaleString()}
                     </div>
+                    
+                    <div className="mt-6 p-4 bg-white border border-gray-100 shadow-sm space-y-2">
+                       <div className="flex items-center gap-2 text-[#01a3a4] mb-1">
+                         <Truck className="h-4 w-4" />
+                         <span className="text-[9px] font-black uppercase tracking-widest">ডেলিভারি চার্জ</span>
+                       </div>
+                       <p className="text-[10px] font-black text-black uppercase">ঢাকার ভিতরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeInside || '60'}</span></p>
+                       <p className="text-[10px] font-black text-black uppercase">ঢাকার বাহিরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeOutside || '120'}</span></p>
+                    </div>
+
                     <div className="pt-4 border-t border-gray-200">
                       <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{product.category}</span>
                     </div>
@@ -207,6 +221,19 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                     Fill the details to secure purchase.
                   </DialogDescription>
                 </div>
+
+                {isMobile && (
+                  <div className="p-3 bg-gray-50 border border-gray-100 flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <Truck className="h-3.5 w-3.5 text-[#01a3a4]" />
+                      <span className="text-[8px] font-black text-black uppercase">ডেলিভারি:</span>
+                    </div>
+                    <div className="flex gap-4">
+                      <span className="text-[8px] font-black text-gray-500 uppercase">ঢাকা: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeInside || '60'}</span></span>
+                      <span className="text-[8px] font-black text-gray-500 uppercase">বাহিরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeOutside || '120'}</span></span>
+                    </div>
+                  </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5 pt-1">
                   <div className="grid grid-cols-2 gap-3 md:gap-4">

@@ -84,7 +84,9 @@
         "whatsappUrl": { "type": "string" },
         "qrCodeLink": { "type": "string", "format": "uri" },
         "adminUsername": { "type": "string" },
-        "adminPassword": { "type": "string" }
+        "adminPassword": { "type": "string" },
+        "deliveryChargeInside": { "type": "number" },
+        "deliveryChargeOutside": { "type": "number" }
       }
     },
     "LoginStats": {
