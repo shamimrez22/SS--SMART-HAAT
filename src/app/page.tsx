@@ -32,18 +32,18 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             priority={priority}
           />
           <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12 space-y-1 md:space-y-2">
-            <h2 className="text-[9px] md:text-xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
+            <h2 className="text-[14px] md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
               {item.name}
             </h2>
             <div className="flex flex-col space-y-0.5">
               <div className="flex items-center gap-1 md:gap-4">
-                <div className="flex items-baseline text-[10px] md:text-lg font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
-                  <span className="text-[6px] md:text-[10px] font-normal mr-0.5 translate-y-[-2px] text-white/90">৳</span>
+                <div className="flex items-baseline text-[12px] md:text-xl font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
+                  <span className="text-[8px] md:text-[12px] font-normal mr-0.5 translate-y-[-2px] text-white/90">৳</span>
                   {item.price.toLocaleString()}
                 </div>
               </div>
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-5 md:h-9 px-3 md:px-6 font-black rounded-none text-[6px] md:text-[9px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-1 shadow-2xl w-fit mt-1 active:scale-95">
-                <ShoppingCart className="h-2 w-2 md:h-3 md:w-3" /> অর্ডার করুন
+              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-6 md:h-10 px-4 md:px-8 font-black rounded-none text-[8px] md:text-[11px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-2xl w-fit mt-2 active:scale-95">
+                <ShoppingCart className="h-3 w-3 md:h-4 md:w-4" /> অর্ডার করুন
               </button>
             </div>
           </div>
@@ -65,7 +65,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           priority={priority} 
         />
         <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12">
-           <h2 className="text-[9px] md:text-xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
+           <h2 className="text-[14px] md:text-3xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
         </div>
       </div>
     </CarouselItem>
@@ -207,21 +207,20 @@ export default function Home() {
       <Navbar />
       
       {settings?.liveStatus && (
-        <div className="bg-black border-b border-[#01a3a4]/20 py-2 px-4 overflow-hidden whitespace-nowrap z-40">
-          <div className="container mx-auto flex items-center gap-10 animate-marquee">
-            <div className="flex items-center gap-2 text-[10px] md:text-[12px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
-              <Radio className="h-3 w-3 animate-pulse text-[#01a3a4]" /> LIVE STATUS:
+        <div className="bg-black border-b border-[#01a3a4]/20 py-3 px-4 overflow-hidden whitespace-nowrap z-40">
+          <div className="container mx-auto flex items-center gap-6 animate-marquee">
+            <div className="flex items-center gap-3 text-[12px] md:text-[15px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
+              <Radio className="h-4 w-4 animate-pulse text-[#01a3a4]" /> LIVE STATUS:
             </div>
-            <p className="text-[10px] md:text-[13px] font-black text-white uppercase tracking-[0.3em] flex items-center gap-4">
+            <p className="text-[12px] md:text-[16px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-6">
               {settings.liveStatus} <span className="text-[#01a3a4]/40">||</span> 
-              <MapPin className="h-3 w-3 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
+              <MapPin className="h-4 w-4 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
             </p>
           </div>
         </div>
       )}
 
       <main className="flex-grow container mx-auto space-y-1">
-        {/* COMPACT HERO SECTION */}
         <section className="grid grid-cols-12 gap-0 h-[160px] md:h-[320px] gpu-accelerated">
           <div className="col-span-3 h-full"><FlashOfferCard /></div>
           <div className="col-span-6 h-full relative overflow-hidden bg-black">
