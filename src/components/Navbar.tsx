@@ -35,7 +35,7 @@ export function Navbar() {
   const router = useRouter();
   const db = useFirestore();
 
-  // Stable Today's date
+  // Stable Today's date for daily order tracking
   const today = useMemo(() => {
     if (typeof window === 'undefined') return '';
     return new Date().toISOString().split('T')[0];
@@ -43,6 +43,7 @@ export function Navbar() {
 
   const todayOrdersQuery = useMemoFirebase(() => {
     if (!db || !today) return null;
+    // Query orders created today
     return query(collection(db, 'orders'), where('createdAt', '>=', today));
   }, [db, today]);
   

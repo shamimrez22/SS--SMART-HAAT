@@ -107,7 +107,7 @@ export const useFirebase = (): FirebaseServicesAndUser | null => {
   if (context === undefined) {
     return null;
   }
-  // Safe return for SSR or initialization period
+  // Safe return for SSR or initialization period to prevent hangs
   if (!context.firebaseApp || !context.firestore || !context.auth) {
     return null;
   }
