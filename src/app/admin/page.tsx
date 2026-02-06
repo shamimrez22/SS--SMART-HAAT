@@ -118,7 +118,7 @@ export default function AdminPanel() {
 
   const stats = [
     { title: "TOTAL REVENUE", value: `৳${salesStats.totalRevenue.toLocaleString()}`, change: "LIFE TIME", icon: TrendingUp, color: "text-[#01a3a4]", href: "/admin/orders" },
-    { title: "DAILY SALES", value: salesStats.todaySales, change: "TODAY", icon: ShoppingBag, color: "text-orange-500", href: "/admin/orders" },
+    { title: "DAILY SALES", value: salesStats.todaySales, change: "TODAY", icon: ShoppingBag, color: "text-orange-500", href: "/admin/orders", isHighlight: true },
     { title: "VISITORS", value: dailyVisitors?.count || 0, change: "TODAY", icon: Users, color: "text-purple-500", href: "/admin/others" },
     { title: "PRODUCTS", value: products?.length || 0, change: "TOTAL", icon: Package, color: "text-green-500", href: "/admin/products" }
   ];
@@ -141,14 +141,14 @@ export default function AdminPanel() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
             <Link key={i} href={stat.href}>
-              <Card className="bg-card border-white/5 rounded-none p-4 md:p-6 hover:border-[#01a3a4]/30 transition-all cursor-pointer group h-full">
+              <Card className={`bg-card border-white/5 rounded-none p-4 md:p-6 hover:border-[#01a3a4]/30 transition-all cursor-pointer group h-full ${stat.isHighlight && stat.value > 0 ? 'border-red-600/30 bg-red-600/[0.02]' : ''}`}>
                 <div className="flex justify-between items-start mb-4">
-                  <p className="text-[8px] md:text-[10px] font-black text-white/60 uppercase tracking-[0.2em]">{stat.title}</p>
-                  <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.color} opacity-70 group-hover:scale-110 transition-transform`} />
+                  <p className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-white/60'}`}>{stat.title}</p>
+                  <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.isHighlight && stat.value > 0 ? 'text-red-600 animate-bounce' : stat.color} opacity-70 group-hover:scale-110 transition-transform`} />
                 </div>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-xl md:text-2xl font-black text-white tracking-tighter">{stat.value}</h3>
-                  <span className="text-[7px] md:text-[9px] font-black uppercase text-[#01a3a4]">
+                  <span className={`text-[7px] md:text-[9px] font-black uppercase ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-[#01a3a4]'}`}>
                     {stat.change}
                   </span>
                 </div>

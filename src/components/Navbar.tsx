@@ -1,19 +1,23 @@
+
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, Languages, MapPin, MoreVertical, LayoutGrid, X, Home, ShoppingBag } from 'lucide-react';
+import { Search, Languages, MapPin, MoreVertical, LayoutGrid, X, Home, ShoppingBag, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
 import { LocationModal } from '@/components/LocationModal';
 import { useRouter } from 'next/navigation';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, query, where } from 'firebase/firestore';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from '@/components/ui/badge';
 
 const LogoIcon = () => (
   <div className="w-10 h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10">
@@ -28,6 +32,16 @@ export function Navbar() {
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const db = useFirestore();
+
+  // Fetch today's orders for notification
+  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const todayOrdersQuery = useMemoFirebase(() => {
+    return query(collection(db, 'orders'), where('createdAt', '>=', today));
+  }, [db, today]);
+  
+  const { data: todayOrders } = useCollection(todayOrdersQuery);
+  const orderCount = todayOrders?.length || 0;
 
   useEffect(() => {
     const storedLang = localStorage.getItem('app_lang') as 'EN' | 'BN';
@@ -68,7 +82,7 @@ export function Navbar() {
             <div className="flex items-center gap-2 md:gap-4 shrink-0 flex-grow justify-end">
               <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">
                 
-                {/* Desktop Search (ULTRA WIDE) */}
+                {/* Desktop Search */}
                 <div className="hidden md:flex items-center relative flex-grow max-w-[700px]">
                   <Input 
                     type="search" 
@@ -103,11 +117,19 @@ export function Navbar() {
                   <MapPin className="h-3.5 w-3.5" /> {language === 'EN' ? "LOCATION" : "লোকেশন"}
                 </button>
 
-                {/* 3-DOT MENU */}
+                {/* 3-DOT MENU WITH NOTIFICATION BUBBLE */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center">
+                    <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center">
                       <MoreVertical className="h-5 w-5" />
+                      {orderCount > 0 && (
+                        <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-none h-4 w-4 bg-red-600 text-[7px] font-black items-center justify-center border border-white/20">
+                            {orderCount}
+                          </span>
+                        </span>
+                      )}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="bg-white border-none rounded-none shadow-2xl p-2 min-w-[160px] z-[100]">
@@ -122,8 +144,15 @@ export function Navbar() {
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "LOCATION" : "লোকেশন"}</span>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem className="p-3 cursor-pointer" onClick={() => setIsAdminModalOpen(true)}>
-                      <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
+                    <DropdownMenuItem className="p-3 cursor-pointer flex justify-between items-center" onClick={() => setIsAdminModalOpen(true)}>
+                      <div className="flex items-center">
+                        <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
+                      </div>
+                      {orderCount > 0 && (
+                        <Badge className="bg-red-600 text-white text-[8px] font-black rounded-none border-none">
+                          {orderCount} NEW
+                        </Badge>
+                      )}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
