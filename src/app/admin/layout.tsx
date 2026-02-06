@@ -14,21 +14,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     setIsMounted(true);
-    const authStatus = sessionStorage.getItem('is_admin_authenticated') === 'true';
-    if (!authStatus) {
-      setIsAuthenticated(false);
-      setShowLogin(true);
-    } else {
-      setIsAuthenticated(true);
-    }
+    // Add a small delay to ensure hydration is complete before session check
+    const timer = setTimeout(() => {
+      const authStatus = sessionStorage.getItem('is_admin_authenticated') === 'true';
+      if (!authStatus) {
+        setIsAuthenticated(false);
+        setShowLogin(true);
+      } else {
+        setIsAuthenticated(true);
+      }
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   // Prevent hydration flicker and immediate hanging
   if (!isMounted || isAuthenticated === null) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 text-orange-600 animate-spin" />
-        <p className="text-[10px] font-black text-orange-600 uppercase tracking-widest">Verifying Access...</p>
+        <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
+        <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Initialising Terminal...</p>
       </div>
     );
   }
@@ -41,7 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <p className="text-xs text-muted-foreground uppercase">Please log in to continue.</p>
           <button 
             onClick={() => setShowLogin(true)}
-            className="bg-orange-600 text-white px-8 py-3 font-black uppercase text-[10px] tracking-widest"
+            className="bg-[#01a3a4] text-white px-8 py-3 font-black uppercase text-[10px] tracking-widest"
           >
             OPEN LOGIN TERMINAL
           </button>

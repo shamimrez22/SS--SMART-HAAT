@@ -12,7 +12,8 @@ import { CategoriesGrid } from '@/components/CategoriesGrid';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useFirestore, useCollection, useMemoFirebase, useDoc } from '@/firebase';
-import { collection, query, where, limit, orderBy, doc, increment, setDoc } from 'firebase/firestore';
+import { collection, query, where, limit, orderBy, doc, increment } from 'firebase/firestore';
+import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { OrderModal } from '@/components/OrderModal';
 
 const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
@@ -135,6 +136,9 @@ FlashOfferCard.displayName = 'FlashOfferCard';
 
 export default function Home() {
   const db = useFirestore();
+  const [isMounted, setIsMounted] = useState(false);
+  const [today, setToday] = useState<string>('');
+  
   const productsRef = useMemoFirebase(() => query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(12)), [db]);
   const sliderProductQuery = useMemoFirebase(() => query(collection(db, 'products'), where('showInSlider', '==', true), limit(3)), [db]);
   const sliderBannerQuery = useMemoFirebase(() => query(collection(db, 'featured_banners'), where('type', '==', 'SLIDER'), orderBy('createdAt', 'desc'), limit(3)), [db]);
@@ -159,12 +163,16 @@ export default function Home() {
   }, [settings?.qrCodeLink]);
 
   useEffect(() => {
-    const trackVisit = async () => {
-      const today = new Date().toISOString().split('T')[0];
-      const statsRef = doc(db, 'visitorStats', today);
-      setDoc(statsRef, { count: increment(1), date: today }, { merge: true });
-    };
-    trackVisit();
+    setIsMounted(true);
+    const dateStr = new Date().toISOString().split('T')[0];
+    setToday(dateStr);
+    
+    // FIX: Optimized visit tracking using Non-Blocking call
+    const statsRef = doc(db, 'visitorStats', dateStr);
+    setDocumentNonBlocking(statsRef, { 
+      count: increment(1), 
+      date: dateStr 
+    }, { merge: true });
   }, [db]);
 
   return (
@@ -186,11 +194,11 @@ export default function Home() {
       )}
 
       <main className="flex-grow container mx-auto space-y-1">
-        {/* COMPACT HERO SECTION - Side by side desktop look on mobile too */}
+        {/* COMPACT HERO SECTION */}
         <section className="grid grid-cols-12 gap-0 h-[160px] md:h-[320px] gpu-accelerated">
           <div className="col-span-3 h-full"><FlashOfferCard /></div>
           <div className="col-span-6 h-full relative overflow-hidden bg-black">
-            {combinedSliderItems.length > 0 ? (
+            {isMounted && combinedSliderItems.length > 0 ? (
               <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[autoplay.current]}>
                 <CarouselContent className="h-full">
                   {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 2} />)}
@@ -229,7 +237,7 @@ export default function Home() {
             {isProductsLoading ? (
               <div className="col-span-full flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
-                <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Loading Products...</p>
+                <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Syncing Products...</p>
               </div>
             ) : products?.map((p, i) => (
               <ProductCard key={p.id} product={p} index={i} />

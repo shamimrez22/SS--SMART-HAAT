@@ -34,38 +34,41 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from 
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 
+// Static colors for pie chart to avoid hydration mismatches
+const CHART_COLORS = ['#01a3a4', '#00d2d3', '#54a0ff', '#5f27cd', '#ff9f43', '#ee5253'];
+
 export default function AdminPanel() {
   const db = useFirestore();
   const { toast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
+  const [today, setToday] = useState<string>('');
   
-  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
+  useEffect(() => {
+    setIsMounted(true);
+    setToday(new Date().toISOString().split('T')[0]);
+  }, []);
   
   const productsRef = useMemoFirebase(() => collection(db, 'products'), [db]);
   const categoriesRef = useMemoFirebase(() => collection(db, 'categories'), [db]);
   const ordersRef = useMemoFirebase(() => query(collection(db, 'orders'), orderBy('createdAt', 'desc')), [db]);
   const pendingOrdersRef = useMemoFirebase(() => query(collection(db, 'orders'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc')), [db]);
-  const messagesRef = useMemoFirebase(() => collection(db, 'messages'), [db]);
-  const visitorStatsRef = useMemoFirebase(() => doc(db, 'visitorStats', today), [db, today]);
+  const visitorStatsRef = useMemoFirebase(() => {
+    if (!today) return null;
+    return doc(db, 'visitorStats', today);
+  }, [db, today]);
   
   const { data: products } = useCollection(productsRef);
   const { data: categories } = useCollection(categoriesRef);
   const { data: orders } = useCollection(ordersRef);
   const { data: pendingOrders } = useCollection(pendingOrdersRef);
-  const { data: messages } = useCollection(messagesRef);
   const { data: dailyVisitors } = useDoc(visitorStatsRef);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Advanced Analytics Calculations
   const categoryStats = useMemo(() => {
     if (!products || !categories) return [];
-    return categories.map(cat => ({
+    return categories.map((cat, i) => ({
       name: cat.name,
       count: products.filter(p => p.category === cat.name).length,
-      color: `#${Math.floor(Math.random()*16777215).toString(16)}`
+      color: CHART_COLORS[i % CHART_COLORS.length]
     }));
   }, [products, categories]);
 
@@ -78,7 +81,7 @@ export default function AdminPanel() {
   }, [categoryStats]);
 
   const salesStats = useMemo(() => {
-    if (!orders) return { totalRevenue: 0, todaySales: 0 };
+    if (!orders || !today) return { totalRevenue: 0, todaySales: 0 };
     const todayOrders = orders.filter(o => o.createdAt.startsWith(today));
     const revenue = orders.reduce((acc, curr) => acc + (curr.productPrice * (curr.quantity || 1)), 0);
     return {
@@ -87,17 +90,15 @@ export default function AdminPanel() {
     };
   }, [orders, today]);
 
-  const dailyChartData = useMemo(() => {
-    return [
-      { day: "SAT", sales: 42000 },
-      { day: "SUN", sales: 38000 },
-      { day: "MON", sales: 55000 },
-      { day: "TUE", sales: 48000 },
-      { day: "WED", sales: 72000 },
-      { day: "THU", sales: 61000 },
-      { day: "FRI", sales: 95000 },
-    ];
-  }, []);
+  const dailyChartData = useMemo(() => [
+    { day: "SAT", sales: 42000 },
+    { day: "SUN", sales: 38000 },
+    { day: "MON", sales: 55000 },
+    { day: "TUE", sales: 48000 },
+    { day: "WED", sales: 72000 },
+    { day: "THU", sales: 61000 },
+    { day: "FRI", sales: 95000 },
+  ], []);
 
   useEffect(() => {
     if (pendingOrders && pendingOrders.length > 0) {
@@ -105,12 +106,11 @@ export default function AdminPanel() {
       const orderTime = new Date(latestOrder.createdAt).getTime();
       const now = new Date().getTime();
       
-      // Only toast if it's a very fresh order (within last 30 seconds)
-      if (now - orderTime < 30000) {
+      if (now - orderTime < 10000) { // 10 seconds threshold for fresh alerts
         toast({
           variant: "destructive",
-          title: "🚨 NEW ORDER RECEIVED",
-          description: `${latestOrder.customerName} just ordered ${latestOrder.productName}.`,
+          title: "🚨 NEW ORDER",
+          description: `${latestOrder.customerName} ordered ${latestOrder.productName}.`,
         });
       }
     }
@@ -119,7 +119,7 @@ export default function AdminPanel() {
   const stats = [
     { title: "TOTAL REVENUE", value: `৳${salesStats.totalRevenue.toLocaleString()}`, change: "LIFE TIME", icon: TrendingUp, color: "text-[#01a3a4]", href: "/admin/orders" },
     { title: "DAILY SALES", value: salesStats.todaySales, change: "TODAY", icon: ShoppingBag, color: "text-orange-500", href: "/admin/orders" },
-    { title: "VISITORS", value: dailyVisitors?.count || 0, change: "TODAY", icon: Users, color: "text-purple-500", href: "/admin/settings" },
+    { title: "VISITORS", value: dailyVisitors?.count || 0, change: "TODAY", icon: Users, color: "text-purple-500", href: "/admin/others" },
     { title: "PRODUCTS", value: products?.length || 0, change: "TOTAL", icon: Package, color: "text-green-500", href: "/admin/products" }
   ];
 
@@ -189,7 +189,7 @@ export default function AdminPanel() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="h-[200px] w-full flex items-center justify-center">
-                  {isMounted ? (
+                  {isMounted && categoryStats.length > 0 ? (
                     <ChartContainer config={pieChartConfig} className="h-full w-full">
                       <PieChart>
                         <Pie
@@ -209,7 +209,10 @@ export default function AdminPanel() {
                       </PieChart>
                     </ChartContainer>
                   ) : (
-                    <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
+                    <div className="flex flex-col items-center gap-2">
+                      <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
+                      <p className="text-[8px] text-[#01a3a4] uppercase font-black">Syncing Data...</p>
+                    </div>
                   )}
                 </div>
                 <div className="mt-4 space-y-2">

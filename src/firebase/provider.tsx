@@ -59,6 +59,8 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
     userError: null,
   });
 
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
     if (!auth) {
       setUserAuthState({ user: null, isUserLoading: false, userError: new Error("Auth service not provided.") });
@@ -69,15 +71,19 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
       auth,
       (firebaseUser) => {
         setUserAuthState({ user: firebaseUser, isUserLoading: false, userError: null });
+        setIsReady(true);
       },
       (error) => {
         setUserAuthState({ user: null, isUserLoading: false, userError: error });
+        setIsReady(true);
       }
     );
     return () => unsubscribe();
   }, [auth]);
 
   const contextValue = useMemo((): FirebaseContextState => {
+    // FIX: Services are available if props exist, don't wait for isReady (auth check) to provide DB/Auth access.
+    // This prevents the "not available or still initialising" error during SSR and initial load.
     const servicesAvailable = !!(firebaseApp && firestore && auth);
     return {
       areServicesAvailable: servicesAvailable,
@@ -85,10 +91,10 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
       firestore: servicesAvailable ? firestore : null,
       auth: servicesAvailable ? auth : null,
       user: userAuthState.user,
-      isUserLoading: userAuthState.isUserLoading,
+      isUserLoading: !isReady || userAuthState.isUserLoading,
       userError: userAuthState.userError,
     };
-  }, [firebaseApp, firestore, auth, userAuthState]);
+  }, [firebaseApp, firestore, auth, userAuthState, isReady]);
 
   return (
     <FirebaseContext.Provider value={contextValue}>
@@ -103,8 +109,9 @@ export const useFirebase = (): FirebaseServicesAndUser => {
   if (context === undefined) {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
-  if (!context.areServicesAvailable || !context.firebaseApp || !context.firestore || !context.auth) {
-    throw new Error('Firebase core services not available.');
+  // FIX: More relaxed guard to allow access to service instances as soon as they are initialized.
+  if (!context.firebaseApp || !context.firestore || !context.auth) {
+    throw new Error('Firebase core services not available. Ensure FirebaseClientProvider is at the root.');
   }
   return {
     firebaseApp: context.firebaseApp,
