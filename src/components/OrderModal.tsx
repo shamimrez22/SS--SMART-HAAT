@@ -42,8 +42,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   const isMobile = useIsMobile();
   const [step, setStep] = useState<'FORM' | 'CHAT' | 'SUCCESS'>('FORM');
   const [chatMessage, setChatMessage] = useState('');
-  
-  const [chatSessionId] = useState(() => 'chat_' + Math.random().toString(36).substring(2, 11));
+  const [chatSessionId, setChatSessionId] = useState('');
   const chatScrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
@@ -56,6 +55,13 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
 
   const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
   const { data: settings } = useDoc(settingsRef);
+
+  // Fix Hydration: Generate ID only on mount
+  useEffect(() => {
+    if (!chatSessionId) {
+      setChatSessionId('chat_' + Math.random().toString(36).substring(2, 11));
+    }
+  }, []);
 
   useEffect(() => {
     if (step === 'SUCCESS') {
@@ -81,6 +87,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   }, [product, isOpen]);
 
   const messagesQuery = useMemoFirebase(() => {
+    if (!chatSessionId) return null;
     return query(
       collection(db, 'messages'),
       where('orderId', '==', chatSessionId)
