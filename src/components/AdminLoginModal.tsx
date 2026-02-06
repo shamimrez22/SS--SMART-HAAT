@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Lock, User, Loader2, ShieldAlert } from 'lucide-react';
+import { Lock, User, Loader2, ShieldAlert, Eye, EyeOff } from 'lucide-react';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc, increment } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
@@ -25,6 +25,7 @@ interface AdminLoginModalProps {
 export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -41,6 +42,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
       setUsername('');
       setPassword('');
       setError('');
+      setShowPassword(false);
     }
   }, [isOpen]);
 
@@ -109,7 +111,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 autoComplete="off"
                 spellCheck={false}
                 data-lpignore="true"
-                className="bg-white/5 border-white/10 rounded-none h-12 text-xs focus:ring-[#01a3a4] text-white"
+                className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] text-white"
               />
             </div>
 
@@ -117,18 +119,27 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
               <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
                 <Lock className="h-3 w-3" /> ACCESS KEY
               </label>
-              <Input 
-                id="sys_admin_p_field"
-                name="sys_admin_p_field"
-                required
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••"
-                autoComplete="new-password"
-                data-lpignore="true"
-                className="bg-white/5 border-white/10 rounded-none h-12 text-xs focus:ring-[#01a3a4] tracking-widest text-white"
-              />
+              <div className="relative">
+                <Input 
+                  id="sys_admin_p_field"
+                  name="sys_admin_p_field"
+                  required
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••"
+                  autoComplete="new-password"
+                  data-lpignore="true"
+                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] tracking-widest text-white pr-10"
+                />
+                <button 
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
           </div>
 

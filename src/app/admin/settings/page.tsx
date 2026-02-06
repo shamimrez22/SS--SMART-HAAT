@@ -20,6 +20,7 @@ import {
   Smartphone,
   Zap,
   Eye,
+  EyeOff,
   ExternalLink
 } from 'lucide-react';
 import Link from 'next/link';
@@ -47,6 +48,9 @@ export default function AdminSettings() {
     liveStatus: '',
     verificationPassword: ''
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
   useEffect(() => {
     if (settings) {
@@ -157,19 +161,28 @@ export default function AdminSettings() {
                       <Input 
                         value={adminData.adminUsername}
                         onChange={(e) => setAdminData({...adminData, adminUsername: e.target.value})}
-                        className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
+                        className="bg-black border-white/10 rounded-none h-12 text-sm text-white"
                         autoComplete="off"
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Lock className="h-3 w-3" /> ACCESS PASSWORD</label>
-                      <Input 
-                        value={adminData.adminPassword}
-                        onChange={(e) => setAdminData({...adminData, adminPassword: e.target.value})}
-                        type="text"
-                        className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
-                        autoComplete="off"
-                      />
+                      <div className="relative">
+                        <Input 
+                          value={adminData.adminPassword}
+                          onChange={(e) => setAdminData({...adminData, adminPassword: e.target.value})}
+                          type={showPassword ? "text" : "password"}
+                          className="bg-black border-white/10 rounded-none h-12 text-sm text-white pr-10"
+                          autoComplete="off"
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <Button type="submit" className="w-full bg-[#01a3a4] hover:bg-white hover:text-black text-white h-12 font-black uppercase tracking-widest rounded-none text-[9px]">
@@ -194,7 +207,7 @@ export default function AdminSettings() {
                       <Input 
                         value={locationData.liveLocation}
                         onChange={(e) => setLocationData({...locationData, liveLocation: e.target.value})}
-                        className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
+                        className="bg-black border-white/10 rounded-none h-12 text-xs text-white"
                         placeholder="E.G. BANANI, DHAKA"
                       />
                     </div>
@@ -203,19 +216,28 @@ export default function AdminSettings() {
                       <Input 
                         value={locationData.liveStatus}
                         onChange={(e) => setLocationData({...locationData, liveStatus: e.target.value})}
-                        className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-white"
+                        className="bg-black border-white/10 rounded-none h-12 text-xs text-white"
                         placeholder="E.G. OPEN & READY TO SHIP"
                       />
                     </div>
                     <div className="space-y-2 border-t border-white/5 pt-4">
                       <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Lock className="h-3 w-3" /> VERIFY PASSWORD TO UPDATE</label>
-                      <Input 
-                        type="password"
-                        value={locationData.verificationPassword}
-                        onChange={(e) => setLocationData({...locationData, verificationPassword: e.target.value})}
-                        className="bg-black border-orange-500/20 rounded-none h-12 text-xs font-black text-white"
-                        placeholder="••••"
-                      />
+                      <div className="relative">
+                        <Input 
+                          type={showVerifyPassword ? "text" : "password"}
+                          value={locationData.verificationPassword}
+                          onChange={(e) => setLocationData({...locationData, verificationPassword: e.target.value})}
+                          className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white pr-10"
+                          placeholder="••••"
+                        />
+                        <button 
+                          type="button"
+                          onClick={() => setShowVerifyPassword(!showVerifyPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500/40 hover:text-orange-500"
+                        >
+                          {showVerifyPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white h-12 font-black uppercase tracking-widest rounded-none text-[9px]">
@@ -298,11 +320,11 @@ export default function AdminSettings() {
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/5">
                     <div className="h-6 w-6 rounded-full bg-[#01a3a4] text-white flex items-center justify-center text-[10px] font-black shrink-0">৩</div>
-                    <p className="text-[10px] font-black text-white uppercase leading-relaxed">Vercel বা Firebase ড্যাশবোর্ডে গিয়ে বিল্ড প্রসেস চেক করুন।</p>
+                    <p className="text-[10px] font-black text-white uppercase leading-relaxed">Vercel বা Firebase ড্যাশবোর্ডে গিয়ে বিল্ড প্রসেস চেক করুন।</p>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-[#01a3a4]/10 border border-[#01a3a4]/20">
                     <div className="h-6 w-6 rounded-full bg-[#01a3a4] text-white flex items-center justify-center text-[10px] font-black shrink-0">৪</div>
-                    <p className="text-[10px] font-black text-[#01a3a4] uppercase leading-relaxed">বিল্ড শেষ হলে আপনার সাইট অটোমেটিক আপডেট হয়ে যাবে।</p>
+                    <p className="text-[10px] font-black text-[#01a3a4] uppercase leading-relaxed">বিল্ড শেষ হলে আপনার সাইট অটোমেটিক আপডেট হয়ে যাবে।</p>
                   </div>
                 </div>
               </CardContent>
