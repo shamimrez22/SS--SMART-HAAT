@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useEffect, useState } from 'react';
@@ -13,7 +12,6 @@ import {
   Sparkles, 
   Layers, 
   ChevronRight,
-  Bell,
   MessageSquare,
   TrendingUp,
   Users,
@@ -34,7 +32,6 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from 
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 
-// Static colors for pie chart to avoid hydration mismatches
 const CHART_COLORS = ['#01a3a4', '#00d2d3', '#54a0ff', '#5f27cd', '#ff9f43', '#ee5253'];
 
 export default function AdminPanel() {
@@ -48,30 +45,11 @@ export default function AdminPanel() {
     setToday(new Date().toISOString().split('T')[0]);
   }, []);
   
-  const productsRef = useMemoFirebase(() => {
-    if (!db) return null;
-    return collection(db, 'products');
-  }, [db]);
-
-  const categoriesRef = useMemoFirebase(() => {
-    if (!db) return null;
-    return collection(db, 'categories');
-  }, [db]);
-
-  const ordersRef = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
-  }, [db]);
-
-  const pendingOrdersRef = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(collection(db, 'orders'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc'));
-  }, [db]);
-
-  const visitorStatsRef = useMemoFirebase(() => {
-    if (!db || !today) return null;
-    return doc(db, 'visitorStats', today);
-  }, [db, today]);
+  const productsRef = useMemoFirebase(() => collection(db!, 'products'), [db]);
+  const categoriesRef = useMemoFirebase(() => collection(db!, 'categories'), [db]);
+  const ordersRef = useMemoFirebase(() => query(collection(db!, 'orders'), orderBy('createdAt', 'desc')), [db]);
+  const pendingOrdersRef = useMemoFirebase(() => query(collection(db!, 'orders'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc')), [db]);
+  const visitorStatsRef = useMemoFirebase(() => doc(db!, 'visitorStats', today || 'unknown'), [db, today]);
   
   const { data: products } = useCollection(productsRef);
   const { data: categories } = useCollection(categoriesRef);
@@ -122,7 +100,7 @@ export default function AdminPanel() {
       const orderTime = new Date(latestOrder.createdAt).getTime();
       const now = new Date().getTime();
       
-      if (now - orderTime < 10000) { // 10 seconds threshold for fresh alerts
+      if (now - orderTime < 10000) { 
         toast({
           variant: "destructive",
           title: "🚨 NEW ORDER",
@@ -141,7 +119,7 @@ export default function AdminPanel() {
 
   const quickLinks = [
     { title: "FEATURED CONTENT", icon: Zap, href: "/admin/featured" },
-    { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders", badge: pendingOrders?.length, isAlert: true },
+    { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders" },
     { title: "LIVE MESSAGE CENTER", icon: MessageSquare, href: "/admin/messages" },
     { title: "PRODUCT INVENTORY", icon: Package, href: "/admin/products" },
     { title: "SYSTEM STRUCTURE", icon: Layers, href: "/admin/categories" },
@@ -150,12 +128,7 @@ export default function AdminPanel() {
   ];
 
   if (!db) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
-        <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Waking Up System...</p>
-      </div>
-    );
+    return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
   }
 
   return (
@@ -194,13 +167,10 @@ export default function AdminPanel() {
                     <Link key={i} href={link.href}>
                       <div className={`flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0`}>
                         <div className="flex items-center gap-4">
-                          <link.icon className={`h-4 w-4 text-[#01a3a4] ${link.isAlert && link.badge && link.badge > 0 ? 'text-red-600 animate-pulse' : 'opacity-50'} group-hover:opacity-100`} />
-                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-[#01a3a4] ${link.isAlert && link.badge && link.badge > 0 ? 'text-red-600' : 'text-white'}`}>{link.title}</span>
-                          {link.badge ? (
-                            <Badge className={`${link.isAlert ? 'bg-red-600 animate-pulse shadow-lg shadow-red-600/20' : 'bg-[#01a3a4]'} text-white text-[7px] font-black h-4 px-1.5 rounded-none border-none`}>{link.badge}</Badge>
-                          ) : null}
+                          <link.icon className="h-4 w-4 text-[#01a3a4] opacity-50 group-hover:opacity-100" />
+                          <span className="text-[10px] font-black uppercase tracking-widest group-hover:text-[#01a3a4] text-white">{link.title}</span>
                         </div>
-                        <ChevronRight className={`h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all ${link.isAlert && link.badge && link.badge > 0 ? 'text-red-600' : 'group-hover:text-[#01a3a4]'}`} />
+                        <ChevronRight className="h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all group-hover:text-[#01a3a4]" />
                       </div>
                     </Link>
                   ))}

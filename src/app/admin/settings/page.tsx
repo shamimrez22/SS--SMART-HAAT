@@ -12,7 +12,6 @@ import {
   User, 
   Lock, 
   Loader2,
-  ShieldAlert,
   MapPin,
   Smartphone,
   Zap,
@@ -171,15 +170,40 @@ export default function AdminSettings() {
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6"><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2"><Smartphone className="h-4 w-4" /> MOBILE LIVE PREVIEW</CardTitle></CardHeader>
               <CardContent className="p-10 flex flex-col items-center justify-center">
                 <div className="w-full max-w-[300px] aspect-[9/16] bg-black border-[10px] border-[#1a1a1a] rounded-[35px] relative overflow-hidden flex flex-col shadow-2xl">
-                  <div className="h-12 bg-black flex items-end px-6 pb-2 justify-between border-b border-white/5"><div className="text-[8px] text-white font-bold">12:00</div><div className="w-2 h-2 bg-[#01a3a4] rounded-full" /></div>
-                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between"><div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black">SS</div></div>
-                  <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full">
-                    <div className="flex items-center gap-4 animate-marquee w-full px-2">
-                      <div className="flex items-center gap-2 text-[7px] font-black text-[#01a3a4] uppercase shrink-0"><Radio className="h-2 w-2 animate-pulse" /> {statusData.liveStatusLabel}</div>
-                      <p style={{ color: statusData.statusColor }} className="text-[7px] font-black uppercase flex items-center gap-2 shrink-0">{statusData.liveStatus} <span className="text-[#01a3a4]/40">||</span> <MapPin className="h-2 w-2" /> {statusData.liveLocation}</p>
+                  {/* Status Bar */}
+                  <div className="h-12 bg-black flex items-end px-6 pb-2 justify-between border-b border-white/5">
+                    <div className="text-[8px] text-white font-bold">12:00</div>
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-white/40 rounded-full" />
+                      <div className="w-2 h-2 bg-[#01a3a4] rounded-full" />
                     </div>
                   </div>
-                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4"><div className="w-full aspect-square bg-white/5 animate-pulse" /><div className="h-3 w-3/4 bg-white/5" /></div>
+                  {/* Website Header In Preview */}
+                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between">
+                    <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black">SS</div>
+                    <div className="w-4 h-4 rounded-full border border-white/20" />
+                  </div>
+                  {/* Live Marquee Bar In Preview */}
+                  <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full">
+                    <div className="flex items-center gap-4 animate-marquee w-full px-2">
+                      <div className="flex items-center gap-2 text-[7px] font-black text-[#01a3a4] uppercase shrink-0">
+                        <Radio className="h-2 w-2 animate-pulse" /> {statusData.liveStatusLabel}
+                      </div>
+                      <p style={{ color: statusData.statusColor }} className="text-[7px] font-black uppercase flex items-center gap-2 shrink-0">
+                        {statusData.liveStatus} <span className="text-[#01a3a4]/40">||</span> <MapPin className="h-2 w-2" /> {statusData.liveLocation}
+                      </p>
+                    </div>
+                  </div>
+                  {/* Dummy Content In Preview */}
+                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4">
+                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="aspect-square bg-white/5" />
+                      <div className="aspect-square bg-white/5" />
+                    </div>
+                    <div className="h-2 w-3/4 bg-white/5" />
+                    <div className="h-2 w-1/2 bg-white/5" />
+                  </div>
                 </div>
               </CardContent>
             </Card>

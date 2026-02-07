@@ -29,7 +29,6 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   
-  // DRAGGABLE LOGIC - HARD CENTERED FIX
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const offsetRef = useRef({ x: 0, y: 0 });
@@ -110,7 +109,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent 
-        className="max-w-[320px] bg-black border border-[#01a3a4]/30 rounded-none p-6 shadow-2xl gpu-accelerated outline-none overflow-hidden transition-none select-none fixed z-[200]"
+        className="max-w-[320px] bg-black border border-[#01a3a4]/30 rounded-none p-6 shadow-2xl outline-none overflow-hidden fixed z-[200]"
         style={{ 
           transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
           top: '50%',

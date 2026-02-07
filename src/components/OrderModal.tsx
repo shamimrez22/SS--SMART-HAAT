@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import Image from 'next/image';
 import { 
   Dialog, 
@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { useFirestore, useMemoFirebase, useDoc } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { addDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { collection } from 'firebase/firestore';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -38,7 +38,6 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   const db = useFirestore();
   const isMobile = useIsMobile();
   const [step, setStep] = useState<'FORM' | 'SUCCESS'>('FORM');
-  const [chatSessionId, setChatSessionId] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -53,12 +52,6 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
     return doc(db, 'settings', 'site-config');
   }, [db]);
   const { data: settings } = useDoc(settingsRef);
-
-  useEffect(() => {
-    if (!chatSessionId) {
-      setChatSessionId('chat_' + Math.random().toString(36).substring(2, 11));
-    }
-  }, []);
 
   useEffect(() => {
     if (step === 'SUCCESS') {
@@ -94,7 +87,6 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       productPrice: product.price,
       productImageUrl: product.imageUrl,
       status: 'PENDING',
-      chatId: chatSessionId,
       createdAt: new Date().toISOString()
     };
 
@@ -109,7 +101,6 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
         "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
         step === 'SUCCESS' ? "max-w-[350px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[1300px] w-[95vw]"
       )}>
-        {/* ULTRA HARD CLOSE BUTTON */}
         <button 
           onClick={onClose}
           className="absolute right-4 top-4 z-[200] p-2 bg-black text-white hover:bg-[#01a3a4] transition-all border border-white/10 shadow-2xl"

@@ -49,8 +49,8 @@ export function Navbar() {
     }
   };
 
-  // HARD FIX FOR HANG: Delay modal opening to allow dropdown to close cleanly
   const openAdminModal = () => {
+    // Add small delay to prevent focus clash with dropdown
     setTimeout(() => setIsAdminModalOpen(true), 150);
   };
 
@@ -64,7 +64,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 h-[64px] flex items-center gpu-accelerated relative z-[110]">
+      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 h-[64px] flex items-center relative z-[110]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-2">
             
@@ -86,7 +86,7 @@ export function Navbar() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="SEARCH PRODUCTS..." 
-                    className="bg-black/10 border-white/20 h-9 w-[400px] lg:w-[650px] focus:lg:w-[700px] transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
+                    className="bg-black/10 border-white/20 h-9 w-[400px] lg:w-[650px] transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
                   />
                   <Search className="absolute right-3 h-3.5 w-3.5 text-white/50" />
                 </div>
@@ -144,7 +144,7 @@ export function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleSearch}
                 placeholder={language === 'EN' ? "SEARCH PRODUCTS..." : "পণ্য খুঁজুন..."} 
-                className="w-full bg-black/10 border-white/20 h-10 pl-10 pr-10 focus-visible:ring-black focus-visible:bg-black/20 transition-all rounded-none text-[10px] text-white uppercase placeholder:text-white/70 font-bold"
+                className="w-full bg-black/10 border-white/20 h-10 pl-10 pr-10 rounded-none text-[10px] text-white uppercase placeholder:text-white/70 font-bold"
               />
               <Search className="absolute left-3.5 top-[20px] -translate-y-1/2 h-4 w-4 text-white" />
               <button onClick={() => { setShowSearchInput(false); setSearchQuery(''); }} className="absolute right-3 top-[20px] -translate-y-1/2 text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
