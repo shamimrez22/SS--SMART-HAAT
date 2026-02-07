@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useRef, useMemo, useState, useEffect, memo } from 'react';
@@ -118,7 +117,7 @@ const FlashOfferCard = memo(() => {
             className="object-cover" 
             priority={true}
           />
-          <div className="absolute top-1 left-1 bg-[#01a3a4] px-1 md:px-3 py-0.5 text-[5px] md:text-[8px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH</div>
+          <div className="absolute top-1 left-1 bg-[#01a3a4] px-1 md:px-3 py-0.5 text-[5px] md:text-[8px] font-black text-white uppercase tracking-widest z-10">FLASH</div>
           <div className="absolute bottom-0 w-full pb-1 text-center px-1">
              <p className="text-white font-black text-[6px] md:text-[10px] uppercase tracking-widest mb-0.5 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
              {activeItem.price && (

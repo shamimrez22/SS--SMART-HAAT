@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from 'react';
@@ -28,7 +27,7 @@ export default function ProductDetails() {
 
   // Fetch more products for the bottom section
   const moreProductsRef = useMemoFirebase(() => {
-    return query(collection(db, 'products'), limit(6));
+    return query(collection(db, 'products'), limit(16));
   }, [db]);
   const { data: moreProducts } = useCollection(moreProductsRef);
 
@@ -179,8 +178,8 @@ export default function ProductDetails() {
               </Button>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-              {moreProducts?.filter(p => p.id !== id).slice(0, 6).map((p, i) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+              {moreProducts?.filter(p => p.id !== id).slice(0, 16).map((p, i) => (
                 <ProductCard key={p.id} product={p} index={i} />
               ))}
             </div>

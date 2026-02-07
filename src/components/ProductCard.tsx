@@ -17,7 +17,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = (product.stockQuantity || 0) <= 0;
   // Aggressive priority for top products to make the site feel instant
-  const isPriority = index < 6;
+  const isPriority = index < 8;
 
   return (
     <>
@@ -42,7 +42,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
         <CardContent className="p-3 md:p-4 flex flex-col flex-grow bg-black space-y-3">
           <h3 className="font-black text-[11px] md:text-[13px] text-white uppercase truncate font-headline tracking-tight">{product.name}</h3>
           
-          <div className="space-y-1 min-h-[48px]">
+          <div className="space-y-1 min-h-[48px] flex flex-col justify-center">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-baseline text-[#01a3a4]">
                 <span className="text-[11px] font-normal mr-1 translate-y-[-4px] text-white/50">৳</span>
