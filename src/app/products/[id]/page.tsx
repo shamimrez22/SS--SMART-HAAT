@@ -19,14 +19,22 @@ export default function ProductDetails() {
   const db = useFirestore();
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   
-  const productRef = useMemoFirebase(() => doc(db, 'products', id as string), [db, id]);
-  const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
+  const productRef = useMemoFirebase(() => {
+    if (!db || !id) return null;
+    return doc(db, 'products', id as string);
+  }, [db, id]);
+
+  const settingsRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return doc(db, 'settings', 'site-config');
+  }, [db]);
   
   const { data: product, isLoading } = useDoc(productRef);
   const { data: settings } = useDoc(settingsRef);
 
   // Fetch more products for the bottom section
   const moreProductsRef = useMemoFirebase(() => {
+    if (!db) return null;
     return query(collection(db, 'products'), limit(16));
   }, [db]);
   const { data: moreProducts } = useCollection(moreProductsRef);

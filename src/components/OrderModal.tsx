@@ -7,7 +7,6 @@ import {
   DialogContent, 
   DialogHeader, 
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { 
@@ -75,7 +74,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.address) return;
+    if (!formData.name || !formData.phone || !formData.address || !db) return;
 
     const orderData = {
       customerName: formData.name.toUpperCase(),
@@ -91,9 +90,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       createdAt: new Date().toISOString()
     };
 
-    if (db) {
-      addDocumentNonBlocking(collection(db, 'orders'), orderData);
-    }
+    addDocumentNonBlocking(collection(db, 'orders'), orderData);
     setStep('SUCCESS');
   };
 

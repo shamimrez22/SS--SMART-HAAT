@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useEffect, useState } from 'react';
@@ -47,11 +46,14 @@ export default function AdminPanel() {
     setToday(new Date().toISOString().split('T')[0]);
   }, []);
   
-  const productsRef = useMemoFirebase(() => collection(db!, 'products'), [db]);
-  const categoriesRef = useMemoFirebase(() => collection(db!, 'categories'), [db]);
-  const ordersRef = useMemoFirebase(() => query(collection(db!, 'orders'), orderBy('createdAt', 'desc')), [db]);
-  const pendingOrdersRef = useMemoFirebase(() => query(collection(db!, 'orders'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc')), [db]);
-  const visitorStatsRef = useMemoFirebase(() => doc(db!, 'visitorStats', today || 'unknown'), [db, today]);
+  const productsRef = useMemoFirebase(() => db ? collection(db, 'products') : null, [db]);
+  const categoriesRef = useMemoFirebase(() => db ? collection(db, 'categories') : null, [db]);
+  const ordersRef = useMemoFirebase(() => db ? query(collection(db, 'orders'), orderBy('createdAt', 'desc')) : null, [db]);
+  const pendingOrdersRef = useMemoFirebase(() => db ? query(collection(db, 'orders'), where('status', '==', 'PENDING'), orderBy('createdAt', 'desc')) : null, [db]);
+  const visitorStatsRef = useMemoFirebase(() => {
+    if (!db || !today) return null;
+    return doc(db, 'visitorStats', today);
+  }, [db, today]);
   
   const { data: products } = useCollection(productsRef);
   const { data: categories } = useCollection(categoriesRef);
@@ -211,17 +213,6 @@ export default function AdminPanel() {
                       <p className="text-[8px] text-[#01a3a4] uppercase font-black">Syncing Data...</p>
                     </div>
                   )}
-                </div>
-                <div className="mt-4 space-y-2">
-                  {categoryStats.map((cat, i) => (
-                    <div key={i} className="flex justify-between items-center text-[10px] font-black uppercase text-white/60">
-                      <div className="flex items-center gap-2">
-                        <div className="h-2 w-2" style={{ backgroundColor: cat.color }} />
-                        <span>{cat.name}</span>
-                      </div>
-                      <span className="text-white">{cat.count} ITEMS</span>
-                    </div>
-                  ))}
                 </div>
               </CardContent>
             </Card>

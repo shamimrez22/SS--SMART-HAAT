@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -24,10 +23,6 @@ import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 
-/**
- * Dedicated Hub & Live Broadcast Management Page.
- * Separated from main settings to prevent confusion.
- */
 export default function AdminLocation() {
   const db = useFirestore();
   const { toast } = useToast();
@@ -61,14 +56,9 @@ export default function AdminLocation() {
     e.preventDefault();
     if (!settingsRef) return;
 
-    // Password verification
     const validPass = settings?.adminPassword || '4321';
     if (formData.verificationPassword !== validPass) {
-      toast({
-        variant: "destructive",
-        title: "ACCESS DENIED",
-        description: "INVALID ADMIN PASSWORD.",
-      });
+      toast({ variant: "destructive", title: "ACCESS DENIED", description: "INVALID ADMIN PASSWORD." });
       return;
     }
 
@@ -79,10 +69,7 @@ export default function AdminLocation() {
       statusColor: formData.statusColor
     }, { merge: true });
 
-    toast({
-      title: "SYSTEM UPDATED",
-      description: "HUB LOCATION & BROADCAST ARE NOW LIVE.",
-    });
+    toast({ title: "SYSTEM UPDATED", description: "HUB LOCATION & BROADCAST ARE NOW LIVE." });
     setFormData(prev => ({ ...prev, verificationPassword: '' }));
   };
 
@@ -116,7 +103,6 @@ export default function AdminLocation() {
               </CardHeader>
               <CardContent className="p-8">
                 <form onSubmit={handleUpdate} className="space-y-8">
-                  {/* HUB LOCATION - CLEARLY SEPARATED */}
                   <div className="space-y-3 p-6 bg-[#01a3a4]/5 border border-[#01a3a4]/20 rounded-none">
                     <label className="text-[10px] font-black text-[#01a3a4] uppercase flex items-center gap-2">
                       <MapPin className="h-4 w-4" /> HUB LOCATION (PRIMARY ADDRESS)
@@ -128,10 +114,8 @@ export default function AdminLocation() {
                       placeholder="E.G. BANANI, DHAKA" 
                       className="bg-black border-white/10 rounded-none h-14 text-sm text-white uppercase focus:ring-[#01a3a4] font-black" 
                     />
-                    <p className="text-[8px] text-white/30 uppercase font-bold">This location appears in the header, footer, and product details.</p>
                   </div>
 
-                  {/* LIVE BROADCAST - CLEARLY SEPARATED */}
                   <div className="space-y-6 pt-4 border-t border-white/5">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
@@ -160,7 +144,6 @@ export default function AdminLocation() {
                     </div>
                   </div>
 
-                  {/* VERIFICATION */}
                   <div className="space-y-3 pt-6 border-t border-white/5">
                     <label className="text-[10px] font-black text-orange-500 uppercase flex items-center gap-2">
                       <Lock className="h-4 w-4" /> VERIFY ADMIN PASS TO SYNC
@@ -182,7 +165,6 @@ export default function AdminLocation() {
             </Card>
           </div>
 
-          {/* SIMULATOR PREVIEW */}
           <div className="lg:col-span-7 space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
@@ -192,16 +174,12 @@ export default function AdminLocation() {
               </CardHeader>
               <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505] min-h-[600px]">
                 <div className="w-full max-w-[320px] aspect-[9/16] bg-black border-[12px] border-[#1a1a1a] rounded-[40px] relative overflow-hidden flex flex-col shadow-[0_0_60px_rgba(1,163,164,0.2)] ring-4 ring-[#01a3a4]/10">
-                  {/* Mock Navbar */}
                   <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
                     <div className="flex items-center gap-2">
                       <div className="w-7 h-7 bg-black flex items-center justify-center text-[#01a3a4] text-[10px] font-black shadow-lg">SS</div>
                       <span className="text-[8px] font-black text-white leading-none uppercase">SS SMART HAAT</span>
                     </div>
-                    <div className="w-4 h-4 rounded-none border border-white/30" />
                   </div>
-
-                  {/* Mock Live Bar - REAL TIME SYNC */}
                   <div className="bg-black border-b border-[#01a3a4]/20 h-10 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0">
                     <div className="flex items-center gap-4 w-full px-2">
                       <div className="flex items-center gap-2 text-[8px] font-black text-[#01a3a4] uppercase shrink-0">
@@ -212,22 +190,10 @@ export default function AdminLocation() {
                       </p>
                     </div>
                   </div>
-
-                  {/* Mock Content */}
                   <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4">
                     <div className="w-full h-32 bg-white/5 border border-white/5 flex flex-col items-center justify-center">
                        <Zap className="h-6 w-6 text-[#01a3a4]/20 mb-2" />
-                       <span className="text-[6px] text-white/20 font-black uppercase tracking-widest italic">BANNER CONTENT AREA</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-3">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="aspect-[3/4] bg-white/[0.02] border border-white/5 p-2 space-y-2">
-                           <div className="w-full h-2/3 bg-white/5" />
-                           <div className="w-3/4 h-1 bg-[#01a3a4]/40" />
-                           <div className="w-full h-2 bg-[#01a3a4]/10" />
-                        </div>
-                      ))}
+                       <span className="text-[6px] text-white/20 font-black uppercase tracking-widest italic">CONTENT PREVIEW AREA</span>
                     </div>
                   </div>
                 </div>
