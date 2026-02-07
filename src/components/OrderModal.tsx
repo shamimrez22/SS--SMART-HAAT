@@ -169,11 +169,11 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       <DialogContent className={cn(
         "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl transition-all duration-300 fixed z-[100] outline-none",
         "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
-        step === 'SUCCESS' ? "max-w-[350px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[1100px] w-[95vw]"
+        step === 'SUCCESS' ? "max-w-[350px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[1200px] w-[95vw]"
       )}>
         <button 
           onClick={onClose}
-          className="absolute right-4 top-4 z-[150] p-2 bg-white/80 backdrop-blur-md text-black hover:text-red-600 hover:bg-red-50 transition-all border border-gray-200"
+          className="absolute right-4 top-4 z-[150] p-2 bg-black text-white hover:bg-[#01a3a4] transition-all border border-white/10 shadow-xl"
         >
           <X className="h-6 w-6" />
         </button>
@@ -183,85 +183,85 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
             <div className="flex flex-col md:flex-row h-full overflow-hidden">
               
               {!isMobile && (
-                <div className="md:w-[380px] bg-gray-50 border-r border-gray-100 p-8 flex flex-col shrink-0 overflow-y-auto no-scrollbar">
-                  <div className="relative w-full aspect-square border border-gray-200 mb-8 bg-white shadow-lg overflow-hidden group">
+                <div className="md:w-[450px] bg-gray-50 border-r border-gray-100 p-10 flex flex-col shrink-0 overflow-y-auto no-scrollbar">
+                  <div className="relative w-full aspect-square border-4 border-white mb-8 bg-white shadow-2xl overflow-hidden group">
                     <Image 
                       src={product.imageUrl} 
                       alt={product.name} 
                       fill 
-                      className="object-cover transition-transform duration-1000 group-hover:scale-110" 
+                      className="object-cover transition-transform duration-1000 group-hover:scale-105" 
                       priority 
                     />
                   </div>
                   <div className="w-full space-y-6">
                     <div className="space-y-2">
-                      <h3 className="text-xl font-black text-black uppercase tracking-tighter leading-tight font-headline">{product.name}</h3>
-                      <div className="text-[#01a3a4] font-black text-3xl flex items-baseline">
-                        <span className="text-[14px] font-normal mr-1 translate-y-[-6px] text-gray-400">৳</span>
+                      <h3 className="text-2xl font-black text-black uppercase tracking-tighter leading-tight font-headline">{product.name}</h3>
+                      <div className="text-[#01a3a4] font-black text-4xl flex items-baseline">
+                        <span className="text-[16px] font-normal mr-1 translate-y-[-8px] text-gray-400">৳</span>
                         {product.price.toLocaleString()}
                       </div>
                     </div>
                     
-                    <div className="p-5 bg-white border border-gray-100 shadow-sm space-y-3">
-                       <div className="flex items-center gap-2 text-[#01a3a4] mb-1">
-                         <Truck className="h-5 w-5" />
-                         <span className="text-[10px] font-black uppercase tracking-widest">ডেলিভারি চার্জ</span>
+                    <div className="p-6 bg-white border border-gray-100 shadow-sm space-y-4">
+                       <div className="flex items-center gap-3 text-[#01a3a4] mb-1">
+                         <Truck className="h-6 w-6" />
+                         <span className="text-[11px] font-black uppercase tracking-[0.2em]">ডেলিভারি চার্জ</span>
                        </div>
-                       <p className="text-[11px] font-black text-black uppercase">ঢাকার ভিতরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeInside || '60'}</span></p>
-                       <p className="text-[11px] font-black text-black uppercase">ঢাকার বাহিরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeOutside || '120'}</span></p>
+                       <p className="text-[12px] font-black text-black uppercase">ঢাকার ভিতরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeInside || '60'}</span></p>
+                       <p className="text-[12px] font-black text-black uppercase">ঢাকার বাহিরে: <span className="text-[#01a3a4]">৳{settings?.deliveryChargeOutside || '120'}</span></p>
                     </div>
 
                     <div className="pt-6 border-t border-gray-200">
-                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 px-3 py-1">{product.category}</span>
+                      <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest bg-gray-100 px-4 py-1.5">{product.category}</span>
                     </div>
                   </div>
                 </div>
               )}
 
               <div className={cn(
-                "flex-grow p-6 md:p-12 md:pt-16 space-y-6 md:space-y-10 bg-white overflow-y-auto relative no-scrollbar",
+                "flex-grow p-6 md:p-16 md:pt-24 space-y-8 md:space-y-12 bg-white overflow-y-auto relative no-scrollbar",
                 !isMobile && "md:w-[400px]"
               )}>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <div className="h-8 md:h-10 w-1.5 md:w-2 bg-[#01a3a4]" />
-                    <DialogTitle className="text-2xl md:text-4xl font-black text-black uppercase tracking-tighter leading-none font-headline">ORDER CONFIRM</DialogTitle>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 md:h-12 w-2 md:w-3 bg-[#01a3a4]" />
+                    <DialogTitle className="text-3xl md:text-5xl font-black text-black uppercase tracking-tighter leading-none font-headline">ORDER CONFIRM</DialogTitle>
                   </div>
-                  <DialogDescription className="text-[10px] md:text-[12px] font-black text-gray-400 uppercase tracking-[0.2em] pl-5">
+                  <DialogDescription className="text-[11px] md:text-[13px] font-black text-gray-400 uppercase tracking-[0.3em] pl-6">
                     Fill the details to secure purchase.
                   </DialogDescription>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8 pt-2">
-                  <div className="grid grid-cols-2 gap-4 md:gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <Ruler className="h-4 w-4 text-[#01a3a4]" /> SELECT SIZE
+                <form onSubmit={handleSubmit} className="space-y-8 md:space-y-10 pt-4">
+                  <div className="grid grid-cols-2 gap-6 md:gap-10">
+                    <div className="space-y-3">
+                      <label className="text-[11px] md:text-[12px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3">
+                        <Ruler className="h-5 w-5 text-[#01a3a4]" /> SELECT SIZE
                       </label>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2.5">
                         {product?.sizes?.length > 0 ? product.sizes.map((size: string) => (
                           <button
                             key={size}
                             type="button"
                             onClick={() => setFormData({...formData, selectedSize: size})}
                             className={cn(
-                              "px-4 py-2 border text-[11px] font-black uppercase transition-all min-w-[50px]",
+                              "px-5 py-2.5 border-2 text-[12px] font-black uppercase transition-all min-w-[60px]",
                               formData.selectedSize === size 
-                                ? 'bg-[#01a3a4] border-[#01a3a4] text-white shadow-xl' 
+                                ? 'bg-[#01a3a4] border-[#01a3a4] text-white shadow-2xl' 
                                 : 'bg-gray-50 border-gray-200 text-gray-400 hover:border-[#01a3a4]'
                             )}
                           >
                             {size}
                           </button>
                         )) : (
-                          <span className="text-[10px] font-black text-gray-400 uppercase italic">Standard Size</span>
+                          <span className="text-[11px] font-black text-gray-400 uppercase italic">Standard Size</span>
                         )}
                       </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <Hash className="h-4 w-4 text-[#01a3a4]" /> QUANTITY
+                    <div className="space-y-3">
+                      <label className="text-[11px] md:text-[12px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3">
+                        <Hash className="h-5 w-5 text-[#01a3a4]" /> QUANTITY
                       </label>
                       <input 
                         type="number"
@@ -269,28 +269,28 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         required
                         value={formData.quantity}
                         onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-12 px-4 text-[13px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] text-black"
+                        className="w-full bg-gray-50 border-2 border-gray-200 rounded-none h-14 px-5 text-[15px] font-black tracking-widest focus:outline-none focus:border-[#01a3a4] text-black"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-5 md:space-y-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <User className="h-4 w-4 text-[#01a3a4]" /> FULL NAME
+                  <div className="space-y-6 md:space-y-8">
+                    <div className="space-y-3">
+                      <label className="text-[11px] md:text-[12px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3">
+                        <User className="h-5 w-5 text-[#01a3a4]" /> FULL NAME
                       </label>
                       <input 
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="NAME"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-14 px-5 text-[12px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black shadow-sm"
+                        className="w-full bg-gray-50 border-2 border-gray-200 rounded-none h-16 px-6 text-[14px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black shadow-sm"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <Phone className="h-4 w-4 text-[#01a3a4]" /> PHONE NUMBER
+                    <div className="space-y-3">
+                      <label className="text-[11px] md:text-[12px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3">
+                        <Phone className="h-5 w-5 text-[#01a3a4]" /> PHONE NUMBER
                       </label>
                       <input 
                         required
@@ -298,27 +298,27 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         value={formData.phone}
                         onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder="01XXXXXXXXX"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none h-14 px-5 text-[12px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black shadow-sm"
+                        className="w-full bg-gray-50 border-2 border-gray-200 rounded-none h-16 px-6 text-[14px] font-black uppercase tracking-widest focus:outline-none focus:border-[#01a3a4] text-black shadow-sm"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <label className="text-[10px] md:text-[11px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-[#01a3a4]" /> ADDRESS
+                    <div className="space-y-3">
+                      <label className="text-[11px] md:text-[12px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-3">
+                        <MapPin className="h-5 w-5 text-[#01a3a4]" /> ADDRESS
                       </label>
                       <textarea 
                         required
                         value={formData.address}
                         onChange={(e) => setFormData({...formData, address: e.target.value})}
                         placeholder="AREA, HOUSE, CITY"
-                        className="w-full bg-gray-50 border border-gray-200 rounded-none p-4 text-[12px] font-black uppercase tracking-widest min-h-[100px] focus:outline-none focus:border-[#01a3a4] text-black shadow-sm no-scrollbar"
+                        className="w-full bg-gray-50 border-2 border-gray-200 rounded-none p-6 text-[14px] font-black uppercase tracking-widest min-h-[120px] focus:outline-none focus:border-[#01a3a4] text-black shadow-sm no-scrollbar"
                       />
                     </div>
                   </div>
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#01a3a4] hover:bg-black text-white h-16 md:h-20 font-black uppercase tracking-[0.5em] rounded-none shadow-2xl text-[14px] md:text-[16px] border-none transition-all active:scale-95 mt-4"
+                    className="w-full bg-[#01a3a4] hover:bg-black text-white h-20 md:h-24 font-black uppercase tracking-[0.6em] rounded-none shadow-2xl text-[16px] md:text-[18px] border-none transition-all active:scale-95 mt-6"
                   >
                     অর্ডার নিশ্চিত করুন
                   </Button>
@@ -327,53 +327,53 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
 
               {!isMobile && (
                 <div className="md:w-[320px] flex flex-col bg-gray-50 shrink-0 border-l border-gray-100 h-full">
-                  <div className="p-6 bg-white border-b border-gray-100 flex items-center justify-between">
+                  <div className="p-8 bg-white border-b border-gray-100 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="h-2.5 w-2.5 bg-green-500 rounded-full animate-pulse" />
-                      <h3 className="text-[12px] font-black text-black uppercase tracking-[0.2em]">LIVE ASSISTANT</h3>
+                      <div className="h-3 w-3 bg-green-500 rounded-full animate-pulse" />
+                      <h3 className="text-[13px] font-black text-black uppercase tracking-[0.3em]">LIVE ASSISTANT</h3>
                     </div>
-                    <MessageCircle className="h-5 w-5 text-[#01a3a4]" />
+                    <MessageCircle className="h-6 w-6 text-[#01a3a4]" />
                   </div>
 
                   <div 
                     ref={chatScrollContainerRef}
-                    className="flex-grow overflow-y-auto p-6 space-y-5 bg-gray-50/50 no-scrollbar"
+                    className="flex-grow overflow-y-auto p-8 space-y-6 bg-gray-50/50 no-scrollbar"
                   >
                     {chatHistory.length === 0 ? (
-                      <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4 opacity-40">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm">
-                          <MessageCircle className="h-8 w-8 text-gray-200" />
+                      <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-5 opacity-40">
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl">
+                          <MessageCircle className="h-10 w-10 text-gray-200" />
                         </div>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
                           QUESTIONS? CHAT WITH US.
                         </p>
                       </div>
                     ) : chatHistory.map((msg, i) => (
                       <div key={i} className={cn("flex flex-col", msg.sender === 'CUSTOMER' ? 'items-end' : 'items-start')}>
                         <div className={cn(
-                          "max-w-[90%] p-4 text-[12px] font-bold leading-snug shadow-md",
+                          "max-w-[90%] p-5 text-[13px] font-bold leading-snug shadow-lg",
                           msg.sender === 'CUSTOMER' 
                             ? 'bg-[#01a3a4] text-white rounded-l-2xl rounded-tr-2xl' 
                             : 'bg-white border border-gray-200 text-black rounded-r-2xl rounded-tl-2xl'
                         )}>
                           {msg.text}
                         </div>
-                        <span className="text-[8px] font-black text-gray-300 uppercase mt-1.5 px-2">
+                        <span className="text-[9px] font-black text-gray-300 uppercase mt-2 px-3">
                           {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                         </span>
                       </div>
                     ))}
                   </div>
 
-                  <form onSubmit={handleSendMessage} className="p-6 bg-white border-t border-gray-100 flex gap-3">
+                  <form onSubmit={handleSendMessage} className="p-8 bg-white border-t border-gray-100 flex gap-4">
                     <input 
                       value={chatMessage}
                       onChange={(e) => setChatMessage(e.target.value)}
                       placeholder="MESSAGE..."
-                      className="flex-grow bg-gray-50 border border-gray-200 h-12 px-5 text-[12px] font-black uppercase text-black focus:outline-none focus:border-[#01a3a4] transition-all"
+                      className="flex-grow bg-gray-50 border-2 border-gray-200 h-14 px-6 text-[13px] font-black uppercase text-black focus:outline-none focus:border-[#01a3a4] transition-all"
                     />
-                    <Button type="submit" size="icon" className="h-12 w-12 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none shadow-xl active:scale-90">
-                      <Send className="h-5 w-5 text-white" />
+                    <Button type="submit" size="icon" className="h-14 w-14 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none shadow-2xl active:scale-90">
+                      <Send className="h-6 w-6 text-white" />
                     </Button>
                   </form>
                 </div>
@@ -385,76 +385,76 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 <ArrowLeft className="h-6 w-6" />
               </button>
 
-              <div className="p-6 bg-[#01a3a4] flex flex-col items-center shadow-xl">
-                <h3 className="text-white font-black text-md uppercase tracking-[0.2em]">LIVE SUPPORT CHAT</h3>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="h-2 w-2 bg-white rounded-full animate-pulse" />
-                  <span className="text-[10px] font-black text-white/80 uppercase">WE ARE ONLINE</span>
+              <div className="p-8 bg-[#01a3a4] flex flex-col items-center shadow-2xl">
+                <h3 className="text-white font-black text-lg uppercase tracking-[0.3em]">LIVE SUPPORT CHAT</h3>
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="h-2.5 w-2.5 bg-white rounded-full animate-pulse" />
+                  <span className="text-[11px] font-black text-white/80 uppercase">WE ARE ONLINE</span>
                 </div>
               </div>
 
               <div 
                 ref={chatScrollContainerRef}
-                className="flex-grow overflow-y-auto p-6 space-y-6 bg-gray-50 no-scrollbar"
+                className="flex-grow overflow-y-auto p-8 space-y-8 bg-gray-50 no-scrollbar"
               >
                 {chatHistory.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                    <MessageCircle className="h-16 w-16 text-gray-200 mb-6" />
-                    <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+                  <div className="h-full flex flex-col items-center justify-center text-center p-10">
+                    <MessageCircle className="h-20 w-20 text-gray-200 mb-8" />
+                    <p className="text-[14px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
                       আমাদের কাস্টমার কেয়ার প্রতিনিধির সাথে কথা বলতে নিচে মেসেজ লিখুন।
                     </p>
                   </div>
                 ) : chatHistory.map((msg, i) => (
                   <div key={i} className={cn("flex flex-col", msg.sender === 'CUSTOMER' ? 'items-end' : 'items-start')}>
                     <div className={cn(
-                      "max-w-[85%] p-5 text-[14px] font-bold leading-tight shadow-xl",
+                      "max-w-[85%] p-6 text-[15px] font-bold leading-tight shadow-2xl",
                       msg.sender === 'CUSTOMER' 
                         ? 'bg-[#01a3a4] text-white rounded-l-3xl rounded-tr-3xl' 
                         : 'bg-white border border-gray-200 text-black rounded-r-3xl rounded-tl-3xl'
                     )}>
                       {msg.text}
                     </div>
-                    <span className="text-[10px] font-black text-gray-300 uppercase mt-2 px-3">
+                    <span className="text-[11px] font-black text-gray-300 uppercase mt-3 px-4">
                       {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                     </span>
                   </div>
                 ))}
               </div>
 
-              <form onSubmit={handleSendMessage} className="p-6 bg-white border-t border-gray-100 flex gap-4">
+              <form onSubmit={handleSendMessage} className="p-8 bg-white border-t border-gray-100 flex gap-5">
                 <input 
                   value={chatMessage}
                   onChange={(e) => setChatMessage(e.target.value)}
                   placeholder="আপনার মেসেজ লিখুন..."
-                  className="flex-grow bg-gray-50 border border-gray-200 h-16 px-6 text-sm font-bold text-black focus:outline-none focus:border-[#01a3a4] transition-all"
+                  className="flex-grow bg-gray-50 border-2 border-gray-200 h-20 px-8 text-[16px] font-bold text-black focus:outline-none focus:border-[#01a3a4] transition-all"
                 />
-                <Button type="submit" size="icon" className="h-16 w-16 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none shadow-2xl active:scale-90">
-                  <Send className="h-7 w-7 text-white" />
+                <Button type="submit" size="icon" className="h-20 w-20 bg-[#01a3a4] hover:bg-black rounded-none shrink-0 border-none shadow-2xl active:scale-90">
+                  <Send className="h-8 w-8 text-white" />
                 </Button>
               </form>
             </div>
           ) : (
-            <div className="w-full p-16 text-center space-y-8 flex flex-col justify-center bg-white items-center min-h-[450px]">
+            <div className="w-full p-20 text-center space-y-10 flex flex-col justify-center bg-white items-center min-h-[500px]">
               <div className="relative">
-                <div className="w-24 h-20 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto mb-4 border-[4px] border-[#01a3a4] shadow-2xl animate-in zoom-in-50 duration-500">
-                  <CheckCircle2 className="h-12 w-12 text-[#01a3a4]" />
+                <div className="w-28 h-24 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto mb-6 border-[6px] border-[#01a3a4] shadow-2xl animate-in zoom-in-50 duration-500">
+                  <CheckCircle2 className="h-14 w-14 text-[#01a3a4]" />
                 </div>
-                <PartyPopper className="absolute -top-4 -right-6 h-10 w-10 text-[#01a3a4] animate-bounce" />
+                <PartyPopper className="absolute -top-6 -right-8 h-12 w-12 text-[#01a3a4] animate-bounce" />
               </div>
 
-              <div className="space-y-6">
-                <DialogTitle className="text-3xl md:text-5xl font-black text-black uppercase tracking-tighter leading-none font-headline animate-in slide-in-from-bottom-2 duration-700">
+              <div className="space-y-8">
+                <DialogTitle className="text-4xl md:text-6xl font-black text-black uppercase tracking-tighter leading-none font-headline animate-in slide-in-from-bottom-2 duration-700">
                   THANK YOU
                 </DialogTitle>
-                <div className="h-1.5 w-16 bg-[#01a3a4] mx-auto rounded-full" />
-                <p className="text-[12px] md:text-[14px] font-black text-[#01a3a4] uppercase tracking-[0.5em]">অর্ডার সফল হয়েছে</p>
-                <div className="py-2 px-8">
-                  <p className="text-[14px] md:text-[16px] font-bold text-black font-headline leading-relaxed">
+                <div className="h-2 w-20 bg-[#01a3a4] mx-auto rounded-full" />
+                <p className="text-[14px] md:text-[16px] font-black text-[#01a3a4] uppercase tracking-[0.6em]">অর্ডার সফল হয়েছে</p>
+                <div className="py-2 px-10">
+                  <p className="text-[16px] md:text-[18px] font-bold text-black font-headline leading-relaxed">
                     যত দ্রুত সম্ভব আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে
                   </p>
                 </div>
-                <div className="pt-8">
-                   <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.4em] animate-pulse">স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে...</p>
+                <div className="pt-10">
+                   <p className="text-[11px] font-black text-gray-300 uppercase tracking-[0.5em] animate-pulse">স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে...</p>
                 </div>
               </div>
             </div>

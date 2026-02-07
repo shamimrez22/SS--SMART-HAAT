@@ -30,7 +30,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   
-  // Draggable Logic
+  // DRAGGABLE LOGIC - OPTIMIZED TO PREVENT HANGS
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const offsetRef = useRef({ x: 0, y: 0 });
@@ -48,7 +48,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
       setPassword('');
       setError('');
       setShowPassword(false);
-      setPosition({ x: 0, y: 0 }); // Reset to center
+      setPosition({ x: 0, y: 0 });
     }
   }, [isOpen]);
 
@@ -61,8 +61,9 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   };
 
   useEffect(() => {
+    if (!isDragging) return;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging) return;
       setPosition({
         x: e.clientX - offsetRef.current.x,
         y: e.clientY - offsetRef.current.y
@@ -71,15 +72,14 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
 
     const handleMouseUp = () => setIsDragging(false);
 
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    }
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, position]);
+  }, [isDragging]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,7 +122,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
       >
         <button 
           onClick={onClose}
-          className="absolute right-3 top-3 z-[100] text-white/40 hover:text-white transition-colors"
+          className="absolute right-3 top-3 z-[100] p-1.5 bg-white/5 text-white/40 hover:text-white hover:bg-red-600 transition-all rounded-none border border-white/10"
         >
           <X className="h-4 w-4" />
         </button>

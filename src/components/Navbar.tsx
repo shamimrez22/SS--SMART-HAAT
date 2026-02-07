@@ -41,7 +41,6 @@ export function Navbar() {
     if (storedLang) setLanguage(storedLang);
   }, []);
 
-  // REAL-TIME NOTIFICATION QUERY
   const pendingOrdersQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(
@@ -135,7 +134,7 @@ export function Navbar() {
                     <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center group">
                       <MoreVertical className="h-5 w-5 transition-transform group-hover:scale-110" />
                       {pendingCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-600 rounded-full border-2 border-[#01a3a4] animate-pulse shadow-lg" />
+                        <span className="absolute -top-1 -right-1 h-3.5 w-3.5 bg-red-600 rounded-full border-2 border-[#01a3a4] animate-pulse shadow-lg" />
                       )}
                     </Button>
                   </DropdownMenuTrigger>
