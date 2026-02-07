@@ -214,7 +214,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 <DialogTitle className="text-4xl font-black text-black uppercase tracking-tighter leading-none font-headline">THANK YOU</DialogTitle>
                 <div className="h-px w-12 bg-[#01a3a4] mx-auto" />
                 <p className="text-[14px] font-bold text-black leading-relaxed px-4">
-                  আমাদের ১ জন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে
+                  আমাদের এক জন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে
                 </p>
                 <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">SS SMART HAAT ENTERPRISE</p>
               </div>
