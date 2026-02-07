@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -272,6 +271,7 @@ export default function AdminSettings() {
               </CardHeader>
               <CardContent className="p-10 flex flex-col items-center justify-center space-y-10">
                 <div className="w-full max-w-[320px] aspect-[9/16] bg-black border-[12px] border-[#1a1a1a] rounded-[40px] shadow-[0_0_50px_rgba(1,163,164,0.1)] relative overflow-hidden flex flex-col">
+                  {/* Mock Phone UI */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-50" />
                   
                   <div className="h-14 bg-black flex items-end px-6 pb-2 justify-between border-b border-white/5">
@@ -290,6 +290,7 @@ export default function AdminSettings() {
                     </div>
                   </div>
 
+                  {/* LIVE BAR PREVIEW */}
                   <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
                     <div className="flex items-center gap-4 animate-marquee w-full px-2">
                       <div className="flex items-center gap-2 text-[8px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
@@ -312,7 +313,7 @@ export default function AdminSettings() {
                   </div>
                 </div>
                 <p className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] text-center">
-                  এটি একটি রিয়েল-টাইম মোবাইল ডিসপ্লে সিমুলেশন।
+                  রিয়েল-টাইম মোবাইল ডিসপ্লে সিমুলেশন।
                 </p>
               </CardContent>
             </Card>
@@ -340,7 +341,7 @@ export default function AdminSettings() {
                       <h3 className="text-xl font-black text-white uppercase tracking-tighter">ধাপ ২: ভারসেল (Vercel)</h3>
                     </div>
                     <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-relaxed">
-                      Vercel ড্যাশবোর্ডে গিয়ে Import Project ক্লিক করুন এবং আপনার GitHub রিপোজিটরি সিলেক্ট করুন।
+                      Vercel ড্যাশবোর্ড থেকে Import Project ক্লিক করে আপনার GitHub রিপোজিটরি সিলেক্ট করুন।
                     </p>
                   </div>
                 </div>
@@ -350,14 +351,7 @@ export default function AdminSettings() {
                     <div className="h-6 w-6 rounded-full bg-[#01a3a4] text-white flex items-center justify-center text-[10px] font-black shrink-0">৩</div>
                     <div>
                       <p className="text-[11px] font-black text-white uppercase mb-1">এনভায়রনমেন্ট ভেরিয়েবল (Environment Variables)</p>
-                      <p className="text-[9px] text-white/40 uppercase leading-relaxed">ডেপ্লয় করার সময় .env ফাইলের ভ্যালুগুলো (যেমন: NEXT_PUBLIC_FIREBASE_...) Vercel-এর Environment Variables সেকশনে অবশ্যই কপি করে দিবেন।</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 p-4 bg-orange-600/5 border border-orange-600/20">
-                    <div className="h-6 w-6 rounded-full bg-orange-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">৪</div>
-                    <div>
-                      <p className="text-[11px] font-black text-white uppercase mb-1">ফাইনাল পাবলিশ (Auto-Deploy)</p>
-                      <p className="text-[9px] text-white/40 uppercase leading-relaxed">একবার কানেক্ট হয়ে গেলে, ভবিষ্যতে আপনি GitHub-এ কোড পুশ করলেই আপনার ওয়েবসাইট অটোমেটিক আপডেট হয়ে যাবে।</p>
+                      <p className="text-[9px] text-white/40 uppercase leading-relaxed">ডেপ্লয় করার সময় .env ফাইলের ভ্যালুগুলো Vercel-এর Environment Variables সেকশনে কপি করে দিবেন।</p>
                     </div>
                   </div>
                 </div>

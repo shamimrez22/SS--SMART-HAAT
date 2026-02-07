@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -113,6 +112,7 @@ export function Navbar() {
                   <MapPin className="h-3.5 w-3.5" /> {language === 'EN' ? "LOCATION" : "লোকেশন"}
                 </button>
 
+                {/* Dropdown for Admin and Search (Mobile) */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center group">
@@ -130,10 +130,8 @@ export function Navbar() {
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "LOCATION" : "লোকেশন"}</span>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem className="p-3 cursor-pointer flex justify-between items-center group" onClick={() => setIsAdminModalOpen(true)}>
-                      <div className="flex items-center">
-                        <span className="text-[10px] font-black uppercase text-black group-hover:text-[#01a3a4] transition-colors">ADMIN PANEL</span>
-                      </div>
+                    <DropdownMenuItem className="p-3 cursor-pointer group" onClick={() => setIsAdminModalOpen(true)}>
+                      <span className="text-[10px] font-black uppercase text-black group-hover:text-[#01a3a4] transition-colors">ADMIN PANEL</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

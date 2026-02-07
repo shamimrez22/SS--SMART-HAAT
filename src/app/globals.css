@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,7 +15,7 @@
     --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 95%; /* VERY LIGHT WHITE FOR ALL MUTED TEXT */
+    --muted-foreground: 0 0% 95%; /* VERY LIGHT WHITE */
     --accent: 180 99% 32%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
@@ -37,24 +36,20 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-smoothing: grayscale;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
   }
-  
-  .text-muted-foreground {
-    @apply text-white/90;
-  }
+}
 
-  .container {
-    @apply mx-auto px-4;
-    width: 100% !important;
-    max-width: 1400px !important;
-  }
+/* FIX: Ensure container is visible on all displays */
+.container {
+  @apply mx-auto px-4;
+  width: 100% !important;
+  max-width: 1400px !important;
 }
 
 ::-webkit-scrollbar {
@@ -77,11 +72,6 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-.gpu-accelerated {
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-}
-
 .animate-marquee {
   animation: marquee 25s linear infinite;
   will-change: transform;
@@ -91,11 +81,11 @@
   animation: fade-in-up 0.5s ease-out forwards;
 }
 
-img {
-  image-rendering: -webkit-optimize-contrast;
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
-/* NO SCROLLBAR FOR DIALOGS */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

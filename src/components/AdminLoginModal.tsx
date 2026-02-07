@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -30,7 +29,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   
-  // OPTIMIZED DRAGGABLE LOGIC
+  // DRAGGABLE LOGIC - OPTIMIZED FOR 0 HANG
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const offsetRef = useRef({ x: 0, y: 0 });
@@ -64,8 +63,8 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
     if (!isDragging) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Use requestAnimationFrame for smoother dragging without hanging
-      requestAnimationFrame(() => {
+      // Use requestAnimationFrame to prevent main thread blocking
+      window.requestAnimationFrame(() => {
         setPosition({
           x: e.clientX - offsetRef.current.x,
           y: e.clientY - offsetRef.current.y
@@ -89,7 +88,6 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
     setLoading(true);
     setError('');
 
-    // Case-sensitive check
     const validUser = settings?.adminUsername || 'ADMIN';
     const validPass = settings?.adminPassword || '4321';
 
