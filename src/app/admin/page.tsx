@@ -16,7 +16,9 @@ import {
   TrendingUp,
   Users,
   Zap,
-  Loader2
+  Loader2,
+  MapPin,
+  Radio
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
@@ -118,12 +120,13 @@ export default function AdminPanel() {
   ];
 
   const quickLinks = [
+    { title: "HUB & LIVE BROADCAST", icon: Radio, href: "/admin/location", isHighlight: true },
     { title: "FEATURED CONTENT", icon: Zap, href: "/admin/featured" },
     { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders" },
     { title: "PRODUCT INVENTORY", icon: Package, href: "/admin/products" },
     { title: "SYSTEM STRUCTURE", icon: Layers, href: "/admin/categories" },
     { title: "OTHERS CONFIG", icon: LinkIcon, href: "/admin/others" },
-    { title: "SECURITY & LOCATION", icon: Settings, href: "/admin/settings" }
+    { title: "ADMIN SECURITY", icon: Settings, href: "/admin/settings" }
   ];
 
   if (!db) {
@@ -164,10 +167,10 @@ export default function AdminPanel() {
                 <div className="grid grid-cols-1 gap-1">
                   {quickLinks.map((link, i) => (
                     <Link key={i} href={link.href}>
-                      <div className={`flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0`}>
+                      <div className={`flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0 ${link.isHighlight ? 'bg-[#01a3a4]/5' : ''}`}>
                         <div className="flex items-center gap-4">
-                          <link.icon className="h-4 w-4 text-[#01a3a4] opacity-50 group-hover:opacity-100" />
-                          <span className="text-[10px] font-black uppercase tracking-widest group-hover:text-[#01a3a4] text-white">{link.title}</span>
+                          <link.icon className={`h-4 w-4 ${link.isHighlight ? 'text-orange-500' : 'text-[#01a3a4]'} opacity-50 group-hover:opacity-100`} />
+                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-[#01a3a4] ${link.isHighlight ? 'text-orange-500' : 'text-white'}`}>{link.title}</span>
                         </div>
                         <ChevronRight className="h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all group-hover:text-[#01a3a4]" />
                       </div>

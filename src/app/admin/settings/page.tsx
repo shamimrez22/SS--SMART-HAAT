@@ -13,16 +13,12 @@ import {
   User, 
   Lock, 
   Loader2,
-  Smartphone,
-  Zap,
   Eye,
   EyeOff,
-  MapPin,
-  Store,
-  Radio,
+  BookOpen,
   Github,
   Globe,
-  BookOpen
+  Zap
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -30,6 +26,10 @@ import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 
+/**
+ * Admin Security Page.
+ * Focused purely on authentication and system access.
+ */
 export default function AdminSettings() {
   const db = useFirestore();
   const { toast } = useToast();
@@ -40,14 +40,6 @@ export default function AdminSettings() {
   const { data: settings, isLoading } = useDoc(settingsRef);
 
   const [adminData, setAdminData] = useState({ adminUsername: '', adminPassword: '' });
-  const [statusData, setStatusData] = useState({
-    liveLocation: '',
-    liveStatusLabel: '',
-    liveStatus: '',
-    statusColor: '#ffffff',
-    verificationPassword: ''
-  });
-
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -56,13 +48,6 @@ export default function AdminSettings() {
         adminUsername: settings.adminUsername || 'ADMIN',
         adminPassword: settings.adminPassword || '4321'
       });
-      setStatusData(prev => ({
-        ...prev,
-        liveLocation: settings.liveLocation || 'BANANI, DHAKA',
-        liveStatusLabel: settings.liveStatusLabel || 'LIVE STATUS:',
-        liveStatus: settings.liveStatus || 'OPEN & READY TO SHIP',
-        statusColor: settings.statusColor || '#ffffff'
-      }));
     }
   }, [settings]);
 
@@ -76,23 +61,6 @@ export default function AdminSettings() {
     toast({ title: "SECURITY UPDATED" });
   };
 
-  const handleSaveStatus = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!settingsRef) return;
-    if (statusData.verificationPassword !== adminData.adminPassword) {
-      toast({ variant: "destructive", title: "INVALID PASSWORD" });
-      return;
-    }
-    setDocumentNonBlocking(settingsRef, {
-      liveLocation: statusData.liveLocation.toUpperCase(),
-      liveStatusLabel: statusData.liveStatusLabel.toUpperCase(),
-      liveStatus: statusData.liveStatus.toUpperCase(),
-      statusColor: statusData.statusColor
-    }, { merge: true });
-    toast({ title: "SYSTEM BROADCAST UPDATED" });
-    setStatusData(prev => ({ ...prev, verificationPassword: '' }));
-  };
-
   if (isLoading || !db) {
     return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" /></div>;
   }
@@ -104,18 +72,17 @@ export default function AdminSettings() {
         <div className="flex items-center gap-4 mb-12">
           <Link href="/admin"><Button variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10"><ArrowLeft className="h-6 w-6 text-[#01a3a4]" /></Button></Link>
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em]">Security & Operations</p>
-            <h1 className="text-4xl font-black uppercase tracking-tighter text-white">SYSTEM SETTINGS</h1>
+            <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em]">Access Control</p>
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-white">ADMIN SECURITY</h1>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="space-y-8 lg:col-span-1">
-            {/* ADMIN AUTH CARD */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-4">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4" /> ADMIN AUTH
+                  <ShieldCheck className="h-4 w-4" /> AUTHENTICATION
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8">
@@ -133,144 +100,17 @@ export default function AdminSettings() {
                       </div>
                     </div>
                   </div>
-                  <Button type="submit" className="w-full bg-[#01a3a4] text-white h-12 font-black uppercase rounded-none text-[9px]">UPDATE SECURITY</Button>
-                </form>
-              </CardContent>
-            </Card>
-
-            {/* BROADCAST & HUB CARD - SEPARATED */}
-            <Card className="bg-card border-white/5 rounded-none shadow-2xl">
-              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Zap className="h-4 w-4" /> BROADCAST & HUB
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-8">
-                <form onSubmit={handleSaveStatus} className="space-y-6">
-                  <div className="space-y-4">
-                    {/* HUB LOCATION - CLEARLY SEPARATED */}
-                    <div className="space-y-2 p-4 bg-[#01a3a4]/5 border border-[#01a3a4]/20">
-                      <label className="text-[9px] font-black text-[#01a3a4] uppercase flex items-center gap-2">
-                        <MapPin className="h-3 w-3 text-[#01a3a4]" /> HUB LOCATION (PERMANENT)
-                      </label>
-                      <Input 
-                        required
-                        value={statusData.liveLocation} 
-                        onChange={(e) => setStatusData({...statusData, liveLocation: e.target.value})} 
-                        placeholder="E.G. BANANI, DHAKA" 
-                        className="bg-black border-white/10 rounded-none h-12 text-xs text-white uppercase focus:ring-[#01a3a4]" 
-                      />
-                      <p className="text-[7px] text-white/30 uppercase font-bold">This is your main business location shown across the site.</p>
-                    </div>
-
-                    <div className="space-y-2 pt-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2">
-                        <Radio className="h-3 w-3 text-[#01a3a4]" /> LIVE BROADCAST MESSAGE
-                      </label>
-                      <Input value={statusData.liveStatus} onChange={(e) => setStatusData({...statusData, liveStatus: e.target.value})} placeholder="E.G. NEW ARRIVAL IS LIVE!" className="bg-black border-white/10 rounded-none h-12 text-xs text-white uppercase" />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-muted-foreground uppercase">LABEL</label>
-                        <Input value={statusData.liveStatusLabel} onChange={(e) => setStatusData({...statusData, liveStatusLabel: e.target.value})} className="bg-black border-white/10 rounded-none h-12 text-xs text-white uppercase" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-muted-foreground uppercase">COLOR</label>
-                        <div className="flex gap-2">
-                          <Input type="color" value={statusData.statusColor} onChange={(e) => setStatusData({...statusData, statusColor: e.target.value})} className="w-12 h-12 p-1 bg-black border-white/10 cursor-pointer" />
-                          <Input value={statusData.statusColor} onChange={(e) => setStatusData({...statusData, statusColor: e.target.value})} className="bg-black border-white/10 h-12 text-[10px] text-white font-mono uppercase" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 pt-4 border-t border-white/5">
-                      <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Lock className="h-3 w-3" /> VERIFY PASSWORD TO PUSH</label>
-                      <Input type="password" value={statusData.verificationPassword} onChange={(e) => setStatusData({...statusData, verificationPassword: e.target.value})} className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white" />
-                    </div>
-                  </div>
-                  <Button type="submit" className="w-full bg-orange-600 text-white h-12 font-black uppercase rounded-none text-[9px]">BROADCAST LIVE UPDATES</Button>
+                  <Button type="submit" className="w-full bg-[#01a3a4] text-white h-14 font-black uppercase rounded-none text-[10px] tracking-widest">UPDATE ACCESS KEY</Button>
                 </form>
               </CardContent>
             </Card>
           </div>
 
-          <div className="space-y-8 lg:col-span-2">
-            {/* MOBILE PREVIEW CARD - UPDATED FOR REAL-TIME RENDERING */}
-            <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
-              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Smartphone className="h-4 w-4" /> MOBILE LIVE DISPLAY PREVIEW
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505] min-h-[600px]">
-                <div className="w-full max-w-[300px] aspect-[9/16] bg-black border-[10px] border-[#1a1a1a] rounded-[35px] relative overflow-hidden flex flex-col shadow-[0_0_50px_rgba(1,163,164,0.15)] scale-100 ring-4 ring-[#01a3a4]/10">
-                  {/* Simulator Screen Top */}
-                  <div className="h-8 bg-black flex items-end px-6 pb-1.5 justify-between border-b border-white/5 shrink-0">
-                    <div className="text-[7px] text-white font-bold">12:00</div>
-                    <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 bg-white/40 rounded-full" />
-                      <div className="w-1.5 h-1.5 bg-[#01a3a4] rounded-full" />
-                    </div>
-                  </div>
-                  
-                  {/* Mock Navbar */}
-                  <div className="h-10 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black shadow-lg">SS</div>
-                      <div className="flex flex-col">
-                        <span className="text-[6px] font-black text-white leading-none">SS SMART HAAT</span>
-                        <span className="text-[4px] font-bold text-white/70 tracking-widest">PREMIUM</span>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                       <div className="w-3 h-3 rounded-none border border-white/20" />
-                       <div className="w-3 h-3 rounded-none border border-white/20" />
-                    </div>
-                  </div>
-
-                  {/* Mock Live Bar - REAL TIME SYNC */}
-                  <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0">
-                    <div className="flex items-center gap-4 w-full px-2">
-                      <div className="flex items-center gap-2 text-[7px] font-black text-[#01a3a4] uppercase shrink-0">
-                        <Radio className="h-2 w-2 animate-pulse" /> {statusData.liveStatusLabel || 'LIVE STATUS:'}
-                      </div>
-                      <p style={{ color: statusData.statusColor }} className="text-[7px] font-black uppercase flex items-center gap-2 shrink-0">
-                        {statusData.liveStatus || 'BROADCASTING...'} <span className="text-[#01a3a4]/40">||</span> <MapPin className="h-2 w-2 text-[#01a3a4]" /> {statusData.liveLocation || 'BANANI, DHAKA'}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Mock Content */}
-                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4 overflow-hidden">
-                    {/* Main Slider Area */}
-                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none border border-white/5 flex flex-col items-center justify-center p-4">
-                       <div className="w-full h-1 bg-[#01a3a4]/30 mb-2" />
-                       <span className="text-[6px] text-white/20 font-black uppercase tracking-widest italic text-center">MAIN SLIDER CONTENT AREA</span>
-                       <div className="w-2/3 h-1 bg-white/5 mt-2" />
-                    </div>
-                    
-                    {/* Product Grid Area */}
-                    <div className="grid grid-cols-2 gap-2">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="aspect-[3/4] bg-white/[0.02] border border-white/5 flex flex-col p-2 space-y-2">
-                           <div className="w-full h-2/3 bg-white/5 relative">
-                              <div className="absolute top-1 left-1 w-4 h-1 bg-[#01a3a4]/20" />
-                           </div>
-                           <div className="w-3/4 h-1.5 bg-[#01a3a4]/40" />
-                           <div className="w-full h-3 bg-[#01a3a4] opacity-20" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
+          <div className="lg:col-span-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <BookOpen className="h-4 w-4" /> ওয়েবসাইট পাবলিশ গাইড (বিস্তারিত)
+                  <BookOpen className="h-4 w-4" /> পাবলিশ গাইড (বিস্তারিত)
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-8">
