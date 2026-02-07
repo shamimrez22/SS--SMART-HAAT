@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -24,7 +25,10 @@ interface LocationModalProps {
 export function LocationModal({ isOpen, onClose }: LocationModalProps) {
   const db = useFirestore();
   const { toast } = useToast();
-  const settingsRef = useMemoFirebase(() => doc(db, 'settings', 'site-config'), [db]);
+  const settingsRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return doc(db, 'settings', 'site-config');
+  }, [db]);
   const { data: settings } = useDoc(settingsRef);
 
   const [isAdminMode, setIsAdminMode] = useState(false);
@@ -47,7 +51,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
     }
 
     setIsUpdating(true);
-    setDocumentNonBlocking(settingsRef, {
+    setDocumentNonBlocking(settingsRef!, {
       liveLocation: newLocation.toUpperCase() || settings?.liveLocation,
       liveStatus: newStatus.toUpperCase() || settings?.liveStatus
     }, { merge: true });
@@ -71,17 +75,24 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
         setPassword('');
       }
     }}>
-      <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+      <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] z-[200] outline-none">
+        <button 
+          onClick={onClose}
+          className="absolute right-4 top-4 text-white/40 hover:text-white transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
         <DialogHeader className="space-y-4 text-center">
           <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Store className="h-8 w-8 text-[#01a3a4]" />
           </div>
           <div className="space-y-1">
             <DialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">
-              {isAdminMode ? 'UPDATE TERMINAL' : 'STORE STATUS'}
+              {isAdminMode ? 'SYSTEM OVERRIDE' : 'STORE STATUS'}
             </DialogTitle>
             <DialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">
-              {isAdminMode ? 'SYSTEM OVERRIDE ENABLED' : 'LIVE UPDATES FROM OUR HUB'}
+              {isAdminMode ? 'HUB LOCATION MANAGEMENT' : 'LIVE UPDATES FROM OUR HUB'}
             </DialogDescription>
           </div>
         </DialogHeader>
@@ -129,7 +140,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
                 }}
                 className="text-[8px] font-black text-white/20 uppercase tracking-[0.3em] hover:text-[#01a3a4] transition-colors flex items-center justify-center gap-2"
               >
-                <Settings2 className="h-3 w-3" /> ADMIN UPDATE ACCESS
+                <Settings2 className="h-3 w-3" /> QUICK HUB UPDATE
               </button>
             </div>
           </div>
@@ -137,7 +148,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
           <form onSubmit={handleUpdate} className="mt-8 space-y-6">
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">NEW LOCATION</label>
+                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">NEW HUB LOCATION</label>
                 <Input 
                   value={newLocation}
                   onChange={(e) => setNewLocation(e.target.value)}
@@ -146,7 +157,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">NEW STATUS</label>
+                <label className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">CURRENT STATUS</label>
                 <Input 
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value)}
@@ -181,9 +192,9 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
               <Button 
                 type="submit" 
                 disabled={isUpdating}
-                className="flex-2 bg-orange-600 hover:bg-orange-700 text-white rounded-none uppercase text-[9px] font-black h-12"
+                className="flex-2 bg-orange-600 hover:bg-orange-700 text-white rounded-none uppercase text-[9px] font-black h-12 shadow-xl"
               >
-                {isUpdating ? <Loader2 className="h-4 w-4 animate-spin" /> : 'CONFIRM UPDATE'}
+                {isUpdating ? <Loader2 className="h-4 w-4 animate-spin" /> : 'CONFIRM HUB UPDATE'}
               </Button>
             </div>
           </form>
