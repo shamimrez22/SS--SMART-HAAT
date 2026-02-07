@@ -79,24 +79,24 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl gpu-accelerated outline-none overflow-hidden">
-        <DialogHeader className="space-y-6 text-center">
+        <DialogHeader className="space-y-6 text-center w-full">
           <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Lock className="h-8 w-8 text-[#01a3a4]" />
           </div>
           <div className="space-y-3 flex flex-col items-center w-full">
-            {/* SOLID CONTAINER FOR HEADER - HARD FIX FOR ALIGNMENT */}
+            {/* SOLID CONTAINER FOR HEADER - HARD CENTER FIX */}
             <div className="bg-[#01a3a4] w-full py-4 shadow-xl border border-white/10 flex items-center justify-center">
-              <DialogTitle className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter leading-none m-0 p-0">
+              <DialogTitle className="text-xl md:text-2xl font-black text-white uppercase tracking-tighter leading-none m-0 p-0 w-full text-center">
                 ADMIN TERMINAL
               </DialogTitle>
             </div>
-            <DialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">
+            <DialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em] w-full text-center">
               RESTRICTED ACCESS AREA
             </DialogDescription>
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleLogin} className="space-y-6 mt-6" autoComplete="off">
+        <form onSubmit={handleLogin} className="space-y-6 mt-6 w-full" autoComplete="off">
           <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
