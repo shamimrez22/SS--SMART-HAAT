@@ -200,6 +200,8 @@ export default function Home() {
     return <div className="min-h-screen bg-black" />;
   }
 
+  const broadcastColor = settings?.statusColor || '#ffffff';
+
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-primary/30 relative">
       {/* ULTIMATE FIXED HEADER WRAPPER - HARD FREEZE */}
@@ -211,7 +213,10 @@ export default function Home() {
               <div className="flex items-center gap-3 text-[11px] md:text-[14px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
                 <Radio className="h-3.5 w-3.5 animate-pulse text-[#01a3a4]" /> LIVE STATUS:
               </div>
-              <p className="text-[11px] md:text-[15px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-6">
+              <p 
+                style={{ color: broadcastColor }}
+                className="text-[11px] md:text-[15px] font-black uppercase tracking-[0.2em] flex items-center gap-6"
+              >
                 {settings.liveStatus} <span className="text-[#01a3a4]/40">||</span> 
                 <MapPin className="h-3.5 w-3.5 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
               </p>

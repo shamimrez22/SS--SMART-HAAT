@@ -21,7 +21,9 @@ import {
   Zap,
   Eye,
   EyeOff,
-  ExternalLink
+  ExternalLink,
+  Palette,
+  Type
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -43,9 +45,10 @@ export default function AdminSettings() {
     adminPassword: ''
   });
 
-  const [locationData, setLocationData] = useState({
+  const [statusData, setStatusData] = useState({
     liveLocation: '',
     liveStatus: '',
+    statusColor: '#ffffff',
     verificationPassword: ''
   });
 
@@ -58,10 +61,11 @@ export default function AdminSettings() {
         adminUsername: settings.adminUsername || 'ADMIN',
         adminPassword: settings.adminPassword || '4321'
       });
-      setLocationData(prev => ({
+      setStatusData(prev => ({
         ...prev,
         liveLocation: settings.liveLocation || 'BANANI, DHAKA',
-        liveStatus: settings.liveStatus || 'OPEN & READY TO SHIP'
+        liveStatus: settings.liveStatus || 'OPEN & READY TO SHIP',
+        statusColor: settings.statusColor || '#ffffff'
       }));
     }
   }, [settings]);
@@ -81,30 +85,31 @@ export default function AdminSettings() {
     });
   };
 
-  const handleSaveLocation = (e: React.FormEvent) => {
+  const handleSaveStatus = (e: React.FormEvent) => {
     e.preventDefault();
     if (!settingsRef) return;
     
-    if (locationData.verificationPassword !== adminData.adminPassword) {
+    if (statusData.verificationPassword !== adminData.adminPassword) {
       toast({
         variant: "destructive",
         title: "ACCESS DENIED",
-        description: "INVALID PASSWORD. CANNOT UPDATE LOCATION.",
+        description: "INVALID PASSWORD. CANNOT UPDATE BROADCAST.",
       });
       return;
     }
 
     setDocumentNonBlocking(settingsRef, {
-      liveLocation: locationData.liveLocation.toUpperCase(),
-      liveStatus: locationData.liveStatus.toUpperCase()
+      liveLocation: statusData.liveLocation.toUpperCase(),
+      liveStatus: statusData.liveStatus.toUpperCase(),
+      statusColor: statusData.statusColor
     }, { merge: true });
 
     toast({
-      title: "LOCATION UPDATED",
-      description: "STORE STATUS HAS BEEN BROADCAST TO CUSTOMERS.",
+      title: "BROADCAST UPDATED",
+      description: "STORE STATUS AND COLOR HAVE BEEN BROADCAST LIVE.",
     });
     
-    setLocationData(prev => ({ ...prev, verificationPassword: '' }));
+    setStatusData(prev => ({ ...prev, verificationPassword: '' }));
   };
 
   if (isLoading || !db) {
@@ -193,37 +198,54 @@ export default function AdminSettings() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <MapPin className="h-4 w-4" /> LOCATION & LIVE STATUS
+                  <MapPin className="h-4 w-4" /> LIVE STATUS BROADCAST
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8">
-                <form onSubmit={handleSaveLocation} className="space-y-6">
+                <form onSubmit={handleSaveStatus} className="space-y-6">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase">CURRENT LOCATION</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><MapPin className="h-3 w-3" /> CURRENT HUB</label>
                       <Input 
-                        value={locationData.liveLocation}
-                        onChange={(e) => setLocationData({...locationData, liveLocation: e.target.value})}
+                        value={statusData.liveLocation}
+                        onChange={(e) => setStatusData({...statusData, liveLocation: e.target.value})}
                         className="bg-black border-white/10 rounded-none h-12 text-xs text-white"
                         placeholder="E.G. BANANI, DHAKA"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase">LIVE STATUS MESSAGE</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Type className="h-3 w-3" /> BROADCAST MESSAGE</label>
                       <Input 
-                        value={locationData.liveStatus}
-                        onChange={(e) => setLocationData({...locationData, liveStatus: e.target.value})}
+                        value={statusData.liveStatus}
+                        onChange={(e) => setStatusData({...statusData, liveStatus: e.target.value})}
                         className="bg-black border-white/10 rounded-none h-12 text-xs text-white"
                         placeholder="E.G. OPEN & READY TO SHIP"
                       />
                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Palette className="h-3 w-3" /> TEXT HEX COLOR</label>
+                      <div className="flex gap-3">
+                        <Input 
+                          type="color"
+                          value={statusData.statusColor}
+                          onChange={(e) => setStatusData({...statusData, statusColor: e.target.value})}
+                          className="w-12 h-12 p-1 bg-black border-white/10 rounded-none cursor-pointer shrink-0"
+                        />
+                        <Input 
+                          value={statusData.statusColor}
+                          onChange={(e) => setStatusData({...statusData, statusColor: e.target.value})}
+                          className="bg-black border-white/10 rounded-none h-12 text-xs text-white font-mono"
+                          placeholder="#FFFFFF"
+                        />
+                      </div>
+                    </div>
                     <div className="space-y-2 border-t border-white/5 pt-4">
-                      <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Lock className="h-3 w-3" /> VERIFY PASSWORD TO UPDATE</label>
+                      <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Lock className="h-3 w-3" /> VERIFY PASSWORD TO PUSH</label>
                       <div className="relative">
                         <Input 
                           type={showVerifyPassword ? "text" : "password"}
-                          value={locationData.verificationPassword}
-                          onChange={(e) => setLocationData({...locationData, verificationPassword: e.target.value})}
+                          value={statusData.verificationPassword}
+                          onChange={(e) => setStatusData({...statusData, verificationPassword: e.target.value})}
                           className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white pr-10"
                           placeholder="••••"
                         />
@@ -238,7 +260,7 @@ export default function AdminSettings() {
                     </div>
                   </div>
                   <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white h-12 font-black uppercase tracking-widest rounded-none text-[9px]">
-                    BROADCAST UPDATE
+                    BROADCAST LIVE
                   </Button>
                 </form>
               </CardContent>
