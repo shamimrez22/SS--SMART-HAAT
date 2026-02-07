@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, memo } from 'react';
@@ -96,7 +97,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   };
 
   const handleWhatsAppChat = () => {
-    const phone = settings?.whatsappUrl || settings?.phone || '+8801XXX-XXXXXX';
+    const phone = settings?.whatsappUrl || settings?.phone || '+8801700000000';
     const cleanPhone = phone.replace(/[^0-9]/g, "");
     const message = `Hello SS SMART HAAT, I want to inquire about: ${product.name} (Price: ৳${product.price})`;
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
@@ -127,7 +128,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                       src={product.imageUrl} 
                       alt={product.name} 
                       fill 
-                      className="object-cover" 
+                      className="object-cover transition-transform duration-700 group-hover:scale-110" 
                       priority 
                     />
                   </div>

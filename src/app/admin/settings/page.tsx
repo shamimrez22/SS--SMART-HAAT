@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -23,7 +24,8 @@ import {
   Github,
   Globe,
   Radio,
-  X
+  X,
+  BookOpen
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -180,7 +182,7 @@ export default function AdminSettings() {
                   </div>
                   {/* Website Header In Preview */}
                   <div className="h-10 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
-                    <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black">SS</div>
+                    <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black shadow-lg">SS</div>
                     <div className="w-4 h-4 rounded-full border border-white/20" />
                   </div>
                   {/* Live Marquee Bar In Preview */}
@@ -196,14 +198,24 @@ export default function AdminSettings() {
                   </div>
                   {/* Dummy Content In Preview */}
                   <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4 overflow-hidden">
-                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none border border-white/5" />
+                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none border border-white/5 flex items-center justify-center">
+                       <span className="text-[6px] text-white/20 font-black uppercase tracking-widest">Banner Area</span>
+                    </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="aspect-square bg-white/5 border border-white/5" />
-                      <div className="aspect-square bg-white/5 border border-white/5" />
+                      <div className="aspect-square bg-white/5 border border-white/5 flex flex-col items-center justify-center p-2 space-y-2">
+                         <div className="w-full h-2/3 bg-white/5" />
+                         <div className="w-3/4 h-1 bg-white/10" />
+                         <div className="w-1/2 h-1 bg-[#01a3a4]/20" />
+                      </div>
+                      <div className="aspect-square bg-white/5 border border-white/5 flex flex-col items-center justify-center p-2 space-y-2">
+                         <div className="w-full h-2/3 bg-white/5" />
+                         <div className="w-3/4 h-1 bg-white/10" />
+                         <div className="w-1/2 h-1 bg-[#01a3a4]/20" />
+                      </div>
                     </div>
                     <div className="space-y-2">
-                      <div className="h-2 w-3/4 bg-white/5 rounded-full" />
-                      <div className="h-2 w-1/2 bg-white/5 rounded-full" />
+                      <div className="h-1.5 w-3/4 bg-white/5 rounded-full" />
+                      <div className="h-1.5 w-1/2 bg-white/5 rounded-full" />
                     </div>
                   </div>
                 </div>
@@ -211,15 +223,27 @@ export default function AdminSettings() {
             </Card>
 
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
-              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6"><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2"><Terminal className="h-4 w-4" /> PUBLISH GUIDE</CardTitle></CardHeader>
-              <CardContent className="p-8 space-y-6">
+              <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6"><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2"><BookOpen className="h-4 w-4" /> ওয়েবসাইট পাবলিশ গাইড (বাংলা)</CardTitle></CardHeader>
+              <CardContent className="p-8 space-y-8">
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-[#01a3a4]"><Github className="h-5 w-5" /><h3 className="text-lg font-black uppercase">Step 1: GitHub Push</h3></div>
-                  <p className="text-[10px] text-white/40 uppercase font-bold">Push your local changes to your GitHub repository to sync the cloud code.</p>
+                  <div className="flex items-center gap-3 text-[#01a3a4]"><Github className="h-5 w-5" /><h3 className="text-lg font-black uppercase">ধাপ ১: গিটহাব পুশ (GitHub Sync)</h3></div>
+                  <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
+                    আপনার লোকাল কম্পিউটারে করা কোড পরিবর্তনগুলো গিটহাবে 'Push' করুন। এতে আপনার ক্লাউড রিপোজিটরি আপডেট হবে এবং ওয়েবসাইট লাইভ হওয়ার জন্য প্রস্তুত হবে।
+                  </p>
                 </div>
-                <div className="space-y-4 pt-4 border-t border-white/5">
-                  <div className="flex items-center gap-3 text-[#01a3a4]"><Globe className="h-5 w-5" /><h3 className="text-lg font-black uppercase">Step 2: Vercel/Firebase Deploy</h3></div>
-                  <p className="text-[10px] text-white/40 uppercase font-bold">Import your GitHub repository into Vercel or Firebase App Hosting for live deployment.</p>
+                
+                <div className="space-y-4 pt-6 border-t border-white/5">
+                  <div className="flex items-center gap-3 text-[#01a3a4]"><Globe className="h-5 w-5" /><h3 className="text-lg font-black uppercase">ধাপ ২: ভারসেল বা ফায়ারবেস কানেকশন</h3></div>
+                  <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
+                    আপনার গিটহাব রিপোজিটরিটি Vercel অথবা Firebase App Hosting-এর সাথে কানেক্ট করুন। এটি একবার করে রাখলেই হবে, পরবর্তীতে সব অটোমেটিক কাজ করবে।
+                  </p>
+                </div>
+
+                <div className="space-y-4 pt-6 border-t border-white/5">
+                  <div className="flex items-center gap-3 text-orange-500"><Zap className="h-5 w-5" /><h3 className="text-lg font-black uppercase">ধাপ ৩: অটোমেটিক লাইভ আপডেট</h3></div>
+                  <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
+                    একবার ডেপ্লয়মেন্ট সেটআপ হয়ে গেলে, আপনি যখনই কোড পরিবর্তন করে গিটহাবে পুশ করবেন, ওয়েবসাইটটি কয়েক সেকেন্ডের মধ্যেই অটোমেটিক আপডেট হয়ে লাইভ হয়ে যাবে। আলাদা করে কোনো ফাইল আপলোড করার প্রয়োজন নেই।
+                  </p>
                 </div>
               </CardContent>
             </Card>
