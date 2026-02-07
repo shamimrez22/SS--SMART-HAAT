@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Navbar } from '@/components/Navbar';
+import { MainHeader } from '@/components/MainHeader';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,6 @@ import {
   User, 
   Lock, 
   Loader2,
-  MapPin,
   Smartphone,
   Zap,
   Eye,
@@ -100,7 +99,7 @@ export default function AdminSettings() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
-      <Navbar />
+      <MainHeader />
       <main className="flex-grow container mx-auto px-4 py-12 max-w-6xl">
         <div className="flex items-center gap-4 mb-12">
           <Link href="/admin"><Button variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10"><ArrowLeft className="h-6 w-6 text-[#01a3a4]" /></Button></Link>
@@ -170,7 +169,7 @@ export default function AdminSettings() {
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6"><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2"><Smartphone className="h-4 w-4" /> MOBILE LIVE DISPLAY PREVIEW</CardTitle></CardHeader>
               <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505]">
                 <div className="w-full max-w-[300px] aspect-[9/16] bg-black border-[10px] border-[#1a1a1a] rounded-[35px] relative overflow-hidden flex flex-col shadow-2xl scale-100">
-                  {/* Status Bar */}
+                  {/* Simulator Screen */}
                   <div className="h-8 bg-black flex items-end px-6 pb-1.5 justify-between border-b border-white/5 shrink-0">
                     <div className="text-[7px] text-white font-bold">12:00</div>
                     <div className="flex gap-1">
@@ -178,7 +177,6 @@ export default function AdminSettings() {
                       <div className="w-1.5 h-1.5 bg-[#01a3a4] rounded-full" />
                     </div>
                   </div>
-                  {/* Website Header In Preview */}
                   <div className="h-10 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
                     <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black shadow-lg">SS</div>
                     <div className="flex gap-2">
@@ -186,7 +184,6 @@ export default function AdminSettings() {
                        <div className="w-3 h-3 rounded-none border border-white/20" />
                     </div>
                   </div>
-                  {/* Live Marquee Bar In Preview */}
                   <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0">
                     <div className="flex items-center gap-4 w-full px-2">
                       <div className="flex items-center gap-2 text-[7px] font-black text-[#01a3a4] uppercase shrink-0">
@@ -197,26 +194,18 @@ export default function AdminSettings() {
                       </p>
                     </div>
                   </div>
-                  {/* Simulated Content In Preview */}
                   <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4 overflow-hidden">
                     <div className="w-full aspect-[16/9] bg-white/5 rounded-none border border-white/5 flex items-center justify-center">
                        <span className="text-[6px] text-white/20 font-black uppercase tracking-widest italic">MAIN SLIDER BANNER</span>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="aspect-square bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center p-2 space-y-2">
-                         <div className="w-full h-2/3 bg-white/5" />
-                         <div className="w-3/4 h-1 bg-[#01a3a4]/20" />
-                         <div className="w-1/2 h-1 bg-white/10" />
-                      </div>
-                      <div className="aspect-square bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center p-2 space-y-2">
-                         <div className="w-full h-2/3 bg-white/5" />
-                         <div className="w-3/4 h-1 bg-[#01a3a4]/20" />
-                         <div className="w-1/2 h-1 bg-white/10" />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="h-1.5 w-3/4 bg-white/5 rounded-full" />
-                      <div className="h-1.5 w-1/2 bg-white/5 rounded-full" />
+                      {[1, 2].map(i => (
+                        <div key={i} className="aspect-square bg-white/[0.02] border border-white/5 flex flex-col items-center justify-center p-2 space-y-2">
+                           <div className="w-full h-2/3 bg-white/5" />
+                           <div className="w-3/4 h-1 bg-[#01a3a4]/20" />
+                           <div className="w-1/2 h-1 bg-white/10" />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

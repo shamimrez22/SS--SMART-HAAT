@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Navbar } from '@/components/Navbar';
+import { MainHeader } from '@/components/MainHeader';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,6 @@ import {
   Edit2, 
   Zap, 
   LayoutDashboard,
-  Package,
   Ruler,
   DollarSign
 } from 'lucide-react';
@@ -71,7 +70,7 @@ export default function AdminProducts() {
     }
   };
 
-  const addSizeRow = (e?: React.FormEvent) => {
+  const addSizeRow = (e?: React.FormEvent | React.KeyboardEvent) => {
     if (e) e.preventDefault();
     if (!newSize.trim()) return;
     const formattedSize = newSize.trim().toUpperCase();
@@ -150,7 +149,7 @@ export default function AdminProducts() {
 
   return (
     <div className="min-h-screen bg-background selection:bg-[#01a3a4]/30">
-      <Navbar />
+      <MainHeader />
       <main className="container mx-auto px-4 py-10 max-w-7xl">
         <div className="flex items-center gap-4 mb-12">
           <Button asChild variant="ghost" className="border border-white/10 h-12 w-12 rounded-none hover:bg-white/5">
@@ -212,10 +211,15 @@ export default function AdminProducts() {
                     placeholder="SIZE (E.G. XL)" 
                     value={newSize} 
                     onChange={(e) => setNewSize(e.target.value.toUpperCase())}
-                    onKeyDown={(e) => e.key === 'Enter' && addSizeRow(e)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addSizeRow();
+                      }
+                    }}
                     className="bg-black border-white/10 h-10 text-[10px] uppercase font-black" 
                   />
-                  <Button onClick={addSizeRow} type="button" className="bg-[#01a3a4] h-10 rounded-none text-[8px] font-black uppercase px-4">ADD SIZE</Button>
+                  <Button onClick={(e) => addSizeRow(e)} type="button" className="bg-[#01a3a4] h-10 rounded-none text-[8px] font-black uppercase px-4">ADD SIZE</Button>
                 </div>
 
                 <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2">

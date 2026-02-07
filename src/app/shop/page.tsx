@@ -1,8 +1,9 @@
+
 "use client";
 
 import React, { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Navbar } from '@/components/Navbar';
+import { MainHeader } from '@/components/MainHeader';
 import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
 import { CategoriesGrid } from '@/components/CategoriesGrid';
@@ -111,7 +112,7 @@ function ShopContent() {
 export default function ShopPage() {
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
-      <Navbar />
+      <MainHeader />
       <Suspense fallback={
         <div className="flex-grow flex items-center justify-center">
           <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />

@@ -4,13 +4,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, ShoppingCart, Heart, Share2, Loader2, Package, Ruler, MapPin, Grid2X2 } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Share2, Loader2, Package, Ruler, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Navbar } from '@/components/Navbar';
+import { MainHeader } from '@/components/MainHeader';
 import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
 import { useFirestore, useDoc, useCollection, useMemoFirebase } from '@/firebase';
-import { doc, collection, query, limit, where } from 'firebase/firestore';
+import { doc, collection, query, limit } from 'firebase/firestore';
 import { OrderModal } from '@/components/OrderModal';
 import { ProductCard } from '@/components/ProductCard';
 
@@ -35,7 +35,7 @@ export default function ProductDetails() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <Navbar />
+        <MainHeader />
         <div className="flex-grow flex items-center justify-center">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
@@ -50,7 +50,7 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
-        <Navbar />
+        <MainHeader />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center space-y-6 max-w-md p-8 border border-white/5 bg-white/[0.02]">
             <Package className="h-16 w-16 text-[#01a3a4]/30 mx-auto" />
@@ -70,7 +70,7 @@ export default function ProductDetails() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
-      <Navbar />
+      <MainHeader />
       <main className="flex-grow py-12 md:py-20">
         <div className="container mx-auto px-4">
           <Button variant="ghost" className="mb-12 rounded-none uppercase text-white hover:bg-white/5 border border-white/10 h-10 px-6 font-black text-[10px] tracking-widest" onClick={() => router.back()}>
