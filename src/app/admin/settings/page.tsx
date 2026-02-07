@@ -271,42 +271,35 @@ export default function AdminSettings() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Smartphone className="h-4 w-4" /> LIVE MOBILE PREVIEW (REAL-TIME)
+                  <Smartphone className="h-4 w-4" /> STORE MANAGEMENT GUIDE
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-8 flex flex-col md:flex-row items-center justify-center gap-12">
-                <div className="relative w-[300px] h-[600px] bg-black rounded-[3rem] border-[12px] border-zinc-900 shadow-2xl overflow-hidden shrink-0">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-zinc-900 rounded-b-2xl z-30 flex items-center justify-center">
-                    <div className="w-12 h-1 bg-zinc-950 rounded-full" />
+              <CardContent className="p-8 space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[#01a3a4]">
+                      <Zap className="h-5 w-5" />
+                      <h3 className="text-xl font-black text-white uppercase tracking-tighter">স্পিড অপ্টিমাইজেশন</h3>
+                    </div>
+                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-relaxed">
+                      আপনার সাইট এখন আগের চেয়ে অনেক দ্রুত লোড হবে। অপ্রয়োজনীয় প্রিভিউ এবং স্ক্রিপ্ট সরিয়ে ফেলা হয়েছে।
+                    </p>
                   </div>
-                  <div className="absolute inset-0 pt-6">
-                    <iframe 
-                      src="/" 
-                      className="w-full h-full border-none pointer-events-auto no-scrollbar"
-                      title="Live Mobile Preview"
-                    />
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-[#01a3a4]">
+                      <Terminal className="h-5 w-5" />
+                      <h3 className="text-xl font-black text-white uppercase tracking-tighter">রিয়েল-টাইম নোটিফিকেশন</h3>
+                    </div>
+                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-relaxed">
+                      নতুন কোনো অর্ডার আসলে এখন আপনি সাথে সাথে ন্যাপবারের ৩-ডট মেনুর ভেতর নোটিফিকেশন দেখতে পাবেন।
+                    </p>
                   </div>
                 </div>
 
-                <div className="space-y-6 max-w-sm">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-[#01a3a4]">
-                      <Eye className="h-5 w-5" />
-                      <h3 className="text-xl font-black text-white uppercase tracking-tighter">লাইভ মোবাইল ভিউ</h3>
-                    </div>
-                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-relaxed">
-                      বামের স্ক্রিনে আপনার ওয়েবসাইটটি বর্তমানে মোবাইলে যেমন দেখাবে তা সরাসরি দেখা যাচ্ছে। আপনি এখান থেকেই স্ক্রল করে চেক করতে পারেন।
-                    </p>
-                  </div>
-                  <div className="p-4 bg-[#01a3a4]/5 border border-[#01a3a4]/20 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <Zap className="h-3 w-3 text-[#01a3a4]" />
-                      <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">রেসপন্সিভ অপ্টিমাইজেশন</p>
-                    </div>
-                    <p className="text-[9px] font-black text-white/60 uppercase leading-relaxed">
-                      প্রতিটি প্রোডাক্ট, স্লাইডার এবং মেনু মোবাইল ফ্রেন্ডলি কি না তা নিশ্চিত করার জন্য এই লাইভ প্রিভিউ ব্যবহার করুন।
-                    </p>
-                  </div>
+                <div className="p-6 bg-[#01a3a4]/5 border border-[#01a3a4]/20 space-y-4">
+                  <p className="text-[11px] font-black text-white uppercase leading-relaxed italic">
+                    "WE HAVE REMOVED THE HEAVY IFRAME PREVIEW TO ENSURE THE SYSTEM REMAINS LIGHTWEIGHT AND FAST. YOU CAN ALWAYS CHECK THE LIVE SITE IN A NEW TAB."
+                  </p>
                   <Button asChild variant="outline" className="w-full border-white/10 text-white hover:bg-white hover:text-black h-12 font-black uppercase tracking-widest text-[9px] rounded-none">
                     <Link href="/" target="_blank" className="flex items-center justify-center gap-2">
                       ওপেন লাইভ সাইট <ExternalLink className="h-3 w-3" />

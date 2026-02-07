@@ -45,11 +45,12 @@ export function Navbar() {
 
   const todayOrdersQuery = useMemoFirebase(() => {
     if (!db || !todayDate) return null;
+    // Query for orders created today to show notification count
     return query(collection(db, 'orders'), where('createdAt', '>=', todayDate));
   }, [db, todayDate]);
   
   const { data: todayOrders } = useCollection(todayOrdersQuery);
-  const orderCount = todayOrders?.length || 0;
+  const orderCount = useMemo(() => todayOrders?.length || 0, [todayOrders]);
 
   const toggleLanguage = () => {
     const newLang = language === 'EN' ? 'BN' : 'EN';
@@ -151,7 +152,7 @@ export function Navbar() {
 
                     <DropdownMenuItem className="p-3 cursor-pointer flex justify-between items-center" onClick={() => setIsAdminModalOpen(true)}>
                       <div className="flex items-center">
-                        <span className="text-[10px] font-black uppercase text-black">ADMIN</span>
+                        <span className="text-[10px] font-black uppercase text-black">ADMIN PANEL</span>
                       </div>
                       {orderCount > 0 && (
                         <Badge className="bg-red-600 text-white text-[8px] font-black rounded-none border-none animate-pulse">
