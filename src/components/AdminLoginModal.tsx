@@ -101,7 +101,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="ENTER USERNAME"
-                className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] text-white normal-case"
+                className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] text-white"
               />
             </div>
 
@@ -116,7 +116,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••"
-                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] tracking-widest text-white pr-10 normal-case"
+                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] tracking-widest text-white pr-10"
                 />
                 <button 
                   type="button"

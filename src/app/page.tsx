@@ -202,28 +202,28 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-primary/30 relative">
-      {/* ULTIMATE FIXED HEADER WRAPPER */}
+      {/* ULTIMATE FIXED HEADER WRAPPER - HARD FREEZE */}
       <div className="fixed top-0 left-0 right-0 z-[100] shadow-2xl bg-black">
         <Navbar />
         {settings?.liveStatus && (
-          <div className="bg-black border-b border-[#01a3a4]/20 py-1.5 px-4 overflow-hidden whitespace-nowrap">
+          <div className="bg-black border-b border-[#01a3a4]/20 py-0.5 px-4 overflow-hidden whitespace-nowrap">
             <div className="container mx-auto flex items-center gap-6 animate-marquee">
-              <div className="flex items-center gap-3 text-[12px] md:text-[15px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
-                <Radio className="h-4 w-4 animate-pulse text-[#01a3a4]" /> LIVE STATUS:
+              <div className="flex items-center gap-3 text-[11px] md:text-[14px] font-black text-[#01a3a4] uppercase tracking-widest shrink-0">
+                <Radio className="h-3.5 w-3.5 animate-pulse text-[#01a3a4]" /> LIVE STATUS:
               </div>
-              <p className="text-[12px] md:text-[16px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-6">
+              <p className="text-[11px] md:text-[15px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-6">
                 {settings.liveStatus} <span className="text-[#01a3a4]/40">||</span> 
-                <MapPin className="h-4 w-4 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
+                <MapPin className="h-3.5 w-3.5 text-[#01a3a4]" /> {settings.liveLocation || 'BANANI, DHAKA'}
               </p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Dynamic Spacer based on live status presence */}
-      <div className={settings?.liveStatus ? "h-[104px] md:h-[116px]" : "h-[64px] md:h-[72px]"} />
+      {/* Dynamic Spacer based on live status presence - Optimized Height */}
+      <div className={settings?.liveStatus ? "h-[92px] md:h-[104px]" : "h-[64px] md:h-[72px]"} />
 
-      <main className="flex-grow container mx-auto space-y-1">
+      <main className="flex-grow container mx-auto">
         <section className="grid grid-cols-12 gap-0 h-[160px] md:h-[320px] gpu-accelerated">
           <div className="col-span-3 h-full"><FlashOfferCard /></div>
           <div className="col-span-6 h-full relative overflow-hidden bg-black">

@@ -159,7 +159,7 @@ export default function AdminSettings() {
                       <Input 
                         value={adminData.adminUsername}
                         onChange={(e) => setAdminData({...adminData, adminUsername: e.target.value})}
-                        className="bg-black border-white/10 rounded-none h-12 text-sm text-white normal-case"
+                        className="bg-black border-white/10 rounded-none h-12 text-sm text-white"
                         autoComplete="off"
                       />
                     </div>
@@ -170,7 +170,7 @@ export default function AdminSettings() {
                           value={adminData.adminPassword}
                           onChange={(e) => setAdminData({...adminData, adminPassword: e.target.value})}
                           type={showPassword ? "text" : "password"}
-                          className="bg-black border-white/10 rounded-none h-12 text-sm text-white pr-10 normal-case"
+                          className="bg-black border-white/10 rounded-none h-12 text-sm text-white pr-10"
                           autoComplete="off"
                         />
                         <button 
@@ -224,7 +224,7 @@ export default function AdminSettings() {
                           type={showVerifyPassword ? "text" : "password"}
                           value={locationData.verificationPassword}
                           onChange={(e) => setLocationData({...locationData, verificationPassword: e.target.value})}
-                          className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white pr-10 normal-case"
+                          className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white pr-10"
                           placeholder="••••"
                         />
                         <button 
@@ -312,7 +312,7 @@ export default function AdminSettings() {
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/5">
                     <div className="h-6 w-6 rounded-full bg-[#01a3a4] text-white flex items-center justify-center text-[10px] font-black shrink-0">৩</div>
-                    <p className="text-[10px] font-black text-white uppercase leading-relaxed">Vercel বা Firebase ড্যাশবোর্ডে গিয়ে বিল্ড প্রসেস চেক করুন।</p>
+                    <p className="text-[10px] font-black text-white uppercase leading-relaxed">Vercel বা Firebase ড্যাশবোর্ড চেক করুন।</p>
                   </div>
                   <div className="flex items-start gap-3 p-3 bg-[#01a3a4]/10 border border-[#01a3a4]/20">
                     <div className="h-6 w-6 rounded-full bg-[#01a3a4] text-white flex items-center justify-center text-[10px] font-black shrink-0">৪</div>
