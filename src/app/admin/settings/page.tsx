@@ -139,7 +139,7 @@ export default function AdminSettings() {
                 <form onSubmit={handleSaveStatus} className="space-y-6">
                   <div className="space-y-4">
                     <div className="space-y-2 p-4 bg-white/5 border border-white/10">
-                      <label className="text-[9px] font-black text-[#01a3a4] uppercase flex items-center gap-2"><MapPin className="h-3 w-3" /> HUB LOCATION</label>
+                      <label className="text-[9px] font-black text-[#01a3a4] uppercase flex items-center gap-2"><MapPin className="h-3 w-3 text-[#01a3a4]" /> HUB LOCATION</label>
                       <Input value={statusData.liveLocation} onChange={(e) => setStatusData({...statusData, liveLocation: e.target.value})} placeholder="E.G. BANANI, DHAKA" className="bg-black border-white/10 rounded-none h-12 text-xs text-white uppercase" />
                     </div>
 
