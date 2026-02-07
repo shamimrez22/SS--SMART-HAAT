@@ -41,7 +41,7 @@ export function Navbar() {
     if (storedLang) setLanguage(storedLang);
   }, []);
 
-  // Optimized notification query: Only fetch PENDING orders
+  // Notification Query: Always fetch pending orders for the badge
   const pendingOrdersQuery = useMemoFirebase(() => {
     if (!db) return null;
     return query(
@@ -79,11 +79,10 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 h-[64px] flex items-center gpu-accelerated">
+      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 h-[64px] flex items-center gpu-accelerated relative z-[110]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-2">
             
-            {/* LEFT: BRANDING */}
             <Link href="/" className="flex items-center gap-2 shrink-0 group">
               <LogoIcon />
               <div className="flex flex-col">
@@ -94,11 +93,9 @@ export function Navbar() {
               </div>
             </Link>
 
-            {/* RIGHT: NAVIGATION LINKS */}
             <div className="flex items-center gap-2 md:gap-4 shrink-0 flex-grow justify-end">
               <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white">
                 
-                {/* Desktop Search */}
                 <div className="hidden md:flex items-center relative flex-grow max-w-[700px]">
                   <Input 
                     type="search" 
@@ -133,18 +130,16 @@ export function Navbar() {
                   <MapPin className="h-3.5 w-3.5" /> {language === 'EN' ? "LOCATION" : "লোকেশন"}
                 </button>
 
-                {/* 3-DOT MENU WITH ALERT DOT */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center">
-                      <MoreVertical className="h-5 w-5" />
+                    <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center group">
+                      <MoreVertical className="h-5 w-5 transition-transform group-hover:scale-110" />
                       {pendingCount > 0 && (
-                        <span className="absolute top-0 right-0 h-2 w-2 bg-red-600 rounded-full border border-white animate-pulse" />
+                        <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-600 rounded-full border-2 border-[#01a3a4] animate-pulse shadow-lg" />
                       )}
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-white border-none rounded-none shadow-2xl p-2 min-w-[180px] z-[100]">
-                    
+                  <DropdownMenuContent className="bg-white border-none rounded-none shadow-2xl p-2 min-w-[180px] z-[150]">
                     <DropdownMenuItem className="p-3 cursor-pointer md:hidden" onClick={() => setShowSearchInput(!showSearchInput)}>
                       <Search className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-black uppercase text-black">{language === 'EN' ? "SEARCH" : "খুঁজুন"}</span>
@@ -169,7 +164,6 @@ export function Navbar() {
                 </DropdownMenu>
               </div>
 
-              {/* Shopping Bag */}
               <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-none hover:bg-black/10 text-white group border border-white/20">
                 <ShoppingBag className="h-5 w-5 transition-transform group-hover:scale-110" />
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-[8px] font-black rounded-none flex items-center justify-center border border-[#01a3a4]">
@@ -179,7 +173,6 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* EXPANDABLE SEARCH BAR (Mobile Toggle) */}
           {showSearchInput && (
             <div className="mt-2 pb-2 relative animate-in slide-in-from-top-2 duration-300 md:hidden">
               <Input 

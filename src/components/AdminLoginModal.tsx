@@ -54,7 +54,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
     const validUser = settings?.adminUsername || 'ADMIN';
     const validPass = settings?.adminPassword || '4321';
 
-    // Fast credentials check supporting case-sensitivity
+    // Instant check supporting case-sensitivity as per user request
     setTimeout(() => {
       if (username === validUser && password === validPass) {
         const today = new Date().toISOString().split('T')[0];
@@ -79,12 +79,12 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
       <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl gpu-accelerated">
-        <DialogHeader className="space-y-4 text-center">
-          <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto mb-2">
+        <DialogHeader className="space-y-6 text-center">
+          <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto">
             <Lock className="h-8 w-8 text-[#01a3a4]" />
           </div>
-          <div className="space-y-3">
-            <div className="bg-[#01a3a4] inline-block px-4 py-1.5 shadow-xl">
+          <div className="space-y-3 flex flex-col items-center">
+            <div className="bg-[#01a3a4] px-6 py-2 shadow-xl">
               <DialogTitle className="text-xl font-black text-white uppercase tracking-tighter leading-none">ADMIN TERMINAL</DialogTitle>
             </div>
             <DialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-[0.2em]">
@@ -103,7 +103,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter Username"
+                placeholder="Username"
                 className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] text-white"
               />
             </div>

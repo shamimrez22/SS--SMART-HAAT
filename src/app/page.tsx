@@ -204,8 +204,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background selection:bg-primary/30 relative">
-      {/* ULTIMATE FIXED HEADER WRAPPER - HARD FREEZE WITH NO GAP */}
-      <div className="fixed top-0 left-0 right-0 z-[100] shadow-2xl bg-black">
+      <div className="fixed top-0 left-0 right-0 z-[120] shadow-2xl bg-black">
         <Navbar />
         {settings?.liveStatus && (
           <div className="bg-black border-b border-[#01a3a4]/20 h-[28px] md:h-[32px] flex items-center overflow-hidden whitespace-nowrap py-0">
@@ -225,7 +224,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* Dynamic Spacer - EXACT HEIGHT TO PREVENT GAP */}
       <div className={settings?.liveStatus ? "h-[92px] md:h-[96px]" : "h-[64px]"} />
 
       <main className="flex-grow container mx-auto">

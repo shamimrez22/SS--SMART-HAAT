@@ -81,7 +81,7 @@ export default function AdminSettings() {
 
     toast({
       title: "SECURITY UPDATED",
-      description: "ADMIN CREDENTIALS HAVE BEEN SUCCESSFULLY CHANGED IN SYSTEM.",
+      description: "ADMIN CREDENTIALS HAVE BEEN SUCCESSFULLY CHANGED.",
     });
   };
 
@@ -155,7 +155,7 @@ export default function AdminSettings() {
                   <div className="p-3 bg-orange-500/5 border border-orange-500/20 mb-4 flex items-start gap-3">
                     <ShieldAlert className="h-4 w-4 text-orange-500 shrink-0" />
                     <p className="text-[8px] font-black text-orange-500 uppercase leading-relaxed tracking-widest">
-                      CAUTION: CREDENTIALS CHANGE WILL REQUIRE RE-LOGIN.
+                      CAUTION: CREDENTIALS ARE CASE-SENSITIVE.
                     </p>
                   </div>
                   <div className="space-y-4">
