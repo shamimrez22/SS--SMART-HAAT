@@ -73,6 +73,7 @@ export default function AdminSettings() {
     e.preventDefault();
     if (!settingsRef) return;
     
+    // CASE SENSITIVE SAVE - NO ENFORCED UPPERCASE
     setDocumentNonBlocking(settingsRef, {
       adminUsername: adminData.adminUsername, 
       adminPassword: adminData.adminPassword

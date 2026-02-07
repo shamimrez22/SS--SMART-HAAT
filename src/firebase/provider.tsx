@@ -47,6 +47,10 @@ export interface UserHookResult {
 
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(undefined);
 
+/**
+ * Hard Stability Provider.
+ * Optimized to prevent auto-hanging and infinite re-renders.
+ */
 export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
   children,
   firebaseApp,
@@ -62,7 +66,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Only run on client
+    // ANTI-HANG GUARD: Ensure auth exists before attaching listener
     if (!auth) {
       setUserAuthState({ user: null, isUserLoading: false, userError: null });
       setIsReady(true);
@@ -97,6 +101,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
   }, [firebaseApp, firestore, auth, userAuthState, isReady]);
 
   // Prevent app-wide hanging by providing an empty shell while loading
+  // This is critical for Next.js hydration safety
   return (
     <FirebaseContext.Provider value={contextValue}>
       <FirebaseErrorListener />
@@ -107,9 +112,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
 
 export const useFirebase = (): FirebaseServicesAndUser | null => {
   const context = useContext(FirebaseContext);
-  if (!context) {
-    return null;
-  }
+  if (!context) return null;
   
   if (!context.firebaseApp || !context.firestore || !context.auth) {
     return null;
