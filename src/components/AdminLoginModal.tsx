@@ -54,6 +54,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
     const validUser = settings?.adminUsername || 'ADMIN';
     const validPass = settings?.adminPassword || '4321';
 
+    // Fast credentials check without forced uppercase
     setTimeout(() => {
       if (username === validUser && password === validPass) {
         const today = new Date().toISOString().split('T')[0];
@@ -72,12 +73,12 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
         setError('INVALID CREDENTIALS. ACCESS DENIED.');
       }
       setLoading(false);
-    }, 800);
+    }, 600);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
-      <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl">
+      <DialogContent className="max-w-md bg-black border border-[#01a3a4]/30 rounded-none p-10 shadow-2xl gpu-accelerated">
         <DialogHeader className="space-y-4 text-center">
           <div className="w-16 h-16 bg-[#01a3a4]/10 border border-[#01a3a4]/20 rounded-full flex items-center justify-center mx-auto mb-2">
             <Lock className="h-8 w-8 text-[#01a3a4]" />
@@ -116,7 +117,7 @@ export function AdminLoginModal({ isOpen, onClose }: AdminLoginModalProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••"
-                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] tracking-widest text-white pr-10"
+                  className="bg-white/5 border-white/10 rounded-none h-12 text-sm focus:ring-[#01a3a4] text-white pr-10"
                 />
                 <button 
                   type="button"

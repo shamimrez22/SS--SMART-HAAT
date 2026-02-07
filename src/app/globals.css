@@ -30,7 +30,7 @@
 
 @layer base {
   * {
-    @apply border-border uppercase;
+    @apply border-border;
   }
   html, body {
     @apply bg-background text-foreground font-body antialiased;
@@ -81,9 +81,9 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* GPU ACCELERATION FOR ULTRA SMOOTHNESS */
+/* ULTIMATE PERFORMANCE BOOST */
 .gpu-accelerated {
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
   will-change: transform, opacity;
@@ -106,4 +106,11 @@ section, main {
 
 img {
   content-visibility: auto;
+  image-rendering: -webkit-optimize-contrast;
 }
+
+/* REMOVE CHROME SEARCH ICON OVERLAP */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }

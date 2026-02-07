@@ -75,7 +75,7 @@ export default function AdminSettings() {
     if (!settingsRef) return;
     
     setDocumentNonBlocking(settingsRef, {
-      adminUsername: adminData.adminUsername,
+      adminUsername: adminData.adminUsername, // Case-sensitive saved here
       adminPassword: adminData.adminPassword
     }, { merge: true });
 
@@ -125,7 +125,7 @@ export default function AdminSettings() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30 gpu-accelerated">
       <Navbar />
       
       <main className="flex-grow container mx-auto px-4 py-12 max-w-6xl">
@@ -223,7 +223,7 @@ export default function AdminSettings() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Palette className="h-3 w-3" /> TEXT HEX COLOR</label>
+                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Palette className="h-3 w-3" /> TEXT COLOR (PALETTE & CODE)</label>
                       <div className="flex gap-3">
                         <Input 
                           type="color"
