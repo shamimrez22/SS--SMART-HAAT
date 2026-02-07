@@ -1,23 +1,20 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Languages, MapPin, MoreVertical, LayoutGrid, X, Home, ShoppingBag, Bell } from 'lucide-react';
+import { Search, Languages, MapPin, MoreVertical, LayoutGrid, X, Home, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
 import { LocationModal } from '@/components/LocationModal';
 import { useRouter } from 'next/navigation';
-import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, where, limit } from 'firebase/firestore';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from '@/components/ui/badge';
 
 const LogoIcon = () => (
   <div className="w-10 h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10">
@@ -33,25 +30,12 @@ export function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
-  const db = useFirestore();
 
   useEffect(() => {
     setIsMounted(true);
     const storedLang = localStorage.getItem('app_lang') as 'EN' | 'BN';
     if (storedLang) setLanguage(storedLang);
   }, []);
-
-  const pendingOrdersQuery = useMemoFirebase(() => {
-    if (!db) return null;
-    return query(
-      collection(db, 'orders'), 
-      where('status', '==', 'PENDING'),
-      limit(20)
-    );
-  }, [db]);
-  
-  const { data: pendingOrders } = useCollection(pendingOrdersQuery);
-  const pendingCount = useMemo(() => pendingOrders?.length || 0, [pendingOrders]);
 
   const toggleLanguage = () => {
     const newLang = language === 'EN' ? 'BN' : 'EN';
@@ -133,9 +117,6 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-black/10 rounded-none border border-white/20 flex items-center justify-center group">
                       <MoreVertical className="h-5 w-5 transition-transform group-hover:scale-110" />
-                      {pendingCount > 0 && (
-                        <span className="absolute -top-1 -right-1 h-3.5 w-3.5 bg-red-600 rounded-full border-2 border-[#01a3a4] animate-pulse shadow-lg" />
-                      )}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="bg-white border-none rounded-none shadow-2xl p-2 min-w-[180px] z-[150]">
@@ -153,11 +134,6 @@ export function Navbar() {
                       <div className="flex items-center">
                         <span className="text-[10px] font-black uppercase text-black group-hover:text-[#01a3a4] transition-colors">ADMIN PANEL</span>
                       </div>
-                      {pendingCount > 0 && (
-                        <Badge className="bg-red-600 text-white text-[8px] font-black rounded-none border-none animate-pulse px-2">
-                          {pendingCount} NEW
-                        </Badge>
-                      )}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
