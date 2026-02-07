@@ -22,7 +22,8 @@ import {
   Terminal,
   Github,
   Globe,
-  Radio
+  Radio,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -49,7 +50,6 @@ export default function AdminSettings() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
   useEffect(() => {
     if (settings) {
@@ -156,7 +156,7 @@ export default function AdminSettings() {
                     </div>
                     <div className="space-y-2 pt-4 border-t border-white/5">
                       <label className="text-[9px] font-black text-orange-500 uppercase"><Lock className="h-3 w-3" /> VERIFY TO PUSH</label>
-                      <Input type={showVerifyPassword ? "text" : "password"} value={statusData.verificationPassword} onChange={(e) => setStatusData({...statusData, verificationPassword: e.target.value})} className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white" />
+                      <Input type="password" value={statusData.verificationPassword} onChange={(e) => setStatusData({...statusData, verificationPassword: e.target.value})} className="bg-black border-orange-500/20 rounded-none h-12 text-xs text-white" />
                     </div>
                   </div>
                   <Button type="submit" className="w-full bg-orange-600 text-white h-12 font-black uppercase rounded-none text-[9px]">BROADCAST LIVE</Button>
@@ -171,7 +171,7 @@ export default function AdminSettings() {
               <CardContent className="p-10 flex flex-col items-center justify-center">
                 <div className="w-full max-w-[300px] aspect-[9/16] bg-black border-[10px] border-[#1a1a1a] rounded-[35px] relative overflow-hidden flex flex-col shadow-2xl">
                   {/* Status Bar */}
-                  <div className="h-12 bg-black flex items-end px-6 pb-2 justify-between border-b border-white/5">
+                  <div className="h-10 bg-black flex items-end px-6 pb-2 justify-between border-b border-white/5 shrink-0">
                     <div className="text-[8px] text-white font-bold">12:00</div>
                     <div className="flex gap-1">
                       <div className="w-2 h-2 bg-white/40 rounded-full" />
@@ -179,12 +179,12 @@ export default function AdminSettings() {
                     </div>
                   </div>
                   {/* Website Header In Preview */}
-                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between">
+                  <div className="h-10 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
                     <div className="w-6 h-6 bg-black flex items-center justify-center text-[#01a3a4] text-[8px] font-black">SS</div>
                     <div className="w-4 h-4 rounded-full border border-white/20" />
                   </div>
                   {/* Live Marquee Bar In Preview */}
-                  <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full">
+                  <div className="bg-black border-b border-[#01a3a4]/20 h-8 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0">
                     <div className="flex items-center gap-4 animate-marquee w-full px-2">
                       <div className="flex items-center gap-2 text-[7px] font-black text-[#01a3a4] uppercase shrink-0">
                         <Radio className="h-2 w-2 animate-pulse" /> {statusData.liveStatusLabel}
@@ -195,14 +195,16 @@ export default function AdminSettings() {
                     </div>
                   </div>
                   {/* Dummy Content In Preview */}
-                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4">
-                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none" />
+                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4 overflow-hidden">
+                    <div className="w-full aspect-[16/9] bg-white/5 rounded-none border border-white/5" />
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="aspect-square bg-white/5" />
-                      <div className="aspect-square bg-white/5" />
+                      <div className="aspect-square bg-white/5 border border-white/5" />
+                      <div className="aspect-square bg-white/5 border border-white/5" />
                     </div>
-                    <div className="h-2 w-3/4 bg-white/5" />
-                    <div className="h-2 w-1/2 bg-white/5" />
+                    <div className="space-y-2">
+                      <div className="h-2 w-3/4 bg-white/5 rounded-full" />
+                      <div className="h-2 w-1/2 bg-white/5 rounded-full" />
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -215,7 +217,7 @@ export default function AdminSettings() {
                   <div className="flex items-center gap-3 text-[#01a3a4]"><Github className="h-5 w-5" /><h3 className="text-lg font-black uppercase">Step 1: GitHub Push</h3></div>
                   <p className="text-[10px] text-white/40 uppercase font-bold">Push your local changes to your GitHub repository to sync the cloud code.</p>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4 border-t border-white/5">
                   <div className="flex items-center gap-3 text-[#01a3a4]"><Globe className="h-5 w-5" /><h3 className="text-lg font-black uppercase">Step 2: Vercel/Firebase Deploy</h3></div>
                   <p className="text-[10px] text-white/40 uppercase font-bold">Import your GitHub repository into Vercel or Firebase App Hosting for live deployment.</p>
                 </div>
