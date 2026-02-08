@@ -19,7 +19,11 @@ function ShopContent() {
   const search = searchParams.get('search')?.toUpperCase() || '';
   const categoryParam = searchParams.get('category')?.toUpperCase() || '';
 
-  const productsRef = useMemoFirebase(() => query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(fetchLimit)), [db, fetchLimit]);
+  const productsRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(fetchLimit));
+  }, [db, fetchLimit]);
+  
   const { data: rawProducts, isLoading } = useCollection(productsRef);
 
   const filteredProducts = useMemo(() => {
@@ -36,8 +40,8 @@ function ShopContent() {
   };
 
   return (
-    <main className="flex-grow container mx-auto px-4 md:px-10 py-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+    <main className="flex-grow container mx-auto px-4 md:px-10 pt-4 md:pt-6 pb-12">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div className="flex items-center gap-4">
           <div className="h-8 w-2 bg-[#01a3a4]" />
           <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
@@ -69,7 +73,7 @@ function ShopContent() {
       ) : (
         <>
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
               {filteredProducts.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
             </div>
           ) : (

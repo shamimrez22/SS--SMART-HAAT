@@ -59,8 +59,15 @@ export default function AdminOrders() {
   const [deliveryCharge, setDeliveryCharge] = useState('');
   const [alertConfig, setAlertConfig] = useState<{title: string, desc: string, action: () => void} | null>(null);
 
-  const ordersRef = useMemoFirebase(() => query(collection(db, 'orders'), orderBy('createdAt', 'desc')), [db]);
-  const pendingOrdersQuery = useMemoFirebase(() => query(collection(db, 'orders'), where('status', '==', 'PENDING')), [db]);
+  const ordersRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+  }, [db]);
+
+  const pendingOrdersQuery = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'orders'), where('status', '==', 'PENDING'));
+  }, [db]);
   
   const { data: orders, isLoading } = useCollection(ordersRef);
   const { data: pendingOrders } = useCollection(pendingOrdersQuery);
@@ -72,7 +79,7 @@ export default function AdminOrders() {
   };
 
   const handleFinalizeConfirmation = () => {
-    if (!selectedOrder || !deliveryCharge) return;
+    if (!selectedOrder || !deliveryCharge || !db) return;
     
     updateDocumentNonBlocking(doc(db, 'orders', selectedOrder.id), { 
       status: 'CONFIRMED',
@@ -89,6 +96,7 @@ export default function AdminOrders() {
   };
 
   const handleUpdateStatus = (id: string, newStatus: string) => {
+    if (!db) return;
     if (newStatus === 'CANCELLED') {
       triggerAlert(
         "ARE YOU SURE YOU WANT TO CANCEL THIS ORDER?",
@@ -101,6 +109,7 @@ export default function AdminOrders() {
   };
 
   const handleDeleteOrder = (id: string) => {
+    if (!db) return;
     triggerAlert(
       "PERMANENTLY DELETE THIS ORDER RECORD?",
       "THIS WILL REMOVE ALL DATA ASSOCIATED WITH THIS ORDER FROM THE PERMANENT DATABASE.",
@@ -259,6 +268,8 @@ export default function AdminOrders() {
 
     doc.save(`INVOICE_${order.customerName.replace(/\s+/g, '_')}_${order.id.slice(0, 5)}.pdf`);
   };
+
+  if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

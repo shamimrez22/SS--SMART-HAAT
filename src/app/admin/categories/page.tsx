@@ -36,7 +36,10 @@ export default function AdminCategories() {
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const categoriesRef = useMemoFirebase(() => query(collection(db, 'categories'), limit(50)), [db]);
+  const categoriesRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'categories'), limit(50));
+  }, [db]);
   const { data: categories, isLoading } = useCollection(categoriesRef);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +63,7 @@ export default function AdminCategories() {
 
   const handleAddCategory = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !imagePreview) return;
+    if (!name || !imagePreview || !db) return;
     addDocumentNonBlocking(collection(db, 'categories'), {
       name: name.toUpperCase(),
       imageUrl: imagePreview,
@@ -80,7 +83,7 @@ export default function AdminCategories() {
   };
 
   const handleFinalDelete = () => {
-    if (deleteId) {
+    if (deleteId && db) {
       deleteDocumentNonBlocking(doc(db, 'categories', deleteId));
       toast({
         variant: "destructive",
@@ -91,6 +94,8 @@ export default function AdminCategories() {
       setIsAlertOpen(false);
     }
   };
+
+  if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

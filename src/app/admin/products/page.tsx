@@ -46,14 +46,22 @@ export default function AdminProducts() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   
-  // Size Management
   const [sizeList, setSizeList] = useState<{size: string, qty: number}[]>([]);
   const [newSize, setNewSize] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const productsRef = useMemoFirebase(() => query(collection(db!, 'products'), orderBy('createdAt', 'desc'), limit(50)), [db]);
+  const productsRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(50));
+  }, [db]);
+
+  const categoriesRef = useMemoFirebase(() => {
+    if (!db) return null;
+    return collection(db, 'categories');
+  }, [db]);
+
   const { data: products } = useCollection(productsRef);
-  const { data: categories } = useCollection(useMemoFirebase(() => collection(db!, 'categories'), [db]));
+  const { data: categories } = useCollection(categoriesRef);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -95,6 +103,7 @@ export default function AdminProducts() {
 
   const handleSaveProduct = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!db) return;
     if (!name || !price || !category || !imagePreview) {
       toast({ variant: "destructive", title: "MISSING DATA", description: "PLEASE FILL ALL REQUIRED FIELDS." });
       return;
@@ -121,11 +130,11 @@ export default function AdminProducts() {
     };
 
     if (editingId) {
-      updateDocumentNonBlocking(doc(db!, 'products', editingId), productData);
+      updateDocumentNonBlocking(doc(db, 'products', editingId), productData);
       toast({ title: "PRODUCT UPDATED" });
       setEditingId(null);
     } else {
-      addDocumentNonBlocking(collection(db!, 'products'), { ...productData, createdAt: new Date().toISOString() });
+      addDocumentNonBlocking(collection(db, 'products'), { ...productData, createdAt: new Date().toISOString() });
       toast({ title: "PRODUCT SAVED" });
     }
     resetForm();
@@ -146,6 +155,8 @@ export default function AdminProducts() {
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
+
+  if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
 
   return (
     <div className="min-h-screen bg-background selection:bg-[#01a3a4]/30">
@@ -326,7 +337,7 @@ export default function AdminProducts() {
                       }} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-[#01a3a4] hover:bg-[#01a3a4]/10">
                         <Edit2 className="h-4 w-4" />
                       </Button>
-                      <Button onClick={() => deleteDocumentNonBlocking(doc(db!, 'products', p.id))} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-red-500 hover:bg-red-500/10">
+                      <Button onClick={() => deleteDocumentNonBlocking(doc(db, 'products', p.id))} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-red-500 hover:bg-red-500/10">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
