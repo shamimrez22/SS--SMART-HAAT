@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useMemo, useState, useEffect, memo } from 'react';
@@ -29,6 +30,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
             sizes="100vw"
             className="object-cover"
             priority={priority}
+            loading={priority ? "eager" : "lazy"}
           />
           <div className="absolute inset-0 bg-black/10 flex flex-col justify-center px-4 md:px-12 space-y-1 md:space-y-2">
             <h2 className="text-[14px] md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
@@ -61,7 +63,8 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           fill 
           sizes="100vw" 
           className="object-cover" 
-          priority={priority} 
+          priority={priority}
+          loading={priority ? "eager" : "lazy"}
         />
         <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12">
            <h2 className="text-[14px] md:text-3xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
@@ -116,6 +119,7 @@ const FlashOfferCard = memo(() => {
             sizes="(max-width: 768px) 33vw, 25vw" 
             className="object-cover" 
             priority={true}
+            loading="eager"
           />
           <div className="absolute top-1 left-1 bg-[#01a3a4] px-1 md:px-3 py-0.5 text-[5px] md:text-[8px] font-black text-white uppercase tracking-widest z-10">FLASH</div>
           <div className="absolute bottom-0 w-full pb-1 text-center px-1">
@@ -273,7 +277,7 @@ export default function Home() {
         <div className="mt-12 md:mt-20 flex justify-center pb-20">
           <Link href="/shop" className="w-full md:w-auto">
             <button className="w-full md:w-[400px] bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-10 h-14 md:h-20 font-black uppercase tracking-[0.4em] text-[10px] md:text-[12px] flex items-center justify-center gap-6 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl group">
-              EXPLORE ALL PRODUCTS <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+              MORE PRODUCT <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
             </button>
           </Link>
         </div>
