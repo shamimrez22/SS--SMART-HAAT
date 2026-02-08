@@ -85,13 +85,17 @@ export function Navbar() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleSearch}
                     placeholder="SEARCH PRODUCTS..." 
-                    className="bg-black/10 border-white/20 h-9 w-[400px] lg:w-[650px] transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
+                    className="bg-black/10 border-white/20 h-9 w-[300px] lg:w-[500px] transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
                   />
                   <Search className="absolute right-3 h-3.5 w-3.5 text-white/50" />
                 </div>
 
                 <Link href="/" className="hover:text-black transition-colors flex items-center gap-1">
                   <Home className="h-3 w-3 md:h-3.5 md:w-3.5" /> <span className="hidden sm:inline">{language === 'EN' ? "HOME" : "হোম"}</span>
+                </Link>
+
+                <Link href="/shop" className="hover:text-black transition-colors flex items-center gap-1">
+                  <ShoppingBag className="h-3 w-3 md:h-3.5 md:w-3.5" /> <span className="hidden sm:inline">{language === 'EN' ? "SHOP" : "শপ"}</span>
                 </Link>
 
                 <button onClick={() => setIsCategoryModalOpen(true)} className="hover:text-black transition-colors flex items-center gap-1 font-black uppercase tracking-widest">
@@ -127,7 +131,6 @@ export function Navbar() {
               <Link href="/shop">
                 <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-none hover:bg-black/10 text-white group border border-white/20">
                   <ShoppingBag className="h-5 w-5 transition-transform group-hover:scale-110" />
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-[8px] font-black rounded-none flex items-center justify-center border border-[#01a3a4]">0</span>
                 </Button>
               </Link>
             </div>

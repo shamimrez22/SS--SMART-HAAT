@@ -16,8 +16,8 @@ interface ProductCardProps {
 export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = (product.stockQuantity || 0) <= 0;
-  // Aggressive priority for top products to make the site feel instant
-  const isPriority = index < 8;
+  // Increase speed by prioritizing images for top items
+  const isPriority = index < 10;
 
   return (
     <>
