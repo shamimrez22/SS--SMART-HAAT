@@ -141,8 +141,8 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                        <p className="text-[8px] font-black text-black uppercase flex items-center gap-1">
                          <Truck className="h-2.5 w-2.5 text-[#01a3a4]" /> DELIVERY INFO
                        </p>
-                       <p className="text-[8px] font-bold text-gray-500 uppercase">INSIDE: ৳{settings?.deliveryChargeInside || '60'}</p>
-                       <p className="text-[8px] font-bold text-gray-500 uppercase">OUTSIDE: ৳{settings?.deliveryChargeOutside || '120'}</p>
+                       <p className="text-[8px] font-bold text-gray-500">ঢাকার ভিতরে: ৳{settings?.deliveryChargeInside || '60'}</p>
+                       <p className="text-[8px] font-bold text-gray-500">ঢাকার বাইরে: ৳{settings?.deliveryChargeOutside || '120'}</p>
                     </div>
                   </div>
                 </div>
