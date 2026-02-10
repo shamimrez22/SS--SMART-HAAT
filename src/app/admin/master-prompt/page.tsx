@@ -26,7 +26,8 @@ export default function MasterPromptPage() {
 - **Branding:** Logo must show "SS SMART HAAT" in large bold letters, with "PREMIUM MARKET PLACE" in very small letters underneath.
 
 ### 2. Homepage Structure (Slim & Fast)
-- **Header Section (Reduced Height):** A three-column grid (Flash Offer, Main Slider, QR/App Bar) with a fixed height: 350px (Desktop) / 140px (Mobile).
+- **Fixed Header Section:** The entire header (Navbar + Live Status Bar) must be fixed at the top of the screen (sticky/fixed).
+- **Header Grid:** A three-column grid (Flash Offer, Main Slider, QR/App Bar) with a fixed height: 350px (Desktop) / 300px (Tablet) / 140px (Mobile).
 - **Category-wise Grid:** Products must be grouped by category. Each category section displays exactly **16 products in 2 rows** (8 per row).
 - **Bottom CTA:** A large, wide button labeled **"MORE PRODUCT"** linking to the full archive.
 - **Header Spacing:** Minimal gap (Zero padding) between the live status bar and content.
@@ -47,14 +48,15 @@ export default function MasterPromptPage() {
 - **Thank You Message:** Post-order popup text: **"THANK YOU - আমাদের এক জন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে"**.
 - **WhatsApp Link:** Integration to chat with admin regarding a specific product.
 
-### 6. Admin Panel & Business Tools
+### 6. Admin Panel & Business Tools (Command Center)
 - **Dashboard:** Revenue charts, visitor stats, and real-time "New Order" notifications.
 - **Invoice Generator:** Professional PDF invoice (using jsPDF). Must include branding, customer details, product image, and BDT currency.
 - **Management:** Full inventory control with built-in client-side image compression (optimizing for 8-12KB) for ultra-fast loading.
-- **Live Hub Control:** Admin tool to update the scrolling broadcast message and "Primary Hub Location" globally.
+- **Hub & Live Control:** Admin tool to update scrolling broadcast message, colors, and "Primary Hub Location" globally.
+- **System Preservation:** A dedicated copy-to-clipboard section for this master prompt.
 
 ### 7. Technical Specifications & Safety
-- **Performance:** Ultra-fast page loads using 'next/image' with 'priority' loading for top-fold elements.
+- **Performance:** Ultra-fast page loads using 'next/image' with 'priority' loading for top-fold elements and GPU-acceleration.
 - **Null-Safety:** Comprehensive null-checking (e.g., '(price || 0).toLocaleString()') to prevent "Application Errors".
 - **Tech Stack:** Next.js 15 (App Router), Firebase Firestore, Firebase Auth, Tailwind CSS, ShadCN UI, Lucide Icons.
 
