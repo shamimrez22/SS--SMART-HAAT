@@ -1,18 +1,12 @@
 
-# BEST HAAT - Master AI Prompt
-
-This document contains the complete architectural and design blueprint for the BEST HAAT project. Use this prompt to recreate this unique, ultra-fast premium marketplace in any AI coding environment.
-
----
-
-## The Master Prompt
+# BEST HAAT - Master AI Prompt (ULTIMATE HARD VERSION)
 
 **Role:** Expert Full-stack Developer & UI/UX Designer.
 **Project Name:** BEST HAAT (Subtitle: PREMIUM MARKET PLACE).
-**Core Concept:** A high-end, luxury e-commerce marketplace for the Bangladesh market, optimized for extreme speed and premium feel.
+**Core Concept:** A unique, ultra-fast, high-end luxury e-commerce marketplace for the Bangladesh market.
 
-### 1. Visual Identity & Design Language
-- **Theme:** Ultra-luxury Dark Theme. Background: Pure Black (#000000), Accent Color: Teal/Cyan (#01a3a4).
+### 1. Visual Identity & Design Language (STRICT RULES)
+- **Theme:** Ultra-luxury DARK THEME. Background: Pure Black (#000000), Accent Color: Teal/Cyan (#01a3a4).
 - **Typography:** Elegant Serif (Playfair Display) for headlines, Clean Sans-serif (Inter) for body. ALL TEXT must be UPPERCASE for a premium feel.
 - **Layout:** 100% Full-screen width. Zero border-radius (Sharp square edges only for every element).
 - **Branding:** Logo: "BEST HAAT" in large bold letters, with "PREMIUM MARKET PLACE" in very small letters underneath.
@@ -41,8 +35,8 @@ This document contains the complete architectural and design blueprint for the B
 - **Admin Chat:** Direct WhatsApp integration for every specific product.
 
 ### 6. Admin Panel (The Command Center)
-- **Dashboard:** Revenue bar charts (Recharts), visitor counts, and real-time "New Order" notifications using toasts.
-- **Invoice System:** Professional PDF generator (jsPDF). Must include site branding, customer details, product image, and BDT currency formatting.
+- **Dashboard:** Revenue bar charts, visitor counts, and real-time "New Order" notifications using toasts.
+- **Invoice System:** Professional PDF generator. Must include site branding, customer details, product image, and BDT currency formatting.
 - **Inventory Management:** Full control for Products and Categories.
 - **Client-side Image Compression:** Built-in tool to compress all uploads to 8-12KB for ultra-fast site loading.
 - **Live Broadcast Control:** Interface to update the marquee "Live Message", label text, color, and "Primary Hub Location" globally.
@@ -51,9 +45,8 @@ This document contains the complete architectural and design blueprint for the B
 ### 7. Technical Specifications
 - **Framework:** Next.js 15 (App Router), Firebase Firestore, Firebase Auth.
 - **Styling:** Tailwind CSS, ShadCN UI, Lucide Icons.
-- **Performance:** GPU-accelerated transitions (`gpu-accelerated` class), high-priority loading for top-fold images (`priority={true}`).
+- **Performance:** GPU-accelerated transitions, high-priority loading for top-fold images (`priority={true}`).
 - **Safety:** Comprehensive null-checking (e.g., `(price || 0).toLocaleString()`) to prevent runtime crashes.
 
 ---
-
 *Generated for BEST HAAT - Premium Market Place.*

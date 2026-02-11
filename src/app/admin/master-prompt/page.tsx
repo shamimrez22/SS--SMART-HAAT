@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState } from 'react';
@@ -13,7 +14,7 @@ export default function MasterPromptPage() {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
 
-  const MASTER_PROMPT = `# BEST HAAT - Master AI Prompt
+  const MASTER_PROMPT = `# BEST HAAT - Master AI Prompt (ULTIMATE HARD VERSION)
 
 **Role:** Expert Full-stack Developer & UI/UX Designer.
 **Project Name:** BEST HAAT (Subtitle: PREMIUM MARKET PLACE).
