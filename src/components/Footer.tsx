@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -19,10 +18,10 @@ export function Footer() {
   const { data: settings } = useDoc(settingsRef);
 
   const contact = {
-    email: settings?.email || 'INFO@BESTHAAT.COM',
+    email: settings?.email || 'INFO@SSSMARTHAAT.COM',
     phone: settings?.phone || '+880 1XXX XXXXXX',
     address: settings?.address || 'BANANI, DHAKA, BANGLADESH',
-    description: settings?.descriptionBengali || 'বেস্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে। আমাদের লক্ষ্য হচ্ছে উন্নত মানের পণ্য আপনার দোরগোড়ায় পৌঁছে দেওয়া।',
+    description: settings?.descriptionBengali || 'এসএস স্মার্ট হাট — বাংলাদেশের প্রিমিয়াম ফ্যাশন এবং লাইফস্টাইল মার্কেটপ্লেস। আমরা বিশ্বাস করি আভিজাত্য এবং আধুনিকতার সঠিক সমন্বয়ে। আমাদের লক্ষ্য হচ্ছে উন্নত মানের পণ্য আপনার দোরগোড়ায় পৌঁছে দেওয়া।',
     social: {
       facebook: settings?.facebookUrl || '#',
       instagram: settings?.instagramUrl || '#',
@@ -40,10 +39,10 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-8">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-[#01a3a4] rounded-none flex items-center justify-center shadow-lg shadow-[#01a3a4]/10 border border-white/5">
-                <span className="text-black font-black text-2xl tracking-tighter">BH</span>
+                <span className="text-black font-black text-2xl tracking-tighter">SS</span>
               </div>
               <div>
-                <h3 className="text-2xl font-black font-headline text-white tracking-tighter uppercase">BEST HAAT</h3>
+                <h3 className="text-2xl font-black font-headline text-white tracking-tighter uppercase">SS SMART HAAT</h3>
                 <p className="text-[8px] font-black text-[#01a3a4] tracking-[0.4em] uppercase leading-none mt-1">Premium Market Place</p>
               </div>
             </div>
@@ -128,7 +127,7 @@ export function Footer() {
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[9px] uppercase tracking-[0.3em] text-white/70 font-black">
-            © 2024 <span className="text-[#01a3a4]">BEST HAAT</span>. ELEVATING DHAKA'S LIFESTYLE.
+            © 2024 <span className="text-[#01a3a4]">SS SMART HAAT</span>. ELEVATING DHAKA'S LIFESTYLE.
           </p>
           <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white/70 font-black">
             <Link href="#" className="hover:text-white transition-colors">PAYMENT METHODS</Link>

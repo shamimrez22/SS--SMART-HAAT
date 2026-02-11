@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Playfair_Display, Inter } from 'next/font/google';
@@ -23,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'BEST HAAT | Premium Market Place',
+  title: 'SS SMART HAAT | Premium Market Place',
   description: 'Uniquely curated fashion and essentials for the modern elite.',
 };
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -18,7 +17,7 @@ import {
 
 const LogoIcon = () => (
   <div className="w-10 h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10">
-    <span className="text-[#01a3a4] font-black text-xl tracking-tighter">BH</span>
+    <span className="text-[#01a3a4] font-black text-xl tracking-tighter">SS</span>
   </div>
 );
 
@@ -71,7 +70,7 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-2 shrink-0 group">
               <LogoIcon />
               <div className="flex flex-col">
-                <h1 className="text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">BEST HAAT</h1>
+                <h1 className="text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1>
                 <span className="text-[6px] text-white/90 font-bold uppercase tracking-[0.2em]">PREMIUM MARKET PLACE</span>
               </div>
             </Link>

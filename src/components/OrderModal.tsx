@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, memo } from 'react';
@@ -103,7 +102,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
     
     const pName = product.name || product.title || 'Product';
     const pPrice = product.price || 0;
-    const message = `Hello BEST HAAT, I want to inquire about: ${pName} (Price: ৳${pPrice})`;
+    const message = `Hello SS SMART HAAT, I want to inquire about: ${pName} (Price: ৳${pPrice})`;
     window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -216,7 +215,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                   আমাদের এক জন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে
                 </p>
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">BEST HAAT</p>
+                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">SS SMART HAAT</p>
                   <p className="text-[6px] font-black text-gray-400 uppercase tracking-[0.2em]">PREMIUM MARKET PLACE</p>
                 </div>
               </div>

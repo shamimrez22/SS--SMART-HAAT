@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useEffect, useState } from 'react';
@@ -18,8 +17,7 @@ import {
   Zap,
   Loader2,
   MapPin,
-  Radio,
-  FileCode
+  Radio
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
@@ -125,7 +123,6 @@ export default function AdminPanel() {
 
   const quickLinks = [
     { title: "HUB & LIVE BROADCAST", icon: Radio, href: "/admin/location", isHighlight: true },
-    { title: "MASTER SYSTEM PROMPT", icon: FileCode, href: "/admin/master-prompt", isHighlight: true },
     { title: "FEATURED CONTENT", icon: Zap, href: "/admin/featured" },
     { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders" },
     { title: "PRODUCT INVENTORY", icon: Package, href: "/admin/products" },
