@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useMemo, useState, useEffect, memo } from 'react';
@@ -18,57 +19,45 @@ import { OrderModal } from '@/components/OrderModal';
 const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
 
-  if (item.price !== undefined || item.name !== undefined) {
-    return (
-      <CarouselItem className="h-full">
-        <div className="relative h-full w-full bg-black overflow-hidden gpu-accelerated">
-          <Image
-            src={item.imageUrl || 'https://picsum.photos/seed/placeholder/800/400'}
-            alt={item.name || item.title || 'Banner'}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority={priority}
-            loading={priority ? "eager" : "lazy"}
-          />
-          <div className="absolute inset-0 bg-black/10 flex flex-col justify-center px-4 md:px-12 space-y-1 md:space-y-2">
-            <h2 className="text-[14px] md:text-2xl font-headline font-black text-white uppercase tracking-tight max-w-[400px] leading-tight drop-shadow-2xl">
-              {item.name || item.title}
-            </h2>
-            <div className="flex flex-col space-y-0.5">
-              <div className="flex items-center gap-1 md:gap-4">
-                <div className="flex items-baseline text-[12px] md:text-xl font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
-                  <span className="text-[8px] md:text-[12px] font-normal mr-0.5 translate-y-[-2px] text-white/90">৳</span>
-                  {(item.price || 0).toLocaleString()}
-                </div>
-              </div>
-              <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white h-6 md:h-10 px-4 md:px-8 font-black rounded-none text-[8px] md:text-[11px] hover:bg-white hover:text-black transition-all uppercase tracking-widest flex items-center gap-2 shadow-2xl w-fit mt-2 active:scale-95">
-                <ShoppingCart className="h-3 w-3 md:h-4 md:w-4" /> অর্ডার করুন
-              </button>
-            </div>
-          </div>
-        </div>
-        <OrderModal product={item} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
-      </CarouselItem>
-    );
-  }
+  // Determine if it's a product or a banner
+  const isProduct = item.price !== undefined;
 
   return (
     <CarouselItem className="h-full">
-      <div className="relative h-full w-full bg-black gpu-accelerated">
-        <Image 
-          src={item.imageUrl || 'https://picsum.photos/seed/banner/800/400'} 
-          alt={item.title || "Banner"} 
-          fill 
-          sizes="100vw" 
-          className="object-cover" 
+      <div className="relative h-full w-full bg-black overflow-hidden gpu-accelerated">
+        <Image
+          src={item.imageUrl || 'https://picsum.photos/seed/placeholder/800/450'}
+          alt={item.name || item.title || 'Banner'}
+          fill
+          sizes="100vw"
+          className="object-cover"
           priority={priority}
           loading={priority ? "eager" : "lazy"}
         />
-        <div className="absolute inset-0 bg-black/5 flex flex-col justify-center px-4 md:px-12">
-           <h2 className="text-[14px] md:text-3xl font-black text-white uppercase tracking-tight max-w-[400px] leading-none drop-shadow-2xl">{item.title}</h2>
+        <div className="absolute inset-0 bg-black/10 flex flex-col justify-center px-4 md:px-12 space-y-1 md:space-y-3">
+          <h2 className="text-[16px] md:text-4xl font-headline font-black text-white uppercase tracking-tight max-w-[600px] leading-tight drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">
+            {item.name || item.title}
+          </h2>
+          
+          {isProduct && (
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center gap-1 md:gap-4">
+                <div className="flex items-baseline text-[14px] md:text-3xl font-black text-[#01a3a4] tracking-tighter drop-shadow-2xl">
+                  <span className="text-[10px] md:text-[16px] font-normal mr-1 translate-y-[-4px] text-white/90">৳</span>
+                  {(item.price || 0).toLocaleString()}
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsOrderOpen(true)} 
+                className="bg-[#01a3a4] text-white h-8 md:h-12 px-6 md:px-10 font-black rounded-none text-[9px] md:text-[12px] hover:bg-white hover:text-black transition-all uppercase tracking-[0.2em] flex items-center gap-3 shadow-2xl w-fit mt-2 active:scale-95 border-none"
+              >
+                <ShoppingCart className="h-3.5 w-3.5 md:h-5 md:w-5" /> অর্ডার করুন
+              </button>
+            </div>
+          )}
         </div>
       </div>
+      <OrderModal product={item} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
     </CarouselItem>
   );
 });
@@ -82,12 +71,12 @@ const FlashOfferCard = memo(() => {
   
   const flashProductQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'products'), where('showInFlashOffer', '==', true), limit(3));
+    return query(collection(db, 'products'), where('showInFlashOffer', '==', true), limit(5));
   }, [db]);
 
   const flashBannerQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(3));
+    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(5));
   }, [db]);
   
   const { data: flashProducts } = useCollection(flashProductQuery);
@@ -120,21 +109,21 @@ const FlashOfferCard = memo(() => {
             priority={true}
             loading="eager"
           />
-          <div className="absolute top-1 left-1 bg-[#01a3a4] px-1 md:px-3 py-0.5 text-[5px] md:text-[8px] font-black text-white uppercase tracking-widest z-10">FLASH</div>
-          <div className="absolute bottom-0 w-full pb-1 text-center px-1">
-             <p className="text-white font-black text-[6px] md:text-[10px] uppercase tracking-widest mb-0.5 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
+          <div className="absolute top-2 left-2 bg-red-600 px-2 md:px-4 py-1 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH</div>
+          <div className="absolute bottom-0 w-full pb-2 md:pb-4 text-center px-2 bg-gradient-to-t from-black/80 to-transparent">
+             <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-widest mb-1 truncate drop-shadow-2xl">{activeItem.name || activeItem.title}</p>
              {activeItem.price !== undefined && (
-               <div className="flex flex-col items-center">
-                 <span className="text-[#01a3a4] font-black text-[8px] md:text-sm drop-shadow-2xl">৳{(activeItem.price || 0).toLocaleString()}</span>
+               <div className="flex flex-col items-center mb-1">
+                 <span className="text-[#01a3a4] font-black text-[10px] md:text-lg drop-shadow-2xl">৳{(activeItem.price || 0).toLocaleString()}</span>
                </div>
              )}
-             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-2 md:px-4 py-0.5 md:h-8 font-black text-[5px] md:text-[8px] uppercase tracking-widest transition-all mt-0.5 active:scale-95 shadow-xl">অর্ডার করুন</button>
+             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-3 md:px-6 py-1 md:h-10 font-black text-[6px] md:text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-2xl border-none">অর্ডার করুন</button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
       ) : (
         <div className="h-full flex flex-col items-center justify-center gap-2">
-          <Loader2 className="h-3 w-3 text-[#01a3a4] animate-spin" />
+          <Loader2 className="h-4 w-4 text-[#01a3a4] animate-spin" />
         </div>
       )}
     </div>
@@ -159,12 +148,13 @@ export default function Home() {
 
   const sliderProductQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'products'), where('showInSlider', '==', true), limit(3));
+    // Added orderBy to ensure newest items appear first
+    return query(collection(db, 'products'), where('showInSlider', '==', true), orderBy('createdAt', 'desc'), limit(10));
   }, [db]);
 
   const sliderBannerQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'featured_banners'), where('type', '==', 'SLIDER'), orderBy('createdAt', 'desc'), limit(3));
+    return query(collection(db, 'featured_banners'), where('type', '==', 'SLIDER'), orderBy('createdAt', 'desc'), limit(10));
   }, [db]);
 
   const settingsRef = useMemoFirebase(() => {
@@ -184,6 +174,7 @@ export default function Home() {
     return [...banners, ...products];
   }, [sliderProducts, sliderBanners]);
 
+  // Stable Autoplay configuration
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
   const qrCodeUrl = useMemo(() => {
@@ -216,33 +207,48 @@ export default function Home() {
       <MainHeader />
 
       <main className="flex-grow container mx-auto px-0 md:px-0">
-        <section className="grid grid-cols-12 gap-0 h-[180px] md:h-[350px] lg:h-[450px] gpu-accelerated bg-black overflow-hidden">
+        {/* TOP FOLD GRID: FLASH | SLIDER | QR */}
+        <section className="grid grid-cols-12 gap-0 h-[180px] md:h-[350px] lg:h-[450px] gpu-accelerated bg-black overflow-hidden border-b border-white/5">
           <div className="col-span-3 h-full"><FlashOfferCard /></div>
-          <div className="col-span-6 h-full relative overflow-hidden bg-black border-none">
+          
+          <div className="col-span-6 h-full relative overflow-hidden bg-black">
             {combinedSliderItems.length > 0 ? (
-              <Carousel className="w-full h-full" opts={{ loop: true }} plugins={[autoplay.current]}>
+              <Carousel 
+                key={combinedSliderItems.length} // Forces re-init when data count changes
+                className="w-full h-full" 
+                opts={{ loop: true }} 
+                plugins={[autoplay.current]}
+              >
                 <CarouselContent className="h-full">
-                  {combinedSliderItems.map((item, index) => <SlideItem key={index} item={item} priority={index < 2} />)}
+                  {combinedSliderItems.map((item, index) => (
+                    <SlideItem 
+                      key={item.id} // Stable key using unique ID
+                      item={item} 
+                      priority={index < 2} 
+                    />
+                  ))}
                 </CarouselContent>
               </Carousel>
             ) : (
               <div className="h-full flex flex-col items-center justify-center gap-2">
-                <Loader2 className="h-4 w-4 text-[#01a3a4] animate-spin" />
+                <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
               </div>
             )}
           </div>
-          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-1.5 md:p-4 space-y-1.5 md:space-y-3 gpu-accelerated">
-            <h3 className="text-white font-black text-[7px] md:text-sm lg:text-base uppercase tracking-widest italic text-center drop-shadow-xl">DOWNLOAD APP</h3>
-            <div className="bg-white p-0.5 md:p-1 w-14 h-14 md:w-32 md:h-32 lg:w-40 lg:h-40 flex items-center justify-center border md:border-2 border-white/20 shadow-2xl">
+
+          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-1.5 md:p-4 space-y-1.5 md:space-y-4 gpu-accelerated">
+            <h3 className="text-white font-black text-[7px] md:text-sm lg:text-base uppercase tracking-[0.3em] italic text-center drop-shadow-xl">DOWNLOAD APP</h3>
+            <div className="bg-white p-1 md:p-2 w-16 h-16 md:w-36 md:h-36 lg:w-44 lg:h-44 flex items-center justify-center border-2 border-white/20 shadow-2xl">
               <Image src={qrCodeUrl} alt="QR Code" width={150} height={150} className="w-full h-full" loading="lazy" />
             </div>
-            <div className="flex flex-col gap-1 md:gap-1.5 w-full max-w-[220px]">
-              <button className="w-full bg-white text-black h-5 md:h-10 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-2 font-black text-[5px] md:text-[9px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Apple className="h-2 w-2 md:h-4 md:w-4" /> APP STORE</button>
-              <button className="w-full bg-white text-black h-5 md:h-10 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-2 font-black text-[5px] md:text-[9px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95"><Play className="h-2 w-2 md:h-4 md:w-4" /> PLAY STORE</button>
+            <div className="flex flex-col gap-1 md:gap-2 w-full max-w-[240px]">
+              <button className="w-full bg-white text-black h-6 md:h-11 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-3 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none"><Apple className="h-3 w-3 md:h-5 md:w-5" /> APP STORE</button>
+              <button className="w-full bg-white text-black h-6 md:h-11 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-3 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none"><Play className="h-3 w-3 md:h-5 md:w-5" /> PLAY STORE</button>
             </div>
           </div>
         </section>
 
+        {/* CATEGORY WISE PRODUCT LISTS */}
         {isCategoriesLoading || isProductsLoading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
             <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
@@ -273,14 +279,16 @@ export default function Home() {
           );
         })}
 
-        <div className="mt-8 md:mt-12 flex justify-center pb-20">
+        {/* MAIN CTA */}
+        <div className="mt-8 md:mt-12 flex justify-center pb-20 px-4">
           <Link href="/shop" className="w-full md:w-auto">
-            <button className="w-full md:w-[400px] bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-10 h-14 md:h-20 font-black uppercase tracking-[0.4em] text-[10px] md:text-[12px] flex items-center justify-center gap-6 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl group">
-              MORE PRODUCT <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+            <button className="w-full md:w-[500px] bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-10 h-16 md:h-24 font-black uppercase tracking-[0.5em] text-[11px] md:text-[14px] flex items-center justify-center gap-8 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl group">
+              MORE PRODUCT <ArrowRight className="h-6 w-6 group-hover:translate-x-3 transition-transform" />
             </button>
           </Link>
         </div>
 
+        {/* CATEGORY GRID AT BOTTOM */}
         <CategoriesGrid />
       </main>
       <Footer />
