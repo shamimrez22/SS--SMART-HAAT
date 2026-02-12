@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from 'react';
@@ -48,22 +49,22 @@ export function Footer() {
             </div>
             
             <div className="space-y-4">
-              <p className="text-[11px] text-white/90 leading-relaxed uppercase tracking-tight">
+              <p className="text-[11px] text-white leading-relaxed uppercase tracking-tight font-bold">
                 YOUR CURATED DESTINATION FOR SMART FASHION AND MODERN MARKETPLACE ESSENTIALS. REDEFINING ELEGANCE THROUGH SIMPLICITY AND LUXURY.
               </p>
               <div className="pt-2 border-l-2 border-[#01a3a4] pl-4">
-                <p className="text-[13px] font-bold text-white font-headline leading-relaxed">
+                <p className="text-[13px] font-black text-white font-headline leading-relaxed">
                   {contact.description}
                 </p>
               </div>
             </div>
 
             <div className="flex gap-4">
-              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Facebook className="h-4 w-4" /></Link>
-              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Instagram className="h-4 w-4" /></Link>
-              <Link href={contact.social.whatsapp} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-500 border border-white/5"><WhatsAppIcon className="h-4 w-4" /></Link>
-              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Twitter className="h-4 w-4" /></Link>
-              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Youtube className="h-4 w-4" /></Link>
+              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Facebook className="h-4 w-4 text-white" /></Link>
+              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Instagram className="h-4 w-4 text-white" /></Link>
+              <Link href={contact.social.whatsapp} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-500 border border-white/5"><WhatsAppIcon className="h-4 w-4 text-white" /></Link>
+              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Twitter className="h-4 w-4 text-white" /></Link>
+              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Youtube className="h-4 w-4 text-white" /></Link>
             </div>
           </div>
           
@@ -95,7 +96,7 @@ export function Footer() {
                   <Mail className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white/70 uppercase tracking-widest mb-1">Email Address</p>
+                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Email Address</p>
                   <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.email}</p>
                 </div>
               </div>
@@ -105,7 +106,7 @@ export function Footer() {
                   <Phone className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white/70 uppercase tracking-widest mb-1">Phone Helpline</p>
+                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Phone Helpline</p>
                   <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.phone}</p>
                 </div>
               </div>
@@ -115,7 +116,7 @@ export function Footer() {
                   <MapPin className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white/70 uppercase tracking-widest mb-1">Official Location</p>
+                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Official Location</p>
                   <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.address}</p>
                 </div>
               </div>
@@ -126,10 +127,10 @@ export function Footer() {
         <div className="h-px bg-white/5 mb-10" />
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white/70 font-black">
+          <p className="text-[9px] uppercase tracking-[0.3em] text-white font-black">
             © 2024 <span className="text-[#01a3a4]">SS SMART HAAT</span>. ELEVATING DHAKA'S LIFESTYLE.
           </p>
-          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white/70 font-black">
+          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white font-black">
             <Link href="#" className="hover:text-white transition-colors">PAYMENT METHODS</Link>
             <Link href="#" className="hover:text-white transition-colors">SHIPPING POLICY</Link>
             <Link href="#" className="hover:text-white transition-colors">TERMS OF USE</Link>

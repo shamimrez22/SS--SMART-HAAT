@@ -59,7 +59,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             <div className="h-[44px] flex flex-col justify-start mb-3">
               <div className="flex items-baseline gap-1 text-white">
                 <span className="text-[10px] font-normal text-primary">৳</span>
-                <span className="font-black text-[18px] md:text-[20px] tracking-tighter leading-none">
+                <span className="font-black text-[18px] md:text-[20px] tracking-tighter leading-none text-white">
                   {(price || 0).toLocaleString()}
                 </span>
               </div>
@@ -67,7 +67,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
               <div className="flex items-center justify-between mt-1 h-[18px]">
                 {originalPrice > price ? (
                   <>
-                    <p className="text-[10px] text-white line-through font-bold tracking-tight">
+                    <p className="text-[10px] text-white line-through font-bold tracking-tight opacity-100">
                       ৳{(originalPrice || 0).toLocaleString()}
                     </p>
                     <div className="bg-primary/10 border border-primary/30 px-1.5 py-0.5">
