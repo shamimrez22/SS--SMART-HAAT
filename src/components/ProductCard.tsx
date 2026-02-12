@@ -58,29 +58,32 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
           </div>
           
           {/* Bottom aligned section for price and button */}
-          <div className="mt-auto space-y-3">
-            <div className="min-h-[38px] flex flex-col justify-end">
+          <div className="mt-auto pt-2">
+            {/* FIXED HEIGHT PRICE CONTAINER TO ENSURE BUTTON ALIGNMENT */}
+            <div className="h-[44px] flex flex-col justify-start mb-3">
               <div className="flex items-baseline gap-1 text-white">
                 <span className="text-[10px] font-normal text-[#01a3a4]">৳</span>
                 <span className="font-black text-[18px] md:text-[20px] tracking-tighter leading-none">
                   {(price || 0).toLocaleString()}
                 </span>
               </div>
-              {originalPrice > price ? (
-                <div className="flex items-center justify-between mt-1">
-                  <p className="text-[10px] text-white/20 line-through font-bold tracking-tight">
-                    ৳{(originalPrice || 0).toLocaleString()}
-                  </p>
-                  {/* Discount Badge - Now at the bottom right of price area */}
-                  <div className="bg-[#01a3a4]/10 border border-[#01a3a4]/30 px-1.5 py-0.5">
-                    <span className="text-[8px] font-black text-[#01a3a4] tracking-widest uppercase">
-                      -{Math.round(((originalPrice - price) / (originalPrice || 1)) * 100)}%
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <div className="h-[14px]" aria-hidden="true" />
-              )}
+              
+              {/* DISCOUNT ROW WITH FIXED HEIGHT */}
+              <div className="flex items-center justify-between mt-1 h-[18px]">
+                {originalPrice > price ? (
+                  <>
+                    <p className="text-[10px] text-white/20 line-through font-bold tracking-tight">
+                      ৳{(originalPrice || 0).toLocaleString()}
+                    </p>
+                    {/* Discount Badge - Bottom Right of the price info area */}
+                    <div className="bg-[#01a3a4]/10 border border-[#01a3a4]/30 px-1.5 py-0.5">
+                      <span className="text-[8px] font-black text-[#01a3a4] tracking-widest uppercase">
+                        -{Math.round(((originalPrice - price) / (originalPrice || 1)) * 100)}%
+                      </span>
+                    </div>
+                  </>
+                ) : null}
+              </div>
             </div>
 
             <Button 
