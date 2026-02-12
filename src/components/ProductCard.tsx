@@ -4,7 +4,6 @@
 import React, { memo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingBag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { OrderModal } from '@/components/OrderModal';
@@ -25,7 +24,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
 
   return (
     <>
-      <Card className="group bg-black border border-white/[0.05] rounded-none flex flex-col h-full overflow-hidden gpu-accelerated transition-all duration-500 hover:border-[#01a3a4]/60 hover:shadow-[0_0_30px_rgba(1,163,164,0.15)] relative">
+      <Card className="group bg-black border border-white/20 rounded-none flex flex-col h-full overflow-hidden gpu-accelerated transition-all duration-500 hover:border-[#01a3a4] hover:shadow-[0_0_30px_rgba(1,163,164,0.15)] relative">
         <Link href={`/products/${product.id}`} className="relative aspect-square overflow-hidden bg-black block flex items-center justify-center">
           <Image
             src={product.imageUrl || 'https://picsum.photos/seed/placeholder/400/400'}
@@ -81,7 +80,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
                   ৳{(originalPrice || 0).toLocaleString()}
                 </p>
               ) : (
-                <div className="h-[14px]" aria-hidden="true" /> /* Empty spacer to maintain vertical rhythm */
+                <div className="h-[14px]" aria-hidden="true" />
               )}
             </div>
 
