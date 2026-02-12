@@ -175,27 +175,29 @@ export default function AdminLocation() {
               </CardHeader>
               <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505] min-h-[600px]">
                 <div className="w-full max-w-[320px] aspect-[9/16] bg-black border-[12px] border-[#1a1a1a] rounded-[40px] relative overflow-hidden flex flex-col shadow-[0_0_60px_rgba(1,163,164,0.2)] ring-4 ring-[#01a3a4]/10">
-                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0">
+                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0 z-20">
                     <div className="flex items-center gap-2">
                       <div className="w-7 h-7 bg-black flex items-center justify-center text-[#01a3a4] text-[10px] font-black shadow-lg">SS</div>
                       <span className="text-[8px] font-black text-white leading-none uppercase">SS SMART HAAT</span>
                     </div>
                   </div>
-                  <div className="bg-black border-b border-white/5 h-10 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0">
+                  <div className="bg-black border-b border-white/5 h-10 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0 z-20">
                     <div className="flex items-center gap-4 w-full px-2">
                       <div style={{ color: formData.statusColor }} className="flex items-center gap-2 text-[10px] font-black uppercase shrink-0">
                         <Radio className="h-3.5 w-3.5 animate-pulse" /> {formData.liveStatusLabel || 'LIVE STATUS:'}
                       </div>
                       <p style={{ color: formData.statusColor }} className="text-[10px] font-black uppercase flex items-center gap-2 shrink-0">
-                        {formData.liveStatus || 'BROADCASTING...'} <span className="opacity-30">||</span> <MapPin className="h-3 w-3" /> {formData.liveLocation || 'BANANI, DHAKA'}
+                        {formData.liveStatus || 'BROADCASTING...'}
                       </p>
                     </div>
                   </div>
-                  <div className="flex-grow bg-[#0a0a0a] p-4 space-y-4">
-                    <div className="w-full h-32 bg-white/5 border border-white/5 flex flex-col items-center justify-center">
-                       <Zap className="h-6 w-6 text-[#01a3a4]/20 mb-2" />
-                       <span className="text-[6px] text-white/20 font-black uppercase tracking-widest italic">CONTENT PREVIEW AREA</span>
-                    </div>
+                  <div className="flex-grow bg-black relative">
+                    <iframe 
+                      src="/" 
+                      className="absolute inset-0 w-full h-full border-none pointer-events-none"
+                      title="Live Site Preview"
+                    />
+                    <div className="absolute inset-0 bg-transparent pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]" />
                   </div>
                 </div>
               </CardContent>

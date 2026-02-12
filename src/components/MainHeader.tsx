@@ -25,17 +25,17 @@ export function MainHeader() {
       <div className="fixed top-0 left-0 right-0 z-[120] shadow-2xl bg-black">
         <Navbar />
         {settings?.liveStatus && (
-          <div className="bg-black border-b border-white/5 h-[28px] md:h-[32px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
+          <div className="bg-black border-b border-white/5 h-[32px] md:h-[36px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
             <div className="flex items-center gap-8 animate-marquee w-full px-4">
               <div 
-                style={{ color: broadcastColor }}
-                className="flex items-center gap-2 text-[10px] md:text-[13px] font-black uppercase tracking-widest shrink-0"
+                style={{ color: broadcastColor, textShadow: `0 0 10px ${broadcastColor}40` }}
+                className="flex items-center gap-2 text-[11px] md:text-[13px] font-black uppercase tracking-widest shrink-0"
               >
                 <Radio className="h-3 w-3 animate-pulse" /> {liveLabel}
               </div>
               <p 
-                style={{ color: broadcastColor }}
-                className="text-[10px] md:text-[13px] font-black uppercase tracking-[0.1em] flex items-center gap-8 shrink-0"
+                style={{ color: broadcastColor, textShadow: `0 0 10px ${broadcastColor}40` }}
+                className="text-[11px] md:text-[13px] font-black uppercase tracking-[0.1em] flex items-center gap-8 shrink-0"
               >
                 {settings.liveStatus} <span className="opacity-30">||</span> 
                 <span className="flex items-center gap-2">
@@ -47,7 +47,7 @@ export function MainHeader() {
         )}
       </div>
       {/* Spacer to prevent content from hiding under fixed header */}
-      <div className={settings?.liveStatus ? "h-[92px] md:h-[96px]" : "h-[64px]"} />
+      <div className={settings?.liveStatus ? "h-[96px] md:h-[100px]" : "h-[64px]"} />
     </>
   );
 }
