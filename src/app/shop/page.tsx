@@ -66,10 +66,10 @@ function ShopContent() {
 
   return (
     <main className="flex-grow container mx-auto px-4 md:px-10 pt-6 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
         <div className="flex items-center gap-3">
-          <div className="h-5 w-1.5 bg-[#01a3a4]" />
-          <h1 className="text-sm md:text-lg font-black text-white uppercase tracking-[0.3em]">
+          <div className="h-5 w-1 bg-[#01a3a4]" />
+          <h1 className="text-[11px] md:text-[13px] font-black text-white uppercase tracking-[0.4em]">
             {search ? `SEARCH: "${search}"` : categoryParam ? `${categoryParam} COLLECTION` : 'PREMIUM ARCHIVE'}
           </h1>
         </div>

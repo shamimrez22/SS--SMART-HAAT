@@ -39,11 +39,9 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           
           {isProduct && (
             <div className="flex flex-col space-y-2 pointer-events-auto">
-              <div className="flex items-center gap-1 md:gap-4">
-                <div className="flex items-baseline text-[16px] md:text-4xl font-black text-[#01a3a4] tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
-                  <span className="text-[12px] md:text-[20px] font-normal mr-1 translate-y-[-4px] text-white">৳</span>
-                  {(item.price || 0).toLocaleString()}
-                </div>
+              <div className="flex items-baseline text-[16px] md:text-4xl font-black text-[#01a3a4] tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+                <span className="text-[12px] md:text-[20px] font-normal mr-1 translate-y-[-4px] text-white">৳</span>
+                {(item.price || 0).toLocaleString()}
               </div>
               <button 
                 onClick={() => setIsOrderOpen(true)} 
@@ -123,22 +121,22 @@ const FlashOfferCard = memo(() => {
             priority={true}
             loading="eager"
           />
-          <div className="absolute top-4 left-4 bg-red-600 px-4 md:px-6 py-1.5 text-[8px] md:text-[12px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
+          <div className="absolute top-4 left-4 bg-red-600 px-4 md:px-6 py-1.5 text-[8px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           <div className="absolute bottom-0 w-full pb-6 md:pb-12 text-center px-4 z-10">
-             <p className="text-white font-black text-[10px] md:text-[16px] uppercase tracking-widest mb-2 truncate drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+             <p className="text-white font-black text-[10px] md:text-[14px] uppercase tracking-widest mb-2 truncate drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
                {activeItem.name || activeItem.title}
              </p>
              {activeItem.price !== undefined && (
                <div className="flex flex-col items-center mb-4">
-                 <span className="text-[#01a3a4] font-black text-[14px] md:text-3xl drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+                 <span className="text-[#01a3a4] font-black text-[14px] md:text-2xl drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
              )}
              <button 
                onClick={() => setIsOrderOpen(true)} 
-               className="bg-[#01a3a4] text-white px-6 md:px-10 py-2 md:h-12 font-black text-[8px] md:text-[13px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-2xl border-none"
+               className="bg-[#01a3a4] text-white px-6 md:px-10 py-2 md:h-12 font-black text-[8px] md:text-[11px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-2xl border-none"
              >
                অর্ডার করুন
              </button>
@@ -283,18 +281,18 @@ export default function Home() {
           if (catProducts.length === 0) return null;
 
           return (
-            <section key={cat.id} className="py-6 md:py-12 px-4 md:px-12 gpu-accelerated border-b border-white/5">
-              <div className="flex items-center justify-between mb-6 md:mb-10">
-                <div className="flex items-center gap-4">
-                  <div className="h-6 md:h-8 w-1.5 md:w-2 bg-[#01a3a4]" />
-                  <h2 className="text-sm md:text-lg font-black text-white uppercase tracking-[0.3em]">{cat.name} COLLECTION</h2>
+            <section key={cat.id} className="py-8 md:py-16 px-4 md:px-12 gpu-accelerated border-b border-white/5">
+              <div className="flex items-center justify-between mb-8 md:mb-12">
+                <div className="flex items-center gap-3">
+                  <div className="h-5 md:h-6 w-1 bg-[#01a3a4]" />
+                  <h2 className="text-[11px] md:text-[13px] font-black text-white uppercase tracking-[0.4em]">{cat.name} COLLECTION</h2>
                 </div>
                 <Link href={`/shop?category=${cat.name}`} className="text-[8px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
                   VIEW ARCHIVE <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
                 {catProducts.map((p, i) => (
                   <ProductCard key={p.id} product={p} index={i} />
                 ))}
