@@ -26,38 +26,29 @@ function ShopContent() {
   
   const { data: rawProducts, isLoading } = useCollection(productsRef);
 
+  // High-performance filtering with useMemo
   const displayedProducts = useMemo(() => {
     if (!rawProducts) return [];
     
-    // Sort logic: If search exists, prioritize related products at the front
+    let filtered = [...rawProducts];
+
+    // Priority 1: Search Match
     if (search) {
-      const matches = rawProducts.filter(p => 
+      filtered = filtered.filter(p => 
         (p.name?.toUpperCase() || '').includes(search) || 
-        (p.description?.toUpperCase() || '').includes(search)
+        (p.description?.toUpperCase() || '').includes(search) ||
+        (p.category?.toUpperCase() || '').includes(search)
       );
-      const others = rawProducts.filter(p => 
-        !(p.name?.toUpperCase() || '').includes(search) && 
-        !(p.description?.toUpperCase() || '').includes(search)
-      );
-      
-      // If category is selected, prioritize category matches first
-      if (categoryParam) {
-        const catMatches = matches.filter(p => p.category === categoryParam);
-        const catOthers = matches.filter(p => p.category !== categoryParam);
-        return [...catMatches, ...catOthers, ...others];
-      }
-      
+    }
+
+    // Priority 2: Category Match (if search match, put category matches on top)
+    if (categoryParam) {
+      const matches = filtered.filter(p => p.category === categoryParam);
+      const others = filtered.filter(p => p.category !== categoryParam);
       return [...matches, ...others];
     }
 
-    // Default sorting when no search but category exists
-    if (categoryParam) {
-      const catMatches = rawProducts.filter(p => p.category === categoryParam);
-      const others = rawProducts.filter(p => p.category !== categoryParam);
-      return [...catMatches, ...others];
-    }
-
-    return rawProducts;
+    return filtered;
   }, [rawProducts, search, categoryParam]);
 
   const handleLoadMore = () => {
@@ -99,7 +90,9 @@ function ShopContent() {
         <>
           {displayedProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
-              {displayedProducts.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
+              {displayedProducts.map((p, i) => (
+                <ProductCard key={p.id} product={p} index={i} />
+              ))}
             </div>
           ) : (
             <div className="text-center py-40 border border-dashed border-white/5 bg-white/[0.01] space-y-6">

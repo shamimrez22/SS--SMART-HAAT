@@ -42,6 +42,7 @@
     overflow-x: hidden;
     overflow-y: auto !important;
     display: block !important;
+    scroll-behavior: smooth;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
@@ -97,4 +98,9 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Speed optimization for image transitions */
+img {
+  transition: opacity 0.3s ease-in-out;
 }

@@ -105,14 +105,6 @@ const FlashOfferCard = memo(() => {
   
   const activeItem = combinedItems[currentIndex];
 
-  if (!flashProducts && !flashBanners) {
-    return (
-      <div className="h-full flex items-center justify-center bg-black/50">
-        <Loader2 className="h-4 w-4 text-primary animate-spin" />
-      </div>
-    );
-  }
-
   return (
     <div className="h-full bg-black overflow-hidden relative group w-full gpu-accelerated border-r border-white/5 flex items-center justify-center">
       {activeItem ? (
@@ -203,11 +195,6 @@ export default function Home() {
 
   const autoplay = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
 
-  const qrCodeUrl = useMemo(() => {
-    const link = settings?.qrCodeLink || 'https://sssmarthaat.com';
-    return `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(link)}`;
-  }, [settings?.qrCodeLink]);
-
   useEffect(() => {
     setIsMounted(true);
     if (db) {
@@ -218,10 +205,6 @@ export default function Home() {
       } catch (err) {}
     }
   }, [db]);
-
-  const carouselKey = useMemo(() => {
-    return combinedSliderItems.map(item => item.id).join('-');
-  }, [combinedSliderItems]);
 
   if (!isMounted) return <div className="min-h-screen bg-black" />;
 
@@ -239,7 +222,6 @@ export default function Home() {
           <div className="col-span-6 h-full relative overflow-hidden bg-black">
             {combinedSliderItems.length > 0 ? (
               <Carousel 
-                key={carouselKey} 
                 className="w-full h-full" 
                 opts={{ loop: true }} 
                 plugins={[autoplay.current]}
@@ -249,15 +231,11 @@ export default function Home() {
                     <SlideItem 
                       key={item.id || index} 
                       item={item} 
-                      priority={index < 2} 
+                      priority={index === 0} 
                     />
                   ))}
                 </CarouselContent>
               </Carousel>
-            ) : (sliderProducts || sliderBanners) ? (
-              <div className="h-full flex flex-col items-center justify-center gap-2 border-x border-white/5">
-                <p className="text-[10px] font-black text-white uppercase tracking-widest">No Featured Content</p>
-              </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center gap-2">
                 <Loader2 className="h-6 w-6 text-primary animate-spin" />
@@ -287,24 +265,22 @@ export default function Home() {
                 </button>
               </div>
             ) : (
-              <>
-                <h3 className="text-white font-black text-[6px] md:text-xl lg:text-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] italic text-center drop-shadow-xl font-headline relative z-10">
-                  DOWNLOAD APP
+              <div className="flex flex-col items-center justify-center space-y-2 md:space-y-6 relative z-10">
+                <h3 className="text-white font-black text-[6px] md:text-xl lg:text-2xl uppercase tracking-[0.2em] italic text-center drop-shadow-xl font-headline">
+                  PREMIUM HAAT
                 </h3>
-                
-                <div className="bg-white p-0.5 md:p-4 w-10 h-10 md:w-40 md:h-40 lg:w-56 lg:h-56 flex items-center justify-center border-1 md:border-4 border-white/30 shadow-2xl transition-transform hover:scale-105 duration-500 relative z-10">
-                  <Image src={qrCodeUrl} alt="QR Code" width={250} height={250} className="w-full h-full" loading="lazy" />
+                <div className="bg-white p-0.5 md:p-4 w-10 h-10 md:w-40 md:h-40 flex items-center justify-center border-1 md:border-4 border-white/30 shadow-2xl">
+                  <Image src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(settings?.qrCodeLink || 'https://sssmarthaat.com')}`} alt="QR" width={200} height={200} className="w-full h-full" priority />
                 </div>
-                
-                <div className="flex flex-col gap-0.5 md:gap-3 w-full max-w-[280px] relative z-10">
-                  <button className="w-full bg-white text-black h-5 md:h-12 px-1 md:px-8 flex items-center justify-center gap-1 md:gap-4 font-black text-[5px] md:text-[12px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none group">
-                    <Apple className="h-2 w-2 md:h-6 md:w-6 transition-transform group-hover:scale-110" /> APP STORE
+                <div className="flex flex-col gap-0.5 md:gap-3 w-full">
+                  <button className="w-full bg-white text-black h-5 md:h-12 flex items-center justify-center gap-1 md:gap-4 font-black text-[5px] md:text-[12px] uppercase shadow-lg">
+                    <Apple className="h-2 w-2 md:h-6 md:w-6" /> APP STORE
                   </button>
-                  <button className="w-full bg-white text-black h-5 md:h-12 px-1 md:px-8 flex items-center justify-center gap-1 md:gap-4 font-black text-[5px] md:text-[12px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none group">
-                    <Play className="h-2 w-2 md:h-6 md:w-6 transition-transform group-hover:scale-110" /> PLAY STORE
+                  <button className="w-full bg-white text-black h-5 md:h-12 flex items-center justify-center gap-1 md:gap-4 font-black text-[5px] md:text-[12px] uppercase shadow-lg">
+                    <Play className="h-2 w-2 md:h-6 md:w-6" /> PLAY STORE
                   </button>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </section>

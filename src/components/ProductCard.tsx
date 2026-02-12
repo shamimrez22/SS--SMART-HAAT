@@ -21,8 +21,8 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = (product.stockQuantity || 0) <= 0;
   
-  // Load priority for the first 10 products visible on screen
-  const isPriority = index < 10;
+  // High-performance image loading: first 8 products are priority
+  const isPriority = index < 8;
 
   const price = product.price || 0;
   const originalPrice = product.originalPrice || price;
@@ -35,7 +35,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             src={product.imageUrl || 'https://picsum.photos/seed/placeholder/400/400'}
             alt={product.name || 'Product'}
             fill
-            sizes="(max-width: 768px) 50vw, 15vw"
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 15vw"
             priority={isPriority}
             className="object-fill transition-transform duration-[2s] group-hover:scale-110"
             loading={isPriority ? "eager" : "lazy"}
