@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   ArrowLeft, 
   Save, 
@@ -23,7 +23,6 @@ import {
   Video,
   Upload,
   X,
-  AlertTriangle,
   Zap,
   QrCode
 } from 'lucide-react';
@@ -37,7 +36,7 @@ import { optimizeVideo } from '@/lib/video-utils';
 export default function AdminOthers() {
   const db = useFirestore();
   const { toast } = useToast();
-  const settingsRef = useMemoFirebase(() => doc(db!, 'settings', 'site-config'), [db]);
+  const settingsRef = useMemoFirebase(() => db ? doc(db, 'settings', 'site-config') : null, [db]);
   const { data: settings, isLoading } = useDoc(settingsRef);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -95,8 +94,8 @@ export default function AdminOthers() {
       const optimizedBase64 = await optimizeVideo(file);
       setFormData(prev => ({ ...prev, appBarVideoUrl: optimizedBase64 }));
       toast({
-        title: "VIDEO COMPRESSED",
-        description: "READY FOR FAST LOADING.",
+        title: "VIDEO READY",
+        description: "VIDEO IS NOW COMPRESSED AND READY FOR LIVE DISPLAY.",
       });
     } catch (err) {
       console.error(err);
@@ -112,25 +111,24 @@ export default function AdminOthers() {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    setDocumentNonBlocking(settingsRef!, {
+    if (!settingsRef) return;
+
+    setDocumentNonBlocking(settingsRef, {
       ...formData,
       deliveryChargeInside: parseFloat(formData.deliveryChargeInside),
       deliveryChargeOutside: parseFloat(formData.deliveryChargeOutside)
     }, { merge: true });
+    
     toast({
       title: "CONFIGURATION SYNCED",
-      description: "SITE DETAILS HAVE BEEN SUCCESSFULLY UPDATED.",
+      description: "SITE DETAILS AND MEDIA SETTINGS HAVE BEEN UPDATED.",
     });
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <MainHeader />
-        <div className="flex-grow flex items-center justify-center">
-          <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
-        </div>
-        <Footer />
+      <div className="min-h-screen flex flex-col bg-background items-center justify-center">
+        <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
       </div>
     );
   }
@@ -163,21 +161,23 @@ export default function AdminOthers() {
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                 
-                {/* CLEAR TOGGLE FOR QR VS VIDEO */}
+                {/* CLEAR TICKMARK FOR QR VS VIDEO */}
                 <div className="p-6 bg-white/[0.03] border border-white/10 space-y-4">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <Checkbox 
+                      id="video-toggle"
+                      checked={formData.showVideoInAppBar} 
+                      onCheckedChange={(val) => setFormData({...formData, showVideoInAppBar: !!val})} 
+                      className="h-6 w-6 border-white/20 data-[state=checked]:bg-[#01a3a4] data-[state=checked]:border-[#01a3a4]"
+                    />
                     <div className="space-y-1">
-                      <label className="text-[11px] font-black text-foreground uppercase flex items-center gap-2">
-                        <QrCode className="h-4 w-4 text-[#01a3a4]" /> SWITCH MEDIA: QR CODE / VIDEO
+                      <label htmlFor="video-toggle" className="text-[11px] font-black text-foreground uppercase flex items-center gap-2 cursor-pointer">
+                        <QrCode className="h-4 w-4 text-[#01a3a4]" /> টিক দিন: ভিডিও চলবে (OFF রাখলে QR শো করবে)
                       </label>
                       <p className="text-[8px] text-foreground/40 uppercase font-bold tracking-widest">
                         {formData.showVideoInAppBar ? "VIDEO MODE ACTIVE" : "QR CODE MODE ACTIVE"}
                       </p>
                     </div>
-                    <Switch 
-                      checked={formData.showVideoInAppBar} 
-                      onCheckedChange={(val) => setFormData({...formData, showVideoInAppBar: val})} 
-                    />
                   </div>
                   <div className="h-px bg-white/5 w-full" />
                   <p className="text-[9px] font-bold text-[#01a3a4] uppercase tracking-tighter leading-relaxed">
@@ -193,11 +193,13 @@ export default function AdminOthers() {
                   {formData.appBarVideoUrl ? (
                     <div className="relative aspect-video bg-black border border-white/10 overflow-hidden group">
                       <video 
+                        key={formData.appBarVideoUrl}
                         src={formData.appBarVideoUrl} 
                         className="w-full h-full object-cover opacity-60"
                         autoPlay 
                         muted 
                         loop
+                        playsInline
                       />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                         <Button 

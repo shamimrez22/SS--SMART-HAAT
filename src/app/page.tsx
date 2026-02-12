@@ -259,14 +259,18 @@ export default function Home() {
 
           <div className="col-span-3 h-full bg-primary relative overflow-hidden flex flex-col items-center justify-center p-1 md:p-6 space-y-1 md:space-y-6 gpu-accelerated shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]">
             {settings?.showVideoInAppBar && settings?.appBarVideoUrl ? (
-              <video 
-                src={settings.appBarVideoUrl}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 w-full h-full object-cover z-0"
-              />
+              <div className="absolute inset-0 w-full h-full bg-black">
+                <video 
+                  key={settings.appBarVideoUrl}
+                  src={settings.appBarVideoUrl}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover z-0"
+                />
+                <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-sm border border-white/10 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest animate-pulse">LIVE</div>
+              </div>
             ) : (
               <>
                 <h3 className="text-white font-black text-[6px] md:text-xl lg:text-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] italic text-center drop-shadow-xl font-headline relative z-10">
