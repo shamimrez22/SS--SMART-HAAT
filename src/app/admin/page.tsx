@@ -35,7 +35,8 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Pie, PieChart, Cell } from 
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 
-const CHART_COLORS = ['#01a3a4', '#00d2d3', '#54a0ff', '#5f27cd', '#ff9f43', '#ee5253'];
+// Updated: More stylish and vibrant palette
+const CHART_COLORS = ['#ff9f43', '#0abde3', '#ee5253', '#00d2d3', '#5f27cd', '#ff9ff3'];
 
 export default function AdminPanel() {
   const db = useFirestore();
@@ -90,6 +91,7 @@ export default function AdminPanel() {
     };
   }, [orders, today]);
 
+  // Stylish dummy data for chart visualization
   const dailyChartData = useMemo(() => [
     { day: "SAT", sales: 42000 },
     { day: "SUN", sales: 38000 },
@@ -190,7 +192,7 @@ export default function AdminPanel() {
                 <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-white">CATEGORY BREAKDOWN</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="h-[200px] w-full flex items-center justify-center">
+                <div className="h-[250px] w-full flex items-center justify-center">
                   {isMounted && categoryStats.length > 0 ? (
                     <ChartContainer config={pieChartConfig} className="h-full w-full">
                       <PieChart>
@@ -199,15 +201,16 @@ export default function AdminPanel() {
                           cx="50%"
                           cy="50%"
                           innerRadius={60}
-                          outerRadius={80}
-                          paddingAngle={5}
+                          outerRadius={90}
+                          paddingAngle={8}
                           dataKey="count"
+                          stroke="none"
                         >
                           {categoryStats.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
-                        <ChartTooltip content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-2" />} />
+                        <ChartTooltip content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-2 text-[10px] font-black uppercase" />} />
                       </PieChart>
                     </ChartContainer>
                   ) : (
@@ -225,34 +228,35 @@ export default function AdminPanel() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 p-6 gap-4 bg-white/[0.01]">
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black text-white uppercase tracking-widest">Business Intelligence</p>
+                  <p className="text-[8px] font-black text-orange-500 uppercase tracking-widest">Business Intelligence</p>
                   <CardTitle className="text-2xl font-black uppercase tracking-tighter text-white">REVENUE ARCHIVE</CardTitle>
                 </div>
-                <Badge variant="outline" className="rounded-none border-white/10 text-[8px] h-6 px-3 w-fit font-black text-white/40">DATABASE: LIVE SYNCED</Badge>
+                <Badge variant="outline" className="rounded-none border-white/10 text-[8px] h-6 px-3 w-fit font-black text-white/40 uppercase">DATABASE: LIVE SYNCED</Badge>
               </CardHeader>
               <CardContent className="p-8">
-                <div className="h-[300px] w-full flex items-center justify-center">
+                <div className="h-[350px] w-full flex items-center justify-center">
                   {isMounted ? (
-                    <ChartContainer config={{ sales: { label: "Revenue", color: "var(--primary)" } }} className="h-full w-full">
+                    <ChartContainer config={{ sales: { label: "Revenue", color: "#ff9f43" } }} className="h-full w-full">
                       <BarChart data={dailyChartData}>
-                        <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.03)" />
+                        <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.05)" />
                         <XAxis
                           dataKey="day"
                           tickLine={false}
                           axisLine={false}
-                          tick={{ fontSize: 9, fontWeight: 900, fill: '#666' }}
+                          tick={{ fontSize: 10, fontWeight: 900, fill: '#888' }}
                         />
                         <YAxis
                           tickLine={false}
                           axisLine={false}
                           tickFormatter={(value) => `৳${value/1000}K`}
-                          tick={{ fontSize: 9, fontWeight: 900, fill: '#666' }}
+                          tick={{ fontSize: 10, fontWeight: 900, fill: '#888' }}
                         />
                         <ChartTooltip
-                          cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                          content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-4" hideLabel />}
+                          cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+                          content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-4 font-black uppercase" hideLabel />}
                         />
-                        <Bar dataKey="sales" fill="var(--primary)" radius={[1, 1, 0, 0]} />
+                        {/* Updated: Vibrant Orange for Revenue */}
+                        <Bar dataKey="sales" fill="#ff9f43" radius={[2, 2, 0, 0]} barSize={60} />
                       </BarChart>
                     </ChartContainer>
                   ) : (
@@ -284,7 +288,7 @@ export default function AdminPanel() {
                         <span className="text-[10px] font-black text-white uppercase truncate">{order.customerName}</span>
                         <Badge className="bg-red-600 text-white text-[7px] font-black rounded-none border-none animate-pulse">NEW ORDER</Badge>
                       </div>
-                      <p className="text-[8px] font-black text-primary uppercase truncate">{order.productName}</p>
+                      <p className="text-[8px] font-black text-orange-500 uppercase truncate">{order.productName}</p>
                       <span className="text-[7px] font-mono text-white/30 uppercase">{order.createdAt ? new Date(order.createdAt).toLocaleTimeString() : 'RECENT'}</span>
                     </div>
                   ))}
