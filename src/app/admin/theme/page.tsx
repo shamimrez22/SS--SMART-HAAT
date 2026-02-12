@@ -24,6 +24,10 @@ import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 
+/**
+ * AdminTheme - Advanced control for visual identity.
+ * Now all labels and preview text respond to Global Text Color.
+ */
 export default function AdminTheme() {
   const db = useFirestore();
   const { toast } = useToast();
@@ -82,13 +86,13 @@ export default function AdminTheme() {
       <main className="flex-grow container mx-auto px-4 py-12 max-w-7xl">
         <div className="flex items-center gap-4 mb-12">
           <Link href="/admin">
-            <Button variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10">
-              <ArrowLeft className="h-6 w-6 text-white" />
+            <Button variant="ghost" className="rounded-none hover:bg-white/5 text-foreground p-2 h-12 w-12 border border-white/10">
+              <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-white uppercase tracking-[0.3em]">Visual Identity</p>
-            <h1 className="text-4xl font-black uppercase tracking-tighter text-white">THEME CONTROL</h1>
+            <p className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-[0.3em]">Visual Identity</p>
+            <h1 className="text-4xl font-black uppercase tracking-tighter text-foreground">THEME CONTROL</h1>
           </div>
         </div>
 
@@ -97,7 +101,7 @@ export default function AdminTheme() {
           <div className="lg:col-span-5 space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-white flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
                   <Palette className="h-4 w-4" /> MASTER COLOR BOARD
                 </CardTitle>
               </CardHeader>
@@ -107,7 +111,7 @@ export default function AdminTheme() {
                   <div className="space-y-6">
                     {/* PRIMARY COLOR */}
                     <div className="space-y-3 p-5 bg-white/5 border border-white/10 group hover:border-primary/30 transition-all">
-                      <label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex justify-between">
+                      <label className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-widest flex justify-between">
                         <span>Theme Primary Color</span>
                         <span className="text-primary font-mono">{colors.themePrimaryColor}</span>
                       </label>
@@ -127,14 +131,14 @@ export default function AdminTheme() {
                           type="text" 
                           value={colors.themePrimaryColor} 
                           onChange={(e) => setColors({...colors, themePrimaryColor: e.target.value.toUpperCase()})}
-                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-white uppercase outline-none focus:border-primary transition-all"
+                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-foreground uppercase outline-none focus:border-primary transition-all"
                         />
                       </div>
                     </div>
 
                     {/* BACKGROUND COLOR */}
                     <div className="space-y-3 p-5 bg-white/5 border border-white/10 group hover:border-primary/30 transition-all">
-                      <label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex justify-between">
+                      <label className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-widest flex justify-between">
                         <span>Template Background</span>
                         <span className="text-primary font-mono">{colors.themeBackgroundColor}</span>
                       </label>
@@ -154,14 +158,14 @@ export default function AdminTheme() {
                           type="text" 
                           value={colors.themeBackgroundColor} 
                           onChange={(e) => setColors({...colors, themeBackgroundColor: e.target.value.toUpperCase()})}
-                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-white uppercase outline-none focus:border-primary transition-all"
+                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-foreground uppercase outline-none focus:border-primary transition-all"
                         />
                       </div>
                     </div>
 
-                    {/* TEXT COLOR */}
+                    {/* TEXT COLOR - GLOBAL CONTROL */}
                     <div className="space-y-3 p-5 bg-white/5 border border-white/10 group hover:border-primary/30 transition-all">
-                      <label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex justify-between">
+                      <label className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-widest flex justify-between">
                         <span>Global Text Color</span>
                         <span className="text-primary font-mono">{colors.themeTextColor}</span>
                       </label>
@@ -181,14 +185,14 @@ export default function AdminTheme() {
                           type="text" 
                           value={colors.themeTextColor} 
                           onChange={(e) => setColors({...colors, themeTextColor: e.target.value.toUpperCase()})}
-                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-white uppercase outline-none focus:border-primary transition-all"
+                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-foreground uppercase outline-none focus:border-primary transition-all"
                         />
                       </div>
                     </div>
 
                     {/* BUTTON COLOR */}
                     <div className="space-y-3 p-5 bg-white/5 border border-white/10 group hover:border-primary/30 transition-all">
-                      <label className="text-[10px] font-black text-white/60 uppercase tracking-widest flex justify-between">
+                      <label className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-widest flex justify-between">
                         <span>Action Button Color</span>
                         <span className="text-primary font-mono">{colors.themeButtonColor}</span>
                       </label>
@@ -208,20 +212,20 @@ export default function AdminTheme() {
                           type="text" 
                           value={colors.themeButtonColor} 
                           onChange={(e) => setColors({...colors, themeButtonColor: e.target.value.toUpperCase()})}
-                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-white uppercase outline-none focus:border-primary transition-all"
+                          className="flex-grow bg-black border border-white/10 h-14 px-4 text-sm font-mono text-foreground uppercase outline-none focus:border-primary transition-all"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-4 pt-4">
-                    <Button type="submit" className="w-full bg-primary hover:bg-white hover:text-black text-white h-16 font-black uppercase rounded-none text-xs tracking-[0.2em] shadow-2xl transition-all">
+                    <Button type="submit" className="w-full bg-primary hover:bg-white hover:text-black text-primary-foreground h-16 font-black uppercase rounded-none text-xs tracking-[0.2em] shadow-2xl transition-all">
                       <Save className="mr-2 h-5 w-5" /> SYNC THEME SETTINGS
                     </Button>
                     <button 
                       type="button" 
                       onClick={resetToDefault} 
-                      className="w-full text-white/20 hover:text-primary transition-colors py-2 font-black uppercase text-[9px] tracking-[0.3em] flex items-center justify-center gap-2"
+                      className="w-full text-foreground/20 hover:text-primary transition-colors py-2 font-black uppercase text-[9px] tracking-[0.3em] flex items-center justify-center gap-2"
                     >
                       <Undo2 className="h-3 w-3" /> RESET TO SYSTEM DEFAULTS
                     </button>
@@ -235,7 +239,7 @@ export default function AdminTheme() {
           <div className="lg:col-span-7 space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden h-full">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-white flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
                   <Monitor className="h-4 w-4" /> LIVE INTERACTIVE SIMULATOR
                 </CardTitle>
               </CardHeader>
@@ -258,7 +262,7 @@ export default function AdminTheme() {
                     <div className="p-6 space-y-6">
                       <div className="space-y-2">
                         <div style={{ color: colors.themeTextColor }} className="text-2xl font-black uppercase leading-tight">PREMIUM PRODUCT</div>
-                        <div style={{ color: colors.themeTextColor }} className="text-[10px] opacity-60 uppercase font-bold">This is a simulation of your text color setting.</div>
+                        <div style={{ color: colors.themeTextColor }} className="text-[10px] opacity-60 uppercase font-bold">ALL TEXT CHANGES COLOR AT ONCE.</div>
                       </div>
 
                       <div className="aspect-square w-full border border-white/10 relative bg-black/40 flex items-center justify-center">
@@ -293,7 +297,7 @@ export default function AdminTheme() {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors.themeTextColor }} />
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors.themeButtonColor }} />
                   </div>
-                  <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.5em] flex items-center gap-2">
+                  <p className="text-[10px] font-black text-foreground opacity-30 uppercase tracking-[0.5em] flex items-center gap-2">
                     <Sparkles className="h-3 w-3" /> REAL-TIME VISUALIZATION
                   </p>
                 </div>

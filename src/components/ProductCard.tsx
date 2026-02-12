@@ -13,6 +13,10 @@ interface ProductCardProps {
   index?: number;
 }
 
+/**
+ * ProductCard - Highly visual, square-edged luxury card.
+ * All text colors now respect global theme settings.
+ */
 export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const isOutOfStock = (product.stockQuantity || 0) <= 0;
@@ -46,20 +50,22 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
         
         <CardContent className="p-3 md:p-4 flex flex-col flex-grow bg-black space-y-3">
           <div className="space-y-1">
-            <h3 className="font-black text-[10px] md:text-[11px] text-white uppercase truncate tracking-[0.15em] transition-colors group-hover:text-white">{product.name || 'Premium Item'}</h3>
+            <h3 className="font-black text-[10px] md:text-[11px] text-foreground uppercase truncate tracking-[0.15em] transition-colors">
+              {product.name || 'Premium Item'}
+            </h3>
             <div className="flex items-center gap-2">
               <div className={`h-1 w-1 rounded-none ${isOutOfStock ? 'bg-red-600' : 'bg-primary'} animate-pulse`} />
-              <span className={`text-[7px] font-black uppercase tracking-[0.2em] ${isOutOfStock ? 'text-red-600' : 'text-primary'}`}>
+              <span className={`text-[7px] font-black uppercase tracking-[0.2em] ${isOutOfStock ? 'text-red-600' : 'text-foreground opacity-80'}`}>
                 {isOutOfStock ? 'SOLD OUT' : 'READY TO SHIP'}
               </span>
             </div>
           </div>
           
           <div className="mt-auto pt-2">
-            <div className="h-[44px] flex flex-col justify-start mb-3">
-              <div className="flex items-baseline gap-1 text-white">
+            <div className="h-[44px] flex flex-col justify-start mb-3 relative">
+              <div className="flex items-baseline gap-1 text-foreground">
                 <span className="text-[10px] font-normal text-primary">৳</span>
-                <span className="font-black text-[18px] md:text-[20px] tracking-tighter leading-none text-white">
+                <span className="font-black text-[18px] md:text-[20px] tracking-tighter leading-none">
                   {(price || 0).toLocaleString()}
                 </span>
               </div>
@@ -67,10 +73,10 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
               <div className="flex items-center justify-between mt-1 h-[18px]">
                 {originalPrice > price ? (
                   <>
-                    <p className="text-[10px] text-white line-through font-bold tracking-tight opacity-100">
+                    <p className="text-[10px] text-foreground line-through font-bold tracking-tight opacity-100">
                       ৳{(originalPrice || 0).toLocaleString()}
                     </p>
-                    <div className="bg-primary/10 border border-primary/30 px-1.5 py-0.5">
+                    <div className="bg-primary/10 border border-primary/30 px-1.5 py-0.5 ml-auto">
                       <span className="text-[8px] font-black text-primary tracking-widest uppercase">
                         -{Math.round(((originalPrice - price) / (originalPrice || 1)) * 100)}%
                       </span>
@@ -84,7 +90,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
               disabled={isOutOfStock}
               onClick={(e) => { e.preventDefault(); setIsOrderOpen(true); }}
               style={{ backgroundColor: !isOutOfStock ? 'var(--button-bg)' : undefined }}
-              className={`w-full ${isOutOfStock ? 'bg-white/5 text-white/10 border border-white/5' : 'hover:bg-white hover:text-black'} text-white font-black text-[9px] h-10 rounded-none uppercase flex items-center justify-center gap-2 transition-all duration-500 active:scale-95 border-none shadow-lg tracking-[0.2em]`}
+              className={`w-full ${isOutOfStock ? 'bg-white/5 text-foreground/20 border border-white/5' : 'hover:bg-white hover:text-black'} text-white font-black text-[9px] h-10 rounded-none uppercase flex items-center justify-center gap-2 transition-all duration-500 active:scale-95 border-none shadow-lg tracking-[0.2em]`}
             >
               {isOutOfStock ? 'SOLD OUT' : 'অর্ডার করুন'}
             </Button>

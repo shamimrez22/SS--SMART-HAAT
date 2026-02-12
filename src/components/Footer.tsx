@@ -43,34 +43,34 @@ export function Footer() {
                 <span className="text-black font-black text-2xl tracking-tighter">SS</span>
               </div>
               <div>
-                <h3 className="text-2xl font-black font-headline text-white tracking-tighter uppercase">SS SMART HAAT</h3>
+                <h3 className="text-2xl font-black font-headline text-foreground tracking-tighter uppercase">SS SMART HAAT</h3>
                 <p className="text-[8px] font-black text-[#01a3a4] tracking-[0.4em] uppercase leading-none mt-1">Premium Market Place</p>
               </div>
             </div>
             
             <div className="space-y-4">
-              <p className="text-[11px] text-white leading-relaxed uppercase tracking-tight font-bold">
+              <p className="text-[11px] text-foreground leading-relaxed uppercase tracking-tight font-bold opacity-90">
                 YOUR CURATED DESTINATION FOR SMART FASHION AND MODERN MARKETPLACE ESSENTIALS. REDEFINING ELEGANCE THROUGH SIMPLICITY AND LUXURY.
               </p>
               <div className="pt-2 border-l-2 border-[#01a3a4] pl-4">
-                <p className="text-[13px] font-black text-white font-headline leading-relaxed">
+                <p className="text-[13px] font-black text-foreground font-headline leading-relaxed">
                   {contact.description}
                 </p>
               </div>
             </div>
 
             <div className="flex gap-4">
-              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Facebook className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Instagram className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.whatsapp} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-500 border border-white/5"><WhatsAppIcon className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Twitter className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Youtube className="h-4 w-4 text-white" /></Link>
+              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Facebook className="h-4 w-4 text-foreground" /></Link>
+              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Instagram className="h-4 w-4 text-foreground" /></Link>
+              <Link href={contact.social.whatsapp} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-500 border border-white/5"><WhatsAppIcon className="h-4 w-4 text-foreground" /></Link>
+              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Twitter className="h-4 w-4 text-foreground" /></Link>
+              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/5"><Youtube className="h-4 w-4 text-foreground" /></Link>
             </div>
           </div>
           
           <div className="lg:col-span-2 space-y-8">
             <h4 className="font-black text-[#01a3a4] uppercase text-[10px] tracking-[0.3em]">SHOPPING</h4>
-            <ul className="space-y-4 text-[11px] text-white font-black uppercase tracking-widest">
+            <ul className="space-y-4 text-[11px] text-foreground font-black uppercase tracking-widest opacity-80">
               <li><Link href="/shop" className="hover:text-primary transition-colors">CLOTHING STORE</Link></li>
               <li><Link href="/shop" className="hover:text-primary transition-colors">TRENDING SHOES</Link></li>
               <li><Link href="/shop" className="hover:text-primary transition-colors">ACCESSORIES</Link></li>
@@ -80,7 +80,7 @@ export function Footer() {
           
           <div className="lg:col-span-2 space-y-8">
             <h4 className="font-black text-[#01a3a4] uppercase text-[10px] tracking-[0.3em]">COMPANY</h4>
-            <ul className="space-y-4 text-[11px] text-white font-black uppercase tracking-widest">
+            <ul className="space-y-4 text-[11px] text-foreground font-black uppercase tracking-widest opacity-80">
               <li><Link href="#" className="hover:text-primary transition-colors">OUR STORY</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">CAREERS</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">AFFILIATE</Link></li>
@@ -96,8 +96,8 @@ export function Footer() {
                   <Mail className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Email Address</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.email}</p>
+                  <p className="text-[9px] font-black text-foreground opacity-60 uppercase tracking-widest mb-1">Email Address</p>
+                  <p className="text-[12px] font-black text-foreground uppercase tracking-tighter">{contact.email}</p>
                 </div>
               </div>
 
@@ -106,8 +106,8 @@ export function Footer() {
                   <Phone className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Phone Helpline</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.phone}</p>
+                  <p className="text-[9px] font-black text-foreground opacity-60 uppercase tracking-widest mb-1">Phone Helpline</p>
+                  <p className="text-[12px] font-black text-foreground uppercase tracking-tighter">{contact.phone}</p>
                 </div>
               </div>
 
@@ -116,8 +116,8 @@ export function Footer() {
                   <MapPin className="h-4 w-4 text-[#01a3a4]" />
                 </div>
                 <div>
-                  <p className="text-[9px] font-black text-white uppercase tracking-widest mb-1">Official Location</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.address}</p>
+                  <p className="text-[9px] font-black text-foreground opacity-60 uppercase tracking-widest mb-1">Official Location</p>
+                  <p className="text-[12px] font-black text-foreground uppercase tracking-tighter">{contact.address}</p>
                 </div>
               </div>
             </div>
@@ -127,13 +127,13 @@ export function Footer() {
         <div className="h-px bg-white/5 mb-10" />
         
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white font-black">
+          <p className="text-[9px] uppercase tracking-[0.3em] text-foreground opacity-60 font-black">
             © 2024 <span className="text-[#01a3a4]">SS SMART HAAT</span>. ELEVATING DHAKA'S LIFESTYLE.
           </p>
-          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white font-black">
-            <Link href="#" className="hover:text-white transition-colors">PAYMENT METHODS</Link>
-            <Link href="#" className="hover:text-white transition-colors">SHIPPING POLICY</Link>
-            <Link href="#" className="hover:text-white transition-colors">TERMS OF USE</Link>
+          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-foreground font-black opacity-80">
+            <Link href="#" className="hover:text-primary transition-colors">PAYMENT METHODS</Link>
+            <Link href="#" className="hover:text-primary transition-colors">SHIPPING POLICY</Link>
+            <Link href="#" className="hover:text-primary transition-colors">TERMS OF USE</Link>
           </div>
         </div>
       </div>

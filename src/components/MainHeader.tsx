@@ -10,6 +10,7 @@ import { Radio, MapPin } from 'lucide-react';
 /**
  * MainHeader - Combines Navbar and Live Status Bar with a fixed position.
  * Updated: Unified colors and balanced font sizes for a premium look.
+ * Labels now use theme-aware text colors.
  */
 export function MainHeader() {
   const db = useFirestore();
@@ -39,7 +40,7 @@ export function MainHeader() {
               >
                 {settings.liveStatus} <span className="opacity-30">||</span> 
                 <span className="flex items-center gap-2">
-                  <MapPin className="h-3 w-3" /> <span className="tracking-tighter opacity-60">HUB:</span> {hubLocation}
+                  <MapPin className="h-3 w-3" /> <span className="tracking-tighter opacity-60 text-foreground">HUB:</span> {hubLocation}
                 </span>
               </p>
             </div>

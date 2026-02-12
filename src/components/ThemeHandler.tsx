@@ -8,6 +8,7 @@ import { doc } from 'firebase/firestore';
 /**
  * ThemeHandler - Injects dynamic CSS variables based on Firestore settings.
  * Converts HEX to HSL format for compatibility with ShadCN variables.
+ * Ensures ALL text changes color when themeTextColor is updated.
  */
 export function ThemeHandler() {
   const db = useFirestore();
@@ -65,9 +66,13 @@ export function ThemeHandler() {
 
     if (settings.themeTextColor) {
       const hsl = hexToHsl(settings.themeTextColor);
+      // UPDATE ALL TEXT VARIABLES SIMULTANEOUSLY
       root.style.setProperty('--foreground', hsl);
       root.style.setProperty('--card-foreground', hsl);
       root.style.setProperty('--popover-foreground', hsl);
+      root.style.setProperty('--muted-foreground', hsl);
+      root.style.setProperty('--secondary-foreground', hsl);
+      root.style.setProperty('--accent-foreground', hsl);
     }
 
     if (settings.themeButtonColor) {
