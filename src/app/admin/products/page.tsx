@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -19,7 +18,9 @@ import {
   LayoutDashboard,
   Ruler,
   DollarSign,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles,
+  RefreshCw
 } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from 'next/link';
@@ -30,6 +31,7 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
 import { compressImage } from '@/lib/image-compression';
+import { analyzeProductImage } from '@/ai/flows/product-analyzer-flow';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -56,6 +58,7 @@ export default function AdminProducts() {
   const [showInFlashOffer, setShowInFlashOffer] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [isAiAnalyzing, setIsAiAnalyzing] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   
@@ -81,8 +84,27 @@ export default function AdminProducts() {
     if (file) {
       setIsProcessingImage(true);
       try {
-        const compressed = await compressImage(file, 450, 450);
+        const compressed = await compressImage(file, 800, 1066); // Higher res for analysis and better preview
         setImagePreview(compressed);
+        
+        // Auto-AI Analysis
+        if (!editingId) {
+          setIsAiAnalyzing(true);
+          toast({ title: "AI INITIATED", description: "ANALYZING PRODUCT VISUALS..." });
+          try {
+            const aiData = await analyzeProductImage({ photoDataUri: compressed });
+            if (aiData) {
+              setName(aiData.name);
+              setDescription(aiData.description);
+              setCategory(aiData.category);
+              toast({ title: "AI ANALYSIS COMPLETE", description: "FIELDS AUTO-FILLED SUCCESSFULLY." });
+            }
+          } catch (aiErr) {
+            console.error("AI Error:", aiErr);
+          } finally {
+            setIsAiAnalyzing(false);
+          }
+        }
       } catch (err) {
         toast({ variant: "destructive", title: "ERROR", description: "FAILED TO PROCESS IMAGE." });
       } finally {
@@ -207,14 +229,46 @@ export default function AdminProducts() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-8 space-y-6">
+              
+              <div 
+                onClick={() => !isProcessingImage && !isAiAnalyzing && fileInputRef.current?.click()} 
+                className="border-2 border-dashed border-white/10 text-center cursor-pointer bg-black/50 aspect-[3/4] w-full max-w-[350px] mx-auto relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-[#01a3a4]/50 shadow-2xl"
+              >
+                {isProcessingImage || isAiAnalyzing ? (
+                  <div className="flex flex-col items-center gap-4">
+                    <Loader2 className="animate-spin text-[#01a3a4] h-10 w-10" />
+                    <p className="text-[9px] font-black text-[#01a3a4] uppercase animate-pulse tracking-[0.3em]">
+                      {isAiAnalyzing ? 'AI ANALYZING PRODUCT...' : 'OPTIMIZING IMAGE...'}
+                    </p>
+                  </div>
+                ) : imagePreview ? (
+                  <>
+                    <Image src={imagePreview} alt="Preview" fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <RefreshCw className="h-10 w-10 text-white" />
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-3">
+                    <Upload className="h-12 w-12 text-[#01a3a4] opacity-30 group-hover:opacity-100 mx-auto transition-all" />
+                    <p className="text-[10px] font-black uppercase text-white/40 tracking-widest">UPLOAD PRODUCT IMAGE</p>
+                    <p className="text-[8px] font-bold text-[#01a3a4]/60 uppercase tracking-widest">AI WILL AUTO-FILL DETAILS</p>
+                  </div>
+                )}
+                <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
+              </div>
+
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">PRODUCT NAME</label>
+                  <div className="flex justify-between items-center">
+                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">PRODUCT NAME</label>
+                    {isAiAnalyzing && <Sparkles className="h-3 w-3 text-[#01a3a4] animate-pulse" />}
+                  </div>
                   <Input placeholder="E.G. PREMIUM JAMDANI" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/10 h-14 uppercase font-black text-xs" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">DESCRIPTION</label>
-                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/10 min-h-[80px] text-xs font-bold uppercase" />
+                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/10 min-h-[100px] text-xs font-bold uppercase" />
                 </div>
               </div>
 
@@ -235,6 +289,10 @@ export default function AdminProducts() {
                   <SelectTrigger className="bg-black border-white/10 h-12 uppercase font-black text-[10px]"><SelectValue placeholder="SELECT CATEGORY" /></SelectTrigger>
                   <SelectContent className="bg-card border-white/10">
                     {categories?.map((c) => <SelectItem key={c.id} value={c.name} className="uppercase font-black text-[10px]">{c.name}</SelectItem>)}
+                    {/* Fallback if category is not in list (AI suggested) */}
+                    {category && !categories?.find(c => c.name === category) && (
+                      <SelectItem value={category} className="uppercase font-black text-[10px] border-l-2 border-[#01a3a4]">{category}</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -297,20 +355,6 @@ export default function AdminProducts() {
                 </div>
               </div>
 
-              <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer bg-black/50 min-h-[180px] relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-[#01a3a4]/50">
-                {isProcessingImage ? (
-                  <Loader2 className="animate-spin text-[#01a3a4] h-8 w-8" />
-                ) : imagePreview ? (
-                  <Image src={imagePreview} alt="Preview" fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                ) : (
-                  <div className="space-y-2">
-                    <Upload className="h-8 w-8 text-[#01a3a4] opacity-30 group-hover:opacity-100 mx-auto transition-all" />
-                    <p className="text-[8px] font-black uppercase text-white/40 tracking-widest">UPLOAD VISUAL</p>
-                  </div>
-                )}
-                <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
-              </div>
-
               <div className="flex gap-4">
                 {editingId && <Button onClick={resetForm} type="button" variant="outline" className="flex-1 border-white/10 text-white font-black h-14 rounded-none uppercase text-[10px]">CANCEL</Button>}
                 <Button onClick={handleSaveProduct} className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black h-14 rounded-none uppercase tracking-widest text-[10px] shadow-2xl">
@@ -325,10 +369,10 @@ export default function AdminProducts() {
               <CardTitle className="text-xs font-black uppercase text-[#01a3a4] tracking-[0.2em]">ACTIVE ARCHIVE ({products?.length || 0})</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="max-h-[900px] overflow-y-auto">
+              <div className="max-h-[1200px] overflow-y-auto">
                 {products?.map((p) => (
                   <div key={p.id} className="flex items-center gap-6 p-5 border-b border-white/[0.03] hover:bg-white/[0.02] transition-all group">
-                    <div className="relative h-16 w-16 bg-black border border-white/10 shrink-0 overflow-hidden">
+                    <div className="relative h-20 w-16 bg-black border border-white/10 shrink-0 overflow-hidden">
                       <Image src={p.imageUrl} alt={p.name} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                     </div>
                     <div className="flex-grow min-w-0">
@@ -380,9 +424,7 @@ export default function AdminProducts() {
         <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
           <AlertDialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20">
-                <AlertTriangle className="h-6 w-6 text-red-600" />
-              </div>
+              <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20"><AlertTriangle className="h-6 w-6 text-red-600" /></div>
               <AlertDialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">DELETE PRODUCT?</AlertDialogTitle>
             </div>
             <AlertDialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-widest leading-relaxed">
