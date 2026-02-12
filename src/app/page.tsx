@@ -83,9 +83,10 @@ const FlashOfferCard = memo(() => {
   const combinedItems = useMemo(() => {
     const products = flashProducts || [];
     const banners = flashBanners || [];
-    return [...banners, ...products].sort((a, b) => 
+    const items = [...banners, ...products].sort((a, b) => 
       new Date(b.createdAt || '2024-01-01').getTime() - new Date(a.createdAt || '2024-01-01').getTime()
     );
+    return items;
   }, [flashProducts, flashBanners]);
 
   useEffect(() => {
@@ -110,7 +111,7 @@ const FlashOfferCard = memo(() => {
   }
 
   return (
-    <div className="h-full bg-black overflow-hidden relative group w-full gpu-accelerated">
+    <div className="h-full bg-black overflow-hidden relative group w-full gpu-accelerated border-r border-white/5">
       {activeItem ? (
         <div className="h-full w-full relative" key={activeItem.id}>
           <Image 
@@ -122,15 +123,24 @@ const FlashOfferCard = memo(() => {
             priority={true}
             loading="eager"
           />
-          <div className="absolute top-2 left-2 bg-red-600 px-2 md:px-4 py-1 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH</div>
-          <div className="absolute bottom-0 w-full pb-2 md:pb-4 text-center px-2 bg-gradient-to-t from-black/90 to-transparent">
-             <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-widest mb-1 truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{activeItem.name || activeItem.title}</p>
+          <div className="absolute top-3 left-3 bg-red-600 px-3 md:px-5 py-1 text-[7px] md:text-[11px] font-black text-white uppercase tracking-widest z-10 shadow-lg">FLASH</div>
+          <div className="absolute bottom-0 w-full pb-4 md:pb-8 text-center px-2 bg-gradient-to-t from-black/95 via-black/40 to-transparent">
+             <p className="text-white font-black text-[8px] md:text-[14px] uppercase tracking-widest mb-1 truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+               {activeItem.name || activeItem.title}
+             </p>
              {activeItem.price !== undefined && (
-               <div className="flex flex-col items-center mb-1">
-                 <span className="text-[#01a3a4] font-black text-[10px] md:text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">৳{(activeItem.price || 0).toLocaleString()}</span>
+               <div className="flex flex-col items-center mb-2">
+                 <span className="text-[#01a3a4] font-black text-[12px] md:text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                   ৳{(activeItem.price || 0).toLocaleString()}
+                 </span>
                </div>
              )}
-             <button onClick={() => setIsOrderOpen(true)} className="bg-[#01a3a4] text-white px-3 md:px-6 py-1 md:h-10 font-black text-[6px] md:text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-2xl border-none">অর্ডার করুন</button>
+             <button 
+               onClick={() => setIsOrderOpen(true)} 
+               className="bg-[#01a3a4] text-white px-4 md:px-8 py-1.5 md:h-11 font-black text-[7px] md:text-[12px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-2xl border-none"
+             >
+               অর্ডার করুন
+             </button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
         </div>
@@ -182,7 +192,7 @@ export default function Home() {
 
   const qrCodeUrl = useMemo(() => {
     const link = settings?.qrCodeLink || 'https://sssmarthaat.com';
-    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(link)}`;
   }, [settings?.qrCodeLink]);
 
   useEffect(() => {
@@ -207,10 +217,15 @@ export default function Home() {
       <MainHeader />
 
       <main className="flex-grow container mx-auto">
-        {/* ENHANCED PREMIUM HEIGHT SECTION */}
-        <section className="grid grid-cols-12 gap-0 h-[250px] md:h-[400px] lg:h-[550px] gpu-accelerated bg-black overflow-hidden border-b border-white/5">
-          <div className="col-span-3 h-full"><FlashOfferCard /></div>
+        {/* PRECISE SCREENSHOT REPLICATION GRID */}
+        <section className="grid grid-cols-12 gap-0 h-[250px] md:h-[400px] lg:h-[550px] gpu-accelerated bg-black overflow-hidden border-b border-white/10">
           
+          {/* COLUMN 1: FLASH OFFER (3/12) */}
+          <div className="col-span-3 h-full overflow-hidden">
+            <FlashOfferCard />
+          </div>
+          
+          {/* COLUMN 2: MAIN SLIDER (6/12) */}
           <div className="col-span-6 h-full relative overflow-hidden bg-black">
             {combinedSliderItems.length > 0 ? (
               <Carousel 
@@ -240,14 +255,23 @@ export default function Home() {
             )}
           </div>
 
-          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-1.5 md:p-4 space-y-1.5 md:space-y-4 gpu-accelerated">
-            <h3 className="text-white font-black text-[7px] md:text-sm lg:text-base uppercase tracking-[0.3em] italic text-center drop-shadow-xl">DOWNLOAD APP</h3>
-            <div className="bg-white p-1 md:p-2 w-16 h-16 md:w-36 md:h-36 lg:w-44 lg:h-44 flex items-center justify-center border-2 border-white/20 shadow-2xl">
-              <Image src={qrCodeUrl} alt="QR Code" width={150} height={150} className="w-full h-full" loading="lazy" />
+          {/* COLUMN 3: QR APP BAR (3/12) - TEAL BACKGROUND AS PER SCREENSHOT */}
+          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-3 md:p-6 space-y-3 md:space-y-6 gpu-accelerated shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]">
+            <h3 className="text-white font-black text-[8px] md:text-lg lg:text-xl uppercase tracking-[0.3em] italic text-center drop-shadow-xl font-headline">
+              DOWNLOAD APP
+            </h3>
+            
+            <div className="bg-white p-1.5 md:p-3 w-20 h-20 md:w-44 md:h-44 lg:w-56 lg:h-56 flex items-center justify-center border-2 border-white/30 shadow-2xl transition-transform hover:scale-105 duration-500">
+              <Image src={qrCodeUrl} alt="QR Code" width={250} height={250} className="w-full h-full" loading="lazy" />
             </div>
-            <div className="flex flex-col gap-1 md:gap-2 w-full max-w-[240px]">
-              <button className="w-full bg-white text-black h-6 md:h-11 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-3 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none"><Apple className="h-3 w-3 md:h-5 md:w-5" /> APP STORE</button>
-              <button className="w-full bg-white text-black h-6 md:h-11 px-2 md:px-4 flex items-center justify-center gap-1 md:gap-3 font-black text-[6px] md:text-[10px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none"><Play className="h-3 w-3 md:h-5 md:w-5" /> PLAY STORE</button>
+            
+            <div className="flex flex-col gap-2 md:gap-3 w-full max-w-[280px]">
+              <button className="w-full bg-white text-black h-8 md:h-12 px-3 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[7px] md:text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none group">
+                <Apple className="h-3.5 w-3.5 md:h-6 md:w-6 transition-transform group-hover:scale-110" /> APP STORE
+              </button>
+              <button className="w-full bg-white text-black h-8 md:h-12 px-3 md:px-6 flex items-center justify-center gap-2 md:gap-4 font-black text-[7px] md:text-[11px] uppercase shadow-lg hover:bg-black hover:text-white transition-all active:scale-95 border-none group">
+                <Play className="h-3.5 w-3.5 md:h-6 md:w-6 transition-transform group-hover:scale-110" /> PLAY STORE
+              </button>
             </div>
           </div>
         </section>
