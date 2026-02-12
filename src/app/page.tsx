@@ -32,22 +32,26 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           priority={priority}
           loading={priority ? "eager" : "lazy"}
         />
-        <div className="absolute inset-0 bg-black/10 flex flex-col justify-center px-4 md:px-12 space-y-1 md:space-y-3 pointer-events-none">
-          <h2 className="text-[14px] md:text-5xl font-headline font-black text-white uppercase tracking-tight max-w-[700px] leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+        
+        {/* UPDATED OVERLAY: SMALLER AND IN THE CORNER TO MATCH FLASH BAR */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10 flex flex-col items-start max-w-[90%] pointer-events-none">
+          <h2 className="text-[7px] md:text-[14px] font-headline font-black text-white uppercase tracking-wider mb-0.5 md:mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] truncate w-full">
             {item.name || item.title}
           </h2>
           
           {isProduct && (
-            <div className="flex flex-col space-y-1 md:space-y-2 pointer-events-auto">
-              <div className="flex items-baseline text-[12px] md:text-4xl font-black text-[#01a3a4] tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
-                <span className="text-[10px] md:text-[20px] font-normal mr-1 translate-y-[-2px] md:translate-y-[-4px] text-white">৳</span>
+            <div className="flex flex-col space-y-1 md:space-y-3 pointer-events-auto">
+              <div className="text-[9px] md:text-xl font-black text-[#01a3a4] tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <span className="text-[7px] md:text-[12px] font-normal mr-0.5 text-white">৳</span>
                 {(item.price || 0).toLocaleString()}
               </div>
               <button 
                 onClick={() => setIsOrderOpen(true)} 
-                className="bg-[#01a3a4] text-white h-7 md:h-14 px-4 md:px-12 font-black rounded-none text-[8px] md:text-[14px] hover:bg-white hover:text-black transition-all uppercase tracking-[0.2em] md:tracking-[0.3em] flex items-center gap-2 md:gap-3 shadow-2xl w-fit mt-1 md:mt-4 active:scale-95 border-none"
+                className="bg-[#01a3a4] text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
               >
-                <ShoppingCart className="h-3 w-3 md:h-6 md:w-6" /> অর্ডার করুন
+                <ShoppingCart className="h-2.5 w-2.5 md:h-4 md:w-4" /> অর্ডার করুন
               </button>
             </div>
           )}
@@ -124,7 +128,6 @@ const FlashOfferCard = memo(() => {
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           
-          {/* UPDATED OVERLAY: SMALLER AND IN THE CORNER */}
           <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10 flex flex-col items-start max-w-[90%]">
              <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-wider mb-0.5 md:mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] truncate w-full">
                {activeItem.name || activeItem.title}
