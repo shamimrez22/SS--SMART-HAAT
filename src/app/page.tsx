@@ -123,22 +123,24 @@ const FlashOfferCard = memo(() => {
           />
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 w-full pb-2 md:pb-12 text-center px-2 z-10">
-             <p className="text-white font-black text-[8px] md:text-[14px] uppercase tracking-widest mb-1 md:mb-2 truncate drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+          
+          {/* UPDATED OVERLAY: SMALLER AND IN THE CORNER */}
+          <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10 flex flex-col items-start max-w-[90%]">
+             <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-wider mb-0.5 md:mb-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] truncate w-full">
                {activeItem.name || activeItem.title}
              </p>
              {activeItem.price !== undefined && (
-               <div className="flex flex-col items-center mb-1 md:mb-4">
-                 <span className="text-[#01a3a4] font-black text-[10px] md:text-2xl drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+               <div className="mb-1 md:mb-3">
+                 <span className="text-[#01a3a4] font-black text-[9px] md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
              )}
              <button 
                onClick={() => setIsOrderOpen(true)} 
-               className="bg-[#01a3a4] text-white px-3 md:px-10 py-1 md:py-3 h-6 md:h-12 font-black text-[6px] md:text-[11px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-2xl border-none"
+               className="bg-[#01a3a4] text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
              >
-               অর্ডার করুন
+               <ShoppingCart className="h-2.5 w-2.5 md:h-4 md:w-4" /> অর্ডার করুন
              </button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
