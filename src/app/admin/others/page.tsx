@@ -26,7 +26,8 @@ import {
   Zap,
   QrCode,
   Volume2,
-  VolumeX
+  VolumeX,
+  AlertTriangle
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -34,6 +35,16 @@ import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 import { optimizeVideo } from '@/lib/video-utils';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function AdminOthers() {
   const db = useFirestore();
@@ -43,6 +54,7 @@ export default function AdminOthers() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isProcessingVideo, setIsProcessingVideo] = useState(false);
+  const [isVideoDeleteAlertOpen, setIsVideoDeleteAlertOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -113,6 +125,16 @@ export default function AdminOthers() {
     }
   };
 
+  const handleConfirmVideoDelete = () => {
+    setFormData(prev => ({ ...prev, appBarVideoUrl: '' }));
+    setIsVideoDeleteAlertOpen(false);
+    toast({
+      variant: "destructive",
+      title: "VIDEO REMOVED",
+      description: "THE VIDEO HAS BEEN DELETED FROM THE QUEUE.",
+    });
+  };
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (!settingsRef) return;
@@ -165,7 +187,6 @@ export default function AdminOthers() {
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                 
-                {/* CLEAR TICKMARK FOR QR VS VIDEO */}
                 <div className="p-6 bg-white/[0.03] border border-white/10 space-y-6">
                   <div className="flex items-center gap-4">
                     <Checkbox 
@@ -201,11 +222,6 @@ export default function AdminOthers() {
                       </p>
                     </div>
                   </div>
-
-                  <div className="h-px bg-white/5 w-full" />
-                  <p className="text-[9px] font-bold text-[#01a3a4] uppercase tracking-tighter leading-relaxed">
-                    টিক মার্ক দিলে ভিডিও চলবে এবং আপনার পছন্দ অনুযায়ী শব্দ শোনা যাবে।
-                  </p>
                 </div>
 
                 <div className="space-y-4 pt-4">
@@ -229,13 +245,10 @@ export default function AdminOthers() {
                           type="button" 
                           variant="destructive" 
                           className="rounded-none h-10 px-6 font-black uppercase text-[10px]"
-                          onClick={() => setFormData({...formData, appBarVideoUrl: ''})}
+                          onClick={() => setIsVideoDeleteAlertOpen(true)}
                         >
                           <X className="mr-2 h-4 w-4" /> REMOVE VIDEO
                         </Button>
-                      </div>
-                      <div className="absolute bottom-4 left-0 right-0 text-center">
-                        <p className="text-[8px] font-black text-white/40 uppercase tracking-widest">MOBILE PREVIEW SIZE</p>
                       </div>
                     </div>
                   ) : (
@@ -263,12 +276,6 @@ export default function AdminOthers() {
                     accept="video/*" 
                     className="hidden" 
                   />
-                  <div className="flex items-start gap-2 p-3 bg-green-600/5 border border-green-600/20">
-                    <Zap className="h-4 w-4 text-green-500 shrink-0 animate-pulse" />
-                    <p className="text-[8px] font-black text-green-500 uppercase leading-relaxed tracking-wider">
-                      SYSTEM IS CONFIGURED FOR 100% SPEED. ALL VIDEOS ARE COMPRESSED TO ENSURE INSTANT LOADING.
-                    </p>
-                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -368,9 +375,26 @@ export default function AdminOthers() {
               <Save className="mr-3 h-5 w-5" /> SYNC ALL SITE SETTINGS
             </Button>
           </div>
-
         </form>
       </main>
+
+      <AlertDialog open={isVideoDeleteAlertOpen} onOpenChange={setIsVideoDeleteAlertOpen}>
+        <AlertDialogContent className="bg-black border-red-600/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <AlertDialogHeader className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20"><AlertTriangle className="h-6 w-6 text-red-600" /></div>
+              <AlertDialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">DELETE THIS VIDEO?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-widest leading-relaxed">
+              THIS ACTION WILL REMOVE THE VIDEO FROM YOUR MEDIA QUEUE. IT WILL NO LONGER BE VISIBLE ON THE HOME PAGE.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-8 gap-2 sm:gap-0">
+            <AlertDialogCancel className="flex-1 rounded-none border-white/10 text-white font-black uppercase text-[10px] h-12 hover:bg-white/5">CANCEL</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmVideoDelete} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase text-[10px] rounded-none h-12 shadow-xl shadow-red-600/10">CONFIRM DELETE</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       
       <Footer />
     </div>

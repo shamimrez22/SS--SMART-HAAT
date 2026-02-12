@@ -18,7 +18,8 @@ import {
   Zap, 
   LayoutDashboard,
   Ruler,
-  DollarSign
+  DollarSign,
+  AlertTriangle
 } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from 'next/link';
@@ -29,6 +30,16 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
 import { compressImage } from '@/lib/image-compression';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function AdminProducts() {
   const db = useFirestore();
@@ -45,6 +56,8 @@ export default function AdminProducts() {
   const [showInFlashOffer, setShowInFlashOffer] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   
   const [sizeList, setSizeList] = useState<{size: string, qty: number}[]>([]);
   const [newSize, setNewSize] = useState('');
@@ -154,6 +167,20 @@ export default function AdminProducts() {
     setShowInFlashOffer(false);
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const confirmDelete = (id: string) => {
+    setDeleteId(id);
+    setIsAlertOpen(true);
+  };
+
+  const handleFinalDelete = () => {
+    if (deleteId && db) {
+      deleteDocumentNonBlocking(doc(db, 'products', deleteId));
+      toast({ variant: "destructive", title: "PRODUCT DELETED", description: "THE PRODUCT RECORD HAS BEEN REMOVED." });
+      setDeleteId(null);
+      setIsAlertOpen(false);
+    }
   };
 
   if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
@@ -337,7 +364,7 @@ export default function AdminProducts() {
                       }} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-[#01a3a4] hover:bg-[#01a3a4]/10">
                         <Edit2 className="h-4 w-4" />
                       </Button>
-                      <Button onClick={() => deleteDocumentNonBlocking(doc(db, 'products', p.id))} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-red-500 hover:bg-red-500/10">
+                      <Button onClick={() => confirmDelete(p.id)} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-red-500 hover:bg-red-500/10">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -348,6 +375,27 @@ export default function AdminProducts() {
           </Card>
         </div>
       </main>
+
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
+          <AlertDialogHeader className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20">
+                <AlertTriangle className="h-6 w-6 text-red-600" />
+              </div>
+              <AlertDialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">DELETE PRODUCT?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[10px] text-muted-foreground uppercase font-black tracking-widest leading-relaxed">
+              THIS WILL PERMANENTLY REMOVE THIS PRODUCT FROM YOUR INVENTORY ARCHIVE.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-8 gap-2 sm:gap-0">
+            <AlertDialogCancel className="flex-1 rounded-none border-white/10 text-white font-black uppercase text-[10px] h-12 hover:bg-white/5">CANCEL</AlertDialogCancel>
+            <AlertDialogAction onClick={handleFinalDelete} className="flex-1 bg-red-600 hover:bg-red-700 text-white font-black uppercase text-[10px] rounded-none h-12 shadow-xl shadow-red-600/10">CONFIRM DELETE</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Footer />
     </div>
   );
