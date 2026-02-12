@@ -109,10 +109,8 @@ export default function AdminOthers() {
     try {
       const optimizedBase64 = await optimizeVideo(file);
       
-      // Update local state
       setFormData(prev => ({ ...prev, appBarVideoUrl: optimizedBase64, showVideoInAppBar: true }));
       
-      // AUTO-SAVE directly to Firestore to ensure persistence
       if (settingsRef) {
         setDocumentNonBlocking(settingsRef, { 
           appBarVideoUrl: optimizedBase64,
@@ -138,16 +136,11 @@ export default function AdminOthers() {
 
   const handleConfirmVideoDelete = () => {
     if (!settingsRef) return;
-    
-    // Clear locally
     setFormData(prev => ({ ...prev, appBarVideoUrl: '', showVideoInAppBar: false }));
-    
-    // Clear in Firestore immediately
     setDocumentNonBlocking(settingsRef, { 
       appBarVideoUrl: '', 
       showVideoInAppBar: false 
     }, { merge: true });
-
     setIsVideoDeleteAlertOpen(false);
     toast({
       variant: "destructive",
@@ -198,7 +191,6 @@ export default function AdminOthers() {
         </div>
 
         <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
           <div className="space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
@@ -207,7 +199,6 @@ export default function AdminOthers() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
-                
                 <div className="p-6 bg-white/[0.03] border border-white/10 space-y-6">
                   <div className="flex items-center gap-4">
                     <Checkbox 
@@ -259,7 +250,7 @@ export default function AdminOthers() {
                         autoPlay 
                         loop
                         playsInline
-                        muted={!formData.videoSoundEnabled}
+                        muted // CRITICAL: Always muted inside Admin Panel after save
                       />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                         <Button 
@@ -392,9 +383,12 @@ export default function AdminOthers() {
               </CardContent>
             </Card>
 
-            <Button type="submit" className="w-full bg-primary hover:bg-white hover:text-black text-primary-foreground h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
-              <Save className="mr-3 h-5 w-5" /> SYNC ALL SITE SETTINGS
-            </Button>
+            <div className="flex gap-4">
+              <Button type="button" variant="outline" className="flex-1 border-white/10 text-foreground h-20 font-black uppercase rounded-none text-[10px]">CANCEL</Button>
+              <Button type="submit" className="flex-[2] bg-primary hover:bg-white hover:text-black text-primary-foreground h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
+                <Save className="mr-3 h-5 w-5" /> SYNC ALL SITE SETTINGS
+              </Button>
+            </div>
           </div>
         </form>
       </main>

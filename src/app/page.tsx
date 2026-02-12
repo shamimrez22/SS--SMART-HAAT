@@ -32,6 +32,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           className="object-fill"
           priority={priority}
           loading={priority ? "eager" : "lazy"}
+          decoding="async"
         />
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -43,7 +44,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           
           {isProduct && (
             <div className="flex flex-col space-y-1 md:space-y-3 pointer-events-auto">
-              <div className="text-[9px] md:text-xl font-black text-primary tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <div className="text-[9px] md:xl font-black text-primary tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 <span className="text-[7px] md:text-[12px] font-normal mr-0.5 text-white">৳</span>
                 {(item.price || 0).toLocaleString()}
               </div>
@@ -117,6 +118,7 @@ const FlashOfferCard = memo(() => {
             className="object-fill" 
             priority={true}
             loading="eager"
+            decoding="async"
           />
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -127,7 +129,7 @@ const FlashOfferCard = memo(() => {
              </p>
              {activeItem.price !== undefined && (
                <div className="mb-1 md:mb-3">
-                 <span className="text-primary font-black text-[9px] md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                 <span className="text-primary font-black text-[9px] md:xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
@@ -182,6 +184,7 @@ export default function Home() {
   // Synchronize muted state with settings on load
   useEffect(() => {
     if (settings) {
+      // "bahire sound hobe" -> If enabled in admin, we set localMuted to false (so sound plays)
       setLocalMuted(!settings.videoSoundEnabled);
     }
   }, [settings?.videoSoundEnabled]);
@@ -248,12 +251,12 @@ export default function Home() {
             {settings?.showVideoInAppBar && settings?.appBarVideoUrl ? (
               <div className="absolute inset-0 w-full h-full bg-black">
                 <video 
-                  key={settings.appBarVideoUrl} // Key on URL ensures refresh if video changes
+                  key={settings.appBarVideoUrl} 
                   src={settings.appBarVideoUrl}
                   autoPlay
                   loop
                   playsInline
-                  muted={localMuted}
+                  muted={localMuted} // "bahire sound hobe" -> Controlled by localMuted
                   className="w-full h-full object-cover z-0"
                 />
                 <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-sm border border-white/10 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest animate-pulse">LIVE</div>
