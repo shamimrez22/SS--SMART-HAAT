@@ -24,7 +24,8 @@ import {
   Upload,
   X,
   AlertTriangle,
-  Zap
+  Zap,
+  QrCode
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -86,16 +87,16 @@ export default function AdminOthers() {
 
     setIsProcessingVideo(true);
     toast({
-      title: "OPTIMIZING VIDEO",
-      description: "PLEASE WAIT WHILE SYSTEM REDUCES FILE SIZE...",
+      title: "SUPER-FAST OPTIMIZATION",
+      description: "SYSTEM IS CONVERTING VIDEO FOR 100% SPEED...",
     });
 
     try {
       const optimizedBase64 = await optimizeVideo(file);
       setFormData(prev => ({ ...prev, appBarVideoUrl: optimizedBase64 }));
       toast({
-        title: "VIDEO READY",
-        description: "VIDEO HAS BEEN AUTOMATICALLY COMPRESSED.",
+        title: "VIDEO COMPRESSED",
+        description: "READY FOR FAST LOADING.",
       });
     } catch (err) {
       console.error(err);
@@ -157,24 +158,36 @@ export default function AdminOthers() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
-                  <Video className="h-4 w-4" /> TOP FOLD MEDIA CONTROL
+                  <Zap className="h-4 w-4 text-[#01a3a4]" /> TOP FOLD MEDIA CONTROL
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
-                <div className="flex items-center justify-between p-4 bg-primary/5 border border-primary/20">
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-black text-foreground uppercase">DISPLAY VIDEO INSTEAD OF QR</label>
-                    <p className="text-[8px] text-foreground/40 uppercase font-bold">SWITCH BETWEEN APP DOWNLOAD AND VIDEO DISPLAY.</p>
+                
+                {/* CLEAR TOGGLE FOR QR VS VIDEO */}
+                <div className="p-6 bg-white/[0.03] border border-white/10 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-black text-foreground uppercase flex items-center gap-2">
+                        <QrCode className="h-4 w-4 text-[#01a3a4]" /> SWITCH MEDIA: QR CODE / VIDEO
+                      </label>
+                      <p className="text-[8px] text-foreground/40 uppercase font-bold tracking-widest">
+                        {formData.showVideoInAppBar ? "VIDEO MODE ACTIVE" : "QR CODE MODE ACTIVE"}
+                      </p>
+                    </div>
+                    <Switch 
+                      checked={formData.showVideoInAppBar} 
+                      onCheckedChange={(val) => setFormData({...formData, showVideoInAppBar: val})} 
+                    />
                   </div>
-                  <Switch 
-                    checked={formData.showVideoInAppBar} 
-                    onCheckedChange={(val) => setFormData({...formData, showVideoInAppBar: val})} 
-                  />
+                  <div className="h-px bg-white/5 w-full" />
+                  <p className="text-[9px] font-bold text-[#01a3a4] uppercase tracking-tighter leading-relaxed">
+                    টিক মার্ক দিলে ভিডিও চলবে, টিক মার্ক না দিলে QR CODE এবং APP ডাউনলোড অপশন শো করবে।
+                  </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4">
                   <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
-                    <Upload className="h-3 w-3" /> DIRECT VIDEO UPLOAD (AUTO-COMPRESS)
+                    <Upload className="h-3 w-3" /> DIRECT VIDEO UPLOAD (100% FAST)
                   </label>
                   
                   {formData.appBarVideoUrl ? (
@@ -205,12 +218,12 @@ export default function AdminOthers() {
                       {isProcessingVideo ? (
                         <div className="flex flex-col items-center gap-3">
                           <Loader2 className="h-10 w-10 text-primary animate-spin" />
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">OPTIMIZING VIDEO...</p>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">REDUCING SIZE FOR SPEED...</p>
                         </div>
                       ) : (
                         <div className="space-y-3">
                           <Video className="h-8 w-8 mx-auto text-primary/40" />
-                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT ANY VIDEO (AUTO-REDUCE)</p>
+                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT VIDEO (AUTO-COMPRESS)</p>
                         </div>
                       )}
                     </div>
@@ -222,10 +235,10 @@ export default function AdminOthers() {
                     accept="video/*" 
                     className="hidden" 
                   />
-                  <div className="flex items-start gap-2 p-3 bg-[#01a3a4]/5 border border-[#01a3a4]/20">
-                    <Zap className="h-4 w-4 text-[#01a3a4] shrink-0 animate-pulse" />
-                    <p className="text-[8px] font-black text-[#01a3a4] uppercase leading-relaxed tracking-wider">
-                      SYSTEM WILL AUTOMATICALLY COMPRESS YOUR VIDEO TO ENSURE FASTEST LOADING SPEEDS.
+                  <div className="flex items-start gap-2 p-3 bg-green-600/5 border border-green-600/20">
+                    <Zap className="h-4 w-4 text-green-500 shrink-0 animate-pulse" />
+                    <p className="text-[8px] font-black text-green-500 uppercase leading-relaxed tracking-wider">
+                      SYSTEM IS CONFIGURED FOR 100% SPEED. ALL VIDEOS ARE COMPRESSED TO ENSURE INSTANT LOADING.
                     </p>
                   </div>
                 </div>

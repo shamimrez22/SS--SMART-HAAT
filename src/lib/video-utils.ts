@@ -1,12 +1,12 @@
 
 /**
  * Utility to optimize and compress video files client-side.
- * Uses MediaRecorder to re-encode video at a lower bitrate.
+ * Uses MediaRecorder to re-encode video at a lower bitrate for 100% fast loading.
  */
 export async function optimizeVideo(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
-    // If the file is already small, just read it as is
-    if (file.size < 1.5 * 1024 * 1024) {
+    // If the file is already small (under 1MB), just read it as is for speed
+    if (file.size < 1.0 * 1024 * 1024) {
       const reader = new FileReader();
       reader.onload = (e) => resolve(e.target?.result as string);
       reader.onerror = reject;
@@ -23,9 +23,7 @@ export async function optimizeVideo(file: File): Promise<string> {
     video.src = url;
 
     video.onloadedmetadata = () => {
-      // Create a canvas to draw the video frames (optional, but MediaRecorder captureStream is easier)
       if (!(video as any).captureStream) {
-        // Fallback for browsers not supporting captureStream - just use the original if we can't compress
         console.warn('captureStream not supported, using original file.');
         const reader = new FileReader();
         reader.onload = (e) => resolve(e.target?.result as string);
@@ -34,9 +32,10 @@ export async function optimizeVideo(file: File): Promise<string> {
       }
 
       const stream = (video as any).captureStream();
+      // Target 500kbps for EXTREME fast loading speed (Approx 500KB for 10 seconds)
       const mediaRecorder = new MediaRecorder(stream, {
         mimeType: 'video/webm;codecs=vp8',
-        videoBitsPerSecond: 800000 // 800kbps targets a small size
+        videoBitsPerSecond: 500000 
       });
 
       const chunks: Blob[] = [];
@@ -54,15 +53,17 @@ export async function optimizeVideo(file: File): Promise<string> {
         reader.readAsDataURL(blob);
       };
 
-      // Play and record
+      // Play and record quickly
       video.play().then(() => {
         mediaRecorder.start();
         
-        // Stop recording when video ends or after max 10 seconds to ensure 2MB limit
-        const maxDuration = Math.min(video.duration, 10);
+        // Stop recording after max 8 seconds to ensure speed and small footprint
+        const maxDuration = Math.min(video.duration, 8);
         setTimeout(() => {
-          mediaRecorder.stop();
-          video.pause();
+          if (mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+            video.pause();
+          }
         }, maxDuration * 1000);
       }).catch(reject);
     };
