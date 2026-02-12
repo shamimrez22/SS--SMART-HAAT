@@ -191,7 +191,7 @@ export default function AdminOthers() {
                   </label>
                   
                   {formData.appBarVideoUrl ? (
-                    <div className="relative aspect-video bg-black border border-white/10 overflow-hidden group">
+                    <div className="relative aspect-[9/16] w-full max-w-[250px] mx-auto bg-black border border-white/10 overflow-hidden group shadow-2xl">
                       <video 
                         key={formData.appBarVideoUrl}
                         src={formData.appBarVideoUrl} 
@@ -211,21 +211,24 @@ export default function AdminOthers() {
                           <X className="mr-2 h-4 w-4" /> REMOVE VIDEO
                         </Button>
                       </div>
+                      <div className="absolute bottom-4 left-0 right-0 text-center">
+                        <p className="text-[8px] font-black text-white/40 uppercase tracking-widest">MOBILE PREVIEW SIZE</p>
+                      </div>
                     </div>
                   ) : (
                     <div 
                       onClick={() => !isProcessingVideo && fileInputRef.current?.click()}
-                      className={`border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-primary/50 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[150px] ${isProcessingVideo ? 'opacity-50 cursor-wait' : ''}`}
+                      className={`border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-primary/50 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[300px] w-full max-w-[250px] mx-auto aspect-[9/16] ${isProcessingVideo ? 'opacity-50 cursor-wait' : ''}`}
                     >
                       {isProcessingVideo ? (
                         <div className="flex flex-col items-center gap-3">
                           <Loader2 className="h-10 w-10 text-primary animate-spin" />
-                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">REDUCING SIZE FOR SPEED...</p>
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">REDUCING SIZE...</p>
                         </div>
                       ) : (
                         <div className="space-y-3">
                           <Video className="h-8 w-8 mx-auto text-primary/40" />
-                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT VIDEO (AUTO-COMPRESS)</p>
+                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT MOBILE VIDEO</p>
                         </div>
                       )}
                     </div>
