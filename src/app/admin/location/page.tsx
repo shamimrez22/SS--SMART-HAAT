@@ -170,36 +170,34 @@ export default function AdminLocation() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
                 <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                  <Smartphone className="h-4 w-4" /> REAL-TIME DISPLAY SIMULATOR
+                  <Smartphone className="h-4 w-4" /> INTERACTIVE PREVIEW
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505] min-h-[600px]">
-                <div className="w-full max-w-[320px] aspect-[9/16] bg-black border-[12px] border-[#1a1a1a] rounded-[40px] relative overflow-hidden flex flex-col shadow-[0_0_60px_rgba(1,163,164,0.2)] ring-4 ring-[#01a3a4]/10">
-                  <div className="h-12 bg-[#01a3a4] flex items-center px-4 justify-between shrink-0 z-20">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 bg-black flex items-center justify-center text-[#01a3a4] text-[10px] font-black shadow-lg">SS</div>
-                      <span className="text-[8px] font-black text-white leading-none uppercase">SS SMART HAAT</span>
-                    </div>
+              <CardContent className="p-10 flex flex-col items-center justify-center bg-[#050505] min-h-[650px]">
+                {/* IMPROVED PHONE FRAME */}
+                <div className="w-full max-w-[320px] aspect-[9/19] bg-black border-[12px] border-[#1a1a1a] rounded-[45px] relative overflow-hidden flex flex-col shadow-[0_0_80px_rgba(0,0,0,0.8)] ring-1 ring-white/10">
+                  {/* NOTCH AREA */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#1a1a1a] rounded-b-2xl z-[130] flex items-center justify-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-white/5" />
+                    <div className="w-8 h-1 rounded-full bg-white/5" />
                   </div>
-                  <div className="bg-black border-b border-white/5 h-10 flex items-center overflow-hidden whitespace-nowrap relative w-full shrink-0 z-20">
-                    <div className="flex items-center gap-4 w-full px-2">
-                      <div style={{ color: formData.statusColor }} className="flex items-center gap-2 text-[10px] font-black uppercase shrink-0">
-                        <Radio className="h-3.5 w-3.5 animate-pulse" /> {formData.liveStatusLabel || 'LIVE STATUS:'}
-                      </div>
-                      <p style={{ color: formData.statusColor }} className="text-[10px] font-black uppercase flex items-center gap-2 shrink-0">
-                        {formData.liveStatus || 'BROADCASTING...'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex-grow bg-black relative">
+                  
+                  {/* LIVE CONTENT PREVIEW */}
+                  <div className="flex-grow bg-black relative z-10">
                     <iframe 
                       src="/" 
-                      className="absolute inset-0 w-full h-full border-none pointer-events-none"
+                      className="absolute inset-0 w-full h-full border-none"
                       title="Live Site Preview"
                     />
-                    <div className="absolute inset-0 bg-transparent pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute inset-0 bg-transparent pointer-events-none shadow-[inset_0_0_40px_rgba(0,0,0,0.5)] z-20" />
+                  </div>
+
+                  {/* BOTTOM HOME INDICATOR */}
+                  <div className="h-6 bg-black flex items-center justify-center shrink-0 z-[130]">
+                    <div className="w-20 h-1 bg-white/20 rounded-full" />
                   </div>
                 </div>
+                <p className="mt-6 text-[9px] font-black text-white/30 uppercase tracking-[0.4em]">LIVE INTERACTIVE SIMULATOR</p>
               </CardContent>
             </Card>
           </div>
