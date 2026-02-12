@@ -63,7 +63,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 h-[64px] flex items-center relative z-[110]">
+      <nav className="w-full bg-[#01a3a4] shadow-lg border-b border-black/10 min-h-[64px] py-2 flex items-center relative z-[110]">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-4">
             
@@ -76,8 +76,8 @@ export function Navbar() {
               </div>
             </Link>
 
-            {/* CENTER: SEARCH BAR (Desktop) */}
-            <div className="hidden md:flex items-center relative flex-grow max-w-[600px] px-4">
+            {/* CENTER: SEARCH BAR (Desktop) - LARGE & HIGH VISIBILITY */}
+            <div className="hidden md:flex items-center relative flex-grow max-w-[700px] px-4">
               <div className="relative w-full">
                 <Input 
                   type="search" 
@@ -85,9 +85,11 @@ export function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleSearch}
                   placeholder="SEARCH PRODUCTS..." 
-                  className="bg-black/10 border-white/20 h-9 w-full transition-all rounded-none text-[9px] text-white uppercase placeholder:text-white/70"
+                  className="bg-white border-white h-11 w-full transition-all rounded-none text-[11px] text-black font-black uppercase placeholder:text-gray-400 shadow-[0_4px_20px_rgba(0,0,0,0.1)] focus:ring-2 focus:ring-white pr-12"
                 />
-                <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white/50" />
+                <div className="absolute right-0 top-0 h-11 w-11 flex items-center justify-center bg-black/5 border-l border-black/5">
+                  <Search className="h-4 w-4 text-[#01a3a4] stroke-[3px]" />
+                </div>
               </div>
             </div>
 
@@ -141,19 +143,19 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* MOBILE SEARCH BAR (Toggleable) */}
+          {/* MOBILE SEARCH BAR (Toggleable) - HIGH VISIBILITY */}
           {showSearchInput && (
-            <div className="mt-2 pb-2 relative animate-in slide-in-from-top-2 duration-300 md:hidden">
+            <div className="mt-3 pb-2 relative animate-in slide-in-from-top-2 duration-300 md:hidden">
               <Input 
                 type="search" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleSearch}
                 placeholder={language === 'EN' ? "SEARCH PRODUCTS..." : "পণ্য খুঁজুন..."} 
-                className="w-full bg-black/10 border-white/20 h-10 pl-10 pr-10 rounded-none text-[10px] text-white uppercase placeholder:text-white/70 font-bold"
+                className="w-full bg-white border-white h-12 pl-10 pr-10 rounded-none text-[11px] text-black font-black uppercase placeholder:text-gray-400 shadow-xl"
               />
-              <Search className="absolute left-3.5 top-[20px] -translate-y-1/2 h-4 w-4 text-white" />
-              <button onClick={() => { setShowSearchInput(false); setSearchQuery(''); }} className="absolute right-3 top-[20px] -translate-y-1/2 text-white/50 hover:text-white"><X className="h-4 w-4" /></button>
+              <Search className="absolute left-3.5 top-[24px] -translate-y-1/2 h-4 w-4 text-[#01a3a4] stroke-[3px]" />
+              <button onClick={() => { setShowSearchInput(false); setSearchQuery(''); }} className="absolute right-3 top-[24px] -translate-y-1/2 text-gray-400 hover:text-black transition-colors"><X className="h-5 w-5" /></button>
             </div>
           )}
         </div>
