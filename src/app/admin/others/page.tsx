@@ -24,7 +24,9 @@ import {
   Upload,
   X,
   Zap,
-  QrCode
+  QrCode,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -56,7 +58,8 @@ export default function AdminOthers() {
     deliveryChargeInside: '',
     deliveryChargeOutside: '',
     showVideoInAppBar: false,
-    appBarVideoUrl: ''
+    appBarVideoUrl: '',
+    videoSoundEnabled: false
   });
 
   useEffect(() => {
@@ -75,7 +78,8 @@ export default function AdminOthers() {
         deliveryChargeInside: settings.deliveryChargeInside?.toString() || '60',
         deliveryChargeOutside: settings.deliveryChargeOutside?.toString() || '120',
         showVideoInAppBar: settings.showVideoInAppBar || false,
-        appBarVideoUrl: settings.appBarVideoUrl || ''
+        appBarVideoUrl: settings.appBarVideoUrl || '',
+        videoSoundEnabled: settings.videoSoundEnabled || false
       });
     }
   }, [settings]);
@@ -162,7 +166,7 @@ export default function AdminOthers() {
               <CardContent className="p-8 space-y-6">
                 
                 {/* CLEAR TICKMARK FOR QR VS VIDEO */}
-                <div className="p-6 bg-white/[0.03] border border-white/10 space-y-4">
+                <div className="p-6 bg-white/[0.03] border border-white/10 space-y-6">
                   <div className="flex items-center gap-4">
                     <Checkbox 
                       id="video-toggle"
@@ -179,9 +183,28 @@ export default function AdminOthers() {
                       </p>
                     </div>
                   </div>
+
+                  <div className="flex items-center gap-4 pt-2">
+                    <Checkbox 
+                      id="sound-toggle"
+                      checked={formData.videoSoundEnabled} 
+                      onCheckedChange={(val) => setFormData({...formData, videoSoundEnabled: !!val})} 
+                      className="h-6 w-6 border-white/20 data-[state=checked]:bg-green-600 data-[state=checked]:border-green-600"
+                    />
+                    <div className="space-y-1">
+                      <label htmlFor="sound-toggle" className="text-[11px] font-black text-foreground uppercase flex items-center gap-2 cursor-pointer">
+                        {formData.videoSoundEnabled ? <Volume2 className="h-4 w-4 text-green-500" /> : <VolumeX className="h-4 w-4 text-white/40" />} 
+                        ভিডিও সাউন্ড সচল করুন (টিক দিলে শব্দ হবে)
+                      </label>
+                      <p className="text-[8px] text-foreground/40 uppercase font-bold tracking-widest">
+                        {formData.videoSoundEnabled ? "AUDIO ENABLED" : "AUDIO MUTED"}
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="h-px bg-white/5 w-full" />
                   <p className="text-[9px] font-bold text-[#01a3a4] uppercase tracking-tighter leading-relaxed">
-                    টিক মার্ক দিলে ভিডিও চলবে, টিক মার্ক না দিলে QR CODE এবং APP ডাউনলোড অপশন শো করবে।
+                    টিক মার্ক দিলে ভিডিও চলবে এবং আপনার পছন্দ অনুযায়ী শব্দ শোনা যাবে।
                   </p>
                 </div>
 
@@ -193,12 +216,13 @@ export default function AdminOthers() {
                   {formData.appBarVideoUrl ? (
                     <div className="relative aspect-[9/16] w-full max-w-[250px] mx-auto bg-black border border-white/10 overflow-hidden group shadow-2xl">
                       <video 
-                        key={formData.appBarVideoUrl}
+                        key={formData.appBarVideoUrl + formData.videoSoundEnabled}
                         src={formData.appBarVideoUrl} 
                         className="w-full h-full object-cover opacity-60"
                         autoPlay 
                         loop
                         playsInline
+                        muted={!formData.videoSoundEnabled}
                       />
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                         <Button 

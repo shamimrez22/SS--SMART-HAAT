@@ -261,11 +261,12 @@ export default function Home() {
             {settings?.showVideoInAppBar && settings?.appBarVideoUrl ? (
               <div className="absolute inset-0 w-full h-full bg-black">
                 <video 
-                  key={settings.appBarVideoUrl}
+                  key={settings.appBarVideoUrl + settings.videoSoundEnabled}
                   src={settings.appBarVideoUrl}
                   autoPlay
                   loop
                   playsInline
+                  muted={!settings.videoSoundEnabled}
                   className="w-full h-full object-cover z-0"
                 />
                 <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-sm border border-white/10 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest animate-pulse">LIVE</div>

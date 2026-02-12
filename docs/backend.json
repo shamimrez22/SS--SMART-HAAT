@@ -82,7 +82,8 @@
         "themeButtonColor": { "type": "string" },
         "themeTextColor": { "type": "string" },
         "showVideoInAppBar": { "type": "boolean" },
-        "appBarVideoUrl": { "type": "string", "format": "uri" }
+        "appBarVideoUrl": { "type": "string", "format": "uri" },
+        "videoSoundEnabled": { "type": "boolean" }
       }
     }
   },
