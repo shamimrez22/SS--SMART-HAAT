@@ -23,13 +23,15 @@ import {
   Video,
   Upload,
   X,
-  AlertTriangle
+  AlertTriangle,
+  Zap
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
+import { optimizeVideo } from '@/lib/video-utils';
 
 export default function AdminOthers() {
   const db = useFirestore();
@@ -78,39 +80,33 @@ export default function AdminOthers() {
     }
   }, [settings]);
 
-  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) { // 2MB limit
-      toast({
-        variant: "destructive",
-        title: "FILE TOO LARGE",
-        description: "PLEASE UPLOAD A VIDEO UNDER 2MB FOR STABILITY.",
-      });
-      return;
-    }
-
     setIsProcessingVideo(true);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      setFormData(prev => ({ ...prev, appBarVideoUrl: base64 }));
-      setIsProcessingVideo(false);
+    toast({
+      title: "OPTIMIZING VIDEO",
+      description: "PLEASE WAIT WHILE SYSTEM REDUCES FILE SIZE...",
+    });
+
+    try {
+      const optimizedBase64 = await optimizeVideo(file);
+      setFormData(prev => ({ ...prev, appBarVideoUrl: optimizedBase64 }));
       toast({
-        title: "VIDEO LOADED",
-        description: "DIRECT VIDEO HAS BEEN ATTACHED TO BUFFER.",
+        title: "VIDEO READY",
+        description: "VIDEO HAS BEEN AUTOMATICALLY COMPRESSED.",
       });
-    };
-    reader.onerror = () => {
-      setIsProcessingVideo(false);
+    } catch (err) {
+      console.error(err);
       toast({
         variant: "destructive",
-        title: "UPLOAD FAILED",
-        description: "COULD NOT PROCESS VIDEO FILE.",
+        title: "PROCESS FAILED",
+        description: "COULD NOT OPTIMIZE THIS VIDEO FORMAT.",
       });
-    };
-    reader.readAsDataURL(file);
+    } finally {
+      setIsProcessingVideo(false);
+    }
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -178,7 +174,7 @@ export default function AdminOthers() {
 
                 <div className="space-y-4">
                   <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
-                    <Upload className="h-3 w-3" /> DIRECT VIDEO UPLOAD
+                    <Upload className="h-3 w-3" /> DIRECT VIDEO UPLOAD (AUTO-COMPRESS)
                   </label>
                   
                   {formData.appBarVideoUrl ? (
@@ -203,15 +199,18 @@ export default function AdminOthers() {
                     </div>
                   ) : (
                     <div 
-                      onClick={() => fileInputRef.current?.click()}
-                      className="border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-primary/50 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[150px]"
+                      onClick={() => !isProcessingVideo && fileInputRef.current?.click()}
+                      className={`border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-primary/50 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[150px] ${isProcessingVideo ? 'opacity-50 cursor-wait' : ''}`}
                     >
                       {isProcessingVideo ? (
-                        <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                        <div className="flex flex-col items-center gap-3">
+                          <Loader2 className="h-10 w-10 text-primary animate-spin" />
+                          <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] animate-pulse">OPTIMIZING VIDEO...</p>
+                        </div>
                       ) : (
                         <div className="space-y-3">
                           <Video className="h-8 w-8 mx-auto text-primary/40" />
-                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT MP4 FILE (MAX 2MB)</p>
+                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT ANY VIDEO (AUTO-REDUCE)</p>
                         </div>
                       )}
                     </div>
@@ -220,13 +219,13 @@ export default function AdminOthers() {
                     type="file" 
                     ref={fileInputRef} 
                     onChange={handleVideoUpload} 
-                    accept="video/mp4" 
+                    accept="video/*" 
                     className="hidden" 
                   />
-                  <div className="flex items-start gap-2 p-3 bg-orange-600/5 border border-orange-600/20">
-                    <AlertTriangle className="h-4 w-4 text-orange-500 shrink-0" />
-                    <p className="text-[8px] font-black text-orange-500 uppercase leading-relaxed tracking-wider">
-                      KEEP VIDEOS VERY SHORT (5-10 SEC) FOR FAST LOADING. LARGER FILES MAY CAUSE SLOWNESS.
+                  <div className="flex items-start gap-2 p-3 bg-[#01a3a4]/5 border border-[#01a3a4]/20">
+                    <Zap className="h-4 w-4 text-[#01a3a4] shrink-0 animate-pulse" />
+                    <p className="text-[8px] font-black text-[#01a3a4] uppercase leading-relaxed tracking-wider">
+                      SYSTEM WILL AUTOMATICALLY COMPRESS YOUR VIDEO TO ENSURE FASTEST LOADING SPEEDS.
                     </p>
                   </div>
                 </div>
