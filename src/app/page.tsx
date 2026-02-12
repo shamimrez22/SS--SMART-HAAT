@@ -258,9 +258,9 @@ export default function Home() {
           </div>
 
           <div className="col-span-3 h-full bg-primary relative overflow-hidden flex flex-col items-center justify-center p-1 md:p-6 space-y-1 md:space-y-6 gpu-accelerated shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]">
-            {settings?.showVideoInAppBar ? (
+            {settings?.showVideoInAppBar && settings?.appBarVideoUrl ? (
               <video 
-                src={settings.appBarVideoUrl || 'https://player.vimeo.com/external/434045526.sd.mp4?s=c27dbed0176b0953c3863b748d6bbdbd7cc2f59e&profile_id=164&oauth2_token_id=57447761'}
+                src={settings.appBarVideoUrl}
                 autoPlay
                 muted
                 loop

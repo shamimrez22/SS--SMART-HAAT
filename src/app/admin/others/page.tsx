@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MainHeader } from '@/components/MainHeader';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -13,17 +13,17 @@ import {
   Save, 
   Mail, 
   Phone, 
-  MapPin, 
   Facebook, 
   Instagram, 
-  Youtube, 
   Loader2,
   Share2,
   Contact2,
   Truck,
   MessageSquare,
   Video,
-  Settings2
+  Upload,
+  X,
+  AlertTriangle
 } from 'lucide-react';
 import Link from 'next/link';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -36,6 +36,9 @@ export default function AdminOthers() {
   const { toast } = useToast();
   const settingsRef = useMemoFirebase(() => doc(db!, 'settings', 'site-config'), [db]);
   const { data: settings, isLoading } = useDoc(settingsRef);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isProcessingVideo, setIsProcessingVideo] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -70,10 +73,45 @@ export default function AdminOthers() {
         deliveryChargeInside: settings.deliveryChargeInside?.toString() || '60',
         deliveryChargeOutside: settings.deliveryChargeOutside?.toString() || '120',
         showVideoInAppBar: settings.showVideoInAppBar || false,
-        appBarVideoUrl: settings.appBarVideoUrl || 'https://player.vimeo.com/external/434045526.sd.mp4?s=c27dbed0176b0953c3863b748d6bbdbd7cc2f59e&profile_id=164&oauth2_token_id=57447761'
+        appBarVideoUrl: settings.appBarVideoUrl || ''
       });
     }
   }, [settings]);
+
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      toast({
+        variant: "destructive",
+        title: "FILE TOO LARGE",
+        description: "PLEASE UPLOAD A VIDEO UNDER 2MB FOR STABILITY.",
+      });
+      return;
+    }
+
+    setIsProcessingVideo(true);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      setFormData(prev => ({ ...prev, appBarVideoUrl: base64 }));
+      setIsProcessingVideo(false);
+      toast({
+        title: "VIDEO LOADED",
+        description: "DIRECT VIDEO HAS BEEN ATTACHED TO BUFFER.",
+      });
+    };
+    reader.onerror = () => {
+      setIsProcessingVideo(false);
+      toast({
+        variant: "destructive",
+        title: "UPLOAD FAILED",
+        description: "COULD NOT PROCESS VIDEO FILE.",
+      });
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,14 +176,59 @@ export default function AdminOthers() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2"><Video className="h-3 w-3" /> VIDEO URL (MP4)</label>
-                  <Input 
-                    value={formData.appBarVideoUrl}
-                    onChange={(e) => setFormData({...formData, appBarVideoUrl: e.target.value})}
-                    placeholder="ENTER VIDEO URL..."
-                    className="bg-black border-white/10 rounded-none h-12 text-[10px] font-bold text-foreground"
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                    <Upload className="h-3 w-3" /> DIRECT VIDEO UPLOAD
+                  </label>
+                  
+                  {formData.appBarVideoUrl ? (
+                    <div className="relative aspect-video bg-black border border-white/10 overflow-hidden group">
+                      <video 
+                        src={formData.appBarVideoUrl} 
+                        className="w-full h-full object-cover opacity-60"
+                        autoPlay 
+                        muted 
+                        loop
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                        <Button 
+                          type="button" 
+                          variant="destructive" 
+                          className="rounded-none h-10 px-6 font-black uppercase text-[10px]"
+                          onClick={() => setFormData({...formData, appBarVideoUrl: ''})}
+                        >
+                          <X className="mr-2 h-4 w-4" /> REMOVE VIDEO
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div 
+                      onClick={() => fileInputRef.current?.click()}
+                      className="border-2 border-dashed border-white/10 p-10 text-center cursor-pointer hover:border-primary/50 transition-all bg-black/30 flex flex-col items-center justify-center min-h-[150px]"
+                    >
+                      {isProcessingVideo ? (
+                        <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                      ) : (
+                        <div className="space-y-3">
+                          <Video className="h-8 w-8 mx-auto text-primary/40" />
+                          <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">SELECT MP4 FILE (MAX 2MB)</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <input 
+                    type="file" 
+                    ref={fileInputRef} 
+                    onChange={handleVideoUpload} 
+                    accept="video/mp4" 
+                    className="hidden" 
                   />
+                  <div className="flex items-start gap-2 p-3 bg-orange-600/5 border border-orange-600/20">
+                    <AlertTriangle className="h-4 w-4 text-orange-500 shrink-0" />
+                    <p className="text-[8px] font-black text-orange-500 uppercase leading-relaxed tracking-wider">
+                      KEEP VIDEOS VERY SHORT (5-10 SEC) FOR FAST LOADING. LARGER FILES MAY CAUSE SLOWNESS.
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
