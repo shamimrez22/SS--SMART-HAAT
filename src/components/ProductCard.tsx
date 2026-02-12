@@ -38,6 +38,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             priority={isPriority}
             className="object-fill transition-transform duration-[2s] group-hover:scale-110"
             loading={isPriority ? "eager" : "lazy"}
+            decoding="async"
           />
           
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />

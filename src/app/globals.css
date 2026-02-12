@@ -43,13 +43,14 @@
     display: block !important;
     scroll-behavior: smooth;
     image-rendering: -webkit-optimize-contrast;
+    text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline tracking-tighter uppercase;
   }
 }
 
-/* Hard-core Performance: GPU Acceleration for Smooth UI */
+/* Extreme Performance: GPU Acceleration for Smooth UI */
 .gpu-accelerated {
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -58,7 +59,7 @@
 }
 
 /* Performance: Intelligent content-visibility for off-screen segments */
-section {
+section, .product-section {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
 }
@@ -109,4 +110,5 @@ section {
 /* Speed optimization for image transitions */
 img {
   transition: opacity 0.3s ease-in-out;
+  content-visibility: auto;
 }

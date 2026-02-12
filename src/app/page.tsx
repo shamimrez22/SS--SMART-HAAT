@@ -304,13 +304,13 @@ export default function Home() {
           if (catProducts.length === 0) return null;
 
           return (
-            <section key={cat.id} className="py-8 md:py-16 px-4 md:px-12 gpu-accelerated border-b border-white/5">
+            <section key={cat.id} className="py-8 md:py-16 px-4 md:px-12 gpu-accelerated border-b border-white/5 product-section">
               <div className="flex items-center justify-between mb-8 md:mb-12">
                 <div className="flex items-center gap-3">
                   <div className="h-5 md:h-6 w-1 bg-primary" />
                   <h2 className="text-[11px] md:text-[13px] font-black text-white uppercase tracking-[0.4em]">{cat.name} COLLECTION</h2>
                 </div>
-                <Link href={`/shop?category=${cat.name}`} className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
+                <Link href={`/shop?category=${cat.name}`} className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2">
                   VIEW ARCHIVE <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
