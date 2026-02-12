@@ -1,21 +1,22 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* PURE BLACK */
-    --foreground: 0 0% 98%; /* LIGHT WHITE */
+    --background: 0 0% 0%; /* PURE BLACK DEFAULT */
+    --foreground: 0 0% 98%; 
     --card: 0 0% 3%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 98%;
-    --primary: 180 99% 32%; /* #01a3a4 */
+    --primary: 180 99% 32%; /* #01a3a4 DEFAULT */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 8%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 95%; /* VERY LIGHT WHITE */
+    --muted-foreground: 0 0% 95%;
     --accent: 180 99% 32%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
@@ -23,7 +24,8 @@
     --border: 0 0% 12%;
     --input: 0 0% 12%;
     --ring: 180 99% 32%;
-    --radius: 0rem; /* SHARP SQUARE EDGES */
+    --radius: 0rem;
+    --button-bg: #01a3a4; /* CUSTOM BUTTON VARIABLE */
   }
 }
 
@@ -56,7 +58,7 @@
 .container {
   @apply mx-auto px-0;
   width: 100% !important;
-  max-width: 100% !important; /* FORCED FULL SCREEN */
+  max-width: 100% !important;
 }
 
 ::-webkit-scrollbar {
@@ -66,7 +68,7 @@
   background: #000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #01a3a4;
+  background: var(--button-bg);
 }
 
 @keyframes marquee {

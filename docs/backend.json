@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "Product": {
@@ -75,15 +76,10 @@
         "liveLocation": { "type": "string" },
         "liveStatusLabel": { "type": "string" },
         "liveStatus": { "type": "string" },
-        "statusColor": { "type": "string", "description": "Hex color code for live status text." }
-      }
-    },
-    "LoginStats": {
-      "title": "LoginStats",
-      "type": "object",
-      "properties": {
-        "count": { "type": "number" },
-        "date": { "type": "string" }
+        "statusColor": { "type": "string" },
+        "themePrimaryColor": { "type": "string", "description": "Hex code for theme accent." },
+        "themeBackgroundColor": { "type": "string", "description": "Hex code for site background." },
+        "themeButtonColor": { "type": "string", "description": "Hex code for action buttons." }
       }
     }
   },
@@ -94,7 +90,6 @@
     "/products/{productId}": { "schema": { "$ref": "#/backend/entities/Product" }, "description": "Stores product information." },
     "/categories/{categoryId}": { "schema": { "$ref": "#/backend/entities/Category" }, "description": "Stores product categories." },
     "/orders/{orderId}": { "schema": { "$ref": "#/backend/entities/Order" }, "description": "Stores customer orders." },
-    "/settings/{settingId}": { "schema": { "$ref": "#/backend/entities/SiteSettings" }, "description": "Global site settings document." },
-    "/loginStats/{date}": { "schema": { "$ref": "#/backend/entities/LoginStats" }, "description": "Stores daily login counts." }
+    "/settings/{settingId}": { "schema": { "$ref": "#/backend/entities/SiteSettings" }, "description": "Global site settings document." }
   }
 }

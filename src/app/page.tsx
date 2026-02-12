@@ -33,7 +33,6 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           loading={priority ? "eager" : "lazy"}
         />
         
-        {/* UPDATED OVERLAY: SMALLER AND IN THE CORNER TO MATCH FLASH BAR */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
         
         <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10 flex flex-col items-start max-w-[90%] pointer-events-none">
@@ -43,13 +42,14 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           
           {isProduct && (
             <div className="flex flex-col space-y-1 md:space-y-3 pointer-events-auto">
-              <div className="text-[9px] md:text-xl font-black text-[#01a3a4] tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <div className="text-[9px] md:text-xl font-black text-primary tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 <span className="text-[7px] md:text-[12px] font-normal mr-0.5 text-white">৳</span>
                 {(item.price || 0).toLocaleString()}
               </div>
               <button 
                 onClick={() => setIsOrderOpen(true)} 
-                className="bg-[#01a3a4] text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
+                style={{ backgroundColor: 'var(--button-bg)' }}
+                className="text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
               >
                 <ShoppingCart className="h-2.5 w-2.5 md:h-4 md:w-4" /> অর্ডার করুন
               </button>
@@ -107,7 +107,7 @@ const FlashOfferCard = memo(() => {
   if (!flashProducts && !flashBanners) {
     return (
       <div className="h-full flex items-center justify-center bg-black/50">
-        <Loader2 className="h-4 w-4 text-[#01a3a4] animate-spin" />
+        <Loader2 className="h-4 w-4 text-primary animate-spin" />
       </div>
     );
   }
@@ -134,14 +134,15 @@ const FlashOfferCard = memo(() => {
              </p>
              {activeItem.price !== undefined && (
                <div className="mb-1 md:mb-3">
-                 <span className="text-[#01a3a4] font-black text-[9px] md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                 <span className="text-primary font-black text-[9px] md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
              )}
              <button 
                onClick={() => setIsOrderOpen(true)} 
-               className="bg-[#01a3a4] text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
+               style={{ backgroundColor: 'var(--button-bg)' }}
+               className="text-white px-2 md:px-5 py-1 md:py-2.5 h-5 md:h-10 font-black text-[5px] md:text-[10px] uppercase tracking-widest transition-all hover:bg-white hover:text-black active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
              >
                <ShoppingCart className="h-2.5 w-2.5 md:h-4 md:w-4" /> অর্ডার করুন
              </button>
@@ -251,12 +252,12 @@ export default function Home() {
               </div>
             ) : (
               <div className="h-full flex flex-col items-center justify-center gap-2">
-                <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
+                <Loader2 className="h-6 w-6 text-primary animate-spin" />
               </div>
             )}
           </div>
 
-          <div className="col-span-3 h-full bg-[#01a3a4] flex flex-col items-center justify-center p-1 md:p-6 space-y-1 md:space-y-6 gpu-accelerated shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]">
+          <div className="col-span-3 h-full bg-primary flex flex-col items-center justify-center p-1 md:p-6 space-y-1 md:space-y-6 gpu-accelerated shadow-[inset_0_0_100px_rgba(0,0,0,0.1)]">
             <h3 className="text-white font-black text-[6px] md:text-xl lg:text-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] italic text-center drop-shadow-xl font-headline">
               DOWNLOAD APP
             </h3>
@@ -278,8 +279,8 @@ export default function Home() {
 
         {isCategoriesLoading || isProductsLoading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
-            <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
-            <p className="text-[10px] font-black uppercase text-[#01a3a4] tracking-widest">Initialising Archive...</p>
+            <Loader2 className="h-12 w-12 text-primary animate-spin" />
+            <p className="text-[10px] font-black uppercase text-primary tracking-widest">Initialising Archive...</p>
           </div>
         ) : categories?.map((cat) => {
           const catProducts = allProducts?.filter(p => p.category === cat.name).slice(0, 16) || [];
@@ -289,10 +290,10 @@ export default function Home() {
             <section key={cat.id} className="py-8 md:py-16 px-4 md:px-12 gpu-accelerated border-b border-white/5">
               <div className="flex items-center justify-between mb-8 md:mb-12">
                 <div className="flex items-center gap-3">
-                  <div className="h-5 md:h-6 w-1 bg-[#01a3a4]" />
+                  <div className="h-5 md:h-6 w-1 bg-primary" />
                   <h2 className="text-[11px] md:text-[13px] font-black text-white uppercase tracking-[0.4em]">{cat.name} COLLECTION</h2>
                 </div>
-                <Link href={`/shop?category=${cat.name}`} className="text-[8px] md:text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
+                <Link href={`/shop?category=${cat.name}`} className="text-[8px] md:text-[10px] font-black text-primary uppercase tracking-[0.3em] hover:text-white transition-colors flex items-center gap-2">
                   VIEW ARCHIVE <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -308,7 +309,10 @@ export default function Home() {
 
         <div className="mt-12 md:mt-20 flex justify-center pb-24 px-4">
           <Link href="/shop" className="w-full md:w-auto">
-            <button className="w-full md:w-[600px] bg-white/5 border border-white/10 hover:border-[#01a3a4] text-white px-12 h-20 md:h-28 font-black uppercase tracking-[0.6em] text-[12px] md:text-[16px] flex items-center justify-center gap-10 transition-all hover:bg-[#01a3a4] hover:text-black active:scale-95 shadow-2xl group">
+            <button 
+              style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+              className="w-full md:w-[600px] border border-white/10 hover:border-primary text-white px-12 h-20 md:h-28 font-black uppercase tracking-[0.6em] text-[12px] md:text-[16px] flex items-center justify-center gap-10 transition-all hover:bg-primary hover:text-black active:scale-95 shadow-2xl group"
+            >
               MORE PRODUCT <ArrowRight className="h-8 w-8 group-hover:translate-x-4 transition-transform" />
             </button>
           </Link>

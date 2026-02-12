@@ -118,7 +118,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       )}>
         <button 
           onClick={onClose}
-          className="absolute right-3 top-3 z-[200] p-1.5 bg-black text-white hover:bg-[#01a3a4] transition-all border border-white/10 shadow-xl"
+          className="absolute right-3 top-3 z-[200] p-1.5 bg-black text-white hover:bg-primary transition-all border border-white/10 shadow-xl"
         >
           <X className="h-4 w-4" />
         </button>
@@ -139,10 +139,10 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-[11px] font-black text-black uppercase tracking-tighter leading-tight line-clamp-2">{product.name || product.title}</h3>
-                    <p className="text-[#01a3a4] font-black text-base">৳{(product.price || 0).toLocaleString()}</p>
+                    <p className="text-primary font-black text-base">৳{(product.price || 0).toLocaleString()}</p>
                     <div className="p-2 bg-white border border-gray-100 space-y-1">
                        <p className="text-[8px] font-black text-black uppercase flex items-center gap-1">
-                         <Truck className="h-2.5 w-2.5 text-[#01a3a4]" /> DELIVERY INFO
+                         <Truck className="h-2.5 w-2.5 text-primary" /> DELIVERY INFO
                        </p>
                        <p className="text-[8px] font-bold text-gray-500">ঢাকার ভিতরে: ৳{settings?.deliveryChargeInside || '60'}</p>
                        <p className="text-[8px] font-bold text-gray-500">ঢাকার বাইরে: ৳{settings?.deliveryChargeOutside || '120'}</p>
@@ -160,36 +160,42 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Ruler className="h-2.5 w-2.5 text-[#01a3a4]" /> SIZE</label>
+                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Ruler className="h-2.5 w-2.5 text-primary" /> SIZE</label>
                       <div className="flex flex-wrap gap-1">
                         {product?.sizes?.length > 0 ? product.sizes.map((size: string) => (
-                          <button key={size} type="button" onClick={() => setFormData({...formData, selectedSize: size})} className={cn("px-2 py-1 border text-[8px] font-black uppercase transition-all", formData.selectedSize === size ? 'bg-[#01a3a4] border-[#01a3a4] text-white' : 'bg-gray-50 border-gray-100 text-gray-400')}>{size}</button>
+                          <button key={size} type="button" onClick={() => setFormData({...formData, selectedSize: size})} className={cn("px-2 py-1 border text-[8px] font-black uppercase transition-all", formData.selectedSize === size ? 'bg-primary border-primary text-white' : 'bg-gray-50 border-gray-100 text-gray-400')}>{size}</button>
                         )) : <span className="text-[8px] font-black text-gray-400 uppercase italic">Standard</span>}
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Hash className="h-2.5 w-2.5 text-[#01a3a4]" /> QTY</label>
-                      <input type="number" min="1" required value={formData.quantity} onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})} className="w-full bg-gray-50 border border-gray-100 h-8 px-2 text-[10px] font-black focus:outline-none focus:border-[#01a3a4] text-black" />
+                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Hash className="h-2.5 w-2.5 text-primary" /> QTY</label>
+                      <input type="number" min="1" required value={formData.quantity} onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})} className="w-full bg-gray-50 border border-gray-100 h-8 px-2 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><User className="h-2.5 w-2.5 text-[#01a3a4]" /> NAME</label>
-                      <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="ENTER YOUR NAME" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-[#01a3a4] text-black" />
+                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><User className="h-2.5 w-2.5 text-primary" /> NAME</label>
+                      <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="ENTER YOUR NAME" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-primary text-black" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Phone className="h-2.5 w-2.5 text-[#01a3a4]" /> PHONE</label>
-                      <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="01XXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black focus:outline-none focus:border-[#01a3a4] text-black" />
+                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Phone className="h-2.5 w-2.5 text-primary" /> PHONE</label>
+                      <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="01XXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><MapPin className="h-2.5 w-2.5 text-[#01a3a4]" /> ADDRESS</label>
-                      <textarea required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="HOUSE, ROAD, AREA, CITY" className="w-full bg-gray-50 border border-gray-100 p-2 text-[10px] font-black uppercase min-h-[45px] focus:outline-none focus:border-[#01a3a4] text-black shadow-sm no-scrollbar" />
+                      <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><MapPin className="h-2.5 w-2.5 text-primary" /> ADDRESS</label>
+                      <textarea required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="HOUSE, ROAD, AREA, CITY" className="w-full bg-gray-50 border border-gray-100 p-2 text-[10px] font-black uppercase min-h-[45px] focus:outline-none focus:border-primary text-black shadow-sm no-scrollbar" />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-2 pt-1">
-                    <Button type="submit" className="w-full bg-[#01a3a4] hover:bg-black text-white h-10 font-black uppercase tracking-widest rounded-none shadow-lg text-[11px] border-none">অর্ডার নিশ্চিত করুন</Button>
+                    <Button 
+                      type="submit" 
+                      style={{ backgroundColor: 'var(--button-bg)' }}
+                      className="w-full hover:bg-black text-white h-10 font-black uppercase tracking-widest rounded-none shadow-lg text-[11px] border-none"
+                    >
+                      অর্ডার নিশ্চিত করুন
+                    </Button>
                     <button 
                       type="button"
                       onClick={handleWhatsAppChat}
@@ -204,19 +210,19 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
           ) : (
             <div className="w-full p-8 text-center space-y-6 flex flex-col justify-center bg-white items-center min-h-[350px]">
               <div className="relative">
-                <div className="w-20 h-20 bg-[#01a3a4]/5 rounded-full flex items-center justify-center mx-auto border-[3px] border-[#01a3a4] shadow-xl animate-in zoom-in-50 duration-700">
-                  <CheckCircle2 className="h-10 w-10 text-[#01a3a4]" />
+                <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto border-[3px] border-primary shadow-xl animate-in zoom-in-50 duration-700">
+                  <CheckCircle2 className="h-10 w-10 text-primary" />
                 </div>
-                <PartyPopper className="absolute -top-4 -right-5 h-10 w-10 text-[#01a3a4] animate-bounce" />
+                <PartyPopper className="absolute -top-4 -right-5 h-10 w-10 text-primary animate-bounce" />
               </div>
               <div className="space-y-4">
                 <DialogTitle className="text-4xl font-black text-black uppercase tracking-tighter leading-none font-headline">THANK YOU</DialogTitle>
-                <div className="h-px w-12 bg-[#01a3a4] mx-auto" />
+                <div className="h-px w-12 bg-primary mx-auto" />
                 <p className="text-[14px] font-bold text-black leading-relaxed px-4">
                   আমাদের এক জন প্রতিনিধি যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করবে
                 </p>
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-[0.4em]">SS SMART HAAT</p>
+                  <p className="text-[8px] font-black text-primary uppercase tracking-[0.4em]">SS SMART HAAT</p>
                   <p className="text-[6px] font-black text-gray-400 uppercase tracking-[0.2em]">PREMIUM MARKET PLACE</p>
                 </div>
               </div>

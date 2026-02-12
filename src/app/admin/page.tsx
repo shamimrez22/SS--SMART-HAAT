@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo, useEffect, useState } from 'react';
@@ -17,7 +18,8 @@ import {
   Zap,
   Loader2,
   MapPin,
-  Radio
+  Radio,
+  Palette
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StyleAssistant } from '@/components/StyleAssistant';
@@ -115,14 +117,15 @@ export default function AdminPanel() {
   }, [pendingOrders, toast]);
 
   const stats = [
-    { title: "TOTAL REVENUE", value: `৳${salesStats.totalRevenue.toLocaleString()}`, change: "LIFE TIME", icon: TrendingUp, color: "text-[#01a3a4]", href: "/admin/orders" },
+    { title: "TOTAL REVENUE", value: `৳${salesStats.totalRevenue.toLocaleString()}`, change: "LIFE TIME", icon: TrendingUp, color: "text-primary", href: "/admin/orders" },
     { title: "DAILY SALES", value: salesStats.todaySales, change: "TODAY", icon: ShoppingBag, color: "text-orange-500", href: "/admin/orders", isHighlight: true },
     { title: "VISITORS", value: dailyVisitors?.count || 0, change: "TODAY", icon: Users, color: "text-purple-500", href: "/admin/others" },
     { title: "PRODUCTS", value: products?.length || 0, change: "TOTAL", icon: Package, color: "text-green-500", href: "/admin/products" }
   ];
 
   const quickLinks = [
-    { title: "HUB & LIVE BROADCAST", icon: Radio, href: "/admin/location", isHighlight: true },
+    { title: "THEME & COLORS", icon: Palette, href: "/admin/theme", isHighlight: true },
+    { title: "HUB & LIVE BROADCAST", icon: Radio, href: "/admin/location" },
     { title: "FEATURED CONTENT", icon: Zap, href: "/admin/featured" },
     { title: "ORDER INTELLIGENCE", icon: ShoppingBag, href: "/admin/orders" },
     { title: "PRODUCT INVENTORY", icon: Package, href: "/admin/products" },
@@ -132,25 +135,25 @@ export default function AdminPanel() {
   ];
 
   if (!db) {
-    return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
+    return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-primary animate-spin" /></div>;
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/30">
       <MainHeader />
       
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
             <Link key={i} href={stat.href}>
-              <Card className={`bg-card border-white/5 rounded-none p-4 md:p-6 hover:border-[#01a3a4]/30 transition-all cursor-pointer group h-full ${stat.isHighlight && stat.value > 0 ? 'border-red-600/30 bg-red-600/[0.02]' : ''}`}>
+              <Card className={`bg-card border-white/5 rounded-none p-4 md:p-6 hover:border-primary/30 transition-all cursor-pointer group h-full ${stat.isHighlight && stat.value > 0 ? 'border-red-600/30 bg-red-600/[0.02]' : ''}`}>
                 <div className="flex justify-between items-start mb-4">
                   <p className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-white/60'}`}>{stat.title}</p>
                   <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.isHighlight && stat.value > 0 ? 'text-red-600 animate-bounce' : stat.color} opacity-70 group-hover:scale-110 transition-transform`} />
                 </div>
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-xl md:text-2xl font-black text-white tracking-tighter">{stat.value}</h3>
-                  <span className={`text-[7px] md:text-[9px] font-black uppercase ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-[#01a3a4]'}`}>
+                  <span className={`text-[7px] md:text-[9px] font-black uppercase ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-primary'}`}>
                     {stat.change}
                   </span>
                 </div>
@@ -163,18 +166,18 @@ export default function AdminPanel() {
           <div className="lg:col-span-4 space-y-6">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-[#01a3a4]">COMMAND CENTER</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">COMMAND CENTER</CardTitle>
               </CardHeader>
               <CardContent className="p-2">
                 <div className="grid grid-cols-1 gap-1">
                   {quickLinks.map((link, i) => (
                     <Link key={i} href={link.href}>
-                      <div className={`flex items-center justify-between p-4 hover:bg-[#01a3a4]/5 transition-all group border-b border-white/[0.02] last:border-0 ${link.isHighlight ? 'bg-[#01a3a4]/5' : ''}`}>
+                      <div className={`flex items-center justify-between p-4 hover:bg-primary/5 transition-all group border-b border-white/[0.02] last:border-0 ${link.isHighlight ? 'bg-primary/5' : ''}`}>
                         <div className="flex items-center gap-4">
-                          <link.icon className={`h-4 w-4 ${link.isHighlight ? 'text-orange-500' : 'text-[#01a3a4]'} opacity-50 group-hover:opacity-100`} />
-                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-[#01a3a4] ${link.isHighlight ? 'text-orange-500' : 'text-white'}`}>{link.title}</span>
+                          <link.icon className={`h-4 w-4 ${link.isHighlight ? 'text-primary' : 'text-primary/50'} group-hover:opacity-100`} />
+                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-primary ${link.isHighlight ? 'text-primary' : 'text-white'}`}>{link.title}</span>
                         </div>
-                        <ChevronRight className="h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all group-hover:text-[#01a3a4]" />
+                        <ChevronRight className="h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all group-hover:text-primary" />
                       </div>
                     </Link>
                   ))}
@@ -184,7 +187,7 @@ export default function AdminPanel() {
 
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-[#01a3a4]">CATEGORY BREAKDOWN</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">CATEGORY BREAKDOWN</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
                 <div className="h-[200px] w-full flex items-center justify-center">
@@ -209,8 +212,8 @@ export default function AdminPanel() {
                     </ChartContainer>
                   ) : (
                     <div className="flex flex-col items-center gap-2">
-                      <Loader2 className="h-6 w-6 text-[#01a3a4] animate-spin" />
-                      <p className="text-[8px] text-[#01a3a4] uppercase font-black">Syncing Data...</p>
+                      <Loader2 className="h-6 w-6 text-primary animate-spin" />
+                      <p className="text-[8px] text-primary uppercase font-black">Syncing Data...</p>
                     </div>
                   )}
                 </div>
@@ -222,7 +225,7 @@ export default function AdminPanel() {
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 p-6 gap-4 bg-white/[0.01]">
                 <div className="space-y-1">
-                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Business Intelligence</p>
+                  <p className="text-[8px] font-black text-primary uppercase tracking-widest">Business Intelligence</p>
                   <CardTitle className="text-2xl font-black uppercase tracking-tighter text-white">REVENUE ARCHIVE</CardTitle>
                 </div>
                 <Badge variant="outline" className="rounded-none border-white/10 text-[8px] h-6 px-3 w-fit font-black text-white/40">DATABASE: LIVE SYNCED</Badge>
@@ -230,7 +233,7 @@ export default function AdminPanel() {
               <CardContent className="p-8">
                 <div className="h-[300px] w-full flex items-center justify-center">
                   {isMounted ? (
-                    <ChartContainer config={{ sales: { label: "Revenue", color: "#01a3a4" } }} className="h-full w-full">
+                    <ChartContainer config={{ sales: { label: "Revenue", color: "var(--primary)" } }} className="h-full w-full">
                       <BarChart data={dailyChartData}>
                         <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.03)" />
                         <XAxis
@@ -246,14 +249,14 @@ export default function AdminPanel() {
                           tick={{ fontSize: 9, fontWeight: 900, fill: '#666' }}
                         />
                         <ChartTooltip
-                          cursor={{ fill: 'rgba(1,163,164,0.05)' }}
+                          cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                           content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-4" hideLabel />}
                         />
-                        <Bar dataKey="sales" fill="#01a3a4" radius={[1, 1, 0, 0]} />
+                        <Bar dataKey="sales" fill="var(--primary)" radius={[1, 1, 0, 0]} />
                       </BarChart>
                     </ChartContainer>
                   ) : (
-                    <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
+                    <Loader2 className="h-8 w-8 text-primary animate-spin" />
                   )}
                 </div>
               </CardContent>
@@ -263,8 +266,8 @@ export default function AdminPanel() {
               <Card className="bg-card border-white/5 rounded-none overflow-hidden shadow-2xl">
                 <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-[#01a3a4]">AI STRATEGIST</CardTitle>
-                    <Sparkles className="h-3 w-3 text-[#01a3a4] animate-pulse" />
+                    <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">AI STRATEGIST</CardTitle>
+                    <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                   </div>
                 </CardHeader>
                 <StyleAssistant />
@@ -272,7 +275,7 @@ export default function AdminPanel() {
 
               <Card className="bg-card border-white/5 rounded-none overflow-hidden shadow-2xl">
                 <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                  <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-[#01a3a4]">LIVE ACTIVITY</CardTitle>
+                  <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">LIVE ACTIVITY</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 space-y-4">
                   {pendingOrders?.slice(0, 5).map((order, i) => (
@@ -281,7 +284,7 @@ export default function AdminPanel() {
                         <span className="text-[10px] font-black text-white uppercase truncate">{order.customerName}</span>
                         <Badge className="bg-red-600 text-white text-[7px] font-black rounded-none border-none animate-pulse">NEW ORDER</Badge>
                       </div>
-                      <p className="text-[8px] font-black text-[#01a3a4] uppercase truncate">{order.productName}</p>
+                      <p className="text-[8px] font-black text-primary uppercase truncate">{order.productName}</p>
                       <span className="text-[7px] font-mono text-white/30 uppercase">{order.createdAt ? new Date(order.createdAt).toLocaleTimeString() : 'RECENT'}</span>
                     </div>
                   ))}
