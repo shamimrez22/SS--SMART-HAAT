@@ -309,7 +309,7 @@ export default function Home() {
             ) : (
               <div className="flex flex-col items-center justify-center space-y-2 md:space-y-6 relative z-10">
                 <h3 className="text-white font-black text-[6px] md:text-xl lg:text-2xl uppercase tracking-[0.2em] italic text-center drop-shadow-xl font-headline">
-                  PREMIUM HAAT
+                  DOWNLOAD OUR APP
                 </h3>
                 <div className="bg-white p-0.5 md:p-4 w-10 h-10 md:w-40 md:h-40 flex items-center justify-center border-1 md:border-4 border-white/30 shadow-2xl">
                   <Image 
