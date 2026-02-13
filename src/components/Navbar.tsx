@@ -67,16 +67,16 @@ export function Navbar() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-4">
             
-            {/* LEFT: LOGO */}
+            {/* LEFT: LOGO & NAME (Now visible on mobile) */}
             <Link href="/" className="flex items-center gap-2 shrink-0 group">
               <LogoIcon />
-              <div className="hidden sm:flex flex-col">
-                <h1 className="text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1>
-                <span className="text-[6px] text-white/90 font-bold uppercase tracking-[0.2em]">PREMIUM MARKET PLACE</span>
+              <div className="flex flex-col">
+                <h1 className="text-[10px] sm:text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1>
+                <span className="text-[5px] sm:text-[6px] text-white/90 font-bold uppercase tracking-[0.2em]">PREMIUM MARKET PLACE</span>
               </div>
             </Link>
 
-            {/* CENTER: SEARCH BAR (Desktop) - LARGE & HIGH VISIBILITY */}
+            {/* CENTER: SEARCH BAR (Desktop) */}
             <div className="hidden md:flex items-center relative flex-grow max-w-[700px] px-4">
               <div className="relative w-full">
                 <Input 
@@ -143,7 +143,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* MOBILE SEARCH BAR (Toggleable) - HIGH VISIBILITY */}
+          {/* MOBILE SEARCH BAR */}
           {showSearchInput && (
             <div className="mt-3 pb-2 relative animate-in slide-in-from-top-2 duration-300 md:hidden">
               <Input 

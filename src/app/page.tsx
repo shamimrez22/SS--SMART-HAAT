@@ -65,7 +65,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
 
 SlideItem.displayName = 'SlideItem';
 
-// Performance: Memoized Animated Flash Bar Component
+// Performance: Memoized Animated Flash Bar Component (Right Column)
 const AnimatedFlashBar = memo(() => {
   const db = useFirestore();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -129,7 +129,7 @@ const AnimatedFlashBar = memo(() => {
 
 AnimatedFlashBar.displayName = 'AnimatedFlashBar';
 
-// Performance: Memoized Flash Offer Card (Left Column)
+// Performance: Memoized Flash Offer Card (Left Column) - Added Zoom In/Out Animation
 const FlashOfferCard = memo(() => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -173,16 +173,19 @@ const FlashOfferCard = memo(() => {
     <div className="h-full bg-black overflow-hidden relative group w-full gpu-accelerated border-r border-white/5 flex items-center justify-center">
       {activeItem ? (
         <div className="h-full w-full relative flex items-center justify-center" key={activeItem.id}>
-          <Image 
-            src={activeItem.imageUrl || 'https://picsum.photos/seed/flash/400/400'} 
-            alt="Flash Offer" 
-            fill 
-            sizes="(max-width: 768px) 33vw, 25vw" 
-            className="object-fill" 
-            priority={true}
-            loading="eager"
-            decoding="async"
-          />
+          {/* Added Zoom Animation class below */}
+          <div className="h-full w-full absolute inset-0 animate-ken-burns">
+            <Image 
+              src={activeItem.imageUrl || 'https://picsum.photos/seed/flash/400/400'} 
+              alt="Flash Offer" 
+              fill 
+              sizes="(max-width: 768px) 33vw, 25vw" 
+              className="object-fill" 
+              priority={true}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
           
