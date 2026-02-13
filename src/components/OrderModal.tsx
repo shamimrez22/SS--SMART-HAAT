@@ -20,12 +20,12 @@ import {
   Hash,
   X,
   Truck,
-  MessageCircle
+  MessageCircle,
+  Loader2
 } from 'lucide-react';
 import { useFirestore, useMemoFirebase, useDoc } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { collection } from 'firebase/firestore';
+import { createOrderAndNotify } from '@/app/actions/order-actions';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -39,6 +39,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   const db = useFirestore();
   const isMobile = useIsMobile();
   const [step, setStep] = useState<'FORM' | 'SUCCESS'>('FORM');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -66,13 +67,16 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       setTimeout(() => {
         setStep('FORM');
         setFormData({ name: '', phone: '', address: '', selectedSize: '', quantity: 1 });
+        setIsSubmitting(false);
       }, 300);
     }
   }, [product, isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.phone || !formData.address || !db || !product) return;
+    if (!formData.name || !formData.phone || !formData.address || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     const orderData = {
       customerName: formData.name.toUpperCase(),
@@ -84,12 +88,16 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       productName: product.name || product.title || 'UNKNOWN PRODUCT',
       productPrice: product.price || 0,
       productImageUrl: product.imageUrl || '',
-      status: 'PENDING',
-      createdAt: new Date().toISOString()
+      status: 'PENDING'
     };
 
-    addDocumentNonBlocking(collection(db, 'orders'), orderData);
-    setStep('SUCCESS');
+    const result = await createOrderAndNotify(orderData);
+    if (result.success) {
+      setStep('SUCCESS');
+    } else {
+      alert("FAILED TO PLACE ORDER. PLEASE TRY AGAIN.");
+    }
+    setIsSubmitting(false);
   };
 
   const handleWhatsAppChat = () => {
@@ -110,18 +118,20 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
   if (!product) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={(val) => !val && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(val) => !val && !isSubmitting && onClose()}>
       <DialogContent className={cn(
         "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl fixed z-[150] outline-none",
         "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
         step === 'SUCCESS' ? "max-w-[400px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[700px] w-[95vw]"
       )}>
-        <button 
-          onClick={onClose}
-          className="absolute right-3 top-3 z-[200] p-1.5 bg-black text-white hover:bg-primary transition-all border border-white/10 shadow-xl"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        {!isSubmitting && (
+          <button 
+            onClick={onClose}
+            className="absolute right-3 top-3 z-[200] p-1.5 bg-black text-white hover:bg-primary transition-all border border-white/10 shadow-xl"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
 
         <div className="flex flex-col h-full max-h-[90vh] no-scrollbar">
           {step === 'FORM' ? (
@@ -157,47 +167,62 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                   <p className="text-[7px] font-black text-gray-400 uppercase tracking-[0.3em]">PREMIUM SECURE CHECKOUT</p>
                 </div>
 
+                {isMobile && (
+                  <div className="p-2.5 bg-gray-50 border border-gray-100 flex items-center justify-between rounded-sm">
+                    <div className="flex items-center gap-1.5">
+                      <Truck className="h-3 w-3 text-primary" />
+                      <span className="text-[8px] font-black uppercase text-black">DELIVERY:</span>
+                    </div>
+                    <div className="flex gap-3">
+                      <p className="text-[8px] font-bold text-gray-600">ঢাকা: ৳{settings?.deliveryChargeInside || '60'}</p>
+                      <p className="text-[8px] font-bold text-gray-600">বাইরে: ৳{settings?.deliveryChargeOutside || '120'}</p>
+                    </div>
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Ruler className="h-2.5 w-2.5 text-primary" /> SIZE</label>
                       <div className="flex flex-wrap gap-1">
                         {product?.sizes?.length > 0 ? product.sizes.map((size: string) => (
-                          <button key={size} type="button" onClick={() => setFormData({...formData, selectedSize: size})} className={cn("px-2 py-1 border text-[8px] font-black uppercase transition-all", formData.selectedSize === size ? 'bg-primary border-primary text-white' : 'bg-gray-50 border-gray-100 text-gray-400')}>{size}</button>
+                          <button key={size} type="button" disabled={isSubmitting} onClick={() => setFormData({...formData, selectedSize: size})} className={cn("px-2 py-1 border text-[8px] font-black uppercase transition-all", formData.selectedSize === size ? 'bg-primary border-primary text-white' : 'bg-gray-50 border-gray-100 text-gray-400')}>{size}</button>
                         )) : <span className="text-[8px] font-black text-gray-400 uppercase italic">Standard</span>}
                       </div>
                     </div>
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Hash className="h-2.5 w-2.5 text-primary" /> QTY</label>
-                      <input type="number" min="1" required value={formData.quantity} onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})} className="w-full bg-gray-50 border border-gray-100 h-8 px-2 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
+                      <input type="number" min="1" required disabled={isSubmitting} value={formData.quantity} onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})} className="w-full bg-gray-50 border border-gray-100 h-8 px-2 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><User className="h-2.5 w-2.5 text-primary" /> NAME</label>
-                      <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="ENTER YOUR NAME" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-primary text-black" />
+                      <input required disabled={isSubmitting} value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="ENTER YOUR NAME" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-primary text-black" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Phone className="h-2.5 w-2.5 text-primary" /> PHONE</label>
-                      <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="01XXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
+                      <input required disabled={isSubmitting} type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="01XXXXXXXXX" className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black focus:outline-none focus:border-primary text-black" />
                     </div>
                     <div className="space-y-1">
                       <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><MapPin className="h-2.5 w-2.5 text-primary" /> ADDRESS</label>
-                      <textarea required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="HOUSE, ROAD, AREA, CITY" className="w-full bg-gray-50 border border-gray-100 p-2 text-[10px] font-black uppercase min-h-[45px] focus:outline-none focus:border-primary text-black shadow-sm no-scrollbar" />
+                      <textarea required disabled={isSubmitting} value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="HOUSE, ROAD, AREA, CITY" className="w-full bg-gray-50 border border-gray-100 p-2 text-[10px] font-black uppercase min-h-[45px] focus:outline-none focus:border-primary text-black shadow-sm no-scrollbar" />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-2 pt-1">
                     <Button 
                       type="submit" 
+                      disabled={isSubmitting}
                       style={{ backgroundColor: 'var(--button-bg)' }}
                       className="w-full hover:bg-black text-white h-10 font-black uppercase tracking-widest rounded-none shadow-lg text-[11px] border-none"
                     >
-                      অর্ডার নিশ্চিত করুন
+                      {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'অর্ডার নিশ্চিত করুন'}
                     </Button>
                     <button 
                       type="button"
+                      disabled={isSubmitting}
                       onClick={handleWhatsAppChat}
                       className="w-full flex items-center justify-center gap-2 h-8 bg-white border border-green-500 text-green-600 font-black text-[9px] uppercase tracking-widest hover:bg-green-50 transition-all"
                     >

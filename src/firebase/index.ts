@@ -1,12 +1,9 @@
 
-'use client';
-
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, Firestore } from 'firebase/firestore'
 
-// Cache initialized SDKs to prevent re-initialization errors (fix for primary lease issue)
 let cachedSdks: { firebaseApp: FirebaseApp, auth: any, firestore: Firestore } | null = null;
 
 export function initializeFirebase() {
@@ -16,7 +13,7 @@ export function initializeFirebase() {
   
   if (!getApps().length) {
     try {
-      firebaseApp = initializeApp();
+      firebaseApp = initializeApp(firebaseConfig);
     } catch (e) {
       firebaseApp = initializeApp(firebaseConfig);
     }
@@ -25,14 +22,20 @@ export function initializeFirebase() {
   }
 
   let firestore: Firestore;
-  try {
-    firestore = initializeFirestore(firebaseApp, {
-      experimentalAutoDetectLongPolling: true,
-      localCache: persistentLocalCache({
-        tabManager: persistentMultipleTabManager()
-      })
-    });
-  } catch (e) {
+  const isBrowser = typeof window !== 'undefined';
+
+  if (isBrowser) {
+    try {
+      firestore = initializeFirestore(firebaseApp, {
+        experimentalAutoDetectLongPolling: true,
+        localCache: persistentLocalCache({
+          tabManager: persistentMultipleTabManager()
+        })
+      });
+    } catch (e) {
+      firestore = getFirestore(firebaseApp);
+    }
+  } else {
     firestore = getFirestore(firebaseApp);
   }
 
