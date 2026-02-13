@@ -92,7 +92,7 @@ section, .product-section {
 
 @keyframes ken-burns {
   0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+  50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
 
@@ -106,7 +106,7 @@ section, .product-section {
 }
 
 .animate-ken-burns {
-  animation: ken-burns 10s ease-in-out infinite;
+  animation: ken-burns 8s ease-in-out infinite;
   will-change: transform;
 }
 
@@ -120,6 +120,6 @@ section, .product-section {
 
 /* Speed optimization for image transitions */
 img {
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
   content-visibility: auto;
 }

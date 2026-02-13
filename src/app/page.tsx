@@ -83,7 +83,6 @@ const AnimatedFlashBar = memo(() => {
 
   const combinedItems = useMemo(() => {
     const products = flashProducts || [];
-    // Filter banners that should show on the RIGHT side
     const banners = (flashBanners || []).filter(b => b.showOnRight !== false);
     return [...banners, ...products].sort((a, b) => 
       new Date(b.createdAt || '2024-01-01').getTime() - new Date(a.createdAt || '2024-01-01').getTime()
@@ -109,7 +108,8 @@ const AnimatedFlashBar = memo(() => {
           alt="Flash" 
           fill 
           className="object-fill"
-          priority 
+          priority={true}
+          decoding="async"
         />
       </div>
       <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-sm border border-white/10 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest flex items-center gap-1">
@@ -127,7 +127,7 @@ const AnimatedFlashBar = memo(() => {
 
 AnimatedFlashBar.displayName = 'AnimatedFlashBar';
 
-// Performance: Memoized Flash Offer Card (Left Column) - Added Zoom In/Out Animation
+// Performance: Memoized Flash Offer Card (Left Column)
 const FlashOfferCard = memo(() => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -148,7 +148,6 @@ const FlashOfferCard = memo(() => {
 
   const combinedItems = useMemo(() => {
     const products = flashProducts || [];
-    // Filter banners that should show on the LEFT side
     const banners = (flashBanners || []).filter(b => b.showOnLeft !== false);
     return [...banners, ...products].sort((a, b) => 
       new Date(b.createdAt || '2024-01-01').getTime() - new Date(a.createdAt || '2024-01-01').getTime()
@@ -368,9 +367,9 @@ export default function Home() {
           <Link href="/shop" className="w-full md:w-auto">
             <button 
               style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
-              className="w-full md:w-[400px] border border-white/10 hover:border-primary text-white px-8 h-16 md:h-20 font-black uppercase tracking-[0.4em] text-[10px] md:text-[12px] flex items-center justify-center gap-6 transition-all hover:bg-primary hover:text-black active:scale-95 shadow-2xl group"
+              className="w-full md:w-[280px] border border-white/10 hover:border-primary text-white px-6 h-14 md:h-16 font-black uppercase tracking-[0.4em] text-[9px] md:text-[11px] flex items-center justify-center gap-4 transition-all hover:bg-primary hover:text-black active:scale-95 shadow-2xl group"
             >
-              MORE PRODUCT <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+              MORE PRODUCT <ArrowRight className="h-4 w-4 group-hover:translate-x-2 transition-transform" />
             </button>
           </Link>
         </div>
