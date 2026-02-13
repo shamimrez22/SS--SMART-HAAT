@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -26,10 +25,6 @@ import { doc } from 'firebase/firestore';
 import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 
-/**
- * Admin Security Page.
- * Focused purely on authentication and system access.
- */
 export default function AdminSettings() {
   const db = useFirestore();
   const { toast } = useToast();
@@ -81,7 +76,7 @@ export default function AdminSettings() {
           <div className="lg:col-span-4">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4" /> AUTHENTICATION
                 </CardTitle>
               </CardHeader>
@@ -89,13 +84,13 @@ export default function AdminSettings() {
                 <form onSubmit={handleSaveAdmin} className="space-y-6">
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><User className="h-3 w-3 text-[#01a3a4]" /> USERNAME</label>
-                      <Input value={adminData.adminUsername} onChange={(e) => setAdminData({...adminData, adminUsername: e.target.value})} className="bg-black border-white/10 rounded-none h-12 text-sm text-white" />
+                      <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><User className="h-3 w-3 text-[#01a3a4]" /> USERNAME</label>
+                      <Input value={adminData.adminUsername} onChange={(e) => setAdminData({...adminData, adminUsername: e.target.value})} className="bg-black border-white/20 rounded-none h-12 text-sm text-white focus:border-[#01a3a4]" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Lock className="h-3 w-3 text-[#01a3a4]" /> PASSWORD</label>
+                      <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Lock className="h-3 w-3 text-[#01a3a4]" /> PASSWORD</label>
                       <div className="relative">
-                        <Input value={adminData.adminPassword} onChange={(e) => setAdminData({...adminData, adminPassword: e.target.value})} type={showPassword ? "text" : "password"} className="bg-black border-white/10 rounded-none h-12 text-sm text-white pr-10" />
+                        <Input value={adminData.adminPassword} onChange={(e) => setAdminData({...adminData, adminPassword: e.target.value})} type={showPassword ? "text" : "password"} className="bg-black border-white/20 rounded-none h-12 text-sm text-white pr-10 focus:border-[#01a3a4]" />
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40">{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button>
                       </div>
                     </div>
@@ -120,27 +115,27 @@ export default function AdminSettings() {
                     <h3 className="text-lg font-black uppercase">ধাপ ১: কোড সিঙ্ক (GitHub Push)</h3>
                   </div>
                   <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
-                    আপনার লোকাল কম্পিউটারে করা কোড পরিবর্তনগুলো স্থায়ীভাবে সেভ করতে গিটহাবে 'Push' করুন। এটি আপনার সমস্ত ফাইল ক্লাউড স্টোরেজে ব্যাকআপ হিসেবে রাখে এবং ওয়েবসাইট আপডেটের জন্য মূল ভিত্তি হিসেবে কাজ করে।
+                    আপনার লোকাল কম্পিউটারে করা কোড পরিবর্তনগুলো স্থায়ীভাবে সেভ করতে গিটহাবে 'Push' করুন।
                   </p>
                 </div>
                 
-                <div className="space-y-4 pt-6 border-t border-white/5">
+                <div className="space-y-4 pt-6 border-t border-white/10">
                   <div className="flex items-center gap-3 text-[#01a3a4]">
                     <Globe className="h-5 w-5" />
                     <h3 className="text-lg font-black uppercase">ধাপ ২: হোস্টিং কানেকশন (Vercel/Firebase)</h3>
                   </div>
                   <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
-                    আপনার গিটহাব রিপোজিটরিটি Vercel অথবা Firebase App Hosting-এর সাথে কানেক্ট করুন। এটি একবার সেটআপ করে রাখলেই হবে। হোস্টিং সার্ভিসটি আপনার গিটহাবের ফাইলের দিকে নজর রাখবে।
+                    আপনার গিটহাব রিপোজিটরিটি Vercel অথবা Firebase App Hosting-এর সাথে কানেক্ট করুন।
                   </p>
                 </div>
 
-                <div className="space-y-4 pt-6 border-t border-white/5">
+                <div className="space-y-4 pt-6 border-t border-white/10">
                   <div className="flex items-center gap-3 text-orange-500">
                     <Zap className="h-5 w-5" />
                     <h3 className="text-lg font-black uppercase">ধাপ ৩: অটো-লাইভ আপডেট (Continuous Deploy)</h3>
                   </div>
                   <p className="text-[11px] text-white/60 uppercase font-bold leading-relaxed">
-                    একবার ডেপ্লয়মেন্ট সেটআপ হয়ে গেলে, আপনি যখনই কোড পরিবর্তন করে গিটহাবে পুশ করবেন, হোস্টিং সার্ভিসটি সেটি সাথে সাথে শনাক্ত করবে এবং কয়েক সেকেন্ডের মধ্যেই ওয়েবসাইটটি অটোমেটিক লাইভ আপডেট করে দেবে। আলাদা করে কোনো ফাইল আপলোড করার প্রয়োজন পড়বে না।
+                    একবার ডেপ্লয়মেন্ট সেটআপ হয়ে গেলে, আপনি যখনই কোড পরিবর্তন করে গিটহাবে পুশ করবেন, ওয়েবসাইটটি অটোমেটিক লাইভ আপডেট হয়ে যাবে।
                   </p>
                 </div>
               </CardContent>

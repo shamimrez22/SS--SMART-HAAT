@@ -50,7 +50,7 @@ export default function AdminOthers() {
     qrCodeLink: '',
     deliveryChargeInside: '',
     deliveryChargeOutside: '',
-    showVideoInAppBar: false, // Repurposed for Flash Bar
+    showVideoInAppBar: false,
   });
 
   useEffect(() => {
@@ -118,8 +118,8 @@ export default function AdminOthers() {
           <div className="space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
-                  <Zap className="h-4 w-4 text-[#01a3a4]" /> TOP FOLD MEDIA CONTROL
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
+                  <Zap className="h-4 w-4" /> TOP FOLD MEDIA CONTROL
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
@@ -129,38 +129,38 @@ export default function AdminOthers() {
                       id="video-toggle"
                       checked={formData.showVideoInAppBar} 
                       onCheckedChange={(val) => setFormData({...formData, showVideoInAppBar: !!val})} 
-                      className="h-6 w-6 border-white/20 data-[state=checked]:bg-[#01a3a4] data-[state=checked]:border-[#01a3a4]"
+                      className="h-6 w-6 border-orange-500 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
                     />
                     <div className="space-y-1">
-                      <label htmlFor="video-toggle" className="text-[11px] font-black text-foreground uppercase flex items-center gap-2 cursor-pointer">
-                        <LayoutDashboard className="h-4 w-4 text-[#01a3a4]" /> টিক দিন: ফ্ল্যাশ বার চলবে (OFF রাখলে QR শো করবে)
+                      <label htmlFor="video-toggle" className="text-[11px] font-black text-white uppercase flex items-center gap-2 cursor-pointer">
+                        <LayoutDashboard className="h-4 w-4 text-orange-500" /> টিক দিন: ফ্ল্যাশ বার চলবে (OFF রাখলে QR শো করবে)
                       </label>
-                      <p className="text-[8px] text-foreground/40 uppercase font-bold tracking-widest">
+                      <p className="text-[8px] text-orange-500 uppercase font-bold tracking-widest">
                         {formData.showVideoInAppBar ? "ANIMATED FLASH BAR ACTIVE" : "QR CODE MODE ACTIVE"}
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6 bg-[#01a3a4]/5 border border-[#01a3a4]/20 space-y-3">
+                <div className="p-6 bg-orange-500/5 border border-orange-500/20 space-y-3">
                   <div className="flex items-center gap-3">
-                    <Sparkles className="h-5 w-5 text-[#01a3a4] animate-pulse" />
+                    <Sparkles className="h-5 w-5 text-orange-500 animate-pulse" />
                     <p className="text-[10px] font-black text-white uppercase tracking-widest">NEW: PERFORMANCE UPDATE</p>
                   </div>
                   <p className="text-[9px] text-white/60 uppercase leading-relaxed font-bold">
-                    সরাসরি ভিডিওর পরিবর্তে এখন ফ্ল্যাশ অফারের ইমেজগুলো এনিমেশনের মাধ্যমে সচল থাকবে। এতে আপনার ওয়েবসাইট অনেক বেশি ফাস্ট থাকবে এবং ভিডিও লোডিংয়ের কোনো ঝামেলা হবে না।
+                    সরাসরি ভিডিওর পরিবর্তে এখন ফ্ল্যাশ অফারের ইমেজগুলো এনিমেশনের মাধ্যমে সচল থাকবে। এতে আপনার ওয়েবসাইট অনেক বেশি ফাস্ট থাকবে।
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2">
+                  <label className="text-[10px] font-black text-orange-500 uppercase flex items-center gap-2">
                     <QrCode className="h-3 w-3" /> QR CODE REDIRECT LINK
                   </label>
                   <Input 
                     value={formData.qrCodeLink}
                     onChange={(e) => setFormData({...formData, qrCodeLink: e.target.value})}
                     placeholder="https://sssmarthaat.com"
-                    className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-foreground"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
                   />
                 </div>
               </CardContent>
@@ -168,7 +168,7 @@ export default function AdminOthers() {
 
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
                   <Contact2 className="h-4 w-4" /> CONTACT & IDENTITY
                 </CardTitle>
               </CardHeader>
@@ -182,24 +182,24 @@ export default function AdminOthers() {
                     value={formData.whatsappUrl}
                     onChange={(e) => setFormData({...formData, whatsappUrl: e.target.value})}
                     placeholder="E.G. 017XXXXXXXX"
-                    className="bg-black border-green-600/30 rounded-none h-12 text-sm font-black text-foreground"
+                    className="bg-black border-green-600/30 rounded-none h-12 text-sm font-black text-white focus:border-green-500"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2"><Mail className="h-3 w-3" /> EMAIL ADDRESS</label>
+                  <label className="text-[10px] font-black text-orange-500 uppercase flex items-center gap-2"><Mail className="h-3 w-3" /> EMAIL ADDRESS</label>
                   <Input 
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value.toUpperCase()})}
-                    className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-foreground"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase flex items-center gap-2"><Phone className="h-3 w-3" /> PHONE NUMBER</label>
+                  <label className="text-[10px] font-black text-orange-500 uppercase flex items-center gap-2"><Phone className="h-3 w-3" /> PHONE NUMBER</label>
                   <Input 
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-foreground"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
                   />
                 </div>
               </CardContent>
@@ -209,28 +209,28 @@ export default function AdminOthers() {
           <div className="space-y-8">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
                   <Truck className="h-4 w-4" /> DELIVERY CHARGES (BDT)
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-muted-foreground uppercase">INSIDE DHAKA</label>
+                    <label className="text-[9px] font-black text-orange-500 uppercase">INSIDE DHAKA</label>
                     <Input 
                       type="number"
                       value={formData.deliveryChargeInside}
                       onChange={(e) => setFormData({...formData, deliveryChargeInside: e.target.value})}
-                      className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-foreground"
+                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-muted-foreground uppercase">OUTSIDE DHAKA</label>
+                    <label className="text-[9px] font-black text-orange-500 uppercase">OUTSIDE DHAKA</label>
                     <Input 
                       type="number"
                       value={formData.deliveryChargeOutside}
                       onChange={(e) => setFormData({...formData, deliveryChargeOutside: e.target.value})}
-                      className="bg-black border-white/10 rounded-none h-12 text-xs font-black text-foreground"
+                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
                     />
                   </div>
                 </div>
@@ -239,27 +239,27 @@ export default function AdminOthers() {
 
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-foreground flex items-center gap-2">
+                <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
                   <Share2 className="h-4 w-4" /> SOCIAL MEDIA CHANNELS
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                 <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Facebook className="h-3 w-3 text-blue-500" /> FACEBOOK URL</label>
-                    <Input value={formData.facebookUrl} onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})} className="bg-black border-white/10 h-11 text-[10px] font-bold text-foreground" />
+                    <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Facebook className="h-3 w-3 text-blue-500" /> FACEBOOK URL</label>
+                    <Input value={formData.facebookUrl} onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-[#01a3a4]" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-2"><Instagram className="h-3 w-3 text-pink-500" /> INSTAGRAM URL</label>
-                    <Input value={formData.instagramUrl} onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})} className="bg-black border-white/10 h-11 text-[10px] font-bold text-foreground" />
+                    <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Instagram className="h-3 w-3 text-pink-500" /> INSTAGRAM URL</label>
+                    <Input value={formData.instagramUrl} onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-[#01a3a4]" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             <div className="flex gap-4">
-              <Button type="button" onClick={() => window.location.reload()} variant="outline" className="flex-1 border-white/10 text-foreground h-20 font-black uppercase rounded-none text-[10px]">CANCEL</Button>
-              <Button type="submit" className="flex-[2] bg-primary hover:bg-white hover:text-black text-primary-foreground h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
+              <Button type="button" onClick={() => window.location.reload()} variant="outline" className="flex-1 border-white/20 text-foreground h-20 font-black uppercase rounded-none text-[10px] hover:bg-white/5">CANCEL</Button>
+              <Button type="submit" className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
                 <Save className="mr-3 h-5 w-5" /> SYNC ALL SITE SETTINGS
               </Button>
             </div>

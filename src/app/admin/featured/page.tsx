@@ -130,16 +130,16 @@ export default function FeaturedManager() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <Card className="bg-card border-white/5 rounded-none lg:col-span-4 h-fit shadow-2xl">
             <CardHeader className="border-b border-white/5 p-6">
-              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
+              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
                 <Plus className="h-4 w-4" /> UPLOAD NEW BANNER
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <form onSubmit={handleSaveBanner} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Display Zone</label>
+                  <label className="text-[10px] font-black text-orange-500 uppercase">DISPLAY ZONE</label>
                   <Select value={type} onValueChange={(val: any) => setType(val)}>
-                    <SelectTrigger className="bg-black/50 border-white/10 rounded-none text-[10px] h-12 uppercase font-black">
+                    <SelectTrigger className="bg-black border-white/20 rounded-none text-[10px] h-12 uppercase font-black text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-white/10 rounded-none">
@@ -150,13 +150,13 @@ export default function FeaturedManager() {
                 </div>
 
                 {type === 'FLASH' && (
-                  <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/5">
+                  <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/10">
                     <div className="flex items-center space-x-3">
                       <Checkbox 
                         id="left-tik" 
                         checked={showOnLeft} 
                         onCheckedChange={(val) => setShowOnLeft(!!val)} 
-                        className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]"
+                        className="border-orange-500 data-[state=checked]:bg-orange-500"
                       />
                       <label htmlFor="left-tik" className="text-[9px] font-black text-white uppercase cursor-pointer">LEFT SIDE</label>
                     </div>
@@ -165,7 +165,7 @@ export default function FeaturedManager() {
                         id="right-tik" 
                         checked={showOnRight} 
                         onCheckedChange={(val) => setShowOnRight(!!val)} 
-                        className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]"
+                        className="border-orange-500 data-[state=checked]:bg-orange-500"
                       />
                       <label htmlFor="right-tik" className="text-[9px] font-black text-white uppercase cursor-pointer">RIGHT SIDE</label>
                     </div>
@@ -173,15 +173,15 @@ export default function FeaturedManager() {
                 )}
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Banner Label</label>
-                  <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="E.G. SUMMER COLLECTION" className="bg-black/50 border-white/10 rounded-none h-12 text-xs uppercase font-bold" />
+                  <label className="text-[10px] font-black text-orange-500 uppercase">BANNER LABEL</label>
+                  <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="E.G. SUMMER COLLECTION" className="bg-black border-white/20 rounded-none h-12 text-xs uppercase font-bold text-white focus:border-[#01a3a4]" />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Visualization</label>
-                  <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-6 text-center cursor-pointer transition-all bg-black/30 flex flex-col items-center justify-center min-h-[200px] relative group overflow-hidden">
+                  <label className="text-[10px] font-black text-orange-500 uppercase">VISUALIZATION</label>
+                  <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-orange-500/20 p-6 text-center cursor-pointer transition-all bg-black/30 flex flex-col items-center justify-center min-h-[200px] relative group overflow-hidden">
                     {isProcessingImage ? (
-                      <Loader2 className="h-8 w-8 text-[#01a3a4] animate-spin" />
+                      <Loader2 className="h-8 w-8 text-orange-500 animate-spin" />
                     ) : imagePreview ? (
                       <div className="relative w-full aspect-video">
                         <Image src={imagePreview} alt="Preview" fill className="object-cover" />
@@ -189,8 +189,8 @@ export default function FeaturedManager() {
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        <Upload className="h-10 w-10 mx-auto text-[#01a3a4] opacity-50" />
-                        <p className="text-[10px] font-black uppercase tracking-widest text-white">UPLOAD IMAGE (AUTO-COMPRESS)</p>
+                        <Upload className="h-10 w-10 mx-auto text-orange-500 opacity-50" />
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white">UPLOAD IMAGE</p>
                       </div>
                     )}
                     <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
@@ -198,7 +198,7 @@ export default function FeaturedManager() {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/10 text-white font-black rounded-none uppercase text-[10px] h-14">
+                  <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/20 text-white font-black rounded-none uppercase text-[10px] h-14 hover:bg-white/5">
                     CANCEL
                   </Button>
                   <Button type="submit" disabled={!imagePreview || isProcessingImage} className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black rounded-none uppercase text-[10px] h-14 shadow-2xl">
@@ -216,7 +216,7 @@ export default function FeaturedManager() {
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {banners?.map((b) => (
-                  <div key={b.id} className="relative aspect-video bg-black border border-white/5 group overflow-hidden">
+                  <div key={b.id} className="relative aspect-video bg-black border border-white/10 group overflow-hidden">
                     <Image src={b.imageUrl} alt={b.title} fill className="object-cover opacity-60 group-hover:opacity-100 transition-all duration-700" />
                     <div className="absolute top-3 left-3 flex gap-2">
                       <Badge className="bg-[#01a3a4] text-white text-[8px] font-black rounded-none px-3 py-1">{b.type}</Badge>

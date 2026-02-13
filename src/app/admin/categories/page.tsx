@@ -113,25 +113,25 @@ export default function AdminCategories() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <Card className="bg-card border-white/5 rounded-none lg:col-span-1 h-fit shadow-2xl">
-            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">ADD NEW CATEGORY</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500">ADD NEW CATEGORY</CardTitle></CardHeader>
             <CardContent>
               <form onSubmit={handleAddCategory} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase">Name</label>
-                  <Input placeholder="E.G. FASHION" value={name} onChange={(e) => setName(e.target.value)} className="bg-black/50 border-white/10 rounded-none text-xs uppercase h-12" />
+                  <label className="text-[10px] font-black text-orange-500 uppercase">CATEGORY NAME</label>
+                  <Input placeholder="E.G. FASHION" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 rounded-none text-xs uppercase h-12 text-white focus:border-[#01a3a4]" />
                 </div>
-                <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-white/10 p-4 text-center cursor-pointer hover:border-orange-600 bg-black/30 min-h-[200px] flex flex-col items-center justify-center relative group">
+                <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-orange-500/20 p-4 text-center cursor-pointer hover:border-orange-500 bg-black/30 min-h-[200px] flex flex-col items-center justify-center relative group">
                   {isProcessingImage ? (
-                    <Loader2 className="h-6 w-6 text-orange-600 animate-spin" />
+                    <Loader2 className="h-6 w-6 text-orange-500 animate-spin" />
                   ) : imagePreview ? (
                     <Image src={imagePreview} alt="Preview" fill className="object-cover" />
                   ) : (
-                    <Upload className="h-6 w-6 text-orange-600 opacity-50 group-hover:scale-110 transition-transform" />
+                    <Upload className="h-6 w-6 text-orange-500 opacity-50 group-hover:scale-110 transition-transform" />
                   )}
                   <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/10 text-white font-black rounded-none uppercase text-[10px] h-14">
+                  <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/20 text-white font-black rounded-none uppercase text-[10px] h-14 hover:bg-white/5">
                     CANCEL
                   </Button>
                   <Button type="submit" disabled={!name || !imagePreview || isProcessingImage} className="flex-[2] bg-orange-600 hover:bg-orange-700 text-white font-black rounded-none uppercase text-[10px] h-14 shadow-xl">
@@ -143,11 +143,11 @@ export default function AdminCategories() {
           </Card>
 
           <Card className="bg-card border-white/5 rounded-none lg:col-span-2 shadow-2xl">
-            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-600">EXISTING CATEGORIES</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4]">EXISTING CATEGORIES</CardTitle></CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {categories?.map((cat) => (
-                  <div key={cat.id} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 group hover:border-orange-600/30 transition-all">
+                  <div key={cat.id} className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/10 group hover:border-orange-500/30 transition-all">
                     <div className="relative w-16 h-16 shrink-0 bg-black overflow-hidden border border-white/10">
                       <Image src={cat.imageUrl} alt={cat.name} fill className="object-cover opacity-80 group-hover:opacity-100" />
                     </div>

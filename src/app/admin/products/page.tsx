@@ -224,7 +224,7 @@ export default function AdminProducts() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <Card className="lg:col-span-5 bg-card border-white/5 rounded-none shadow-2xl h-fit overflow-hidden">
             <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-              <CardTitle className="text-xs font-black uppercase text-[#01a3a4] flex items-center gap-2 tracking-[0.2em]">
+              <CardTitle className="text-xs font-black uppercase text-orange-500 flex items-center gap-2 tracking-[0.2em]">
                 {editingId ? <Edit2 className="h-4 w-4" /> : <Plus className="h-4 w-4" />} {editingId ? 'EDIT' : 'ADD'} PRODUCT
               </CardTitle>
             </CardHeader>
@@ -232,12 +232,12 @@ export default function AdminProducts() {
               
               <div 
                 onClick={() => !isProcessingImage && !isAiAnalyzing && fileInputRef.current?.click()} 
-                className="border-2 border-dashed border-white/10 text-center cursor-pointer bg-black/50 aspect-[3/4] w-full max-w-[350px] mx-auto relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-[#01a3a4]/50 shadow-2xl"
+                className="border-2 border-dashed border-orange-500/30 text-center cursor-pointer bg-black/50 aspect-[3/4] w-full max-w-[350px] mx-auto relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-[#01a3a4]/50 shadow-2xl"
               >
                 {isProcessingImage || isAiAnalyzing ? (
                   <div className="flex flex-col items-center gap-4">
-                    <Loader2 className="animate-spin text-[#01a3a4] h-10 w-10" />
-                    <p className="text-[9px] font-black text-[#01a3a4] uppercase animate-pulse tracking-[0.3em]">
+                    <Loader2 className="animate-spin text-orange-500 h-10 w-10" />
+                    <p className="text-[9px] font-black text-orange-500 uppercase animate-pulse tracking-[0.3em]">
                       {isAiAnalyzing ? 'AI ANALYZING PRODUCT...' : 'OPTIMIZING IMAGE...'}
                     </p>
                   </div>
@@ -250,9 +250,9 @@ export default function AdminProducts() {
                   </>
                 ) : (
                   <div className="space-y-3">
-                    <Upload className="h-12 w-12 text-[#01a3a4] opacity-30 group-hover:opacity-100 mx-auto transition-all" />
-                    <p className="text-[10px] font-black uppercase text-white/40 tracking-widest">UPLOAD PRODUCT IMAGE</p>
-                    <p className="text-[8px] font-bold text-[#01a3a4]/60 uppercase tracking-widest">AI WILL AUTO-FILL DETAILS</p>
+                    <Upload className="h-12 w-12 text-orange-500 opacity-30 group-hover:opacity-100 mx-auto transition-all" />
+                    <p className="text-[10px] font-black uppercase text-white tracking-widest">UPLOAD PRODUCT IMAGE</p>
+                    <p className="text-[8px] font-bold text-orange-500 uppercase tracking-widest">AI WILL AUTO-FILL DETAILS</p>
                   </div>
                 )}
                 <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
@@ -261,32 +261,32 @@ export default function AdminProducts() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">PRODUCT NAME</label>
-                    {isAiAnalyzing && <Sparkles className="h-3 w-3 text-[#01a3a4] animate-pulse" />}
+                    <label className="text-[10px] font-black text-orange-500 uppercase tracking-widest">PRODUCT NAME</label>
+                    {isAiAnalyzing && <Sparkles className="h-3 w-3 text-orange-500 animate-pulse" />}
                   </div>
-                  <Input placeholder="E.G. PREMIUM JAMDANI" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/10 h-14 uppercase font-black text-xs" />
+                  <Input placeholder="E.G. PREMIUM JAMDANI" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 h-14 uppercase font-black text-xs text-white focus:border-[#01a3a4]" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">DESCRIPTION</label>
-                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/10 min-h-[100px] text-xs font-bold uppercase" />
+                  <label className="text-[10px] font-black text-orange-500 uppercase tracking-widest">DESCRIPTION</label>
+                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/20 min-h-[100px] text-xs font-bold uppercase text-white focus:border-[#01a3a4]" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-[9px] font-black text-[#01a3a4] uppercase flex items-center gap-1"><DollarSign className="h-3 w-3" /> SALE PRICE (৳)</label>
-                  <Input placeholder="0.00" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="bg-black border-white/10 h-12 text-xs font-black text-[#01a3a4]" />
+                  <Input placeholder="0.00" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-black text-[#01a3a4] focus:border-white" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-white/40 uppercase">ORIGINAL PRICE (৳)</label>
-                  <Input placeholder="0.00" type="number" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="bg-black border-white/10 h-12 text-xs font-bold text-white/40" />
+                  <label className="text-[9px] font-black text-white/60 uppercase">ORIGINAL PRICE (৳)</label>
+                  <Input placeholder="0.00" type="number" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-bold text-white/60 focus:border-white" />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[9px] font-black text-muted-foreground uppercase flex items-center gap-1"><LayoutDashboard className="h-3 w-3" /> CATEGORY</label>
+                <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-1"><LayoutDashboard className="h-3 w-3" /> CATEGORY</label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="bg-black border-white/10 h-12 uppercase font-black text-[10px]"><SelectValue placeholder="SELECT CATEGORY" /></SelectTrigger>
+                  <SelectTrigger className="bg-black border-white/20 h-12 uppercase font-black text-[10px] text-white"><SelectValue placeholder="SELECT CATEGORY" /></SelectTrigger>
                   <SelectContent className="bg-card border-white/10">
                     {categories?.map((c) => <SelectItem key={c.id} value={c.name} className="uppercase font-black text-[10px]">{c.name}</SelectItem>)}
                     {category && !categories?.find(c => c.name === category) && (
@@ -296,7 +296,7 @@ export default function AdminProducts() {
                 </Select>
               </div>
 
-              <div className="space-y-4 p-5 bg-white/[0.02] border border-white/5">
+              <div className="space-y-4 p-5 bg-white/[0.02] border border-white/10">
                 <label className="text-[9px] font-black text-[#01a3a4] uppercase tracking-[0.2em] flex items-center gap-2">
                   <Ruler className="h-4 w-4" /> SIZE-WISE INVENTORY (OPTIONAL)
                 </label>
@@ -312,14 +312,14 @@ export default function AdminProducts() {
                         addSizeRow();
                       }
                     }}
-                    className="bg-black border-white/10 h-10 text-[10px] uppercase font-black" 
+                    className="bg-black border-white/20 h-10 text-[10px] uppercase font-black text-white" 
                   />
                   <Button onClick={(e) => addSizeRow(e)} type="button" className="bg-[#01a3a4] h-10 rounded-none text-[8px] font-black uppercase px-4">ADD SIZE</Button>
                 </div>
 
                 <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2">
                   {sizeList.map((s, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-black/50 p-2 border border-white/5 animate-in fade-in slide-in-from-left-2">
+                    <div key={i} className="flex items-center gap-3 bg-black/50 p-2 border border-white/10 animate-in fade-in slide-in-from-left-2">
                       <span className="text-[10px] font-black text-white w-12">{s.size}</span>
                       <Input 
                         type="number" 
@@ -328,7 +328,7 @@ export default function AdminProducts() {
                         onChange={(e) => updateSizeQty(i, e.target.value)}
                         className="h-8 bg-transparent border-white/10 text-[10px] font-black text-[#01a3a4] flex-grow" 
                       />
-                      <Button onClick={() => removeSizeRow(i)} type="button" variant="ghost" size="icon" className="h-8 w-8 text-red-500/50 hover:text-red-500">
+                      <Button onClick={() => removeSizeRow(i)} type="button" variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-400">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -336,29 +336,29 @@ export default function AdminProducts() {
                 </div>
 
                 {sizeList.length === 0 && (
-                  <div className="space-y-2 pt-2 border-t border-white/5">
-                    <label className="text-[9px] font-black text-white/40 uppercase">GENERAL STOCK QUANTITY</label>
-                    <Input type="number" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} className="bg-black border-white/10 h-12 text-xs font-black" />
+                  <div className="space-y-2 pt-2 border-t border-white/10">
+                    <label className="text-[9px] font-black text-orange-500 uppercase">GENERAL STOCK QUANTITY</label>
+                    <Input type="number" value={stockQuantity} onChange={(e) => setStockQuantity(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-black text-white" />
                   </div>
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/5">
+              <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/10">
                 <div className="flex items-center space-x-3">
-                  <Checkbox id="slider" checked={showInSlider} onCheckedChange={(val) => setShowInSlider(!!val)} className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]" />
+                  <Checkbox id="slider" checked={showInSlider} onCheckedChange={(val) => setShowInSlider(!!val)} className="border-orange-500 data-[state=checked]:bg-orange-500" />
                   <label htmlFor="slider" className="text-[9px] font-black text-white uppercase cursor-pointer flex items-center gap-1">SLIDER BAR</label>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Checkbox id="flash" checked={showInFlashOffer} onCheckedChange={(val) => setShowInFlashOffer(!!val)} className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]" />
+                  <Checkbox id="flash" checked={showInFlashOffer} onCheckedChange={(val) => setShowInFlashOffer(!!val)} className="border-orange-500 data-[state=checked]:bg-orange-500" />
                   <label htmlFor="flash" className="text-[9px] font-black text-white uppercase cursor-pointer flex items-center gap-1">FLASH OFFER</label>
                 </div>
               </div>
 
               <div className="flex gap-4">
-                <Button onClick={resetForm} type="button" variant="outline" className="flex-1 border-white/10 text-white font-black h-14 rounded-none uppercase text-[10px]">
+                <Button onClick={resetForm} type="button" variant="outline" className="flex-1 border-white/20 text-white font-black h-14 rounded-none uppercase text-[10px] hover:bg-white/5">
                   <X className="mr-2 h-4 w-4" /> CANCEL
                 </Button>
-                <Button onClick={handleSaveProduct} className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black h-14 rounded-none uppercase tracking-widest text-[10px] shadow-2xl">
+                <Button onClick={handleSaveProduct} className="flex-[2] bg-orange-600 hover:bg-orange-700 text-white font-black h-14 rounded-none uppercase tracking-widest text-[10px] shadow-2xl">
                   {editingId ? 'UPDATE RECORD' : 'SAVE TO SYSTEM'}
                 </Button>
               </div>
