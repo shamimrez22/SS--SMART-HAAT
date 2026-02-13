@@ -1,7 +1,6 @@
-
 "use client";
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Navbar } from './Navbar';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -9,10 +8,9 @@ import { Radio, MapPin } from 'lucide-react';
 
 /**
  * MainHeader - Combines Navbar and Live Status Bar with a fixed position.
- * Updated: Unified colors and balanced font sizes for a premium look.
- * Labels now use theme-aware text colors.
+ * Optimized for performance: Memoized to prevent jitter during sticky positioning.
  */
-export function MainHeader() {
+export const MainHeader = memo(() => {
   const db = useFirestore();
   const settingsRef = useMemoFirebase(() => db ? doc(db, 'settings', 'site-config') : null, [db]);
   const { data: settings } = useDoc(settingsRef);
@@ -23,7 +21,7 @@ export function MainHeader() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[120] shadow-2xl bg-black">
+      <div className="fixed top-0 left-0 right-0 z-[120] shadow-2xl bg-black gpu-accelerated">
         <Navbar />
         {settings?.liveStatus && (
           <div className="bg-black border-b border-white/5 h-[32px] md:h-[36px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
@@ -51,4 +49,6 @@ export function MainHeader() {
       <div className={settings?.liveStatus ? "h-[96px] md:h-[100px]" : "h-[64px]"} />
     </>
   );
-}
+});
+
+MainHeader.displayName = 'MainHeader';

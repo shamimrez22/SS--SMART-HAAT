@@ -32,6 +32,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           priority={priority}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
+          {...(priority ? { fetchPriority: "high" } : {})}
         />
         
         <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 z-10 flex flex-col items-start max-w-[90%] pointer-events-none">
@@ -181,6 +182,7 @@ const FlashOfferCard = memo(() => {
               priority={true}
               loading="eager"
               decoding="async"
+              fetchPriority="high"
             />
           </div>
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
