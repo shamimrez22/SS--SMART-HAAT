@@ -75,7 +75,7 @@ const AnimatedFlashBar = memo(() => {
 
   const flashBannerQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(10));
+    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(20));
   }, [db]);
   
   const { data: flashProducts } = useCollection(flashProductQuery);
@@ -83,7 +83,8 @@ const AnimatedFlashBar = memo(() => {
 
   const combinedItems = useMemo(() => {
     const products = flashProducts || [];
-    const banners = flashBanners || [];
+    // Filter banners that should show on the RIGHT side
+    const banners = (flashBanners || []).filter(b => b.showOnRight !== false);
     return [...banners, ...products].sort((a, b) => 
       new Date(b.createdAt || '2024-01-01').getTime() - new Date(a.createdAt || '2024-01-01').getTime()
     );
@@ -139,7 +140,7 @@ const FlashOfferCard = memo(() => {
 
   const flashBannerQuery = useMemoFirebase(() => {
     if (!db) return null;
-    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(10));
+    return query(collection(db, 'featured_banners'), where('type', '==', 'FLASH'), limit(20));
   }, [db]);
   
   const { data: flashProducts } = useCollection(flashProductQuery);
@@ -147,7 +148,8 @@ const FlashOfferCard = memo(() => {
 
   const combinedItems = useMemo(() => {
     const products = flashProducts || [];
-    const banners = flashBanners || [];
+    // Filter banners that should show on the LEFT side
+    const banners = (flashBanners || []).filter(b => b.showOnLeft !== false);
     return [...banners, ...products].sort((a, b) => 
       new Date(b.createdAt || '2024-01-01').getTime() - new Date(a.createdAt || '2024-01-01').getTime()
     );

@@ -14,9 +14,12 @@ import {
   X, 
   Zap, 
   Loader2,
-  AlertTriangle
+  AlertTriangle,
+  LayoutDashboard,
+  CheckCircle2
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
 import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, doc, query, orderBy, limit } from 'firebase/firestore';
@@ -41,6 +44,8 @@ export default function FeaturedManager() {
   const { toast } = useToast();
   const [type, setType] = useState<'SLIDER' | 'FLASH'>('SLIDER');
   const [title, setTitle] = useState('');
+  const [showOnLeft, setShowOnLeft] = useState(true);
+  const [showOnRight, setShowOnRight] = useState(true);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -76,6 +81,8 @@ export default function FeaturedManager() {
       type,
       title: title.toUpperCase() || 'UNTITLED BANNER',
       imageUrl: imagePreview,
+      showOnLeft: type === 'FLASH' ? showOnLeft : true,
+      showOnRight: type === 'FLASH' ? showOnRight : true,
       createdAt: new Date().toISOString()
     });
 
@@ -85,6 +92,8 @@ export default function FeaturedManager() {
 
   const resetForm = () => {
     setTitle('');
+    setShowOnLeft(true);
+    setShowOnRight(true);
     setImagePreview(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
@@ -122,7 +131,7 @@ export default function FeaturedManager() {
           <Card className="bg-card border-white/5 rounded-none lg:col-span-4 h-fit shadow-2xl">
             <CardHeader className="border-b border-white/5 p-6">
               <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4] flex items-center gap-2">
-                <Zap className="h-4 w-4" /> UPLOAD DIRECT CONTENT
+                <Plus className="h-4 w-4" /> UPLOAD NEW BANNER
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
@@ -139,6 +148,29 @@ export default function FeaturedManager() {
                     </SelectContent>
                   </Select>
                 </div>
+
+                {type === 'FLASH' && (
+                  <div className="grid grid-cols-2 gap-4 p-4 bg-white/5 border border-white/5">
+                    <div className="flex items-center space-x-3">
+                      <Checkbox 
+                        id="left-tik" 
+                        checked={showOnLeft} 
+                        onCheckedChange={(val) => setShowOnLeft(!!val)} 
+                        className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]"
+                      />
+                      <label htmlFor="left-tik" className="text-[9px] font-black text-white uppercase cursor-pointer">LEFT SIDE</label>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Checkbox 
+                        id="right-tik" 
+                        checked={showOnRight} 
+                        onCheckedChange={(val) => setShowOnRight(!!val)} 
+                        className="border-[#01a3a4] data-[state=checked]:bg-[#01a3a4]"
+                      />
+                      <label htmlFor="right-tik" className="text-[9px] font-black text-white uppercase cursor-pointer">RIGHT SIDE</label>
+                    </div>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-muted-foreground uppercase">Banner Label</label>
@@ -186,7 +218,15 @@ export default function FeaturedManager() {
                 {banners?.map((b) => (
                   <div key={b.id} className="relative aspect-video bg-black border border-white/5 group overflow-hidden">
                     <Image src={b.imageUrl} alt={b.title} fill className="object-cover opacity-60 group-hover:opacity-100 transition-all duration-700" />
-                    <div className="absolute top-3 left-3"><Badge className="bg-[#01a3a4] text-white text-[8px] font-black rounded-none px-3 py-1">{b.type}</Badge></div>
+                    <div className="absolute top-3 left-3 flex gap-2">
+                      <Badge className="bg-[#01a3a4] text-white text-[8px] font-black rounded-none px-3 py-1">{b.type}</Badge>
+                      {b.type === 'FLASH' && (
+                        <>
+                          {b.showOnLeft !== false && <Badge className="bg-white/10 text-white text-[8px] font-black rounded-none px-2 py-1">LEFT</Badge>}
+                          {b.showOnRight !== false && <Badge className="bg-white/10 text-white text-[8px] font-black rounded-none px-2 py-1">RIGHT</Badge>}
+                        </>
+                      )}
+                    </div>
                     <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                       <p className="text-[10px] font-black text-white uppercase truncate max-w-[70%]">{b.title}</p>
                       <Button onClick={() => confirmDelete(b.id)} size="icon" variant="ghost" className="h-8 w-8 text-white/40 hover:text-red-500 hover:bg-red-500/10"><Trash2 className="h-4 w-4" /></Button>
