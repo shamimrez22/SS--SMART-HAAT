@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, MoreVertical, LayoutGrid, X, Home, ShoppingBag, MoreHorizontal } from 'lucide-react';
+import { Search, MoreVertical, LayoutGrid, X, Home, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
@@ -17,9 +17,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const LogoIcon = () => (
-  <div className="w-9 h-9 md:w-10 md:h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10 shrink-0">
-    <span className="text-white font-black text-xl md:text-2xl tracking-tighter">SS</span>
+const LogoIcon = ({ onSecretClick }: { onSecretClick: () => void }) => (
+  <div className="relative group/logo">
+    <div className="w-9 h-9 md:w-10 md:h-10 bg-black rounded-none flex items-center justify-center shadow-lg border border-white/10 shrink-0 transition-transform active:scale-95">
+      <span className="text-white font-black text-xl md:text-2xl tracking-tighter mr-1">SS</span>
+      
+      {/* SECRET TRIGGER INSIDE LOGO */}
+      <div 
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onSecretClick();
+        }}
+        className="absolute right-0.5 top-0 bottom-0 flex flex-col items-center justify-center gap-0.5 px-0.5 cursor-default opacity-30 hover:opacity-100 transition-opacity"
+      >
+        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+        <div className="w-0.5 h-0.5 bg-white rounded-full" />
+      </div>
+    </div>
   </div>
 );
 
@@ -70,27 +86,20 @@ export function Navbar() {
     <>
       <nav className="w-full bg-transparent min-h-[44px] md:min-h-[48px] py-0.5 flex items-center relative z-[110] px-4">
         <div className="w-full">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-2 md:gap-4">
             
-            <div className="flex items-center gap-1 md:gap-2 shrink-0 group">
-              <Link href="/"><LogoIcon /></Link>
-              
-              {/* SECRET ADMIN TRIGGER: Vertical dots, very slim */}
-              <div 
-                onClick={() => setIsAdminModalOpen(true)}
-                className="cursor-default select-none flex flex-col items-center justify-center h-8 w-2 gap-0.5"
-              >
-                <div className="w-0.5 h-0.5 bg-white/20 rounded-full" />
-                <div className="w-0.5 h-0.5 bg-white/20 rounded-full" />
-                <div className="w-0.5 h-0.5 bg-white/20 rounded-full" />
-              </div>
-
-              <div className="flex flex-col ml-1">
-                <Link href="/"><h1 className="text-[10px] sm:text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1></Link>
-                <span className="text-[6px] sm:text-[7px] text-white font-bold uppercase tracking-[0.2em] opacity-90">
-                  PREMIUM MARKET PLACE
-                </span>
-              </div>
+            <div className="flex items-center shrink-0">
+              <Link href="/" className="flex items-center">
+                <LogoIcon onSecretClick={() => setIsAdminModalOpen(true)} />
+                <div className="flex flex-col ml-1.5 md:ml-2">
+                  <h1 className="text-[10px] sm:text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter whitespace-nowrap">
+                    SS SMART HAAT
+                  </h1>
+                  <span className="text-[5px] sm:text-[6px] md:text-[7px] text-white font-bold uppercase tracking-[0.2em] opacity-90 leading-none mt-0.5">
+                    PREMIUM MARKET PLACE
+                  </span>
+                </div>
+              </Link>
             </div>
 
             <div className="hidden md:flex items-center relative flex-grow max-w-[500px] px-6">
@@ -110,7 +119,7 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 md:gap-5 shrink-0">
-              <div className="flex items-center gap-3 md:gap-5 text-[10px] font-bold uppercase tracking-widest text-white">
+              <div className="flex items-center gap-2 md:gap-5 text-[10px] font-bold uppercase tracking-widest text-white">
                 
                 <Link href="/" className="hover:opacity-70 transition-opacity flex items-center gap-1.5">
                   <Home className="h-4 w-4" /> <span className="hidden lg:inline">{language === 'EN' ? "HOME" : "হোম"}</span>
@@ -124,7 +133,7 @@ export function Navbar() {
                   <LayoutGrid className="h-4 w-4" /> <span className="hidden lg:inline">{language === 'EN' ? "CATEGORY" : "ক্যাটাগরি"}</span>
                 </button>
                 
-                <button onClick={toggleLanguage} className="flex items-center gap-1 hover:opacity-70 transition-opacity uppercase tracking-widest border border-white/30 px-2 py-1 bg-black/10">
+                <button onClick={toggleLanguage} className="flex items-center gap-1 hover:opacity-70 transition-opacity uppercase tracking-widest border border-white/30 px-1.5 py-0.5 md:px-2 md:py-1 bg-black/10">
                   {language}
                 </button>
 
