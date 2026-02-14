@@ -17,31 +17,31 @@ export const MainHeader = memo(() => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[120] shadow-2xl bg-[#01a3a4] backdrop-blur-md gpu-accelerated">
+      <div className="fixed top-0 left-0 right-0 z-[120] bg-[#01a3a4] gpu-accelerated shadow-xl">
         <Navbar />
         {settings?.liveStatus && (
-          <div className="bg-black h-[22px] md:h-[26px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
-            <div className="flex items-center gap-4 animate-marquee w-full px-2 md:px-12">
+          <div className="bg-black h-[20px] md:h-[24px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full border-none">
+            <div className="flex items-center gap-6 animate-marquee w-full px-2 md:px-12">
               <div 
                 style={{ color: broadcastColor }}
-                className="flex items-center gap-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest shrink-0"
+                className="flex items-center gap-1.5 text-[7px] md:text-[9px] font-black uppercase tracking-widest shrink-0"
               >
                 <Radio className="h-2 w-2 animate-pulse" /> {liveLabel}
               </div>
               <p 
                 style={{ color: broadcastColor }}
-                className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.1em] flex items-center gap-4 shrink-0"
+                className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-4 shrink-0"
               >
-                {settings.liveStatus} <span className="opacity-10 text-white">|</span> 
+                {settings.liveStatus} <span className="opacity-20 text-white">|</span> 
                 <span className="flex items-center gap-1">
-                  <MapPin className="h-2 w-2" /> <span className="tracking-tighter opacity-40 text-white font-bold">HUB:</span> {hubLocation}
+                  <MapPin className="h-2 w-2" /> <span className="tracking-tighter opacity-50 text-white font-bold">HUB:</span> {hubLocation}
                 </span>
               </p>
             </div>
           </div>
         )}
       </div>
-      <div className={settings?.liveStatus ? "h-[78px] md:h-[82px]" : "h-[56px]"} />
+      <div className={settings?.liveStatus ? "h-[76px] md:h-[80px]" : "h-[56px]"} />
     </>
   );
 });
