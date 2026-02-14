@@ -146,7 +146,7 @@ export default function AdminPanel() {
             <Link key={i} href={stat.href}>
               <Card className={`bg-card border-white/5 rounded-none p-4 md:p-6 hover:border-white/30 transition-all cursor-pointer group h-full ${stat.isHighlight && stat.value > 0 ? 'border-red-600/30 bg-red-600/[0.02]' : ''}`}>
                 <div className="flex justify-between items-start mb-4">
-                  <p className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-white/60'}`}>{stat.title}</p>
+                  <p className={`text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] ${stat.isHighlight && stat.value > 0 ? 'text-red-600' : 'text-orange-500'}`}>{stat.title}</p>
                   <stat.icon className={`h-3 w-3 md:h-4 md:w-4 ${stat.isHighlight && stat.value > 0 ? 'text-red-600 animate-bounce' : stat.color} opacity-70 group-hover:scale-110 transition-transform`} />
                 </div>
                 <div className="flex items-baseline gap-2">
@@ -164,7 +164,7 @@ export default function AdminPanel() {
           <div className="lg:col-span-4 space-y-6">
             <Card className="bg-card border-white/5 rounded-none shadow-2xl">
               <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-white">COMMAND CENTER</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">COMMAND CENTER</CardTitle>
               </CardHeader>
               <CardContent className="p-2">
                 <div className="grid grid-cols-1 gap-1">
@@ -185,7 +185,7 @@ export default function AdminPanel() {
 
             <Card className="bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
               <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-white">CATEGORY BREAKDOWN</CardTitle>
+                <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">CATEGORY BREAKDOWN</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
                 <div className="h-[250px] w-full flex items-center justify-center">
@@ -232,7 +232,7 @@ export default function AdminPanel() {
               <CardContent className="p-8">
                 <div className="h-[350px] w-full flex items-center justify-center">
                   {isMounted ? (
-                    <ChartContainer config={{ sales: { label: "Revenue", color: "#ff9f43" } }} className="h-full w-full">
+                    <ChartContainer config={{ sales: { label: "Revenue", color: "#f97316" } }} className="h-full w-full">
                       <BarChart data={dailyChartData}>
                         <CartesianGrid vertical={false} stroke="rgba(255,255,255,0.05)" />
                         <XAxis
@@ -251,7 +251,7 @@ export default function AdminPanel() {
                           cursor={{ fill: 'rgba(255,255,255,0.03)' }}
                           content={<ChartTooltipContent className="bg-black border-white/10 rounded-none p-4 font-black uppercase" hideLabel />}
                         />
-                        <Bar dataKey="sales" fill="#ff9f43" radius={[2, 2, 0, 0]} barSize={60} />
+                        <Bar dataKey="sales" fill="#f97316" radius={[2, 2, 0, 0]} barSize={60} />
                       </BarChart>
                     </ChartContainer>
                   ) : (
@@ -265,7 +265,7 @@ export default function AdminPanel() {
               <Card className="bg-card border-white/5 rounded-none overflow-hidden shadow-2xl">
                 <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-white">AI STRATEGIST</CardTitle>
+                    <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">AI STRATEGIST</CardTitle>
                     <Sparkles className="h-3 w-3 text-white animate-pulse" />
                   </div>
                 </CardHeader>
@@ -274,7 +274,7 @@ export default function AdminPanel() {
 
               <Card className="bg-card border-white/5 rounded-none overflow-hidden shadow-2xl">
                 <CardHeader className="py-4 px-6 border-b border-white/5 bg-white/[0.02]">
-                  <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-white">LIVE ACTIVITY</CardTitle>
+                  <CardTitle className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500">LIVE ACTIVITY</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 space-y-4">
                   {pendingOrders?.slice(0, 5).map((order, i) => (

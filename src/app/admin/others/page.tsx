@@ -91,24 +91,24 @@ export default function AdminOthers() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col bg-background items-center justify-center">
-        <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
+        <Loader2 className="h-12 w-12 text-orange-500 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-[#01a3a4]/30">
+    <div className="min-h-screen flex flex-col bg-background selection:bg-orange-500/30">
       <MainHeader />
       
       <main className="flex-grow container mx-auto px-2 md:px-12 py-12">
         <div className="flex items-center gap-4 mb-12">
           <Link href="/admin">
             <Button variant="ghost" className="rounded-none hover:bg-white/5 text-foreground p-2 h-12 w-12 border border-white/10">
-              <ArrowLeft className="h-6 w-6" />
+              <ArrowLeft className="h-6 w-6 text-orange-500" />
             </Button>
           </Link>
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-foreground opacity-60 uppercase tracking-[0.3em]">Global Configuration</p>
+            <p className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em]">Global Configuration</p>
             <h1 className="text-4xl font-black uppercase tracking-tighter text-foreground">OTHERS MANAGEMENT</h1>
           </div>
         </div>
@@ -132,23 +132,13 @@ export default function AdminOthers() {
                     />
                     <div className="space-y-1">
                       <label htmlFor="video-toggle" className="text-[11px] font-black text-white uppercase flex items-center gap-2 cursor-pointer">
-                        <LayoutDashboard className="h-4 w-4 text-orange-500" /> টিক দিন: ফ্ল্যাশ বার চলবে (OFF রাখলে QR শো করবে)
+                        <LayoutDashboard className="h-4 w-4 text-orange-500" /> ফ্ল্যাশ বার এনিমেশন সক্রিয় করুন
                       </label>
                       <p className="text-[8px] text-orange-500 uppercase font-bold tracking-widest">
                         {formData.showVideoInAppBar ? "ANIMATED FLASH BAR ACTIVE" : "QR CODE MODE ACTIVE"}
                       </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="p-6 bg-orange-500/5 border border-orange-500/20 space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Sparkles className="h-5 w-5 text-orange-500 animate-pulse" />
-                    <p className="text-[10px] font-black text-white uppercase tracking-widest">NEW: PERFORMANCE UPDATE</p>
-                  </div>
-                  <p className="text-[9px] text-white/60 uppercase leading-relaxed font-bold">
-                    সরাসরি ভিডিওর পরিবর্তে এখন ফ্ল্যাশ অফারের ইমেজগুলো এনিমেশনের মাধ্যমে সচল থাকবে। এতে আপনার ওয়েবসাইট অনেক বেশি ফাস্ট থাকবে।
-                  </p>
                 </div>
 
                 <div className="space-y-2">
@@ -159,7 +149,7 @@ export default function AdminOthers() {
                     value={formData.qrCodeLink}
                     onChange={(e) => setFormData({...formData, qrCodeLink: e.target.value})}
                     placeholder="https://sssmarthaat.com"
-                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-orange-500"
                   />
                 </div>
               </CardContent>
@@ -190,7 +180,7 @@ export default function AdminOthers() {
                   <Input 
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value.toUpperCase()})}
-                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-orange-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -198,7 +188,7 @@ export default function AdminOthers() {
                   <Input 
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
+                    className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-orange-500"
                   />
                 </div>
               </CardContent>
@@ -220,7 +210,7 @@ export default function AdminOthers() {
                       type="number"
                       value={formData.deliveryChargeInside}
                       onChange={(e) => setFormData({...formData, deliveryChargeInside: e.target.value})}
-                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
+                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-orange-500"
                     />
                   </div>
                   <div className="space-y-2">
@@ -229,7 +219,7 @@ export default function AdminOthers() {
                       type="number"
                       value={formData.deliveryChargeOutside}
                       onChange={(e) => setFormData({...formData, deliveryChargeOutside: e.target.value})}
-                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-[#01a3a4]"
+                      className="bg-black border-white/20 rounded-none h-12 text-xs font-black text-white focus:border-orange-500"
                     />
                   </div>
                 </div>
@@ -246,11 +236,11 @@ export default function AdminOthers() {
                 <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Facebook className="h-3 w-3 text-blue-500" /> FACEBOOK URL</label>
-                    <Input value={formData.facebookUrl} onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-[#01a3a4]" />
+                    <Input value={formData.facebookUrl} onChange={(e) => setFormData({...formData, facebookUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-orange-500" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-2"><Instagram className="h-3 w-3 text-pink-500" /> INSTAGRAM URL</label>
-                    <Input value={formData.instagramUrl} onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-[#01a3a4]" />
+                    <Input value={formData.instagramUrl} onChange={(e) => setFormData({...formData, instagramUrl: e.target.value})} className="bg-black border-white/20 h-11 text-[10px] font-bold text-white focus:border-orange-500" />
                   </div>
                 </div>
               </CardContent>
@@ -258,7 +248,7 @@ export default function AdminOthers() {
 
             <div className="flex gap-4">
               <Button type="button" onClick={() => window.location.reload()} variant="outline" className="flex-1 border-white/20 text-foreground h-20 font-black uppercase rounded-none text-[10px] hover:bg-white/5">CANCEL</Button>
-              <Button type="submit" className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
+              <Button type="submit" className="flex-[2] bg-orange-600 hover:bg-orange-700 text-white h-20 font-black uppercase tracking-[0.3em] rounded-none shadow-2xl text-xs border-none transition-all">
                 <Save className="mr-3 h-5 w-5" /> SYNC ALL SITE SETTINGS
               </Button>
             </div>

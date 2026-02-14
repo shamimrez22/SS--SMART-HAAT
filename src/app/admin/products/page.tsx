@@ -209,10 +209,10 @@ export default function AdminProducts() {
       <main className="container mx-auto px-2 md:px-12 py-10">
         <div className="flex items-center gap-4 mb-12">
           <Button asChild variant="ghost" className="border border-white/10 h-12 w-12 rounded-none hover:bg-white/5">
-            <Link href="/admin"><ArrowLeft className="h-6 w-6 text-[#01a3a4]" /></Link>
+            <Link href="/admin"><ArrowLeft className="h-6 w-6 text-orange-500" /></Link>
           </Button>
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-[0.3em]">Inventory System</p>
+            <p className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em]">Inventory System</p>
             <h1 className="text-4xl font-black uppercase text-white tracking-tighter">PRODUCT CONTROL</h1>
           </div>
         </div>
@@ -228,7 +228,7 @@ export default function AdminProducts() {
               
               <div 
                 onClick={() => !isProcessingImage && !isAiAnalyzing && fileInputRef.current?.click()} 
-                className="border-2 border-dashed border-orange-500/30 text-center cursor-pointer bg-black/50 aspect-[3/4] w-full max-w-[350px] mx-auto relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-[#01a3a4]/50 shadow-2xl"
+                className="border-2 border-dashed border-orange-500/30 text-center cursor-pointer bg-black/50 aspect-[3/4] w-full max-w-[350px] mx-auto relative flex flex-col items-center justify-center group overflow-hidden transition-all hover:border-orange-500/50 shadow-2xl"
               >
                 {isProcessingImage || isAiAnalyzing ? (
                   <div className="flex flex-col items-center gap-4">
@@ -260,40 +260,40 @@ export default function AdminProducts() {
                     <label className="text-[10px] font-black text-orange-500 uppercase tracking-widest">PRODUCT NAME</label>
                     {isAiAnalyzing && <Sparkles className="h-3 w-3 text-orange-500 animate-pulse" />}
                   </div>
-                  <Input placeholder="E.G. PREMIUM JAMDANI" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 h-14 uppercase font-black text-xs text-white focus:border-[#01a3a4]" />
+                  <Input placeholder="E.G. PREMIUM JAMDANI" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 h-14 uppercase font-black text-xs text-white focus:border-orange-500" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-orange-500 uppercase tracking-widest">DESCRIPTION</label>
-                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/20 min-h-[100px] text-xs font-bold uppercase text-white focus:border-[#01a3a4]" />
+                  <Textarea placeholder="ENTER DETAILS..." value={description} onChange={(e) => setDescription(e.target.value)} className="bg-black border-white/20 min-h-[100px] text-xs font-bold uppercase text-white focus:border-orange-500" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-[#01a3a4] uppercase flex items-center gap-1"><DollarSign className="h-3 w-3" /> SALE PRICE (৳)</label>
-                  <Input placeholder="0.00" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-black text-[#01a3a4] focus:border-white" />
+                  <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-1"><DollarSign className="h-3 w-3" /> SALE PRICE (৳)</label>
+                  <Input placeholder="0.00" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-black text-white focus:border-orange-500" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[9px] font-black text-white/60 uppercase">ORIGINAL PRICE (৳)</label>
-                  <Input placeholder="0.00" type="number" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-bold text-white/60 focus:border-white" />
+                  <label className="text-[9px] font-black text-orange-500 uppercase">ORIGINAL PRICE (৳)</label>
+                  <Input placeholder="0.00" type="number" value={originalPrice} onChange={(e) => setOriginalPrice(e.target.value)} className="bg-black border-white/20 h-12 text-xs font-bold text-white focus:border-orange-500" />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-[9px] font-black text-orange-500 uppercase flex items-center gap-1"><LayoutDashboard className="h-3 w-3" /> CATEGORY</label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="bg-black border-white/20 h-12 uppercase font-black text-[10px] text-white"><SelectValue placeholder="SELECT CATEGORY" /></SelectTrigger>
+                  <SelectTrigger className="bg-black border-white/20 h-12 uppercase font-black text-[10px] text-white focus:border-orange-500"><SelectValue placeholder="SELECT CATEGORY" /></SelectTrigger>
                   <SelectContent className="bg-card border-white/10">
                     {categories?.map((c) => <SelectItem key={c.id} value={c.name} className="uppercase font-black text-[10px]">{c.name}</SelectItem>)}
                     {category && !categories?.find(c => c.name === category) && (
-                      <SelectItem value={category} className="uppercase font-black text-[10px] border-l-2 border-[#01a3a4]">{category}</SelectItem>
+                      <SelectItem value={category} className="uppercase font-black text-[10px] border-l-2 border-orange-500">{category}</SelectItem>
                     )}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-4 p-5 bg-white/[0.02] border border-white/10">
-                <label className="text-[9px] font-black text-[#01a3a4] uppercase tracking-[0.2em] flex items-center gap-2">
+                <label className="text-[9px] font-black text-orange-500 uppercase tracking-[0.2em] flex items-center gap-2">
                   <Ruler className="h-4 w-4" /> SIZE-WISE INVENTORY (OPTIONAL)
                 </label>
                 
@@ -310,7 +310,7 @@ export default function AdminProducts() {
                     }}
                     className="bg-black border-white/20 h-10 text-[10px] uppercase font-black text-white" 
                   />
-                  <Button onClick={(e) => addSizeRow(e)} type="button" className="bg-[#01a3a4] h-10 rounded-none text-[8px] font-black uppercase px-4">ADD SIZE</Button>
+                  <Button onClick={(e) => addSizeRow(e)} type="button" className="bg-orange-600 h-10 rounded-none text-[8px] font-black uppercase px-4">ADD SIZE</Button>
                 </div>
 
                 <div className="space-y-2 max-h-[150px] overflow-y-auto pr-2">
@@ -322,7 +322,7 @@ export default function AdminProducts() {
                         placeholder="QTY" 
                         value={s.qty} 
                         onChange={(e) => updateSizeQty(i, e.target.value)}
-                        className="h-8 bg-transparent border-white/10 text-[10px] font-black text-[#01a3a4] flex-grow" 
+                        className="h-8 bg-transparent border-white/10 text-[10px] font-black text-orange-500 flex-grow" 
                       />
                       <Button onClick={() => removeSizeRow(i)} type="button" variant="ghost" size="icon" className="h-8 w-8 text-red-500 hover:text-red-400">
                         <Trash2 className="h-4 w-4" />
@@ -363,7 +363,7 @@ export default function AdminProducts() {
 
           <Card className="lg:col-span-7 bg-card border-white/5 rounded-none shadow-2xl overflow-hidden">
             <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6 flex flex-row items-center justify-between">
-              <CardTitle className="text-xs font-black uppercase text-[#01a3a4] tracking-[0.2em]">ACTIVE ARCHIVE ({products?.length || 0})</CardTitle>
+              <CardTitle className="text-xs font-black uppercase text-orange-500 tracking-[0.2em]">ACTIVE ARCHIVE ({products?.length || 0})</CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <div className="max-h-[1200px] overflow-y-auto">
@@ -375,11 +375,11 @@ export default function AdminProducts() {
                     <div className="flex-grow min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="text-[12px] font-black text-white uppercase truncate">{p.name}</h3>
-                        {p.showInSlider && <LayoutDashboard className="h-3 w-3 text-[#01a3a4]" />}
+                        {p.showInSlider && <LayoutDashboard className="h-3 w-3 text-orange-500" />}
                         {p.showInFlashOffer && <Zap className="h-3 w-3 text-orange-500" />}
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
-                        <span className="text-[#01a3a4] font-black text-[13px]">৳{p.price}</span>
+                        <span className="text-orange-500 font-black text-[13px]">৳{p.price}</span>
                         {p.originalPrice > p.price && <span className="text-white/20 line-through text-[10px]">৳{p.originalPrice}</span>}
                         <span className="text-[8px] font-black text-white/40 uppercase bg-white/5 px-2 py-0.5">{p.category}</span>
                         <span className="text-[8px] font-black text-green-500/70 uppercase">STOCK: {p.stockQuantity}</span>
@@ -402,7 +402,7 @@ export default function AdminProducts() {
                         } else {
                           setSizeList([]);
                         }
-                      }} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-[#01a3a4] hover:bg-[#01a3a4]/10">
+                      }} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-orange-500 hover:bg-orange-500/10">
                         <Edit2 className="h-4 w-4" />
                       </Button>
                       <Button onClick={() => confirmDelete(p.id)} size="icon" variant="ghost" className="h-10 w-10 text-white/40 hover:text-red-500 hover:bg-red-500/10">
@@ -418,7 +418,7 @@ export default function AdminProducts() {
       </main>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
+        <AlertDialogContent className="bg-black border-orange-500/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
           <AlertDialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20"><AlertTriangle className="h-6 w-6 text-red-600" /></div>

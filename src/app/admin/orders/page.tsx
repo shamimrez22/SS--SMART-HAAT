@@ -294,10 +294,10 @@ export default function AdminOrders() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
           <div className="flex items-center gap-4">
             <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10">
-              <Link href="/admin"><ArrowLeft className="h-6 w-6" /></Link>
+              <Link href="/admin"><ArrowLeft className="h-6 w-6 text-orange-500" /></Link>
             </Button>
             <div className="space-y-1">
-              <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Business Operations</p>
+              <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Business Operations</p>
               <h1 className="text-4xl font-black uppercase tracking-tighter text-white flex items-center gap-3">
                 ORDER INTELLIGENCE 
                 {pendingOrders && pendingOrders.length > 0 && <div className="h-3 w-3 bg-red-600 rounded-full animate-ping" />}
@@ -311,8 +311,8 @@ export default function AdminOrders() {
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
-            <Loader2 className="h-12 w-12 text-[#01a3a4] animate-spin" />
-            <p className="text-[10px] font-black uppercase text-[#01a3a4] animate-pulse tracking-[0.3em]">Syncing Order Records...</p>
+            <Loader2 className="h-12 w-12 text-orange-500 animate-spin" />
+            <p className="text-[10px] font-black uppercase text-orange-500 animate-pulse tracking-[0.3em]">Syncing Order Records...</p>
           </div>
         ) : !orders || orders.length === 0 ? (
           <div className="text-center py-32 border border-dashed border-white/10 bg-white/[0.02]">
@@ -321,7 +321,7 @@ export default function AdminOrders() {
           </div>
         ) : (
           <div className="space-y-2">
-            <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-[#01a3a4] mb-4">
+            <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-white/5 border border-white/5 text-[10px] font-black uppercase tracking-widest text-orange-500 mb-4">
               <div className="col-span-2">Customer</div>
               <div className="col-span-2">Contact & Address</div>
               <div className="col-span-3">Product Info & Qty</div>
@@ -330,10 +330,10 @@ export default function AdminOrders() {
             </div>
 
             {orders.map((order) => (
-              <div key={order.id} className={`grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 bg-card border transition-all group items-center ${order.status === 'PENDING' ? 'border-red-600/30 bg-red-600/[0.02]' : 'border-white/5 hover:border-[#01a3a4]/30'}`}>
+              <div key={order.id} className={`grid grid-cols-1 lg:grid-cols-12 gap-4 p-6 bg-card border transition-all group items-center ${order.status === 'PENDING' ? 'border-red-600/30 bg-red-600/[0.02]' : 'border-white/5 hover:border-orange-500/30'}`}>
                 <div className="col-span-2 space-y-1">
                   <div className="flex items-center gap-2">
-                    <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Client Name</p>
+                    <p className="text-[9px] font-black text-orange-500 uppercase tracking-widest">Client Name</p>
                     {order.status === 'PENDING' && <div className="h-1.5 w-1.5 bg-red-600 rounded-full animate-pulse" />}
                   </div>
                   <p className="text-[14px] font-black text-white uppercase truncate">{order.customerName}</p>
@@ -347,11 +347,11 @@ export default function AdminOrders() {
 
                 <div className="col-span-2 space-y-3">
                    <div className="flex items-center gap-2">
-                     <Phone className="h-3 w-3 text-[#01a3a4]" />
+                     <Phone className="h-3 w-3 text-orange-500" />
                      <p className="text-[11px] font-mono text-white/70">{order.customerPhone}</p>
                    </div>
                    <div className="flex items-start gap-2">
-                     <MapPin className="h-3 w-3 text-[#01a3a4] mt-0.5 shrink-0" />
+                     <MapPin className="h-3 w-3 text-orange-500 mt-0.5 shrink-0" />
                      <p className="text-[10px] text-white/60 uppercase leading-tight line-clamp-2">{order.customerAddress}</p>
                    </div>
                 </div>
@@ -360,12 +360,12 @@ export default function AdminOrders() {
                   <h3 className="text-sm font-black text-white uppercase tracking-tighter line-clamp-1">{order.productName}</h3>
                   <div className="flex flex-wrap gap-3 items-center">
                     <div className="flex items-center gap-1 bg-white/5 px-2 py-1 border border-white/5">
-                      <Hash className="h-3 w-3 text-[#01a3a4]" />
+                      <Hash className="h-3 w-3 text-orange-500" />
                       <span className="text-[10px] font-black text-white">{order.quantity || 1} PCS</span>
                     </div>
                     {order.selectedSize && (
                       <div className="flex items-center gap-1 bg-white/5 px-2 py-1 border border-white/5">
-                        <Ruler className="h-3 w-3 text-[#01a3a4]" />
+                        <Ruler className="h-3 w-3 text-orange-500" />
                         <span className="text-[10px] font-black text-white">{order.selectedSize}</span>
                       </div>
                     )}
@@ -428,7 +428,7 @@ export default function AdminOrders() {
                     onClick={() => generateInvoice(order)}
                     className="bg-white/5 hover:bg-white/10 text-white font-black text-[9px] uppercase rounded-none h-10 px-4 border border-white/10"
                   >
-                    {isGeneratingPdf ? <Loader2 className="h-3.5 w-3.5 animate-spin text-[#01a3a4]" /> : <FileText className="mr-2 h-3.5 w-3.5 text-[#01a3a4]" />} INVOICE
+                    {isGeneratingPdf ? <Loader2 className="h-3.5 w-3.5 animate-spin text-orange-500" /> : <FileText className="mr-2 h-3.5 w-3.5 text-orange-500" />} INVOICE
                   </Button>
 
                   <Button 
@@ -446,11 +446,11 @@ export default function AdminOrders() {
       </main>
 
       <Dialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-        <DialogContent className="bg-black border-[#01a3a4]/30 rounded-none max-w-md p-8 fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
+        <DialogContent className="bg-black border-orange-500/30 rounded-none max-w-md p-8 fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
           <DialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-[#01a3a4]/10 flex items-center justify-center border border-[#01a3a4]/20">
-                <Truck className="h-6 w-6 text-[#01a3a4]" />
+              <div className="h-10 w-10 bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+                <Truck className="h-6 w-6 text-orange-500" />
               </div>
               <DialogTitle className="text-2xl font-black text-white uppercase tracking-tighter">ORDER CONFIRMATION</DialogTitle>
             </div>
@@ -461,7 +461,7 @@ export default function AdminOrders() {
 
           <div className="py-8 space-y-6">
             <div className="p-4 bg-white/5 border border-white/5 space-y-2">
-              <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest">Ordering Product</p>
+              <p className="text-[9px] font-black text-orange-500 uppercase tracking-widest">Ordering Product</p>
               <p className="text-sm font-black text-white uppercase">{selectedOrder?.productName}</p>
               <div className="flex items-center gap-4">
                 <p className="text-xl font-black text-white">৳{((selectedOrder?.productPrice || 0) * (selectedOrder?.quantity || 1)).toLocaleString()}</p>
@@ -478,7 +478,7 @@ export default function AdminOrders() {
                 value={deliveryCharge}
                 onChange={(e) => setDeliveryCharge(e.target.value)}
                 placeholder="E.G. 60 OR 120"
-                className="bg-white/5 border-white/20 rounded-none h-14 text-lg font-black text-white focus:ring-[#01a3a4]"
+                className="bg-white/5 border-white/20 rounded-none h-14 text-lg font-black text-white focus:ring-orange-500"
               />
             </div>
           </div>
@@ -494,7 +494,7 @@ export default function AdminOrders() {
             <Button 
               disabled={!deliveryCharge}
               onClick={handleFinalizeConfirmation}
-              className="flex-1 bg-[#01a3a4] hover:bg-[#01a3a4]/90 text-white font-black uppercase text-[10px] rounded-none h-14 shadow-xl shadow-[#01a3a4]/10"
+              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-black uppercase text-[10px] rounded-none h-14 shadow-xl shadow-orange-500/10"
             >
               FINALIZE CONFIRMATION
             </Button>
@@ -503,7 +503,7 @@ export default function AdminOrders() {
       </Dialog>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
+        <AlertDialogContent className="bg-black border-orange-500/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] shadow-2xl">
           <AlertDialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20">

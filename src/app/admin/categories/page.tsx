@@ -99,7 +99,7 @@ export default function AdminCategories() {
     }
   };
 
-  if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" /></div>;
+  if (!db) return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-10 w-10 text-orange-500 animate-spin" /></div>;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -107,7 +107,7 @@ export default function AdminCategories() {
       
       <main className="flex-grow container mx-auto px-2 md:px-12 py-12">
         <div className="flex items-center gap-4 mb-8">
-          <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 border border-white/10 h-12 w-12"><Link href="/admin"><ArrowLeft className="h-5 w-5" /></Link></Button>
+          <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 border border-white/10 h-12 w-12"><Link href="/admin"><ArrowLeft className="h-5 w-5 text-orange-500" /></Link></Button>
           <h1 className="text-3xl font-black uppercase tracking-tighter text-white">MANAGE CATEGORIES</h1>
         </div>
 
@@ -118,7 +118,7 @@ export default function AdminCategories() {
               <form onSubmit={handleAddCategory} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-orange-500 uppercase">CATEGORY NAME</label>
-                  <Input placeholder="E.G. FASHION" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 rounded-none text-xs uppercase h-12 text-white focus:border-[#01a3a4]" />
+                  <Input placeholder="E.G. FASHION" value={name} onChange={(e) => setName(e.target.value)} className="bg-black border-white/20 rounded-none text-xs uppercase h-12 text-white focus:border-orange-500" />
                 </div>
                 <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-orange-500/20 p-4 text-center cursor-pointer hover:border-orange-500 bg-black/30 min-h-[200px] flex flex-col items-center justify-center relative group">
                   {isProcessingImage ? (
@@ -143,7 +143,7 @@ export default function AdminCategories() {
           </Card>
 
           <Card className="bg-card border-white/5 rounded-none lg:col-span-2 shadow-2xl">
-            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4]">EXISTING CATEGORIES</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500">EXISTING CATEGORIES</CardTitle></CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {categories?.map((cat) => (

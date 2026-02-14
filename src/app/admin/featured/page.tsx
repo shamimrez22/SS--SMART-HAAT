@@ -117,10 +117,10 @@ export default function FeaturedManager() {
       <main className="flex-grow container mx-auto px-2 md:px-12 py-12">
         <div className="flex items-center gap-4 mb-12">
           <Button asChild variant="ghost" className="rounded-none hover:bg-white/5 text-white p-2 h-12 w-12 border border-white/10">
-            <Link href="/admin"><ArrowLeft className="h-6 w-6" /></Link>
+            <Link href="/admin"><ArrowLeft className="h-6 w-6 text-orange-500" /></Link>
           </Button>
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Display Management</p>
+            <p className="text-[10px] font-black text-orange-500 uppercase tracking-widest">Display Management</p>
             <h1 className="text-4xl font-black uppercase tracking-tighter text-white">FEATURED CONTENT</h1>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function FeaturedManager() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-orange-500 uppercase">DISPLAY ZONE</label>
                   <Select value={type} onValueChange={(val: any) => setType(val)}>
-                    <SelectTrigger className="bg-black border-white/20 rounded-none text-[10px] h-12 uppercase font-black text-white">
+                    <SelectTrigger className="bg-black border-white/20 rounded-none text-[10px] h-12 uppercase font-black text-white focus:border-orange-500">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="bg-card border-white/10 rounded-none">
@@ -172,7 +172,7 @@ export default function FeaturedManager() {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-orange-500 uppercase">BANNER LABEL</label>
-                  <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="E.G. SUMMER COLLECTION" className="bg-black border-white/20 rounded-none h-12 text-xs uppercase font-bold text-white focus:border-[#01a3a4]" />
+                  <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="E.G. SUMMER COLLECTION" className="bg-black border-white/20 rounded-none h-12 text-xs uppercase font-bold text-white focus:border-orange-500" />
                 </div>
                 
                 <div className="space-y-2">
@@ -199,7 +199,7 @@ export default function FeaturedManager() {
                   <Button type="button" onClick={resetForm} variant="outline" className="flex-1 border-white/20 text-white font-black rounded-none uppercase text-[10px] h-14 hover:bg-white/5">
                     CANCEL
                   </Button>
-                  <Button type="submit" disabled={!imagePreview || isProcessingImage} className="flex-[2] bg-[#01a3a4] hover:bg-white hover:text-black text-white font-black rounded-none uppercase text-[10px] h-14 shadow-2xl">
+                  <Button type="submit" disabled={!imagePreview || isProcessingImage} className="flex-[2] bg-orange-600 hover:bg-orange-700 text-white font-black rounded-none uppercase text-[10px] h-14 shadow-2xl">
                     ADD TO DISPLAY
                   </Button>
                 </div>
@@ -209,7 +209,7 @@ export default function FeaturedManager() {
 
           <Card className="bg-card border-white/5 rounded-none lg:col-span-8 shadow-2xl overflow-hidden">
             <CardHeader className="bg-white/[0.02] border-b border-white/5 p-6">
-              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-[#01a3a4]">ACTIVE CONTENT ({banners?.length || 0})</CardTitle>
+              <CardTitle className="text-xs font-black uppercase tracking-[0.3em] text-orange-500">ACTIVE CONTENT ({banners?.length || 0})</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -217,7 +217,7 @@ export default function FeaturedManager() {
                   <div key={b.id} className="relative aspect-video bg-black border border-white/10 group overflow-hidden">
                     <Image src={b.imageUrl} alt={b.title} fill className="object-cover opacity-60 group-hover:opacity-100 transition-all duration-700" />
                     <div className="absolute top-3 left-3 flex gap-2">
-                      <Badge className="bg-[#01a3a4] text-white text-[8px] font-black rounded-none px-3 py-1">{b.type}</Badge>
+                      <Badge className="bg-orange-500 text-white text-[8px] font-black rounded-none px-3 py-1">{b.type}</Badge>
                       {b.type === 'FLASH' && (
                         <>
                           {b.showOnLeft !== false && <Badge className="bg-white/10 text-white text-[8px] font-black rounded-none px-2 py-1">LEFT</Badge>}
@@ -238,7 +238,7 @@ export default function FeaturedManager() {
       </main>
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
-        <AlertDialogContent className="bg-black border-[#01a3a4]/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <AlertDialogContent className="bg-black border-orange-500/30 rounded-none p-8 max-w-md fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
           <AlertDialogHeader className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 bg-red-600/10 flex items-center justify-center border border-red-600/20"><AlertTriangle className="h-6 w-6 text-red-600" /></div>
