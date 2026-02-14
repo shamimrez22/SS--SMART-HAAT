@@ -1,35 +1,35 @@
 
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showLogin, setShowLogin] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-    // Instant session check after mount
+  // useLayoutEffect runs before paint to prevent flickering and interaction delays
+  useLayoutEffect(() => {
     const authStatus = sessionStorage.getItem('is_admin_authenticated') === 'true';
-    if (!authStatus) {
+    if (authStatus) {
+      setIsAuthenticated(true);
+      setShowLogin(false);
+    } else {
       setIsAuthenticated(false);
       setShowLogin(true);
-    } else {
-      setIsAuthenticated(true);
     }
+    setIsLoading(false);
   }, []);
 
-  // Prevent hydration flicker and immediate hanging
-  if (!isMounted || isAuthenticated === null) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-4">
         <Loader2 className="h-10 w-10 text-[#01a3a4] animate-spin" />
-        <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Initialising Terminal...</p>
+        <p className="text-[10px] font-black text-[#01a3a4] uppercase tracking-widest">Accessing Terminal...</p>
       </div>
     );
   }
@@ -50,9 +50,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <AdminLoginModal 
           isOpen={showLogin} 
           onClose={() => {
-            setShowLogin(false);
-            if (sessionStorage.getItem('is_admin_authenticated') === 'true') {
+            const status = sessionStorage.getItem('is_admin_authenticated') === 'true';
+            if (status) {
               setIsAuthenticated(true);
+              setShowLogin(false);
             }
           }} 
         />

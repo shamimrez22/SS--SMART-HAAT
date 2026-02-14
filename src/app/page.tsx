@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useMemo, useState, useEffect, memo } from 'react';
@@ -255,7 +256,6 @@ export default function Home() {
   useEffect(() => {
     setIsMounted(true);
     if (db) {
-      // Small delay for stats to prevent initial hang
       const timer = setTimeout(() => {
         const dateStr = new Date().toISOString().split('T')[0];
         const statsRef = doc(db, 'visitorStats', dateStr);
@@ -272,9 +272,9 @@ export default function Home() {
       <MainHeader />
 
       <main className="flex-grow container mx-auto bg-black">
-        {/* TOP GRID: perfectly aligned and GPU optimized */}
-        <section className="px-2 md:px-12 py-2 md:py-4">
-          <div className="grid grid-cols-12 gap-1 md:gap-2 h-[130px] md:h-[300px] gpu-accelerated bg-black overflow-hidden">
+        {/* TOP GRID: Moved up and smaller gaps */}
+        <section className="px-2 md:px-12 pt-0.5 pb-2 md:pt-1 md:pb-4">
+          <div className="grid grid-cols-12 gap-0.5 md:gap-1 h-[130px] md:h-[300px] gpu-accelerated bg-black overflow-hidden">
             <div className="col-span-3 h-full overflow-hidden border border-white/5">
               <FlashOfferCard />
             </div>
@@ -331,8 +331,8 @@ export default function Home() {
           if (catProducts.length === 0) return null;
 
           return (
-            <section key={cat.id} className="py-2 md:py-4 px-2 md:px-12 gpu-accelerated product-section bg-black">
-              <div className="flex items-center justify-between mb-2 md:mb-3">
+            <section key={cat.id} className="py-1 md:py-2 px-2 md:px-12 gpu-accelerated product-section bg-black">
+              <div className="flex items-center justify-between mb-1 md:mb-2">
                 <div className="flex items-center gap-2 md:gap-4">
                   <div className="h-4 md:h-6 w-1 bg-[#01a3a4]" />
                   <h2 className="text-[10px] md:text-[14px] font-black text-white uppercase tracking-[0.3em] font-headline">{cat.name} COLLECTION</h2>

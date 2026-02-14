@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { memo } from 'react';
@@ -28,7 +29,7 @@ export const MainHeader = memo(() => {
               <Navbar />
             </div>
             
-            {/* 2. LIVE STATUS BAR PART (PURE BLACK) - REDUCED HEIGHT */}
+            {/* 2. LIVE STATUS BAR PART (PURE BLACK) */}
             {settings?.liveStatus && (
               <div className="h-[20px] md:h-[24px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full bg-black">
                 <div className="flex items-center gap-8 animate-marquee w-full px-4">
@@ -38,7 +39,7 @@ export const MainHeader = memo(() => {
                   <p className="text-[7px] md:text-[9px] font-bold uppercase tracking-[0.1em] flex items-center gap-4 shrink-0 text-white">
                     {settings.liveStatus} <span className="text-white/20">•</span> 
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="h-2 w-2 text-[#01a3a4]" /> 
+                      <MapPin className="h-2 w-2 text-white" /> 
                       <span className="text-white font-black">HUB:</span> {hubLocation}
                     </span>
                   </p>
@@ -49,8 +50,8 @@ export const MainHeader = memo(() => {
         </div>
       </div>
       
-      {/* SPACER TO PREVENT CONTENT OVERLAP - UPDATED FOR NEW HEIGHT */}
-      <div className={settings?.liveStatus ? "h-[76px] md:h-[88px]" : "h-[56px] md:h-[64px]"} />
+      {/* SPACER TO PREVENT CONTENT OVERLAP - SLIGHTLY TIGHTER */}
+      <div className={settings?.liveStatus ? "h-[74px] md:h-[86px]" : "h-[54px] md:h-[62px]"} />
     </>
   );
 });
