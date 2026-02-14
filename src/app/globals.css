@@ -6,8 +6,8 @@
   :root {
     --background: 0 0% 0%; /* PURE BLACK BACKGROUND */
     --foreground: 0 0% 100%; /* PURE WHITE TEXT FOR CLARITY */
-    --card: 0 0% 100%; /* CARDS REMAIN WHITE */
-    --card-foreground: 0 0% 0%; /* TEXT INSIDE WHITE CARDS IS BLACK */
+    --card: 0 0% 7%; /* DARK CARD BACKGROUND FOR ADMIN */
+    --card-foreground: 0 0% 100%; /* WHITE TEXT IN CARDS */
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 100%;
     --primary: 180 99% 32%; /* #01a3a4 */
@@ -15,7 +15,7 @@
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 100%;
     --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 100%; /* ALL TEXT IS LIGHT, NO GRAY */
+    --muted-foreground: 0 0% 100%; 
     --accent: 180 99% 32%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;

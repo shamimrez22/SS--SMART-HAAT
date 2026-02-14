@@ -50,7 +50,7 @@ export const ProductCard = memo(({ product, index = 0 }: ProductCardProps) => {
             <div className="flex items-center gap-2">
               <div className={`h-1.5 w-1.5 rounded-full ${isOutOfStock ? 'bg-red-600' : 'bg-green-500'} animate-pulse`} />
               <span className={`text-[8px] font-black uppercase tracking-widest ${isOutOfStock ? 'text-red-600' : 'text-green-600'}`}>
-                {isOutOfStock ? 'OUT OF STOCK' : 'IN STOCK'}
+                {isOutOfStock ? 'OUT OF STOCK' : `IN STOCK`}
               </span>
             </div>
           </div>

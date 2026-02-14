@@ -6,7 +6,7 @@ import { doc } from 'firebase/firestore';
 
 /**
  * ThemeHandler - Dynamic CSS variable injection.
- * Enforces "White Cards" and "Light Text" rule regardless of admin settings.
+ * Manages branding colors while keeping admin panel dark and product cards white.
  */
 export function ThemeHandler() {
   const db = useFirestore();
@@ -60,19 +60,18 @@ export function ThemeHandler() {
       root.style.setProperty('--popover', hsl);
     }
 
-    // ALWAYS keep cards white as per user request
-    root.style.setProperty('--card', '0 0% 100%');
-    root.style.setProperty('--card-foreground', '0 0% 0%');
+    // Reset card colors to global dark defaults for readability
+    root.style.setProperty('--card', '0 0% 7%');
+    root.style.setProperty('--card-foreground', '0 0% 100%');
 
     if (settings.themeTextColor) {
       const hsl = hexToHsl(settings.themeTextColor);
       root.style.setProperty('--foreground', hsl);
       root.style.setProperty('--popover-foreground', hsl);
-      root.style.setProperty('--muted-foreground', hsl); // No more gray text
+      root.style.setProperty('--muted-foreground', hsl);
       root.style.setProperty('--secondary-foreground', hsl);
       root.style.setProperty('--accent-foreground', hsl);
     } else {
-      // Default light text
       root.style.setProperty('--foreground', '0 0% 100%');
       root.style.setProperty('--muted-foreground', '0 0% 100%');
     }
