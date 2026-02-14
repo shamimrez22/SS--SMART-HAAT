@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from 'react';
@@ -33,107 +32,85 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-black pt-24 pb-12 border-t border-white/10">
+    <footer className="bg-black pt-16 pb-8 border-t border-white/10">
       <div className="container mx-auto px-2 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
           
-          <div className="lg:col-span-4 space-y-8">
+          <div className="lg:col-span-4 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-[#01a3a4] rounded-none flex items-center justify-center shadow-lg shadow-[#01a3a4]/10 border border-white/5">
-                <span className="text-black font-black text-2xl tracking-tighter">SS</span>
+              <div className="w-10 h-10 bg-[#01a3a4] rounded-none flex items-center justify-center shadow-lg border border-white/5">
+                <span className="text-black font-black text-xl tracking-tighter">SS</span>
               </div>
               <div>
-                <h3 className="text-2xl font-black font-headline text-white tracking-tighter uppercase">SS SMART HAAT</h3>
-                <p className="text-[8px] font-black text-[#01a3a4] tracking-[0.4em] uppercase leading-none mt-1">Premium Market Place</p>
+                <h3 className="text-xl font-black text-white tracking-tighter uppercase">SS SMART HAAT</h3>
+                <p className="text-[7px] font-black text-[#01a3a4] tracking-[0.3em] uppercase leading-none mt-1">Premium Market Place</p>
               </div>
             </div>
             
-            <div className="space-y-4">
-              <p className="text-[11px] text-white leading-relaxed uppercase tracking-tight font-black">
-                YOUR CURATED DESTINATION FOR SMART FASHION AND MODERN MARKETPLACE ESSENTIALS. REDEFINING ELEGANCE THROUGH SIMPLICITY AND LUXURY.
+            <div className="space-y-3">
+              <p className="text-[10px] text-white leading-relaxed uppercase tracking-tight font-bold">
+                YOUR CURATED DESTINATION FOR SMART FASHION AND MODERN MARKETPLACE ESSENTIALS.
               </p>
               <div className="pt-2 border-l-2 border-[#01a3a4] pl-4">
-                <p className="text-[13px] font-black text-white font-headline leading-relaxed">
+                <p className="text-[12px] font-bold text-white leading-relaxed">
                   {contact.description}
                 </p>
               </div>
             </div>
 
-            <div className="flex gap-4">
-              <Link href={contact.social.facebook} className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/10"><Facebook className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.instagram} className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/10"><Instagram className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.whatsapp} className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all duration-500 border border-white/10"><WhatsAppIcon className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.twitter} className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/10"><Twitter className="h-4 w-4 text-white" /></Link>
-              <Link href={contact.social.youtube} className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all duration-500 border border-white/10"><Youtube className="h-4 w-4 text-white" /></Link>
+            <div className="flex gap-3">
+              <Link href={contact.social.facebook} className="w-8 h-8 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all border border-white/10"><Facebook className="h-3.5 w-3.5 text-white" /></Link>
+              <Link href={contact.social.instagram} className="w-8 h-8 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all border border-white/10"><Instagram className="h-3.5 w-3.5 text-white" /></Link>
+              <Link href={contact.social.whatsapp} className="w-8 h-8 bg-white/5 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all border border-white/10"><WhatsAppIcon className="h-3.5 w-3.5 text-white" /></Link>
+              <Link href={contact.social.youtube} className="w-8 h-8 bg-white/5 flex items-center justify-center hover:bg-[#01a3a4] hover:text-white transition-all border border-white/10"><Youtube className="h-3.5 w-3.5 text-white" /></Link>
             </div>
           </div>
           
-          <div className="lg:col-span-2 space-y-8">
-            <h4 className="font-black text-[#01a3a4] uppercase text-[10px] tracking-[0.3em]">SHOPPING</h4>
-            <ul className="space-y-4 text-[11px] text-white font-black uppercase tracking-widest">
-              <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">CLOTHING STORE</Link></li>
-              <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">TRENDING SHOES</Link></li>
+          <div className="lg:col-span-2 space-y-6">
+            <h4 className="font-black text-[#01a3a4] uppercase text-[9px] tracking-[0.2em]">SHOPPING</h4>
+            <ul className="space-y-3 text-[10px] text-white font-bold uppercase tracking-widest">
+              <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">CLOTHING</Link></li>
+              <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">FOOTWEAR</Link></li>
               <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">ACCESSORIES</Link></li>
-              <li><Link href="/shop" className="hover:text-[#01a3a4] transition-colors">SALE ITEMS</Link></li>
             </ul>
           </div>
           
-          <div className="lg:col-span-2 space-y-8">
-            <h4 className="font-black text-[#01a3a4] uppercase text-[10px] tracking-[0.3em]">COMPANY</h4>
-            <ul className="space-y-4 text-[11px] text-white font-black uppercase tracking-widest">
-              <li><Link href="#" className="hover:text-[#01a3a4] transition-colors">OUR STORY</Link></li>
-              <li><Link href="#" className="hover:text-[#01a3a4] transition-colors">CAREERS</Link></li>
-              <li><Link href="#" className="hover:text-[#01a3a4] transition-colors">AFFILIATE</Link></li>
-              <li><Link href="#" className="hover:text-[#01a3a4] transition-colors">PRIVACY</Link></li>
-            </ul>
-          </div>
-          
-          <div className="lg:col-span-4 space-y-8">
-            <h4 className="font-black text-[#01a3a4] uppercase text-[10px] tracking-[0.3em]">GET IN TOUCH</h4>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 group">
-                <div className="w-10 h-10 bg-white/10 flex items-center justify-center border border-white/10 group-hover:border-[#01a3a4]/50 transition-colors">
-                  <Mail className="h-4 w-4 text-[#01a3a4]" />
-                </div>
+          <div className="lg:col-span-6 space-y-6">
+            <h4 className="font-black text-[#01a3a4] uppercase text-[9px] tracking-[0.2em]">GET IN TOUCH</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex items-start gap-3">
+                <Mail className="h-4 w-4 text-[#01a3a4] mt-0.5" />
                 <div>
-                  <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest mb-1">Email Address</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.email}</p>
+                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Email</p>
+                  <p className="text-[11px] font-bold text-white uppercase">{contact.email}</p>
                 </div>
               </div>
-
-              <div className="flex items-start gap-4 group">
-                <div className="w-10 h-10 bg-white/10 flex items-center justify-center border border-white/10 group-hover:border-[#01a3a4]/50 transition-colors">
-                  <Phone className="h-4 w-4 text-[#01a3a4]" />
-                </div>
+              <div className="flex items-start gap-3">
+                <Phone className="h-4 w-4 text-[#01a3a4] mt-0.5" />
                 <div>
-                  <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest mb-1">Phone Helpline</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.phone}</p>
+                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Helpline</p>
+                  <p className="text-[11px] font-bold text-white uppercase">{contact.phone}</p>
                 </div>
               </div>
-
-              <div className="flex items-start gap-4 group">
-                <div className="w-10 h-10 bg-white/10 flex items-center justify-center border border-white/10 group-hover:border-[#01a3a4]/50 transition-colors">
-                  <MapPin className="h-4 w-4 text-[#01a3a4]" />
-                </div>
+              <div className="flex items-start gap-3 col-span-full">
+                <MapPin className="h-4 w-4 text-[#01a3a4] mt-0.5" />
                 <div>
-                  <p className="text-[9px] font-black text-[#01a3a4] uppercase tracking-widest mb-1">Official Location</p>
-                  <p className="text-[12px] font-black text-white uppercase tracking-tighter">{contact.address}</p>
+                  <p className="text-[8px] font-black text-[#01a3a4] uppercase tracking-widest">Address</p>
+                  <p className="text-[11px] font-bold text-white uppercase">{contact.address}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
         
-        <div className="h-px bg-white/10 mb-10" />
+        <div className="h-px bg-white/10 mb-8" />
         
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[9px] uppercase tracking-[0.3em] text-white font-black">
-            © 2024 <span className="text-[#01a3a4]">SS SMART HAAT</span>. ELEVATING DHAKA'S LIFESTYLE.
-          </p>
-          <div className="flex gap-8 text-[9px] uppercase tracking-widest text-white font-black">
-            <Link href="#" className="hover:text-[#01a3a4] transition-colors">PAYMENT METHODS</Link>
-            <Link href="#" className="hover:text-[#01a3a4] transition-colors">SHIPPING POLICY</Link>
-            <Link href="#" className="hover:text-[#01a3a4] transition-colors">TERMS OF USE</Link>
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-white font-bold">
+          <p>© 2024 <span className="text-[#01a3a4]">SS SMART HAAT</span>. ALL RIGHTS RESERVED.</p>
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-[#01a3a4]">PRIVACY</Link>
+            <Link href="#" className="hover:text-[#01a3a4]">TERMS</Link>
+            <Link href="#" className="hover:text-[#01a3a4]">SHIPPING</Link>
           </div>
         </div>
       </div>
