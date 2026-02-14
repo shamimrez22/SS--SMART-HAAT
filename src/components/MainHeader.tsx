@@ -11,37 +11,42 @@ export const MainHeader = memo(() => {
   const settingsRef = useMemoFirebase(() => db ? doc(db, 'settings', 'site-config') : null, [db]);
   const { data: settings } = useDoc(settingsRef);
 
-  const broadcastColor = settings?.statusColor || '#01a3a4';
-  const liveLabel = settings?.liveStatusLabel || 'LIVE STATUS:';
   const hubLocation = settings?.liveLocation || 'BANANI, DHAKA';
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[120] bg-[#01a3a4] gpu-accelerated shadow-xl">
-        <Navbar />
-        {settings?.liveStatus && (
-          <div className="bg-black h-[20px] md:h-[24px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full border-none">
-            <div className="flex items-center gap-6 animate-marquee w-full px-2 md:px-12">
-              <div 
-                style={{ color: broadcastColor }}
-                className="flex items-center gap-1.5 text-[7px] md:text-[9px] font-black uppercase tracking-widest shrink-0"
-              >
-                <Radio className="h-2 w-2 animate-pulse" /> {liveLabel}
+      {/* OUTER FULL-WIDTH BLACK CONTAINER */}
+      <div className="fixed top-0 left-0 right-0 z-[120] bg-black gpu-accelerated shadow-2xl">
+        
+        {/* ALIGNMENT CONTAINER (Matches Product Grid Margin) */}
+        <div className="px-2 md:px-12">
+          
+          {/* TEAL CONTENT BOX (The only part with background color) */}
+          <div className="bg-[#01a3a4] overflow-hidden">
+            <Navbar />
+            
+            {/* CONSTRAINED LIVE BAR */}
+            {settings?.liveStatus && (
+              <div className="h-[18px] md:h-[22px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full border-t border-white/10">
+                <div className="flex items-center gap-6 animate-marquee w-full px-4">
+                  <div className="flex items-center gap-1.5 text-[7px] md:text-[9px] font-black uppercase tracking-widest shrink-0 text-white">
+                    <Radio className="h-2 w-2 animate-pulse" /> {settings.liveStatusLabel || 'LIVE STATUS:'}
+                  </div>
+                  <p className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-4 shrink-0 text-white">
+                    {settings.liveStatus} <span className="opacity-30">|</span> 
+                    <span className="flex items-center gap-1">
+                      <MapPin className="h-2 w-2" /> <span className="tracking-tighter opacity-60 font-bold">HUB:</span> {hubLocation}
+                    </span>
+                  </p>
+                </div>
               </div>
-              <p 
-                style={{ color: broadcastColor }}
-                className="text-[7px] md:text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-4 shrink-0"
-              >
-                {settings.liveStatus} <span className="opacity-20 text-white">|</span> 
-                <span className="flex items-center gap-1">
-                  <MapPin className="h-2 w-2" /> <span className="tracking-tighter opacity-50 text-white font-bold">HUB:</span> {hubLocation}
-                </span>
-              </p>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-      <div className={settings?.liveStatus ? "h-[76px] md:h-[80px]" : "h-[56px]"} />
+      
+      {/* SPACER TO PREVENT CONTENT OVERLAP */}
+      <div className={settings?.liveStatus ? "h-[72px] md:h-[78px]" : "h-[54px] md:h-[56px]"} />
     </>
   );
 });

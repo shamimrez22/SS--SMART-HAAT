@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LogoIcon = () => (
-  <div className="w-9 h-9 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10">
+  <div className="w-9 h-9 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10 shrink-0">
     <span className="text-[#01a3a4] font-black text-xl tracking-tighter">SS</span>
   </div>
 );
@@ -49,22 +49,12 @@ export function Navbar() {
     }
   };
 
-  const openAdminModal = () => {
-    setTimeout(() => setIsAdminModalOpen(true), 150);
-  };
-
-  if (!isMounted) {
-    return (
-      <nav className="w-full bg-[#01a3a4] py-2 h-[56px]">
-        <div className="px-2 md:px-12 flex items-center"><LogoIcon /></div>
-      </nav>
-    );
-  }
+  if (!isMounted) return null;
 
   return (
     <>
-      <nav className="w-full bg-[#01a3a4] min-h-[56px] py-1.5 flex items-center relative z-[110]">
-        <div className="w-full px-2 md:px-12">
+      <nav className="w-full bg-transparent min-h-[52px] md:min-h-[56px] py-1 flex items-center relative z-[110] px-4">
+        <div className="w-full">
           <div className="flex items-center justify-between gap-4">
             
             {/* LEFT: LOGO & NAME */}
@@ -77,7 +67,7 @@ export function Navbar() {
             </Link>
 
             {/* CENTER: SEARCH BAR (Desktop) */}
-            <div className="hidden md:flex items-center relative flex-grow max-w-[500px] px-4">
+            <div className="hidden md:flex items-center relative flex-grow max-w-[400px] px-4">
               <div className="relative w-full">
                 <Input 
                   type="search" 
@@ -85,17 +75,17 @@ export function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleSearch}
                   placeholder="SEARCH PRODUCTS..." 
-                  className="bg-white/10 border-white/20 h-9 w-full rounded-none text-[10px] text-white font-medium uppercase placeholder:text-white/50 focus:ring-1 focus:ring-white pr-10"
+                  className="bg-white/10 border-white/20 h-8 w-full rounded-none text-[9px] text-white font-medium uppercase placeholder:text-white/50 focus:ring-1 focus:ring-white pr-10"
                 />
-                <div className="absolute right-0 top-0 h-9 w-9 flex items-center justify-center border-l border-white/10">
-                  <Search className="h-3.5 w-3.5 text-white stroke-[2.5px]" />
+                <div className="absolute right-0 top-0 h-8 w-8 flex items-center justify-center border-l border-white/10">
+                  <Search className="h-3 w-3 text-white stroke-[2.5px]" />
                 </div>
               </div>
             </div>
 
             {/* RIGHT: NAVIGATION LINKS */}
-            <div className="flex items-center gap-2 md:gap-6 shrink-0">
-              <div className="flex items-center gap-3 md:gap-5 text-[9px] font-bold uppercase tracking-widest text-white">
+            <div className="flex items-center gap-2 md:gap-4 shrink-0">
+              <div className="flex items-center gap-2 md:gap-4 text-[9px] font-bold uppercase tracking-widest text-white">
                 
                 <Link href="/" className="hover:opacity-70 transition-opacity flex items-center gap-1.5">
                   <Home className="h-3.5 w-3.5" /> <span className="hidden lg:inline">{language === 'EN' ? "HOME" : "হোম"}</span>
@@ -109,14 +99,14 @@ export function Navbar() {
                   <LayoutGrid className="h-3.5 w-3.5" /> <span className="hidden lg:inline">{language === 'EN' ? "CATEGORY" : "ক্যাটাগরি"}</span>
                 </button>
                 
-                <button onClick={toggleLanguage} className="flex items-center gap-1 hover:opacity-70 transition-opacity uppercase tracking-widest border border-white/20 px-2 py-0.5">
-                  <Languages className="h-3 w-3" /> {language}
+                <button onClick={toggleLanguage} className="flex items-center gap-1 hover:opacity-70 transition-opacity uppercase tracking-widest border border-white/20 px-1.5 py-0.5">
+                  {language}
                 </button>
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="relative h-8 w-8 text-white hover:bg-white/10 rounded-none border border-white/10 flex items-center justify-center group">
-                      <MoreVertical className="h-4 w-4 transition-transform group-hover:scale-110" />
+                    <Button variant="ghost" size="icon" className="relative h-7 w-7 text-white hover:bg-white/10 rounded-none border border-white/10 flex items-center justify-center group">
+                      <MoreVertical className="h-3.5 w-3.5 transition-transform group-hover:scale-110" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="bg-black border border-white/10 rounded-none shadow-2xl p-2 min-w-[180px] z-[150]">
@@ -124,22 +114,12 @@ export function Navbar() {
                       <Search className="h-4 w-4 mr-2 text-[#01a3a4]" />
                       <span className="text-[10px] font-bold uppercase">{language === 'EN' ? "SEARCH" : "খুঁজুন"}</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="p-3 cursor-pointer md:hidden text-white hover:bg-white/5" onClick={() => setIsCategoryModalOpen(true)}>
-                      <LayoutGrid className="h-4 w-4 mr-2 text-[#01a3a4]" />
-                      <span className="text-[10px] font-bold uppercase">{language === 'EN' ? "CATEGORY" : "ক্যাটাগরি"}</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="p-3 cursor-pointer group text-white hover:bg-white/5" onClick={openAdminModal}>
+                    <DropdownMenuItem className="p-3 cursor-pointer group text-white hover:bg-white/5" onClick={() => setIsAdminModalOpen(true)}>
                       <span className="text-[10px] font-bold uppercase group-hover:text-[#01a3a4] transition-colors">ADMIN PANEL</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-
-              <Link href="/shop" className="hidden sm:block">
-                <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-none hover:bg-white/10 text-white group border border-white/10">
-                  <ShoppingBag className="h-4 w-4 transition-transform group-hover:scale-110" />
-                </Button>
-              </Link>
             </div>
           </div>
 
@@ -152,7 +132,7 @@ export function Navbar() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={handleSearch}
                 placeholder={language === 'EN' ? "SEARCH PRODUCTS..." : "পণ্য খুঁজুন..."} 
-                className="w-full bg-white/10 border-white/20 h-10 pl-10 pr-10 rounded-none text-[10px] text-white font-medium uppercase placeholder:text-white/50"
+                className="w-full bg-white/10 border-white/20 h-9 pl-10 pr-10 rounded-none text-[10px] text-white font-medium uppercase placeholder:text-white/50"
               />
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white stroke-[2.5px]" />
               <button onClick={() => { setShowSearchInput(false); setSearchQuery(''); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"><X className="h-4 w-4" /></button>
