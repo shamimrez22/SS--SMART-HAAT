@@ -100,7 +100,7 @@ const AnimatedFlashBar = memo(() => {
   const activeItem = combinedItems[currentIndex];
 
   return (
-    <div className="h-full w-full relative overflow-hidden bg-black group cursor-pointer">
+    <div className="h-full w-full relative overflow-hidden bg-black group cursor-pointer gpu-accelerated">
       <div key={activeItem.id} className="h-full w-full absolute inset-0 animate-ken-burns">
         <Image 
           src={activeItem.imageUrl} 
@@ -255,11 +255,13 @@ export default function Home() {
   useEffect(() => {
     setIsMounted(true);
     if (db) {
-      try {
+      // Small delay for stats to prevent initial hang
+      const timer = setTimeout(() => {
         const dateStr = new Date().toISOString().split('T')[0];
         const statsRef = doc(db, 'visitorStats', dateStr);
         setDocumentNonBlocking(statsRef, { count: increment(1), date: dateStr }, { merge: true });
-      } catch (err) {}
+      }, 2000);
+      return () => clearTimeout(timer);
     }
   }, [db]);
 
@@ -270,7 +272,7 @@ export default function Home() {
       <MainHeader />
 
       <main className="flex-grow container mx-auto bg-black">
-        {/* TOP GRID: Perfectly aligned with Navbar and product cards */}
+        {/* TOP GRID: perfectly aligned and GPU optimized */}
         <section className="px-2 md:px-12 py-2 md:py-4">
           <div className="grid grid-cols-12 gap-1 md:gap-2 h-[130px] md:h-[300px] gpu-accelerated bg-black overflow-hidden">
             <div className="col-span-3 h-full overflow-hidden border border-white/5">
