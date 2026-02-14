@@ -137,7 +137,7 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/30">
+    <div className="min-h-screen flex flex-col bg-black selection:bg-primary/30">
       <MainHeader />
       
       <main className="flex-grow container mx-auto px-2 md:px-12 py-8">
@@ -173,7 +173,7 @@ export default function AdminPanel() {
                       <div className={`flex items-center justify-between p-4 hover:bg-white/5 transition-all group border-b border-white/[0.02] last:border-0 ${link.isHighlight ? 'bg-white/5' : ''}`}>
                         <div className="flex items-center gap-4">
                           <link.icon className={`h-4 w-4 ${link.isHighlight ? 'text-white' : 'text-white/50'} group-hover:opacity-100`} />
-                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-white ${link.isHighlight ? 'text-white' : 'text-white'}`}>{link.title}</span>
+                          <span className={`text-[10px] font-black uppercase tracking-widest group-hover:text-white text-white`}>{link.title}</span>
                         </div>
                         <ChevronRight className="h-3 w-3 text-white/20 group-hover:translate-x-1 transition-all group-hover:text-white" />
                       </div>

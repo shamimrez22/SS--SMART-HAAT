@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, MoreVertical, LayoutGrid, X, Home, ShoppingBag } from 'lucide-react';
+import { Search, MoreVertical, LayoutGrid, X, Home, ShoppingBag, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AdminLoginModal } from '@/components/AdminLoginModal';
@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LogoIcon = () => (
-  <div className="w-10 h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10 shrink-0">
-    <span className="text-white font-black text-2xl tracking-tighter">SS</span>
+  <div className="w-9 h-9 md:w-10 md:h-10 bg-black rounded-none flex items-center justify-center shadow-lg transition-transform group-hover:scale-105 border border-white/10 shrink-0">
+    <span className="text-white font-black text-xl md:text-2xl tracking-tighter">SS</span>
   </div>
 );
 
@@ -53,19 +53,24 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="w-full bg-transparent min-h-[48px] md:min-h-[52px] py-0.5 flex items-center relative z-[110] px-4">
+      <nav className="w-full bg-transparent min-h-[44px] md:min-h-[48px] py-0.5 flex items-center relative z-[110] px-4">
         <div className="w-full">
           <div className="flex items-center justify-between gap-4">
             
-            <div className="flex items-center gap-3 shrink-0 group">
+            <div className="flex items-center gap-2 md:gap-3 shrink-0 group">
               <Link href="/"><LogoIcon /></Link>
+              
+              {/* SECRET ADMIN TRIGGER: Subtle 3 dots next to logo */}
+              <div 
+                onClick={() => setIsAdminModalOpen(true)}
+                className="cursor-default select-none flex items-center h-full px-1"
+              >
+                <MoreHorizontal className="h-3 w-3 text-white/20 hover:text-white/40 transition-colors" />
+              </div>
+
               <div className="flex flex-col">
-                <Link href="/"><h1 className="text-[11px] sm:text-[13px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1></Link>
-                {/* SECRET ADMIN TRIGGER ON THE SUBTITLE */}
-                <span 
-                  onClick={() => setIsAdminModalOpen(true)}
-                  className="text-[6px] sm:text-[7px] text-white font-bold uppercase tracking-[0.2em] cursor-default select-none opacity-90 hover:opacity-100 transition-opacity"
-                >
+                <Link href="/"><h1 className="text-[10px] sm:text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter">SS SMART HAAT</h1></Link>
+                <span className="text-[6px] sm:text-[7px] text-white font-bold uppercase tracking-[0.2em] opacity-90">
                   PREMIUM MARKET PLACE
                 </span>
               </div>
@@ -79,10 +84,10 @@ export function Navbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={handleSearch}
                   placeholder="SEARCH FOR PREMIUM PRODUCTS..." 
-                  className="bg-white border-none h-10 w-full rounded-none text-[10px] text-black font-black uppercase placeholder:text-black/40 focus:ring-2 focus:ring-white pr-12 shadow-inner"
+                  className="bg-white border-none h-9 w-full rounded-none text-[10px] text-black font-black uppercase placeholder:text-black/40 focus:ring-2 focus:ring-white pr-12 shadow-inner"
                 />
-                <div className="absolute right-0 top-0 h-10 w-10 flex items-center justify-center border-l border-black/5">
-                  <Search className="h-3.5 w-3.5 text-[#01a3a4] stroke-[3px]" />
+                <div className="absolute right-0 top-0 h-9 w-9 flex items-center justify-center border-l border-black/5">
+                  <Search className="h-3 w-3 text-[#01a3a4] stroke-[3px]" />
                 </div>
               </div>
             </div>
@@ -108,7 +113,7 @@ export function Navbar() {
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="relative h-9 w-9 text-white hover:bg-white/10 rounded-none border border-white/20 flex items-center justify-center group z-[120]">
+                    <Button variant="ghost" size="icon" className="relative h-8 w-8 text-white hover:bg-white/10 rounded-none border border-white/20 flex items-center justify-center group z-[120]">
                       <MoreVertical className="h-4 w-4 transition-transform group-hover:scale-110" />
                     </Button>
                   </DropdownMenuTrigger>
