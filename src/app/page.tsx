@@ -42,7 +42,7 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
           
           {isProduct && (
             <div className="flex flex-col space-y-1 md:space-y-3 pointer-events-auto">
-              <div className="text-[9px] md:xl font-black text-primary tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              <div className="text-[9px] md:text-xl font-black text-primary tracking-tighter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 <span className="text-[7px] md:text-[12px] font-normal mr-0.5 text-white">৳</span>
                 {(item.price || 0).toLocaleString()}
               </div>
@@ -111,6 +111,7 @@ const AnimatedFlashBar = memo(() => {
           className="object-fill"
           priority={true}
           decoding="async"
+          {...{ fetchPriority: "high" }}
         />
       </div>
       <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-sm border border-white/10 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest flex items-center gap-1">
@@ -182,7 +183,7 @@ const FlashOfferCard = memo(() => {
               priority={true}
               loading="eager"
               decoding="async"
-              fetchPriority="high"
+              {...{ fetchPriority: "high" }}
             />
           </div>
           <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-6 py-1 md:py-1.5 text-[6px] md:text-[10px] font-black text-white uppercase tracking-widest z-10 shadow-2xl">FLASH OFFER</div>
@@ -193,7 +194,7 @@ const FlashOfferCard = memo(() => {
              </p>
              {activeItem.price !== undefined && (
                <div className="mb-1 md:mb-3">
-                 <span className="text-primary font-black text-[9px] md:xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                 <span className="text-primary font-black text-[9px] md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
@@ -272,7 +273,8 @@ export default function Home() {
       <MainHeader />
 
       <main className="flex-grow container mx-auto">
-        <section className="grid grid-cols-12 gap-0 h-[130px] md:h-[300px] lg:h-[450px] gpu-accelerated bg-black overflow-hidden border-b border-white/10">
+        {/* Top Fold Grid - FIXED HEIGHT FOR ALL DESKTOPS (450px) to ensure consistency between 19" and 24" monitors */}
+        <section className="grid grid-cols-12 gap-0 h-[130px] md:h-[450px] gpu-accelerated bg-black overflow-hidden border-b border-white/10">
           
           <div className="col-span-3 h-full overflow-hidden">
             <FlashOfferCard />

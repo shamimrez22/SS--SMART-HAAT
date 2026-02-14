@@ -126,7 +126,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
       <DialogContent className={cn(
         "p-0 bg-white border-none rounded-none overflow-hidden gap-0 shadow-2xl fixed z-[150] outline-none",
         "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
-        step === 'SUCCESS' ? "max-w-[400px] w-[90vw]" : isMobile ? "w-full h-full" : "max-w-[750px] w-[95vw] max-h-[90vh]"
+        step === 'SUCCESS' ? "max-w-[400px] w-[90vw]" : isMobile ? "w-full h-[100dvh]" : "max-w-[750px] w-[95vw] max-h-[90vh]"
       )}>
         {!isSubmitting && (
           <button 
@@ -137,7 +137,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
           </button>
         )}
 
-        <div className="flex flex-col h-full overflow-hidden">
+        <div className="flex flex-col h-full overflow-hidden bg-white">
           {step === 'FORM' ? (
             <div className="flex flex-col md:flex-row h-full">
               {!isMobile && (
@@ -166,32 +166,33 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
               )}
 
               <div className="flex-grow flex flex-col h-full bg-white relative overflow-hidden">
-                <div className={cn("p-4 pb-2 shrink-0 bg-white z-10", isMobile && "pt-10")}>
+                <div className={cn("p-3 pb-1 shrink-0 bg-white z-10", isMobile && "pt-8")}>
                   <div className="space-y-0.5">
-                    <DialogTitle className="text-xl font-black text-black uppercase tracking-tighter font-headline">ORDER NOW</DialogTitle>
-                    <p className="text-[8px] font-black text-gray-400 uppercase tracking-[0.3em]">PREMIUM SECURE CHECKOUT</p>
+                    <DialogTitle className="text-lg font-black text-black uppercase tracking-tighter font-headline">ORDER NOW</DialogTitle>
+                    <p className="text-[7px] font-black text-gray-400 uppercase tracking-[0.2em]">PREMIUM SECURE CHECKOUT</p>
                   </div>
 
                   {isMobile && (
-                    <div className="mt-2 p-2.5 bg-gray-50 border border-gray-100 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Truck className="h-3.5 w-3.5 text-primary" />
-                        <span className="text-[8px] font-black uppercase text-black">DELIVERY:</span>
+                    <div className="mt-1.5 p-2 bg-gray-50 border border-gray-100 flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Truck className="h-3 w-3 text-primary" />
+                        <span className="text-[7px] font-black uppercase text-black">DELIVERY:</span>
                       </div>
-                      <div className="flex gap-3">
-                        <p className="text-[8px] font-bold text-gray-600">ঢাকা: ৳{settings?.deliveryChargeInside || '60'}</p>
-                        <p className="text-[8px] font-bold text-gray-600">বাইরে: ৳{settings?.deliveryChargeOutside || '120'}</p>
+                      <div className="flex gap-2">
+                        <p className="text-[7px] font-bold text-gray-600">ঢাকা: ৳{settings?.deliveryChargeInside || '60'}</p>
+                        <p className="text-[7px] font-bold text-gray-600">বাইরে: ৳{settings?.deliveryChargeOutside || '120'}</p>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="flex-grow overflow-y-auto px-4 pt-1 no-scrollbar">
-                  <form onSubmit={handleSubmit} className={cn("space-y-3.5", isMobile ? "pb-[400px]" : "pb-10")}>
-                    <div className="grid grid-cols-2 gap-3">
+                {/* Hard Scroll Logic: Massive padding and touch handling */}
+                <div className="flex-grow overflow-y-auto px-4 pt-1 no-scrollbar touch-pan-y">
+                  <form onSubmit={handleSubmit} className={cn("space-y-3", isMobile ? "pb-[500px]" : "pb-10")}>
+                    <div className="grid grid-cols-2 gap-2">
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                          <Ruler className="h-2.5 w-2.5 text-primary" /> SIZE
+                        <label className="text-[7px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                          <Ruler className="h-2 w-2 text-primary" /> SIZE
                         </label>
                         <div className="flex flex-wrap gap-1">
                           {product?.sizes?.length > 0 ? product.sizes.map((size: string) => (
@@ -201,18 +202,18 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                               disabled={isSubmitting} 
                               onClick={() => setFormData({...formData, selectedSize: size})} 
                               className={cn(
-                                "px-2 py-1 border text-[8px] font-black uppercase transition-all", 
+                                "px-2 py-0.5 border text-[7px] font-black uppercase transition-all", 
                                 formData.selectedSize === size ? 'bg-primary border-primary text-white' : 'bg-gray-50 border-gray-100 text-gray-400'
                               )}
                             >
                               {size}
                             </button>
-                          )) : <span className="text-[8px] font-black text-gray-400 uppercase italic">Standard</span>}
+                          )) : <span className="text-[7px] font-black text-gray-400 uppercase italic">Standard</span>}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                          <Hash className="h-2.5 w-2.5 text-primary" /> QTY
+                        <label className="text-[7px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                          <Hash className="h-2 w-2 text-primary" /> QTY
                         </label>
                         <input 
                           type="number" 
@@ -221,15 +222,15 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                           disabled={isSubmitting} 
                           value={formData.quantity} 
                           onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})} 
-                          className="w-full bg-gray-50 border border-gray-100 h-8 px-2 text-[10px] font-black focus:outline-none focus:border-primary text-black" 
+                          className="w-full bg-gray-50 border border-gray-100 h-7 px-2 text-[10px] font-black focus:outline-none focus:border-primary text-black" 
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                          <User className="h-2.5 w-2.5 text-primary" /> NAME
+                        <label className="text-[7px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                          <User className="h-2 w-2 text-primary" /> NAME
                         </label>
                         <input 
                           required 
@@ -237,12 +238,12 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                           value={formData.name} 
                           onChange={(e) => setFormData({...formData, name: e.target.value})} 
                           placeholder="ENTER YOUR NAME" 
-                          className="w-full bg-gray-50 border border-gray-100 h-9 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-primary text-black" 
+                          className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black uppercase focus:outline-none focus:border-primary text-black" 
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                          <Phone className="h-2.5 w-2.5 text-primary" /> PHONE
+                        <label className="text-[7px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                          <Phone className="h-2 w-2 text-primary" /> PHONE
                         </label>
                         <input 
                           required 
@@ -251,12 +252,12 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                           value={formData.phone} 
                           onChange={(e) => setFormData({...formData, phone: e.target.value})} 
                           placeholder="01XXXXXXXXX" 
-                          className="w-full bg-gray-50 border border-gray-100 h-9 px-3 text-[10px] font-black focus:outline-none focus:border-primary text-black" 
+                          className="w-full bg-gray-50 border border-gray-100 h-8 px-3 text-[10px] font-black focus:outline-none focus:border-primary text-black" 
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5">
-                          <MapPin className="h-2.5 w-2.5 text-primary" /> ADDRESS
+                        <label className="text-[7px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                          <MapPin className="h-2 w-2 text-primary" /> ADDRESS
                         </label>
                         <textarea 
                           required 
@@ -264,7 +265,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                           value={formData.address} 
                           onChange={(e) => setFormData({...formData, address: e.target.value})} 
                           placeholder="HOUSE, ROAD, AREA, CITY" 
-                          className="w-full bg-gray-50 border border-gray-100 p-2.5 text-[10px] font-black uppercase min-h-[70px] focus:outline-none focus:border-primary text-black shadow-sm no-scrollbar" 
+                          className="w-full bg-gray-50 border border-gray-100 p-2 text-[10px] font-black uppercase min-h-[60px] focus:outline-none focus:border-primary text-black shadow-sm no-scrollbar" 
                         />
                       </div>
                     </div>
@@ -274,7 +275,7 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         type="submit" 
                         disabled={isSubmitting}
                         style={{ backgroundColor: 'var(--button-bg)' }}
-                        className="w-full hover:bg-black text-white h-12 font-black uppercase tracking-widest rounded-none shadow-lg text-[11px] border-none"
+                        className="w-full hover:bg-black text-white h-11 font-black uppercase tracking-widest rounded-none shadow-lg text-[10px] border-none"
                       >
                         {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'অর্ডার নিশ্চিত করুন'}
                       </Button>
@@ -282,9 +283,9 @@ export const OrderModal = memo(({ product, isOpen, onClose }: OrderModalProps) =
                         type="button"
                         disabled={isSubmitting}
                         onClick={handleWhatsAppChat}
-                        className="w-full flex items-center justify-center gap-2 h-10 bg-white border border-green-500 text-green-600 font-black text-[9px] uppercase tracking-widest hover:bg-green-50 transition-all"
+                        className="w-full flex items-center justify-center gap-2 h-9 bg-white border border-green-500 text-green-600 font-black text-[8px] uppercase tracking-widest hover:bg-green-50 transition-all"
                       >
-                        <MessageCircle className="h-3.5 w-3.5" /> CHAT WITH ADMIN
+                        <MessageCircle className="h-3 w-3" /> CHAT WITH ADMIN
                       </button>
                     </div>
                   </form>
