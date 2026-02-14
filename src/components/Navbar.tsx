@@ -18,23 +18,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LogoIcon = ({ onSecretClick }: { onSecretClick: () => void }) => (
-  <div className="relative group/logo">
+  <div 
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onSecretClick();
+    }}
+    className="relative group/logo cursor-default"
+  >
     <div className="w-9 h-9 md:w-10 md:h-10 bg-black rounded-none flex items-center justify-center shadow-lg border border-white/10 shrink-0 transition-transform active:scale-95">
-      <span className="text-white font-black text-xl md:text-2xl tracking-tighter mr-1">SS</span>
-      
-      {/* SECRET TRIGGER INSIDE LOGO */}
-      <div 
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onSecretClick();
-        }}
-        className="absolute right-0.5 top-0 bottom-0 flex flex-col items-center justify-center gap-0.5 px-0.5 cursor-default opacity-30 hover:opacity-100 transition-opacity"
-      >
-        <div className="w-0.5 h-0.5 bg-white rounded-full" />
-        <div className="w-0.5 h-0.5 bg-white rounded-full" />
-        <div className="w-0.5 h-0.5 bg-white rounded-full" />
-      </div>
+      <span className="text-white font-black text-xl md:text-2xl tracking-tighter">SS</span>
     </div>
   </div>
 );
@@ -89,17 +82,17 @@ export function Navbar() {
           <div className="flex items-center justify-between gap-2 md:gap-4">
             
             <div className="flex items-center shrink-0">
-              <Link href="/" className="flex items-center">
+              <div className="flex items-center">
                 <LogoIcon onSecretClick={() => setIsAdminModalOpen(true)} />
-                <div className="flex flex-col ml-1.5 md:ml-2">
+                <Link href="/" className="flex flex-col ml-1 md:ml-1.5">
                   <h1 className="text-[10px] sm:text-[12px] md:text-[14px] font-headline font-black text-white leading-none uppercase tracking-tighter whitespace-nowrap">
                     SS SMART HAAT
                   </h1>
                   <span className="text-[5px] sm:text-[6px] md:text-[7px] text-white font-bold uppercase tracking-[0.2em] opacity-90 leading-none mt-0.5">
                     PREMIUM MARKET PLACE
                   </span>
-                </div>
-              </Link>
+                </Link>
+              </div>
             </div>
 
             <div className="hidden md:flex items-center relative flex-grow max-w-[500px] px-6">
