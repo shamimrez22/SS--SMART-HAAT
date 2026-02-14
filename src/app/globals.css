@@ -4,27 +4,27 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* PURE BLACK DEFAULT */
-    --foreground: 0 0% 98%; 
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 2%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 180 99% 32%; /* #01a3a4 DEFAULT */
+    --background: 0 0% 100%; /* PURE WHITE BACKGROUND */
+    --foreground: 0 0% 10%; /* DARK TEXT FOR LEGIBILITY */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 180 99% 32%; /* #01a3a4 */
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 8%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 95%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
     --accent: 180 99% 32%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 12%;
-    --input: 0 0% 12%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
     --ring: 180 99% 32%;
     --radius: 0rem;
-    --button-bg: #01a3a4; /* CUSTOM BUTTON VARIABLE */
+    --button-bg: #01a3a4;
   }
 }
 
@@ -50,7 +50,6 @@
   }
 }
 
-/* Extreme Performance: GPU Acceleration for Smooth UI */
 .gpu-accelerated {
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -58,7 +57,6 @@
   will-change: transform, opacity;
 }
 
-/* Performance: Intelligent content-visibility for off-screen segments */
 section, .product-section {
   content-visibility: auto;
   contain-intrinsic-size: 1px 500px;
@@ -74,7 +72,7 @@ section, .product-section {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--button-bg);
@@ -118,7 +116,6 @@ section, .product-section {
   scrollbar-width: none;
 }
 
-/* Speed optimization for image transitions */
 img {
   transition: opacity 0.2s ease-in-out;
   content-visibility: auto;
