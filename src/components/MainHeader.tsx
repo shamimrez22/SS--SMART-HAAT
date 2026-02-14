@@ -22,20 +22,20 @@ export const MainHeader = memo(() => {
         <Navbar />
         {settings?.liveStatus && (
           <div className="bg-black border-t border-white/[0.03] h-[22px] md:h-[26px] flex items-center overflow-hidden whitespace-nowrap py-0 relative w-full">
-            <div className="flex items-center gap-8 animate-marquee w-full px-2 md:px-12">
+            <div className="flex items-center gap-4 animate-marquee w-full px-2 md:px-12">
               <div 
                 style={{ color: broadcastColor }}
-                className="flex items-center gap-1.5 text-[9px] md:text-[11px] font-black uppercase tracking-widest shrink-0"
+                className="flex items-center gap-1 text-[8px] md:text-[10px] font-black uppercase tracking-widest shrink-0"
               >
-                <Radio className="h-2.5 w-2.5 animate-pulse" /> {liveLabel}
+                <Radio className="h-2 w-2 animate-pulse" /> {liveLabel}
               </div>
               <p 
                 style={{ color: broadcastColor }}
-                className="text-[9px] md:text-[11px] font-black uppercase tracking-[0.1em] flex items-center gap-6 shrink-0"
+                className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.1em] flex items-center gap-4 shrink-0"
               >
                 {settings.liveStatus} <span className="opacity-10 text-white">|</span> 
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="h-2.5 w-2.5" /> <span className="tracking-tighter opacity-40 text-white">HUB:</span> {hubLocation}
+                <span className="flex items-center gap-1">
+                  <MapPin className="h-2 w-2" /> <span className="tracking-tighter opacity-40 text-white font-bold">HUB:</span> {hubLocation}
                 </span>
               </p>
             </div>
