@@ -35,22 +35,22 @@ const SlideItem = memo(({ item, priority }: { item: any, priority: boolean }) =>
         />
         
         <div className="absolute bottom-4 left-4 z-10 flex flex-col items-start max-w-[90%] pointer-events-none">
-          <h2 className="text-[10px] md:text-[16px] font-headline font-black text-white uppercase tracking-wider mb-1 drop-shadow-lg truncate w-full">
+          <h2 className="text-[8px] md:text-[14px] font-headline font-black text-white uppercase tracking-wider mb-1 drop-shadow-lg truncate w-full">
             {item.name || item.title}
           </h2>
           
           {isProduct && (
-            <div className="flex flex-col space-y-2 pointer-events-auto">
-              <div className="text-[12px] md:text-2xl font-black text-primary tracking-tighter drop-shadow-lg">
-                <span className="text-[10px] md:text-[14px] font-normal mr-0.5 text-white">৳</span>
+            <div className="flex flex-col space-y-1 md:space-y-2 pointer-events-auto">
+              <div className="text-[10px] md:text-xl font-black text-primary tracking-tighter drop-shadow-lg">
+                <span className="text-[8px] md:text-[12px] font-normal mr-0.5 text-white">৳</span>
                 {(item.price || 0).toLocaleString()}
               </div>
               <button 
                 onClick={() => setIsOrderOpen(true)} 
                 style={{ backgroundColor: 'var(--button-bg)' }}
-                className="text-white px-3 md:px-6 py-1.5 md:py-2.5 h-6 md:h-10 font-black text-[6px] md:text-[10px] uppercase tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-xl border-none flex items-center gap-2"
+                className="text-white px-2 md:px-6 py-1 md:py-2.5 h-5 md:h-9 font-black text-[5px] md:text-[9px] uppercase tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-xl border-none flex items-center gap-1.5"
               >
-                <ShoppingCart className="h-3 w-3 md:h-4 md:w-4" /> অর্ডার করুন
+                <ShoppingCart className="h-2 w-2 md:h-4 md:w-4" /> অর্ডার করুন
               </button>
             </div>
           )}
@@ -112,14 +112,14 @@ const AnimatedFlashBar = memo(() => {
           {...{ fetchPriority: "high" }}
         />
       </div>
-      <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-md border border-white/30 px-2 py-0.5 text-[6px] md:text-[8px] text-white font-black uppercase tracking-widest flex items-center gap-1">
-        <Sparkles className="h-2 w-2 animate-pulse" /> FLASH LIVE
+      <div className="absolute top-2 right-2 bg-primary/20 backdrop-blur-md border border-white/30 px-1 py-0.5 text-[5px] md:text-[8px] text-white font-black uppercase tracking-widest flex items-center gap-1">
+        <Sparkles className="h-1.5 w-1.5 animate-pulse" /> FLASH LIVE
       </div>
-      <div className="absolute bottom-4 left-4 right-4 z-10 space-y-1">
-        <p className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest truncate drop-shadow-md">
+      <div className="absolute bottom-2 left-2 right-2 z-10 space-y-0.5">
+        <p className="text-[8px] md:text-xs font-black text-white uppercase tracking-widest truncate drop-shadow-md">
           {activeItem.name || activeItem.title}
         </p>
-        <div className="h-0.5 w-8 bg-primary rounded-full" />
+        <div className="h-0.5 w-6 bg-primary rounded-full" />
       </div>
     </div>
   );
@@ -183,15 +183,15 @@ const FlashOfferCard = memo(() => {
               {...{ fetchPriority: "high" }}
             />
           </div>
-          <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-2 md:px-4 py-1 text-[6px] md:text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-xl">FLASH OFFER</div>
+          <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-red-600 px-1.5 md:px-4 py-0.5 md:py-1 text-[5px] md:text-[9px] font-black text-white uppercase tracking-widest z-10 shadow-xl">FLASH OFFER</div>
           
           <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 z-10 flex flex-col items-start max-w-[90%]">
-             <p className="text-white font-black text-[7px] md:text-[12px] uppercase tracking-wider mb-1 drop-shadow-md truncate w-full">
+             <p className="text-white font-black text-[6px] md:text-[12px] uppercase tracking-wider mb-0.5 md:mb-1 drop-shadow-md truncate w-full">
                {activeItem.name || activeItem.title}
              </p>
              {activeItem.price !== undefined && (
-               <div className="mb-1 md:mb-2">
-                 <span className="text-primary font-black text-[10px] md:text-xl drop-shadow-md">
+               <div className="mb-0.5 md:mb-2">
+                 <span className="text-primary font-black text-[8px] md:text-xl drop-shadow-md">
                    ৳{(activeItem.price || 0).toLocaleString()}
                  </span>
                </div>
@@ -199,9 +199,9 @@ const FlashOfferCard = memo(() => {
              <button 
                onClick={() => setIsOrderOpen(true)} 
                style={{ backgroundColor: 'var(--button-bg)' }}
-               className="text-white px-2 md:px-5 py-1.5 md:py-2 h-6 md:h-9 font-black text-[6px] md:text-[10px] uppercase tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-xl border-none flex items-center gap-2"
+               className="text-white px-1.5 md:px-5 py-1 md:py-2 h-5 md:h-8 font-black text-[5px] md:text-[9px] uppercase tracking-widest transition-all hover:opacity-90 active:scale-95 shadow-xl border-none flex items-center gap-1 md:gap-2"
              >
-               <ShoppingCart className="h-3 w-3 md:h-4 md:w-4" /> অর্ডার করুন
+               <ShoppingCart className="h-2 w-2 md:h-4 md:w-4" /> অর্ডার করুন
              </button>
              <OrderModal product={activeItem} isOpen={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
           </div>
